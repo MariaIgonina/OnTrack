@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  idDB                   Int      @id @default(autoincrement())
+  idAuth0                String   @unique
+  email                  String   @unique
+  picture                String
+  name                   String
+  familyName             String
+  age                    DateTime
+  phone                  String
+  location               String
+  inProgressApplications String[]
+  coordinateX            String // google maps?
+  coordinateY            String // google maps?
+  readyMove              Boolean
+  workingHours           String
+  workingModal           String
+  socialMedia            String[]
+  skillsProf             String[]
+  stack                  String[]
+  compLanguages          String[]
+}
+
+model Company {
+  id            String    @id
+  name          String
+  vacancies     Vacancy[]
+  logo          String
+  founded       String
+  about         String
+  externalLinks String[]
+  headOffice    String
+}
+
+model Vacancy {
+  id                String   @id
+  company           Company  @relation(fields: [companyId], references: [id])
+  companyId         String
+  about             String
+  title             String
+  recruitantID      String
+  jobTrack          Track[]
+  workingHours      String
+  workingModal      String
+  skills            String[]
+  stack             String[]
+  requiredLanguages String[]
+  experience        Int
+  location          String
+  salaryRange       Int
+}
+
+model Track {
+  id           String    @id
+  steps        Step[]
+  recruitantID String
+  applicantID  String
+  reject       Boolean   @default(false)
+  notes        String?
+  Vacancy      Vacancy?  @relation(fields: [vacancyId], references: [id])
+  vacancyId    String?
+  Message      Message[]
+}
+
+model Step {
+  id           String    @id
+  title        String
+  actions      Json
+  durationInMs Int
+  hidden       Boolean
+  statusStep   Boolean
+  messages     Message[]
+  Track        Track?    @relation(fields: [trackId], references: [id])
+  trackId      String?
+}
+
+model Message {
+  id      String   @id
+  trackId String
+  track   Track    @relation(fields: [trackId], references: [id])
+  userId  String
+  text    String
+  date    DateTime
+  files   String[]
+  Step    Step?    @relation(fields: [stepId], references: [id])
+  stepId  String?
+}
+
+model Action {
+  id           String @id
+  name         String
+  scheduleDate String
+}
+
+model Questionary {
+  id        String   @id
+  questions String[]
+  answer    String[]
+  date      DateTime
+}
