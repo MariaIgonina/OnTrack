@@ -3,6 +3,7 @@ import { Router, Request, Response } from 'express';
 import { applicantControllers } from './controllersMain/applicantControllers'
 import { getAccessToken, getUserData } from "./controllersAuth/authController";
 import { trackControllers } from "./controllersMain/trackController";
+import { questionnaryController } from "./controllersMain/questionnaryController";
 
 import {
   createVacancy,
@@ -36,6 +37,11 @@ router.get('/getStep/:id', stepController.getStepsbyTrack )
 router.put('/updateStep/:id', stepController.updateStepbyId )
 router.delete('/deleteStep/:id', stepController.deleteStep )
 
+//Routes for Questionnary controller
+router.post('/createQuestionary', questionnaryController.createQuestionnary )
+router.get('/getQuestionaryByStep/:id', questionnaryController.getQuestionaryByStep )
+router.put('/updateQuestionary/:id', questionnaryController.updateQuestionary )
+router.delete('/deleteQuestionary/:id', questionnaryController.deleteQuestionary )
 
 // Applicant routes
 router.get('/applicant/:id', applicantControllers.getApplicantById)
@@ -69,5 +75,7 @@ router.delete("/vacancy/:id", deleteVacancy);
 router.post("/message", createMessage);
 router.delete("/message/:id", deleteMessageById);
 router.get("/message/:trackId", getAllMsgsByTrack);
+
+
 
 export default router;
