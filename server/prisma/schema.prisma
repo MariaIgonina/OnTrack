@@ -11,9 +11,9 @@ datasource db {
 }
 
 model User {
-  idDB                   Int      @id @default(autoincrement())
-  idAuth0                String   @unique
-  email                  String   @unique
+  idDB                   Int       @id @default(autoincrement())
+  idAuth0                String    @unique
+  email                  String    @unique
   picture                String
   name                   String
   familyName             String
@@ -30,6 +30,7 @@ model User {
   skillsProf             String[]
   stack                  String[]
   compLanguages          String[]
+  messages               Message[]
 }
 
 model Company {
@@ -89,7 +90,8 @@ model Message {
   id      Int      @id @default(autoincrement())
   trackId Int
   track   Track    @relation(fields: [trackId], references: [id])
-  userId  String
+  user    User     @relation(fields: [userId], references: [idDB])
+  userId  Int
   text    String
   date    DateTime
   files   String[]
