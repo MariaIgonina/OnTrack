@@ -1,5 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { applicantControllers } from './controllers/applicantControllers'
+import { getAccessToken, getUserData } from "./Controllers/authController";
+
 import {
   createVacancy,
   getAllVacancies,
@@ -18,6 +20,8 @@ router.post('/createApplicant', applicantControllers.createApplicant)
 router.put('/updateApplicant/:id', applicantControllers.updateApplicant)
 router.delete('/deleteApplicant/:id', applicantControllers.deleteApplicant)
 
+router.get("/getAccessToken", getAccessToken);
+router.get("/getUserData", getUserData);
 router.post("/vacancy", createVacancy);
 router.get("/vacancy/:id", getVacancyById);
 router.get("/vacancyall", getAllVacancies);

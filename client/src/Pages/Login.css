@@ -1,0 +1,21 @@
+.container {
+  width: 300px;
+  height: 500px;
+  border: 1px red solid;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.btn {
+  padding: 5px;
+  background-color: #568ea3;
+  color: white;
+  margin: 10px;
+  align-items: center;
+}
+
+.githubbtn {
+  margin: 10px;
+}
