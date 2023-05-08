@@ -33,7 +33,7 @@ model User {
 }
 
 model Company {
-  id            String    @id
+  id            Int       @id @default(autoincrement())
   name          String
   vacancies     Vacancy[]
   logo          String
@@ -44,9 +44,9 @@ model Company {
 }
 
 model Vacancy {
-  id                String   @id
+  id                Int      @id @default(autoincrement())
   company           Company  @relation(fields: [companyId], references: [id])
-  companyId         String
+  companyId         Int
   about             String
   title             String
   recruitantID      String
@@ -62,19 +62,19 @@ model Vacancy {
 }
 
 model Track {
-  id           String    @id
+  id           Int       @id @default(autoincrement())
   steps        Step[]
   recruitantID String
   applicantID  String
   reject       Boolean   @default(false)
   notes        String?
   Vacancy      Vacancy?  @relation(fields: [vacancyId], references: [id])
-  vacancyId    String?
+  vacancyId    Int
   Message      Message[]
 }
 
 model Step {
-  id           String    @id
+  id           Int       @id @default(autoincrement())
   title        String
   actions      Json
   durationInMs Int
@@ -82,29 +82,29 @@ model Step {
   statusStep   Boolean
   messages     Message[]
   Track        Track?    @relation(fields: [trackId], references: [id])
-  trackId      String?
+  trackId      Int
 }
 
 model Message {
-  id      String   @id
-  trackId String
+  id      Int      @id @default(autoincrement())
+  trackId Int
   track   Track    @relation(fields: [trackId], references: [id])
   userId  String
   text    String
   date    DateTime
   files   String[]
   Step    Step?    @relation(fields: [stepId], references: [id])
-  stepId  String?
+  stepId  Int
 }
 
 model Action {
-  id           String @id
+  id           Int    @id @default(autoincrement())
   name         String
   scheduleDate String
 }
 
 model Questionary {
-  id        String   @id
+  id        Int      @id @default(autoincrement())
   questions String[]
   answer    String[]
   date      DateTime
