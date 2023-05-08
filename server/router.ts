@@ -1,3 +1,4 @@
+import {recruiterController} from "./controllers/recruiterController"
 import { Router, Request, Response } from 'express';
 import { applicantControllers } from './controllers/applicantControllers'
 import { getAccessToken, getUserData } from "./controllers/authController";
@@ -9,6 +10,7 @@ import {
   getVacancyById,
   updateVacancy,
 } from "./controllers/vacancyController";
+import {stepController} from "./controllers/stepController"
 import {
   createMessage,
   deleteMessageById,
@@ -21,6 +23,17 @@ router.get("/", (req: Request, res: Response) => {
   res.send("Hello, World! This is the main route");
 });
 
+// Routes for Recruiter controller
+router.get('/recruiter/:id', recruiterController.getRecruiterbyId)
+router.post('/createRecruiter', recruiterController.createRecruiter)
+router.put('/updateRecruiter/:id', recruiterController.updateRecruiterbyId)
+router.delete('/deleteRecruiter/:id', recruiterController.deleteRecruiterbyId)
+
+// Routes for Step controller
+router.post('/createStep', stepController.createStep )
+router.get('/getStep/:id', stepController.getStepsbyTrack )
+router.put('/updateStep/:id', stepController.updateStepbyId )
+router.delete('/deleteStep/:id', stepController.deleteStep )
 
 
 // Applicant routes
