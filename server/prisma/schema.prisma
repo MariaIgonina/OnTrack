@@ -21,8 +21,6 @@ model Applicant {
   phone                  String
   location               String
   inProgressApplications Track[]
-  coordinateX            String? // google maps?
-  coordinateY            String? // google maps?
   readyMove              Boolean
   workingHours           String
   workingModal           String
