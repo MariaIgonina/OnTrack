@@ -1,8 +1,8 @@
-import {recruiterController} from "./controllers/recruiterController"
+import {recruiterController} from "./controllersMain/recruiterController"
 import { Router, Request, Response } from 'express';
-import { applicantControllers } from './controllers/applicantControllers'
-import { getAccessToken, getUserData } from "./controllers/authController";
-import { trackControllers } from "./controllers/trackController";
+import { applicantControllers } from './controllersMain/applicantControllers'
+import { getAccessToken, getUserData } from "./controllersMain/authController";
+import { trackControllers } from "./controllersMain/trackController";
 
 import {
   createVacancy,
@@ -10,13 +10,13 @@ import {
   getAllVacancies,
   getVacancyById,
   updateVacancy,
-} from "./controllers/vacancyController";
-import {stepController} from "./controllers/stepController"
+} from "./controllersMain/vacancyController";
+import {stepController} from "./controllersMain/stepController"
 import {
   createMessage,
   deleteMessageById,
   getAllMsgsByTrack,
-} from "./controllers/messageController";
+} from "./controllersMain/messageController";
 
 const router = Router();
 
