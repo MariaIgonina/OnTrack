@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
-const CLIENT_ID = "Iv1.0f2124a7d7aa9dee";
-const CLIENT_SECRET = "5b0d1b133e3c7208dfef8ea200e5458218a2c25a";
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 export const getAccessToken = async (req: Request, res: Response) => {
   console.log(req.query.code);
@@ -33,7 +33,7 @@ export const getUserData = async function (req: Request, res: Response) {
   await fetch("https://api.github.com/user", {
     method: "GET",
     headers: {
-      Authorization: "Bearer" + req.get("Authorization"), 
+      Authorization: "Bearer" + req.get("Authorization"),
     },
   })
     // const response = await _res.json();
