@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import logo from "./assets/logo.png";
 import "./App.css";
 import Navbar from "./Pages/Navbar";
-import Sidebar from "./Pages/Sidebar";
+import AgainSidebar from "./Pages/AgainSideBar";
 import LoginPage from "./Pages/LoginPage";
 import ApplicantPage from "./Pages/ApplicantPage";
 import CompanyPage from "./Pages/CompanyPage";
@@ -17,9 +17,9 @@ import "./App.css";
 function App() {
   return (
     <BrowserRouter>
-      <img src={logo} alt="logo" id="logo" />
-      <Navbar />
-      <Sidebar />
+      {/* <img src={logo} alt="logo" id="logo" /> */}
+      {/* <Navbar /> */}
+      <AgainSidebar />
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/user" element={<ApplicantPage />} />
