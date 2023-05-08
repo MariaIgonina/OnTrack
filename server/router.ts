@@ -1,7 +1,7 @@
 import {recruiterController} from "./controllersMain/recruiterController"
 import { Router, Request, Response } from 'express';
 import { applicantControllers } from './controllersMain/applicantControllers'
-import { getAccessToken, getUserData } from "./controllersMain/authController";
+import { getAccessToken, getUserData } from "./controllersAuth/authController";
 import { trackControllers } from "./controllersMain/trackController";
 import { questionnaryController } from "./controllersMain/questionnaryController";
 
