@@ -5,7 +5,7 @@ export interface Applicant {
   picture: string,
   name: string,
   familyName: string,
-  age: Date,
+  age: number,
   phone: string,
   location: string,
   inProgressApplications: Track [],

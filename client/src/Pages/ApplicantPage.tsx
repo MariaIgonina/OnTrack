@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from "../store/store";
+import { AppDispatch, RootState } from "../store/store";
 
 import { fetchApplicant, setApplicant } from "../store/applicantSlice";
 
@@ -12,12 +12,13 @@ import { fetchApplicant, setApplicant } from "../store/applicantSlice";
 
 
 const ApplicantPage = () => {
-  // const applicant = useSelector((state:RootState) => state.applicant)
-  // const dispatch = useDispatch();
+  const applicant = useSelector((state:RootState) => state.applicant)
+  const dispatch = useDispatch<AppDispatch>();
 
-  // useEffect (() => {
-  //   dispatch(setApplicant(applicant));
-  // }, [dispatch])
+  useEffect (() => {
+    dispatch(setApplicant(applicant));
+    dispatch(fetchApplicant())
+  }, [dispatch])
 
 
 
@@ -25,7 +26,7 @@ const ApplicantPage = () => {
   return (
     <>
       <div>
-
+       {JSON.stringify(applicant)}
       </div>
     </>
   );
