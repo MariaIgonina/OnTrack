@@ -11,9 +11,9 @@ datasource db {
 }
 
 model Applicant {
-  idDB                   Int      @id @default(autoincrement())
-  idAuth0                String   @unique
-  email                  String   @unique
+  idDB                   Int          @id @default(autoincrement())
+  idAuth0                String       @unique
+  email                  String       @unique
   picture                String
   name                   String
   familyName             String
@@ -30,6 +30,26 @@ model Applicant {
   skillsProf             String[]
   stack                  String[]
   compLanguages          String[]
+  about                  String
+  video                  String
+  education              String[]
+  experiences            Experience[]
+  languages              String[]
+  hobbies                String[]
+  salaryRange            Int
+  desiredLocation        Int[]
+  notDesiredLocation     Int[]
+  desiredWorkingModal    String
+}
+model Experience {
+  id          Int       @id @default(autoincrement())
+  jobTitle    String
+  company     String
+  startDate   DateTime
+  endDate     DateTime
+  description String
+  applicant   Applicant @relation(fields: [applicantId], references: [idDB])
+  applicantId Int
 }
 
 model Recruiter {
