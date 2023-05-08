@@ -88,11 +88,23 @@ const deleteApplicant = async (req: Request, res: Response) => {
 }
 
 const filterApplicants = async (req: Request, res: Response) => {
-  
+  const queries = req.query
+  // send the params in this order as a single string, each param separated by commas:
+  // http://localhost:3000/filterApplicants/salary,desiredlocation,workinghours
+  console.log(queries.salary)
+  console.log(queries.workinghours)
+  console.log(queries.languages)
   try {
-    
+    const applicants = await prisma.applicant.findMany({
+      where: {
+        salaryRange: {
+          gte: +queries.salary!,
+        }
+      }
+    })
+    res.json('all good')
   } catch (error) {
-    
+
   }
 }
 

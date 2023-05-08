@@ -49,7 +49,7 @@ router.get('/applicants', applicantControllers.getAllApplicants)
 router.post('/createApplicant', applicantControllers.createApplicant)
 router.put('/updateApplicant/:id', applicantControllers.updateApplicant)
 router.delete('/deleteApplicant/:id', applicantControllers.deleteApplicant)
-router.get('/fiterApplicants/:params', applicantControllers.filterApplicants)
+router.get('/filterApplicants/', applicantControllers.filterApplicants)
 
 
 // Auth routes
