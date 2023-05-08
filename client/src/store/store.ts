@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import applicantReducer from "./userSlice"
+import applicantReducer from "./applicantSlice"
+import recruiterReducer from "./recruiterSlice"
 
 
 
@@ -8,6 +9,7 @@ import applicantReducer from "./userSlice"
 export const store = configureStore({
   reducer: {
     applicant: applicantReducer,
+    recruiter: recruiterReducer
   },
 })
 

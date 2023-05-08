@@ -6,26 +6,30 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from "../store/store";
 
-import { fetchRecruiter, setRecruiter } from "../store/recruiterSlice";
+import { fetchApplicant, setApplicant } from "../store/applicantSlice";
 
-const CompanyPage = () => {
-  
+
+
+
+const ApplicantPage = () => {
   const applicant = useSelector((state:RootState) => state.applicant)
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect (() => {
-    dispatch(setRecruiter(applicant));
-    dispatch(fetchRecruiter())
+    dispatch(setApplicant(applicant));
+    dispatch(fetchApplicant())
   }, [dispatch])
+
+
 
 
   return (
     <>
       <div>
-        {JSON.stringify(applicant)}
+       {JSON.stringify(applicant)}
       </div>
     </>
   );
 };
 
-export default CompanyPage;
+export default ApplicantPage;

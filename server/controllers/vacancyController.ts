@@ -67,7 +67,7 @@ const createVacancy = async (req: Request, res: Response) => {
     });
 
     res.status(201).json({ success: true, data: vacancy });
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).json({ success: false, error: error.message });
   }
 };
@@ -83,7 +83,7 @@ const getVacancyById = async (req: Request, res: Response) => {
     }
 
     res.status(200).json({ success: true, data: vacancy });
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -99,6 +99,7 @@ const getVacancyByRecruiter = async (req: Request, res: Response) => {
 };
 
 const getAllVacancies = async (req: Request, res: Response) => {
+  console.log("Inside getAllVacancies");
   try {
     const AllVacancies = await prisma.vacancy.findMany();
     res.status(200).json(AllVacancies);
@@ -125,7 +126,7 @@ const deleteVacancy = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     await prisma.vacancy.delete({ where: { id } });
-    res.status(200);
+    res.status(200).json({ message: "Succesfully deleted" });
   } catch (error) {
     res.status(400).json(error);
   }

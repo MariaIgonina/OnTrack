@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 
 
-const AddUserPage = () => {
+const AddApplicantPage = () => {
 
 
 
@@ -48,4 +48,4 @@ const AddUserPage = () => {
   );
 };
 
-export default AddUserPage;
+export default AddApplicantPage;
