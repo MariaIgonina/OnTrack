@@ -75,15 +75,16 @@ model Track {
 }
 
 model Step {
-  id           Int       @id @default(autoincrement())
-  title        String
-  actions      Json
-  durationInMs Int
-  hidden       Boolean
-  statusStep   Boolean
-  messages     Message[]
-  Track        Track?    @relation(fields: [trackId], references: [id])
-  trackId      Int
+  id            Int           @id @default(autoincrement())
+  title         String
+  actions       Action[]
+  durationInMs  Int
+  hidden        Boolean
+  statusStep    Boolean
+  messages      Message[]
+  questionaries Questionary[]
+  Track         Track?        @relation(fields: [trackId], references: [id])
+  trackId       Int
 }
 
 model Message {
@@ -101,6 +102,8 @@ model Message {
 
 model Action {
   id           Int    @id @default(autoincrement())
+  action       Step   @relation(fields: [stepId], references: [id])
+  stepId       Int
   name         String
   scheduleDate String
 }
@@ -110,4 +113,6 @@ model Questionary {
   questions String[]
   answer    String[]
   date      DateTime
+  Step      Step?    @relation(fields: [stepId], references: [id])
+  stepId    Int?
 }

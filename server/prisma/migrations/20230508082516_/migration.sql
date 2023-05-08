@@ -71,7 +71,6 @@ CREATE TABLE "Track" (
 CREATE TABLE "Step" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "actions" JSONB NOT NULL,
     "durationInMs" INTEGER NOT NULL,
     "hidden" BOOLEAN NOT NULL,
     "statusStep" BOOLEAN NOT NULL,
@@ -96,6 +95,7 @@ CREATE TABLE "Message" (
 -- CreateTable
 CREATE TABLE "Action" (
     "id" SERIAL NOT NULL,
+    "stepId" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
     "scheduleDate" TEXT NOT NULL,
 
@@ -108,6 +108,7 @@ CREATE TABLE "Questionary" (
     "questions" TEXT[],
     "answer" TEXT[],
     "date" TIMESTAMP(3) NOT NULL,
+    "stepId" INTEGER,
 
     CONSTRAINT "Questionary_pkey" PRIMARY KEY ("id")
 );
@@ -135,3 +136,9 @@ ALTER TABLE "Message" ADD CONSTRAINT "Message_userId_fkey" FOREIGN KEY ("userId"
 
 -- AddForeignKey
 ALTER TABLE "Message" ADD CONSTRAINT "Message_stepId_fkey" FOREIGN KEY ("stepId") REFERENCES "Step"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Action" ADD CONSTRAINT "Action_stepId_fkey" FOREIGN KEY ("stepId") REFERENCES "Step"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Questionary" ADD CONSTRAINT "Questionary_stepId_fkey" FOREIGN KEY ("stepId") REFERENCES "Step"("id") ON DELETE SET NULL ON UPDATE CASCADE;
