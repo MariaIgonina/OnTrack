@@ -15,7 +15,8 @@ router.get("/", (req: Request, res: Response) => {
 // Applicant routes
 router.get('/applicant/:id', applicantControllers.getApplicantById)
 router.post('/createApplicant', applicantControllers.createApplicant)
-router.put('/applicant/:id')
+router.put('/updateApplicant/:id', applicantControllers.updateApplicant)
+router.delete('/deleteApplicant/:id', applicantControllers.deleteApplicant)
 
 router.post("/vacancy", createVacancy);
 router.get("/vacancy/:id", getVacancyById);
