@@ -4,15 +4,6 @@ const prisma = new PrismaClient();
 import dotenv from "dotenv";
 dotenv.config();
 
-export {
-  createVacancy,
-  getVacancyById,
-  getVacancyByRecruiter,
-  getAllVacancies,
-  updateVacancy,
-  deleteVacancy,
-};
-
 const createVacancy = async (req: Request, res: Response) => {
   try {
     const {
@@ -130,4 +121,13 @@ const deleteVacancy = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(400).json(error);
   }
+};
+
+export const vacancyController = {
+  createVacancy,
+  getVacancyById,
+  getVacancyByRecruiter,
+  getAllVacancies,
+  updateVacancy,
+  deleteVacancy,
 };
