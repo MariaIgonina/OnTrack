@@ -1,11 +1,24 @@
+.wholepage {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #fffded;
+}
+
 .container {
   width: 300px;
-  height: 500px;
-  border: 1px red solid;
+  height: 320px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   display: flex;
   flex-direction: column;
   align-content: center;
   justify-content: center;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
 }
 
 .btn {
@@ -16,6 +29,23 @@
   align-items: center;
 }
 
-.githubbtn {
-  margin: 10px;
+.dividerText {
+  padding: 5px;
+  align-self: center;
+}
+
+.loggedin {
+  padding-bottom: 100px;
+  align-self: center;
+  justify-content: center;
+}
+
+.textinput {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+}
+
+#bottominput {
+  padding-bottom: 10px;
 }

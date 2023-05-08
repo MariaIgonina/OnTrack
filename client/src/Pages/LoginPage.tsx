@@ -76,32 +76,58 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="container">
-      {localStorage.getItem("accessToken") ? (
-        <>
-          <h3>You are logged in</h3>
-          <button onClick={getUserData}>Get Data from GitHub API</button>
-          <button className="btn" type="submit" onClick={logoutFromGithub}>
-            LogOut
-          </button>
-        </>
-      ) : (
-        <>
-          <label className="label">Email</label>
-          <input name="email" type="text"></input>
-
-          <label className="label">Password</label>
-          <input name="Password" type="text"></input>
-          <button className="githubbtn" onClick={loginWithGitHub}>
-            Login With GitHub
-          </button>
-          <Button variant="contained" className="btn" type="submit">
-            LOG IN
-          </Button>
-        </>
-      )}
-    </div>
+    <>
+      <div className="wholepage">
+        <div className="container">
+          {localStorage.getItem("accessToken") ? (
+            <>
+              <h3 className="loggedin">You are already logged in</h3>
+              <button onClick={getUserData}>Get Data from GitHub API</button>
+              <Button
+                sx={{ backgroundColor: "#568ea3" }}
+                variant="contained"
+                className="btn"
+                type="submit"
+                onClick={logoutFromGithub}
+              >
+                LogOut
+              </Button>
+            </>
+          ) : (
+            <>
+              <div className="textinput">
+                <label className="label" htmlFor="email">
+                  Email
+                </label>
+                <input name="email" type="text"></input>
+              </div>
+              <div className="textinput" id="bottominput">
+                <label className="label">Password</label>
+                <input name="Password" type="password"></input>
+              </div>
+              <Button
+                sx={{ backgroundColor: "#568ea3" }}
+                variant="contained"
+                className="btn"
+                type="submit"
+              >
+                LOG IN
+              </Button>
+              <p className="dividerText"> OR </p>
+              <Button
+                onClick={loginWithGitHub}
+                sx={{ backgroundColor: "#568ea3", margin: "5px" }}
+                variant="contained"
+                className="btn"
+                type="submit"
+              >
+                Login With GitHub
+              </Button>
+            </>
+          )}
+        </div>
+      </div>
+    </>
   );
 };
-
 export default LoginPage;

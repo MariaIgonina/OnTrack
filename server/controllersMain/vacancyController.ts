@@ -74,7 +74,7 @@ const getVacancyById = async (req: Request, res: Response) => {
     }
 
     res.status(200).json({ success: true, data: vacancy });
-  } catch (error: any) {
+  } catch (error:any) {
     res.status(500).json({ success: false, message: error.message });
   }
 };

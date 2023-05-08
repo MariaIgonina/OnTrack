@@ -16,23 +16,20 @@ import "./App.css";
 function App() {
   return (
     <BrowserRouter>
-      <div className="all-app">
-        <img src={logo} alt="logo" id="logo" />
-        <Navbar />
-        <div className="main-container">
-          <Routes>
 
-            <Route path= '/' element={<LoginPage />} />
-            <Route path= '/applicant' element={<ApplicantPage />} />
-            <Route path= '/company' element={<CompanyPage />} />
-            <Route path= '/dashboard' element={<DashboardPage />} />
-            <Route path= '/track' element={<TrackPage />} />
-            <Route path= '/addapplicant' element={<AddApplicantPage />} />
-            <Route path= '/settings' element={<SettingsPage />} />
+      <img src={logo} alt="logo" id="logo" />
+      <Navbar />
 
-          </Routes>
-        </div>
-      </div>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/user" element={<ApplicantPage />} />
+        <Route path="/company" element={<CompanyPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/track" element={<TrackPage />} />
+        <Route path="/adduser" element={<AddUserPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+      </Routes>
+
     </BrowserRouter>
   );
 }

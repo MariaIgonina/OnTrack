@@ -1,7 +1,6 @@
-import { createAction, createSlice, createAsyncThunk, AsyncThunk, AsyncThunkAction  } from "@reduxjs/toolkit"
+import { createAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 import { Applicant, Track } from "../Interfaces"
-// import { initialTrack } from "./trackSlice";
 
 import { RootState } from "./store";
 
@@ -13,7 +12,7 @@ const initialApplicant: Applicant = {
   picture: '',
   name: '',
   familyName: '',
-  age: new Date(),
+  age: 0,
   phone: '',
   location: '',
   inProgressApplications: [],
@@ -45,11 +44,12 @@ const fetchApplicant  = createAsyncThunk (
   'applicant/fetchapplicant',
   async function (_, {rejectWithValue}) {
     try {
-      const response = await fetch (url + 'vacancyall')
+      const response = await fetch (url + '/applicant/5')
       if (!response.ok) {
         throw new Error('Server error')
       }
       const data = await response.json()
+      console.log("DATA FROM REDUX THUNK : ", data)
       return data
     } catch (err) {
       if (err instanceof Error)
@@ -77,20 +77,21 @@ export const applicantSlice = createSlice<IInitialState, { setApplicant: (_state
       return action.payload;
     }
   },
-  extraReducers: {
-    [fetchApplicant.pending as unknown as string]: (state, action) => {
-      state.status = 'loading'
-      state.error = null
-    },
-    [fetchApplicant.fulfilled as unknown as string]: (state, action) => {
-      state.status = 'resolved'
-      state.applicant = action.payload
-      state.error = null
-    },
-    [fetchApplicant.rejected as unknown as string]: (state, action) => {
-      state.status = 'rejected'
-      state.error = action.payload
-    }
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchApplicant.pending, (state, action) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(fetchApplicant.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.error = action.payload as Error;
+      })
+      .addCase(fetchApplicant.fulfilled, (state, action) => {
+        state.status = 'resolved';
+        state.applicant = action.payload;
+        state.error = null;
+      })
   }
 });
 
