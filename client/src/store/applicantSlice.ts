@@ -45,7 +45,7 @@ const fetchApplicant  = createAsyncThunk (
   'applicant/fetchapplicant',
   async function (_, {rejectWithValue}) {
     try {
-      const response = await fetch (url + '/getapplicant')
+      const response = await fetch (url + 'vacancyall')
       if (!response.ok) {
         throw new Error('Server error')
       }

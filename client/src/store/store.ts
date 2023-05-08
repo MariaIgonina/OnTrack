@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import applicantReducer from "./userSlice"
+import applicantReducer from "./applicantSlice"
 
 
 
