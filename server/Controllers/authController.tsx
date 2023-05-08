@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 const CLIENT_ID = "Iv1.0f2124a7d7aa9dee";
 const CLIENT_SECRET = "5b0d1b133e3c7208dfef8ea200e5458218a2c25a";
 
-const getAccessToken = async (req: Request, res: Response) => {
+export const getAccessToken = async (req: Request, res: Response) => {
   console.log(req.query.code);
   const params =
     "?client_id=" +
@@ -27,7 +27,7 @@ const getAccessToken = async (req: Request, res: Response) => {
     });
 };
 
-const getUserData = async function (req: Request, res: Response) {
+export const getUserData = async function (req: Request, res: Response) {
   req.get("Authorization");
   // const _res =
   await fetch("https://api.github.com/user", {
@@ -45,5 +45,3 @@ const getUserData = async function (req: Request, res: Response) {
       res.json(data);
     });
 };
-
-module.exports = { getAccessToken, getUserData };
