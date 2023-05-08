@@ -1,46 +1,46 @@
 import React from "react";
 import { Outlet, Link } from 'react-router-dom';
+import SettingsIcon from '@mui/icons-material/Settings';
+import HomeIcon from '@mui/icons-material/Home';
+import InsightsIcon from '@mui/icons-material/Insights';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 const Navbar = () => {
     return (
-      <>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">
-              Login
-            </Link>
-          </li>
+      <div className="navbar">
+        <nav>
 
-          <li>
-            <Link to="/user">
-              User Page
-            </Link>
-          </li>
+          <Link to="/" className="link">
+            Login
+          </Link>
+        
+          <Link to="/adduser" className="link">
+            Add user
+          </Link>
 
-          <li>
-            <Link to="/company">
-              Company Page
-            </Link>
-          </li>
+          <Link to="/company" className="link">
+            Company Page
+          </Link>
 
-          <li>
-            <Link to="/dashboard">
-              Dashboard
-            </Link>
-          </li>
+          <Link to="/user" className="link">
+            <HomeIcon className="icon" />
+          </Link>
+        
+          <Link to="/dashboard" className="link">
+            <DashboardIcon className="icon" />
+          </Link>
+        
+          <Link to="/track" className="link">
+            <InsightsIcon className="icon" />
+          </Link>
 
-          <li>
-            <Link to="/track">
-              Track
-            </Link>
-          </li>
+          <Link to="/settings" className="link">
+            <SettingsIcon className="icon" />
+          </Link>
 
-        </ul>
-      </nav>
-
+        </nav>
       <Outlet />
-    </>
+    </div>
     );
   };
 
