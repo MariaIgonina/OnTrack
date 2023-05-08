@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { applicantControllers } from './controllers/applicantControllers'
-import { getAccessToken, getUserData } from "./Controllers/authController";
+import { getAccessToken, getUserData } from "./controllers/authController";
 
 import {
   createVacancy,
