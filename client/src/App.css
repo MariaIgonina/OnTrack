@@ -1,15 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap");
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-.all-app {
+/* .all-app {
   background-color: #b7d9d9;
   border: none;
   margin: 0;
   font-family: "Lato", sans-serif;
   height: 100vh;
-}
+ */
 
 /* .all-app {
   position: relative;
