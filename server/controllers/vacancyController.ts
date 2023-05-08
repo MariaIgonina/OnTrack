@@ -99,6 +99,7 @@ const getVacancyByRecruiter = async (req: Request, res: Response) => {
 };
 
 const getAllVacancies = async (req: Request, res: Response) => {
+  console.log("Inside getAllVacancies");
   try {
     const AllVacancies = await prisma.vacancy.findMany();
     res.status(200).json(AllVacancies);
@@ -125,7 +126,7 @@ const deleteVacancy = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     await prisma.vacancy.delete({ where: { id } });
-    res.status(200);
+    res.status(200).json({ message: "Succesfully deleted" });
   } catch (error) {
     res.status(400).json(error);
   }
