@@ -33,7 +33,6 @@ const getApplicantById = async (req: Request, res: Response) => {
         idDB: +id
       }
     });
-    console.log(foundApplicant)
     if (!foundApplicant) throw new Error("Applicant not found!")
     res.status(200).json(foundApplicant);
   } catch (error: any) {
@@ -53,8 +52,22 @@ const updateApplicant = async (req: Request, res: Response) => {
       data: updatedData,
     });
     res.status(200).json(response);
-  } catch (error) {
-    res.status(404).json(error);
+  } catch (error: any) {
+    console.log(error);
+    if (error.meta.cause === 'Record to update does not exist') res.status(404).json(error.meta.cause)
+    else res.status(409).json(error.meta.cause);
+  }
+}
+
+const getAllApplicants = async (req: Request, res: Response) => {
+  try {
+    const applicants = await prisma.applicant.findMany({});
+    console.log(applicants, applicants.length)
+    if (!applicants.length) throw new Error("Applicant not found!")
+    res.status(200).json(applicants);
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json()
   }
 }
 
@@ -67,8 +80,10 @@ const deleteApplicant = async (req: Request, res: Response) => {
       }
     });
     res.status(204).json(response);
-  } catch (error) {
-    res.status(404).json(error);
+  } catch (error: any) {
+    console.log(error)
+    if (error.meta.cause === 'Record to delete does not exist') res.status(404).json(error.meta.cause)
+    else res.status(409).json(error.meta.cause);
   }
 }
 
@@ -76,5 +91,6 @@ export const applicantControllers = {
   createApplicant,
   getApplicantById,
   updateApplicant,
-  deleteApplicant
+  deleteApplicant,
+  getAllApplicants
 };
