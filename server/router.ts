@@ -6,7 +6,9 @@ router.get('/', (req: Request, res: Response) => {
   res.send('Hello, World! This is the main route');
 });
 
+// Applicant routes
 router.get('/applicant/:id', applicantControllers.getApplicantById)
-// router.post('/createApplicant', applicantControllers.createApplicant)
+router.post('/createApplicant', applicantControllers.createApplicant)
+router.put('/applicant/:id')
 
 export default router;

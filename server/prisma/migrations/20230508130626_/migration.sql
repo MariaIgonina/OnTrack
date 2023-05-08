@@ -9,8 +9,7 @@ CREATE TABLE "Applicant" (
     "age" TIMESTAMP(3) NOT NULL,
     "phone" TEXT NOT NULL,
     "location" TEXT NOT NULL,
-    "coordinateX" TEXT,
-    "coordinateY" TEXT,
+    "currentLocation" TEXT[],
     "readyMove" BOOLEAN NOT NULL,
     "workingHours" TEXT NOT NULL,
     "workingModal" TEXT NOT NULL,
@@ -20,12 +19,11 @@ CREATE TABLE "Applicant" (
     "compLanguages" TEXT[],
     "about" TEXT NOT NULL,
     "video" TEXT NOT NULL,
-    "education" TEXT[],
     "languages" TEXT[],
     "hobbies" TEXT[],
     "salaryRange" INTEGER NOT NULL,
-    "desiredLocation" INTEGER[],
-    "notDesiredLocation" INTEGER[],
+    "desiredLocation" TEXT[],
+    "notDesiredLocation" TEXT[],
     "desiredWorkingModal" TEXT NOT NULL,
 
     CONSTRAINT "Applicant_pkey" PRIMARY KEY ("idDB")
@@ -42,6 +40,19 @@ CREATE TABLE "Experience" (
     "applicantId" INTEGER NOT NULL,
 
     CONSTRAINT "Experience_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Education" (
+    "id" SERIAL NOT NULL,
+    "place" TEXT NOT NULL,
+    "startDate" TIMESTAMP(3) NOT NULL,
+    "endDate" TIMESTAMP(3) NOT NULL,
+    "degree" TEXT NOT NULL,
+    "speciality" TEXT NOT NULL,
+    "applicantIdDB" INTEGER,
+
+    CONSTRAINT "Education_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -140,6 +151,9 @@ CREATE UNIQUE INDEX "Applicant_email_key" ON "Applicant"("email");
 
 -- AddForeignKey
 ALTER TABLE "Experience" ADD CONSTRAINT "Experience_applicantId_fkey" FOREIGN KEY ("applicantId") REFERENCES "Applicant"("idDB") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Education" ADD CONSTRAINT "Education_applicantIdDB_fkey" FOREIGN KEY ("applicantIdDB") REFERENCES "Applicant"("idDB") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Vacancy" ADD CONSTRAINT "Vacancy_recruiterId_fkey" FOREIGN KEY ("recruiterId") REFERENCES "Recruiter"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

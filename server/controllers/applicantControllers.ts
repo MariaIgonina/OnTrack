@@ -2,11 +2,22 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
 import dotenv from 'dotenv';
-
 dotenv.config()
 
 const prisma = new PrismaClient();
 
+const createApplicant = async (req: Request, res: Response) => {
+  try {
+    const newUser = req.body;
+    const response = await prisma.applicant.create({
+      data: newUser,
+    });
+    res.status(201).json(response)
+  } catch (error) {
+    console.log(error)
+    res.status(404).json('All fields are mandatory')
+  }
+}
 
 const getApplicantById = async (req: Request, res: Response) => {
   try {
@@ -16,7 +27,8 @@ const getApplicantById = async (req: Request, res: Response) => {
         idDB: +id
       }
     });
-    console.log(Object.prototype.toString.call(foundApplicant))
+    console.log(foundApplicant)
+    if (!foundApplicant) throw new Error("Applicant not found!")
     res.status(200).json(foundApplicant);
   } catch (error: any) {
     console.log('error in applicantController, ', error)
@@ -24,7 +36,17 @@ const getApplicantById = async (req: Request, res: Response) => {
   }
 }
 
+const updateApplicant = async (req: Request, res: Response) => {
+
+}
+
+const deleteApplicant = async (req: Request, res: Response) => {
+  
+}
+
 export const applicantControllers = {
-  // createApplicant,
+  createApplicant,
   getApplicantById,
+  updateApplicant,
+  deleteApplicant
 };

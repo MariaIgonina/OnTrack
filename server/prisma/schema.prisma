@@ -21,8 +21,7 @@ model Applicant {
   phone                  String
   location               String
   inProgressApplications Track[]
-  coordinateX            String? // google maps?
-  coordinateY            String? // google maps?
+  currentLocation        String[] //google maps
   readyMove              Boolean
   workingHours           String
   workingModal           String
@@ -32,13 +31,13 @@ model Applicant {
   compLanguages          String[]
   about                  String
   video                  String
-  education              String[]
+  education              Education[]
   experiences            Experience[]
   languages              String[]
   hobbies                String[]
   salaryRange            Int
-  desiredLocation        Int[]
-  notDesiredLocation     Int[]
+  desiredLocation        String[]
+  notDesiredLocation     String[]
   desiredWorkingModal    String
 }
 model Experience {
@@ -50,6 +49,16 @@ model Experience {
   description String
   applicant   Applicant @relation(fields: [applicantId], references: [idDB])
   applicantId Int
+}
+model Education {
+  id            Int        @id @default(autoincrement())
+  place         String
+  startDate     DateTime
+  endDate       DateTime
+  degree        String
+  speciality    String
+  Applicant     Applicant? @relation(fields: [applicantIdDB], references: [idDB])
+  applicantIdDB Int?
 }
 
 model Recruiter {
