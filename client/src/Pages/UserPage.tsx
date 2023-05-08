@@ -9,6 +9,8 @@ import { RootState } from "../store/store";
 import { fetchApplicant, setApplicant } from "../store/userSlice";
 
 
+
+
 const UserPage = () => {
   const userInfo = useSelector((state:RootState) => state.applicant)
   const dispatch = useDispatch();

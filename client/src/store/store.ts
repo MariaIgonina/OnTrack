@@ -4,6 +4,7 @@ import applicantReducer from "./userSlice"
 
 
 
+
 export const store = configureStore({
   reducer: {
     applicant: applicantReducer,

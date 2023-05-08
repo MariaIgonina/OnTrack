@@ -64,6 +64,7 @@ interface IInitialState {
     error: null | Error
 }
 
+
 export const applicantSlice = createSlice<IInitialState, { setApplicant: (_state: IInitialState, action: {payload:any})=> void }>({
   name: 'applicant',
   initialState: {
