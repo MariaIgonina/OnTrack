@@ -40,6 +40,7 @@ model Applicant {
   notDesiredLocation     String[]
   desiredWorkingModal    String
 }
+
 model Experience {
   id          Int       @id @default(autoincrement())
   jobTitle    String
@@ -50,6 +51,7 @@ model Experience {
   applicant   Applicant @relation(fields: [applicantId], references: [idDB])
   applicantId Int
 }
+
 model Education {
   id            Int        @id @default(autoincrement())
   place         String
@@ -94,14 +96,14 @@ model Track {
   id          Int        @id @default(autoincrement())
   steps       Step[]
   recruiterID Int
+  Recruiter   Recruiter  @relation(fields: [recruiterID], references: [id])
   applicantID Int?
+  Applicant   Applicant? @relation(fields: [applicantID], references: [idDB])
   reject      Boolean    @default(false)
   notes       String?
-  Vacancy     Vacancy    @relation(fields: [vacancyId], references: [id])
   vacancyId   Int
+  Vacancy     Vacancy    @relation(fields: [vacancyId], references: [id])
   Message     Message[]
-  Applicant   Applicant? @relation(fields: [applicantID], references: [idDB])
-  Recruiter   Recruiter  @relation(fields: [recruiterID], references: [id])
 }
 
 model Step {

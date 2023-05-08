@@ -19,9 +19,9 @@ async function getRecruiterbyId(req: Request, res: Response) {
       },
     });
     res.json(recruiter).status(200);
-  } catch (error) {
-    console.log(error);
-    res.status(400);
+} catch (error: any) {
+    console.log("error in recruiterController, ", error);
+    res.status(400).json(error.message);
   }
 }
 
@@ -33,10 +33,12 @@ async function deleteRecruiterbyId(req: Request, res: Response) {
         id: parseInt(id),
       },
     });
-    res.json(recruiter).status(200);
-  } catch (error) {
+    res.json(recruiter).status(204);
+} catch (error: any) {
     console.log(error);
-    res.status(400);
+    if (error.meta.cause === "Record to delete does not exist")
+      res.status(404).json(error.meta.cause);
+    else res.status(409).json(error.meta.cause);
   }
 }
 
@@ -58,9 +60,10 @@ async function updateRecruiterbyId(req: Request, res: Response) {
       },
     });
     res.json(recruiter).status(200);
-  } catch (error) {
+} catch (error: any) {
     console.log(error);
-    res.status(400);
+    if (error.meta.cause === 'Record to update does not exist') res.status(404).json(error.meta.cause)
+    else res.status(409).json(error.meta.cause);
   }
 }
 
@@ -76,9 +79,9 @@ async function createRecruiter(req: Request, res: Response) {
           headOffice: req.body.headOffice,
         },
       });
-      res.json(recruiter).status(200);
-    } catch (error) {
-      console.log(error);
-      res.status(400);
-    }
+      res.json(recruiter).status(201);
+    } catch (error: any) {
+        console.log(error);
+        res.status(404).json(error.message);
+      }
   }

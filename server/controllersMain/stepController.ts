@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 const prisma = new PrismaClient();
 
@@ -6,9 +6,8 @@ export const stepController = {
   createStep,
   getStepsbyTrack,
   deleteStep,
-  updateStepbyId
+  updateStepbyId,
 };
-
 
 async function createStep(req: Request, res: Response) {
   try {
@@ -18,16 +17,15 @@ async function createStep(req: Request, res: Response) {
         durationInMs: parseInt(req.body.durationInMs),
         hidden: false,
         statusStep: false,
-        Track: { connect: { id: parseInt(req.body.trackId) } }
+        Track: { connect: { id: parseInt(req.body.trackId) } },
       },
     });
     res.json(step).status(200);
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
-    res.status(400);
+    res.status(404).json(error.message);
   }
 }
-
 
 async function getStepsbyTrack(req: Request, res: Response) {
   const { id } = req.params;
@@ -37,10 +35,13 @@ async function getStepsbyTrack(req: Request, res: Response) {
         trackId: parseInt(id),
       },
     });
+
+    if (!step) throw new Error("Step not found!");
+
     res.json(step).status(200);
-  } catch (error) {
-    console.log(error);
-    res.status(400);
+  } catch (error: any) {
+    console.log("error in stepController, ", error);
+    res.status(400).json(error.message);
   }
 }
 
@@ -53,17 +54,21 @@ async function deleteStep(req: Request, res: Response) {
         id: parseInt(id),
       },
     });
-    res.json(step).status(200);
-  } catch (error) {
+    
+    res.json(step).status(204);
+  } catch (error: any) {
     console.log(error);
-    res.status(400);
+    if (error.meta.cause === "Record to delete does not exist")
+      res.status(404).json(error.meta.cause);
+    else res.status(409).json(error.meta.cause);
   }
 }
 
 async function updateStepbyId(req: Request, res: Response) {
   const { id } = req.params;
-  const { title, actions, durationInMs, hidden, statusStep, questionaries } = req.body;
-  console.log(title,hidden);
+  const { title, actions, durationInMs, hidden, statusStep, questionaries } =
+    req.body;
+  console.log(title, hidden);
   try {
     const step = await prisma.step.update({
       where: {
@@ -79,10 +84,9 @@ async function updateStepbyId(req: Request, res: Response) {
       },
     });
     res.json(step).status(200);
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
-    res.status(400);
+    if (error.meta.cause === 'Record to update does not exist') res.status(404).json(error.meta.cause)
+    else res.status(409).json(error.meta.cause);
   }
 }
-
-
