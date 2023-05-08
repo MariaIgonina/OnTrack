@@ -1,12 +1,13 @@
 import { Router, Request, Response } from "express";
 import { applicantControllers } from "./controllersMain/applicantControllers";
-import { getAccessToken, getUserData } from "./controllersMain/authController";
 import { vacancyController } from "./controllersMain/vacancyController";
 import { messageController } from "./controllersMain/messageController";
 import { actionController } from "./controllersMain/actionController";
 import { recruiterController } from "./controllersMain/recruiterController";
 import { trackControllers } from "./controllersMain/trackController";
 import { stepController } from "./controllersMain/stepController";
+import { questionnaryController } from "./controllersMain/questionnaryController";
+import { getAccessToken, getUserData } from "./controllersAuth/authController";
 
 const router = Router();
 
@@ -25,6 +26,18 @@ router.post("/createStep", stepController.createStep);
 router.get("/getStep/:id", stepController.getStepsbyTrack);
 router.put("/updateStep/:id", stepController.updateStepbyId);
 router.delete("/deleteStep/:id", stepController.deleteStep);
+
+//Routes for Questionnary controller
+router.post("/createQuestionary", questionnaryController.createQuestionnary);
+router.get(
+  "/getQuestionaryByStep/:id",
+  questionnaryController.getQuestionaryByStep
+);
+router.put("/updateQuestionary/:id", questionnaryController.updateQuestionary);
+router.delete(
+  "/deleteQuestionary/:id",
+  questionnaryController.deleteQuestionary
+);
 
 // Applicant routes
 router.get("/applicant/:id", applicantControllers.getApplicantById);
