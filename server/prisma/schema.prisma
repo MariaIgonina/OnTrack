@@ -11,9 +11,9 @@ datasource db {
 }
 
 model Applicant {
-  idDB                   Int      @id @default(autoincrement())
-  idAuth0                String   @unique
-  email                  String   @unique
+  idDB                   Int          @id @default(autoincrement())
+  idAuth0                String       @unique
+  email                  String       @unique
   picture                String
   name                   String
   familyName             String
@@ -21,6 +21,7 @@ model Applicant {
   phone                  String
   location               String
   inProgressApplications Track[]
+  currentLocation        String[] //google maps
   readyMove              Boolean
   workingHours           String
   workingModal           String
@@ -28,6 +29,38 @@ model Applicant {
   skillsProf             String[]
   stack                  String[]
   compLanguages          String[]
+  about                  String
+  video                  String
+  education              Education[]
+  experiences            Experience[]
+  languages              String[]
+  hobbies                String[]
+  salaryRange            Int
+  desiredLocation        String[]
+  notDesiredLocation     String[]
+  desiredWorkingModal    String
+}
+
+model Experience {
+  id          Int       @id @default(autoincrement())
+  jobTitle    String
+  company     String
+  startDate   DateTime
+  endDate     DateTime
+  description String
+  applicant   Applicant @relation(fields: [applicantId], references: [idDB])
+  applicantId Int
+}
+
+model Education {
+  id            Int        @id @default(autoincrement())
+  place         String
+  startDate     DateTime
+  endDate       DateTime
+  degree        String
+  speciality    String
+  Applicant     Applicant? @relation(fields: [applicantIdDB], references: [idDB])
+  applicantIdDB Int?
 }
 
 model Recruiter {
