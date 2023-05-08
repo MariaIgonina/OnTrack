@@ -40,7 +40,6 @@ model Applicant {
   notDesiredLocation     String[]
   desiredWorkingModal    String
 }
-
 model Experience {
   id          Int       @id @default(autoincrement())
   jobTitle    String
@@ -51,7 +50,6 @@ model Experience {
   applicant   Applicant @relation(fields: [applicantId], references: [idDB])
   applicantId Int
 }
-
 model Education {
   id            Int        @id @default(autoincrement())
   place         String

@@ -67,7 +67,7 @@ const createVacancy = async (req: Request, res: Response) => {
     });
 
     res.status(201).json({ success: true, data: vacancy });
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).json({ success: false, error: error.message });
   }
 };
@@ -83,7 +83,7 @@ const getVacancyById = async (req: Request, res: Response) => {
     }
 
     res.status(200).json({ success: true, data: vacancy });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
