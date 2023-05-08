@@ -10,19 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  idDB                   Int       @id @default(autoincrement())
-  idAuth0                String    @unique
-  email                  String    @unique
+model Applicant {
+  idDB                   Int      @id @default(autoincrement())
+  idAuth0                String   @unique
+  email                  String   @unique
   picture                String
   name                   String
   familyName             String
   age                    DateTime
   phone                  String
   location               String
-  inProgressApplications String[]
-  coordinateX            String // google maps?
-  coordinateY            String // google maps?
+  inProgressApplications Track[]
+  coordinateX            String? // google maps?
+  coordinateY            String? // google maps?
   readyMove              Boolean
   workingHours           String
   workingModal           String
@@ -30,10 +30,9 @@ model User {
   skillsProf             String[]
   stack                  String[]
   compLanguages          String[]
-  messages               Message[]
 }
 
-model Company {
+model Recruiter {
   id            Int       @id @default(autoincrement())
   name          String
   vacancies     Vacancy[]
@@ -42,15 +41,15 @@ model Company {
   about         String
   externalLinks String[]
   headOffice    String
+  Track         Track[]
 }
 
 model Vacancy {
-  id                Int      @id @default(autoincrement())
-  company           Company  @relation(fields: [companyId], references: [id])
-  companyId         Int
+  id                Int       @id @default(autoincrement())
+  recruiter         Recruiter @relation(fields: [recruiterId], references: [id])
+  recruiterId       Int
   about             String
   title             String
-  recruitantID      String
   jobTrack          Track[]
   workingHours      String
   workingModal      String
@@ -63,15 +62,17 @@ model Vacancy {
 }
 
 model Track {
-  id           Int       @id @default(autoincrement())
-  steps        Step[]
-  recruitantID String
-  applicantID  String
-  reject       Boolean   @default(false)
-  notes        String?
-  Vacancy      Vacancy?  @relation(fields: [vacancyId], references: [id])
-  vacancyId    Int
-  Message      Message[]
+  id          Int        @id @default(autoincrement())
+  steps       Step[]
+  recruiterID Int
+  applicantID Int?
+  reject      Boolean    @default(false)
+  notes       String?
+  Vacancy     Vacancy    @relation(fields: [vacancyId], references: [id])
+  vacancyId   Int
+  Message     Message[]
+  Applicant   Applicant? @relation(fields: [applicantID], references: [idDB])
+  Recruiter   Recruiter  @relation(fields: [recruiterID], references: [id])
 }
 
 model Step {
@@ -81,7 +82,6 @@ model Step {
   durationInMs  Int
   hidden        Boolean
   statusStep    Boolean
-  messages      Message[]
   questionaries Questionary[]
   Track         Track?        @relation(fields: [trackId], references: [id])
   trackId       Int
@@ -91,12 +91,9 @@ model Message {
   id      Int      @id @default(autoincrement())
   trackId Int
   track   Track    @relation(fields: [trackId], references: [id])
-  user    User     @relation(fields: [userId], references: [idDB])
-  userId  Int
   text    String
   date    DateTime
   files   String[]
-  Step    Step?    @relation(fields: [stepId], references: [id])
   stepId  Int
 }
 
