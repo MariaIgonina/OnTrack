@@ -87,10 +87,20 @@ const deleteApplicant = async (req: Request, res: Response) => {
   }
 }
 
+const filterApplicants = async (req: Request, res: Response) => {
+  
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
 export const applicantControllers = {
   createApplicant,
   getApplicantById,
   updateApplicant,
   deleteApplicant,
-  getAllApplicants
+  getAllApplicants,
+  filterApplicants
 };

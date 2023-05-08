@@ -1,7 +1,7 @@
 import {recruiterController} from "./controllersMain/recruiterController"
 import { Router, Request, Response } from 'express';
 import { applicantControllers } from './controllersMain/applicantControllers'
-import { getAccessToken, getUserData } from "./controllersMain/authController";
+import { getAccessToken, getUserData } from "./controllersAuth/authController";
 import { trackControllers } from "./controllersMain/trackController";
 
 import {
@@ -43,7 +43,10 @@ router.get('/applicants', applicantControllers.getAllApplicants)
 router.post('/createApplicant', applicantControllers.createApplicant)
 router.put('/updateApplicant/:id', applicantControllers.updateApplicant)
 router.delete('/deleteApplicant/:id', applicantControllers.deleteApplicant)
+router.get('/fiterApplicants/:params', applicantControllers.filterApplicants)
 
+
+// Auth routes
 router.get("/getAccessToken", getAccessToken);
 router.get("/getUserData", getUserData);
 
