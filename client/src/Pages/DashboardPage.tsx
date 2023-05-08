@@ -11,11 +11,11 @@ const DashboardPage = () => {
   }
 
   return (
-    isAuthenticated && (
+    isAuthenticated ? (
       <>
         <div>I'm dashboard</div>
       </>
-    )
+    ) : null
   );
 };
 

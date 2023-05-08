@@ -2,8 +2,8 @@ import {recruiterController} from "./controllers/recruiterController"
 import { Router, Request, Response } from 'express';
 import { applicantControllers } from './controllers/applicantControllers'
 import { getAccessToken, getUserData } from "./controllers/authController";
-import { questionnaryController } from "./controllers/questionnaryController"
-
+import { trackControllers } from "./controllers/trackController";
+import { questionnaryController } from "./controllers/questionnaryController";
 
 import {
   createVacancy,
@@ -52,6 +52,14 @@ router.delete('/deleteApplicant/:id', applicantControllers.deleteApplicant)
 
 router.get("/getAccessToken", getAccessToken);
 router.get("/getUserData", getUserData);
+
+// Track routes
+router.post('/createTrack', trackControllers.createTrack);
+router.get('/getTracksByVacancy/:vacancyId', trackControllers.getTracksByVacancy)
+router.get('/getTracksByRecruiter/:recruiterId', trackControllers.getTracksByRecruiter)
+router.get('/getTracksByApplicant/:applicantId', trackControllers.getTracksByApplicant)
+router.put("/updatetrack/:id", trackControllers.updatetrackbyId);
+router.delete("/deletetrack/:id", trackControllers.deletetrack);
 
 // Vacancy routes
 router.post("/vacancy", createVacancy);

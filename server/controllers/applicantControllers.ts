@@ -73,7 +73,7 @@ const getAllApplicants = async (req: Request, res: Response) => {
 
 const deleteApplicant = async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const response = await prisma.applicant.delete({
       where: {
         idDB: +id
