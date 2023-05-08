@@ -14,15 +14,15 @@ const Navbar = () => {
             Login
           </Link>
         
-          <Link to="/adduser" className="link">
-            Add user
+          <Link to="/addapplicant" className="link">
+            Add applicant
           </Link>
 
           <Link to="/company" className="link">
             Company Page
           </Link>
 
-          <Link to="/user" className="link">
+          <Link to="/applicant" className="link">
             <HomeIcon className="icon" />
           </Link>
         

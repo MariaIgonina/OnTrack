@@ -6,18 +6,18 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from "../store/store";
 
-import { fetchApplicant, setApplicant } from "../store/userSlice";
+import { fetchApplicant, setApplicant } from "../store/applicantSlice";
 
 
 
 
-const UserPage = () => {
-  const userInfo = useSelector((state:RootState) => state.applicant)
-  const dispatch = useDispatch();
+const ApplicantPage = () => {
+  // const applicant = useSelector((state:RootState) => state.applicant)
+  // const dispatch = useDispatch();
 
-  useEffect (() => {
-    dispatch(setApplicant(userInfo));
-  }, [dispatch])
+  // useEffect (() => {
+  //   dispatch(setApplicant(applicant));
+  // }, [dispatch])
 
 
 
@@ -31,4 +31,4 @@ const UserPage = () => {
   );
 };
 
-export default UserPage;
+export default ApplicantPage;
