@@ -12,16 +12,16 @@ export const stepController = {
 
 async function createStep(req: Request, res: Response) {
   try {
-    const recruiter = await prisma.step.create({
+    const step = await prisma.step.create({
       data: {
         title: req.body.title,
-        durationInMs: req.body.durationInMs,
+        durationInMs: parseInt(req.body.durationInMs),
         hidden: false,
         statusStep: false,
-        Track: { connect: { id: req.body.trackId } }
+        Track: { connect: { id: parseInt(req.body.trackId) } }
       },
     });
-    res.json(recruiter).status(200);
+    res.json(step).status(200);
   } catch (error) {
     console.log(error);
     res.status(400);
@@ -32,12 +32,12 @@ async function createStep(req: Request, res: Response) {
 async function getStepsbyTrack(req: Request, res: Response) {
   const { id } = req.params;
   try {
-    const recruiter = await prisma.recruiter.findUnique({
+    const step = await prisma.step.findMany({
       where: {
-        id: parseInt(id),
+        trackId: parseInt(id),
       },
     });
-    res.json(recruiter).status(200);
+    res.json(step).status(200);
   } catch (error) {
     console.log(error);
     res.status(400);
@@ -46,13 +46,14 @@ async function getStepsbyTrack(req: Request, res: Response) {
 
 async function deleteStep(req: Request, res: Response) {
   const { id } = req.params;
+  console.log(id);
   try {
-    const recruiter = await prisma.recruiter.delete({
+    const step = await prisma.step.delete({
       where: {
         id: parseInt(id),
       },
     });
-    res.json(recruiter).status(200);
+    res.json(step).status(200);
   } catch (error) {
     console.log(error);
     res.status(400);
@@ -61,22 +62,23 @@ async function deleteStep(req: Request, res: Response) {
 
 async function updateStepbyId(req: Request, res: Response) {
   const { id } = req.params;
-  const { name, logo, founded, about, externalLinks, headOffice } = req.body;
+  const { title, actions, durationInMs, hidden, statusStep, questionaries } = req.body;
+  console.log(title,hidden);
   try {
-    const recruiter = await prisma.recruiter.update({
+    const step = await prisma.step.update({
       where: {
         id: parseInt(id),
       },
       data: {
-        name: name,
-        logo: logo,
-        founded: founded,
-        about: about,
-        externalLinks: externalLinks,
-        headOffice: headOffice,
+        title: title,
+        actions: actions,
+        durationInMs: durationInMs,
+        hidden: hidden ? JSON.parse(hidden) : undefined,
+        statusStep: statusStep ? JSON.parse(statusStep) : undefined,
+        questionaries: questionaries,
       },
     });
-    res.json(recruiter).status(200);
+    res.json(step).status(200);
   } catch (error) {
     console.log(error);
     res.status(400);
