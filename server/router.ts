@@ -40,11 +40,12 @@ router.delete(
 );
 
 // Applicant routes
-router.get("/applicant/:id", applicantControllers.getApplicantById);
-router.get("/applicants", applicantControllers.getAllApplicants);
-router.post("/createApplicant", applicantControllers.createApplicant);
-router.put("/updateApplicant/:id", applicantControllers.updateApplicant);
-router.delete("/deleteApplicant/:id", applicantControllers.deleteApplicant);
+router.get('/applicant/:id', applicantControllers.getApplicantById)
+router.get('/applicants', applicantControllers.getAllApplicants)
+router.post('/createApplicant', applicantControllers.createApplicant)
+router.put('/updateApplicant/:id', applicantControllers.updateApplicant)
+router.delete('/deleteApplicant/:id', applicantControllers.deleteApplicant)
+router.get('/filterApplicants/', applicantControllers.filterApplicants)
 
 // Auth routes
 router.get("/getAccessToken", getAccessToken);

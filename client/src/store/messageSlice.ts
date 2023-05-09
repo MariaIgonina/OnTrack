@@ -1,123 +1,154 @@
-// import { createAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { createAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
-// import { Message } from "../Interfaces"
+import { Message, Track } from "../Interfaces"
 
-// import { RootState } from "./store";
+import { RootState } from "./store";
 
-// // import { initialVacancy } from "./vacancySlice";
-
-// // import { initialApplicant } from "./applicantSlice";
-// // import { initialRecruiter } from "./recruiterSlice";
-
-// const initialTrack: Track = {
-//   id: number,
-//   trackId: number,
-//   track: Track,
-//   text: string,
-//   date: Date,
-//   files: string[],
-//   stepId: number,
-// }
+import { initialTrack } from "./trackSlice";
 
 
-// const url:string = 'http://localhost:3000'
-
-// const fetchTrack  = createAsyncThunk (
-//   'track/fetchtrack',
-//   async function (_, {rejectWithValue}) {
-//     try {
-//       const response = await fetch (url + '/track/1')
-//       if (!response.ok) {
-//         throw new Error('Server error')
-//       }
-//       const data = await response.json()
-//       console.log("TRACK FROM REDUX THUNK : ", data)
-//       return data
-//     } catch (err) {
-//       if (err instanceof Error)
-//       return rejectWithValue(err.message)
-//     }    
-//   }
-// )
-
-// const createTrack = createAsyncThunk(
-//   'track/createtrack',
-//   async function (track: Track, { rejectWithValue }) {
-//     try {
-//       const response = await fetch(url + '/recruiter', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(track),
-//       });
-//       if (!response.ok) {
-//         throw new Error('Server error');
-//       }
-//       const data = await response.json();
-//       return data;
-//     } catch (err) {
-//       if (err instanceof Error) return rejectWithValue(err.message);
-//     }
-//   }
-// );
-
-// interface IInitialState {
-//   track: Track,
-//     status: 'loading' | 'resolved' | 'rejected' | null,
-//     error: null | Error
-// }
+const initialMessage: Message = {
+  id: 0,
+  trackId: 0,
+  track: initialTrack,
+  text: '',
+  date: new Date(),
+  files: [],
+  stepId: 0,
+}
 
 
-// export const trackSlice = createSlice<IInitialState, { setTrack: (_state: IInitialState, action: {payload:any})=> void }>({
-//   name: 'track',
-//   initialState: {
-//     track: initialTrack,
-//     status: null,
-//     error: null
-//   },
-//   reducers: {
-//     setTrack: (_state, action) => {
-//       return action.payload;
-//     }
-//   },
-//   extraReducers: (builder) => {
-//     builder
-//       //getOne
-//       .addCase(fetchTrack.pending, (state, action) => {
-//         state.status = 'loading';
-//         state.error = null;
-//       })
-//       .addCase(fetchTrack.rejected, (state, action) => {
-//         state.status = 'rejected';
-//         state.error = action.payload as Error;
-//       })
-//       .addCase(fetchTrack.fulfilled, (state, action) => {
-//         state.status = 'resolved';
-//         state.track = action.payload;
-//         state.error = null;
-//       })
-//       // post
-//       .addCase(createTrack.pending, (state, action) => {
-//         state.status = 'loading';
-//         state.error = null;
-//       })
-//       .addCase(createTrack.rejected, (state, action) => {
-//         state.status = 'rejected';
-//         state.error = action.payload as Error;
-//       })
-//       .addCase(createTrack.fulfilled, (state, action) => {
-//         state.status = 'resolved';
-//         state.track = action.payload;
-//         state.error = null;
-//       })
-//   }
-// });
+const url:string = 'http://localhost:3000'
+
+const fetchMessagesByTrack  = createAsyncThunk (
+  'message/fetchAllMessages',
+  async function (trackId, {rejectWithValue}) {
+    try {
+      const response = await fetch (url + '/message/' + trackId)
+      if (!response.ok) {
+        throw new Error('Server error')
+      }
+      const data = await response.json()
+      // console.log("ALL MESSAGES BY TRACK : ", data)
+      return data
+    } catch (err) {
+      if (err instanceof Error)
+      return rejectWithValue(err.message)
+    }    
+  }
+)
+
+const createMessage = createAsyncThunk(
+  'message/createMessage',
+  async function (message: Message, { rejectWithValue }) {
+    try {
+      const response = await fetch(url + '/message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(message),
+      });
+      if (!response.ok) {
+        throw new Error('Server error');
+      }
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      if (err instanceof Error) return rejectWithValue(err.message);
+    }
+  }
+);
+
+const deleteMessage = createAsyncThunk(
+  'message/deleteMessage',
+  async function (messageId: number, { rejectWithValue }) {
+    try {
+      const response = await fetch(`${url}/message/${messageId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Server error');
+      }
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      if (err instanceof Error) return rejectWithValue(err.message);
+    }
+  }
+);
+
+interface IInitialState {
+  message: Message,
+    status: 'loading' | 'resolved' | 'rejected' | null,
+    error: null | Error
+}
 
 
-// export const { setTrack } = trackSlice.actions;
-// export { fetchTrack, createTrack }
+export const messageSlice = createSlice<IInitialState, { setMessage: (_state: IInitialState, action: {payload:any})=> void }>({
+  name: 'message',
+  initialState: {
+    message: initialMessage,
+    status: null,
+    error: null
+  },
+  reducers: {
+    setMessage: (_state, action) => {
+      return action.payload;
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+      //get by track id
+      .addCase(fetchMessagesByTrack.pending, (state, action) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(fetchMessagesByTrack.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.error = action.payload as Error;
+      })
+      .addCase(fetchMessagesByTrack.fulfilled, (state, action) => {
+        state.status = 'resolved';
+        state.message = action.payload;
+        state.error = null;
+      })
+      // post
+      .addCase(createMessage.pending, (state, action) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(createMessage.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.error = action.payload as Error;
+      })
+      .addCase(createMessage.fulfilled, (state, action) => {
+        state.status = 'resolved';
+        state.message = action.payload;
+        state.error = null;
+      })
+      // delete
+      .addCase(deleteMessage.pending, (state, action) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(deleteMessage.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.error = action.payload as Error;
+      })
+      .addCase(deleteMessage.fulfilled, (state, action) => {
+        state.status = 'resolved';
+        state.message = action.payload;
+        state.error = null;
+      })
+  }
+});
 
-// export const selecttrack = (state : RootState) => state.track
 
-// export default trackSlice.reducer;
+export const { setMessage } = messageSlice.actions;
+
+export { fetchMessagesByTrack, createMessage, deleteMessage }
+
+export const selectmessage = (state : RootState) => state.message
+
+export default messageSlice.reducer;

@@ -4,6 +4,7 @@ import applicantReducer from "./applicantSlice"
 import recruiterReducer from "./recruiterSlice"
 import vacancyReducer from "./vacancySlice"
 import trackReducer from "./trackSlice"
+import messageReducer from "./messageSlice"
 
 
 
@@ -13,7 +14,8 @@ export const store = configureStore({
     applicant: applicantReducer,
     recruiter: recruiterReducer,
     vacancy: vacancyReducer,
-    track: trackReducer
+    track: trackReducer,
+    message: messageReducer
   },
 })
 

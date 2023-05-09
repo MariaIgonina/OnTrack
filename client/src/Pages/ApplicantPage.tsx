@@ -3,33 +3,30 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 
-import { fetchApplicant, fetchAllApplicants, setApplicant, updateApplicant } from "../store/applicantSlice";
+import {
+  fetchApplicant,
+  fetchAllApplicants,
+  setApplicant,
+  updateApplicant,
+} from "../store/applicantSlice";
 
-
-
+// import { PaperClipIcon } from "@heroicons/react/20/solid";
 
 const ApplicantPage = () => {
-  const applicant = useSelector((state:RootState) => state.applicant)
+  const applicant = useSelector((state: RootState) => state.applicant);
   const dispatch = useDispatch<AppDispatch>();
 
-  useEffect (() => {
+  useEffect(() => {
     dispatch(setApplicant(applicant));
-    dispatch(fetchApplicant(1))
-  }, [dispatch])
-
-
-
-
-
+    dispatch(fetchApplicant(1));
+  }, [dispatch]);
 
   return (
     <>
-      <div>
-       {JSON.stringify(applicant)}
-      </div>
+      <div>{JSON.stringify(applicant)}</div>
     </>
   );
 };
