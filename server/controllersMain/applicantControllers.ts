@@ -7,6 +7,21 @@ dotenv.config()
 const prisma = new PrismaClient();
 
 const createApplicant = async (req: Request, res: Response) => {
+  // let {
+  //   currentLocation, socialMedia, skillsProf, stack, compLanguages, languages,
+  //   hobbies, desiredLocation, notDesiredLocation
+  // } = req.body;
+
+  // if (!currentLocation) currentLocation = [];
+  // if (!socialMedia) socialMedia = [];
+  // if (!skillsProf) skillsProf = [];
+  // if (!stack) stack = [];
+  // if (!compLanguages) compLanguages = [];
+  // if (!languages) languages = [];
+  // if (!hobbies) hobbies = [];
+  // if (!desiredLocation) desiredLocation = [];
+  // if (!notDesiredLocation) notDesiredLocation = [];
+
   try {
     // Verify email:
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -100,21 +115,21 @@ const filterApplicants = async (req: Request, res: Response) => {
     skillsProf,
     desiredLocation
   } = req.query as {
-      salaryRange?: string,
-      languages?: string,
-      workingModal?: string,
-      workingHours?: string,
-      compLanguages?: string,
-      readyMove?: string,
-      stack?: string,
-      skillsProf?: string,
-      desiredLocation?: string,
+    salaryRange?: string,
+    languages?: string,
+    workingModal?: string,
+    workingHours?: string,
+    compLanguages?: string,
+    readyMove?: string,
+    stack?: string,
+    skillsProf?: string,
+    desiredLocation?: string,
   };
 
   if (desiredLocation) {
     queryObj.OR = [
-        { desiredLocation: { hasSome: String(desiredLocation).split(',') } },
-        { location: desiredLocation }
+      { desiredLocation: { hasSome: String(desiredLocation).split(',') } },
+      { location: desiredLocation }
     ]
   }
   if (salaryRange) {
@@ -150,7 +165,7 @@ const filterApplicants = async (req: Request, res: Response) => {
 
   try {
     const applicants = await prisma.applicant.findMany({
-      where: {...queryObj}
+      where: { ...queryObj }
     })
     if (!applicants.length) throw new Error('No matches found');
     res.status(200).json(applicants);

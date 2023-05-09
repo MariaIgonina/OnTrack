@@ -141,3 +141,10 @@ const paola = {
   ],
   "desiredWorkingModal": "remote"
 }
+
+const registration = {
+  "idAuth0": '3241',
+  "email": "ppc@ontrack.com",
+  "picture": 'nasdf.png',
+  "name": 'Andrea',
+}

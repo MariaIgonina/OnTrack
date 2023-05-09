@@ -5,6 +5,7 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 export const getAccessToken = async (req: Request, res: Response) => {
   console.log(req.query.code);
+  
   const params =
     "?client_id=" +
     CLIENT_ID +
