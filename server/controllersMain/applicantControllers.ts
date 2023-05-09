@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
 import dotenv from 'dotenv';
-import { lang } from "moment";
-import { read } from "fs";
 dotenv.config()
 
 const prisma = new PrismaClient();
@@ -101,7 +99,17 @@ const filterApplicants = async (req: Request, res: Response) => {
     stack,
     skillsProf,
     desiredLocation
-  } = req.query;
+  } = req.query as {
+      salaryRange?: string,
+      languages?: string,
+      workingModal?: string,
+      workingHours?: string,
+      compLanguages?: string,
+      readyMove?: string,
+      stack?: string,
+      skillsProf?: string,
+      desiredLocation?: string,
+  };
 
   if (desiredLocation) {
     queryObj.OR = [
@@ -109,56 +117,46 @@ const filterApplicants = async (req: Request, res: Response) => {
         { location: desiredLocation }
     ]
   }
-
   if (salaryRange) {
-    queryObj.salaryRange = { lte: +salaryRange! }
+    queryObj.salaryRange = { lte: +salaryRange! };
   }
-
   if (languages) {
-    queryObj.languages = { hasSome: String(languages).split(',') }
+    queryObj.languages = { hasSome: String(languages).split(',') };
   }
-
   if (workingModal) {
-    queryObj.workingModal = workingModal
+    queryObj.workingModal = workingModal;
   }
-
   if (workingHours) {
-    queryObj.workingHours = workingHours
+    queryObj.workingHours = workingHours;
   }
-
   if (compLanguages) {
     queryObj.compLanguages = {
       hasSome: String(compLanguages).split(','),
-    }
+    };
   }
-
   if (readyMove) {
-    queryObj.readyMove = Boolean(readyMove)
+    queryObj.readyMove = Boolean(readyMove);
   }
-
   if (stack) {
     queryObj.stack = {
       hasSome: String(stack).split(','),
-    }
+    };
   }
   if (skillsProf) {
     queryObj.skillsProf = {
       hasSome: String(skillsProf).split(','),
-    }
+    };
   }
-
-  console.log('current query ->', queryObj)
-
 
   try {
     const applicants = await prisma.applicant.findMany({
       where: {...queryObj}
     })
-    if (!applicants.length) throw new Error('No matches found')
-    res.status(200).json(applicants)
+    if (!applicants.length) throw new Error('No matches found');
+    res.status(200).json(applicants);
   } catch (error: any) {
     console.log(error);
-    res.status(400).json(error.message)
+    res.status(400).json(error.message);
   }
 }
 
