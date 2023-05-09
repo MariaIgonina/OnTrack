@@ -68,21 +68,26 @@ router.put("/updatetrack/:id", trackControllers.updatetrackbyId);
 router.delete("/deletetrack/:id", trackControllers.deletetrack);
 
 // Vacancy routes
-router.post("/vacancy", vacancyController.createVacancy);
+router.post("/createVacancy", vacancyController.createVacancy);
 router.get("/vacancy/:id", vacancyController.getVacancyById);
-router.get("/vacancyall", vacancyController.getAllVacancies);
-router.put("/vacancy/:id", vacancyController.updateVacancy);
-router.delete("/vacancy/:id", vacancyController.deleteVacancy);
+router.get("/vacanciesAll", vacancyController.getAllVacancies);
+router.get(
+  "/vacanciesByRecruiter/:recruiterId",
+  vacancyController.getVacancyByRecruiter
+);
+router.get("/vacanciesByFilter", vacancyController.getVacanciesByFilter);
+router.put("/updateVacancy/:id", vacancyController.updateVacancy);
+router.delete("/deleteVacancy/:id", vacancyController.deleteVacancy);
 
 // Message routes
-router.post("/message", messageController.createMessage);
-router.delete("/message/:id", messageController.deleteMessageById);
-router.get("/message/:trackId", messageController.getAllMsgsByTrack);
+router.post("/createMessage", messageController.createMessage);
+router.delete("/deleteMessage/:id", messageController.deleteMessageById);
+router.get("/messagesByTrack/:trackId", messageController.getAllMsgsByTrack);
 
 // Action routes
-router.get("/action/step/:stepId", actionController.getAllActionsByStep);
-router.post("/action", actionController.createActionbyStep);
-router.put("/action/:id", actionController.updateAction);
-router.delete("/action/:id", actionController.deleteAction);
+router.get("/actionsByStep/:stepId", actionController.getAllActionsByStep);
+router.post("/createAction", actionController.createActionbyStep);
+router.put("/updateAction/:id", actionController.updateAction);
+router.delete("/deleteAction/:id", actionController.deleteAction);
 
 export default router;
