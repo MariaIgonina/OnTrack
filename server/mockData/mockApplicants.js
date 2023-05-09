@@ -1,6 +1,5 @@
 const xavi = {
-  "idDB": 7,
-  "idAuth0": "test",
+  "idAuth0": 9876,
   "email": "xavier.graells@ontrack.com",
   "picture": "xavier.png",
   "name": "Xavier",
@@ -8,11 +7,11 @@ const xavi = {
   "age": "1994-01-01T00:00:00.000Z",
   "phone": "6578412",
   "location": "barcelona",
-  "currentLocation": [],
+  "currentLocation": ['37.7749', '-122.4194' ],
   "readyMove": true,
   "workingHours": "full-time",
   "workingModal": "office",
-  "socialMedia": [],
+  "socialMedia": ['xavi@instagram.com'],
   "skillsProf": [
     "analytics",
     "UI"
@@ -47,8 +46,7 @@ const xavi = {
 };
 
 const guillaume = {
-  "idDB": 10,
-  "idAuth0": "456815",
+  "idAuth0": "4565",
   "email": "guillaumerouchaud@ontrack.com",
   "picture": "guillaume.png",
   "name": "Guillaume",
@@ -60,7 +58,7 @@ const guillaume = {
   "readyMove": true,
   "workingHours": "internship",
   "workingModal": "hybrid",
-  "socialMedia": [],
+  "socialMedia": ['www.facebook.com/guillaume'],
   "skillsProf": [
     "analytics",
     "UI"
@@ -96,8 +94,7 @@ const guillaume = {
 }
 
 const paola = {
-  "idDB": 11,
-  "idAuth0": "fgfdg",
+  "idAuth0": '3241',
   "email": "paolapatino@ontrack.com",
   "picture": "paola.png",
   "name": "Paola",
