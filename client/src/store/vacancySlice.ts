@@ -48,7 +48,7 @@ const fetchAllVacancies  = createAsyncThunk (
   'vacancies/fetchallvacancies',
   async function (_, {rejectWithValue}) {
     try {
-      const response = await fetch (url + '/vacancyall')
+      const response = await fetch (url + '/vacanciesAll')
       if (!response.ok) {
         throw new Error('Server error')
       }
@@ -66,7 +66,7 @@ const createVacancy = createAsyncThunk(
   'vacancy/createVacancy',
   async function (vacancy: Vacancy, { rejectWithValue }) {
     try {
-      const response = await fetch(url + '/createApplicant', {
+      const response = await fetch(url + '/createVacancy', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -85,10 +85,10 @@ const createVacancy = createAsyncThunk(
 );
 
 const deleteVacancy = createAsyncThunk(
-  'recruiter/deleteVacancy',
+  'vacancy/deleteVacancy',
   async function (vacancyId: number, { rejectWithValue }) {
     try {
-      const response = await fetch(`${url}/deleteApplicant/${vacancyId}`, {
+      const response = await fetch(`${url}/deleteVacancy/${vacancyId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -102,11 +102,16 @@ const deleteVacancy = createAsyncThunk(
   }
 );
 
+interface IPutParams {
+  vacancyId: number
+  vacancy: any
+}
+
 const updateVacancy = createAsyncThunk(
-  'recruiter/updateVacancy',
-  async function (vacancyId: number, vacancy: Vacancy, { rejectWithValue }) {
+  'vacancy/updateVacancy',
+  async function ({vacancyId, vacancy}: IPutParams, { rejectWithValue }) {
     try {
-      const response = await fetch(url + `/updateApplicant/${vacancyId}`, {
+      const response = await fetch(url + `/updateVacancy/${vacancyId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

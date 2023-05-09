@@ -41,7 +41,7 @@ const initialApplicant: Applicant = {
 const url:string = 'http://localhost:3000'
 
 const fetchApplicant  = createAsyncThunk (
-  'applicant/fetchApplicant',
+  'applicant/fetchapplicant',
   async function (applicantId: number, {rejectWithValue}) {
     try {
       const response = await fetch (`${url}/applicant/${applicantId}`)
@@ -67,7 +67,7 @@ const fetchAllApplicants  = createAsyncThunk (
         throw new Error('Server error')
       }
       const data = await response.json()
-      console.log("DATA FROM REDUX THUNK : ", data)
+      console.log("ALL APPLICANTS : ", data)
       return data
     } catch (err) {
       if (err instanceof Error)
@@ -116,9 +116,21 @@ const deleteApplicant = createAsyncThunk(
   }
 );
 
+interface IPutParams {
+  applicantId: number
+  applicant: any
+}
+
+//How will we call it!!!!!!!!!!!
+// const testPut = {
+//   applicantId: 1,
+//   applicant: {email: 'newemail'}
+// }
+// updateApplicant(testPut)
+
 const updateApplicant = createAsyncThunk(
   'applicant/updateApplicant',
-  async function (applicantId: number, applicant: Applicant, { rejectWithValue }) {
+  async function ({applicantId, applicant}: IPutParams, { rejectWithValue }) {
     try {
       const response = await fetch(url + `/updateApplicant/${applicantId}`, {
         method: 'PUT',
