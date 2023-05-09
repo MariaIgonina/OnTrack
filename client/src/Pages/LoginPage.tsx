@@ -47,8 +47,17 @@ const LoginPage = () => {
               console.log("DATATATAT", data);
               return data.json();
             })
-            .then((data) => {
+            .then(async (data) => {
               console.log("data", data);
+              const userInfo = await fetch(
+                "http://localhost:3000/getUserData",
+                {
+                  headers: {
+                    Authorization: "Bearer " + data.access_token,
+                  },
+                }
+              ).then((data) => data.json());
+              console.log(" HOPEFULLY USER INFO ==> ", userInfo);
               if (data.access_token) {
                 console.log("data.access_token =", data.access_token);
                 localStorage.setItem("accessToken", data.access_token);
@@ -133,7 +142,9 @@ const LoginPage = () => {
                   <p>Or sign up for the first time by registering an account</p>
                 </button>
               </div>
-              {isOpen ? <RegisterModal /> : null}
+              {isOpen ? (
+                <RegisterModal isOpen={isOpen} setOpen={setOpen} />
+              ) : null}
             </>
           )}
         </div>

@@ -15,7 +15,7 @@ const DashboardPage = () => {
   //     </>
   //   ) : null
   // );
-  return;
+  return <></>;
 };
 
 export default DashboardPage;
