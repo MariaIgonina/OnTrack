@@ -22,6 +22,7 @@ const createActionbyStep = async (req: Request, res: Response) => {
     });
     res.status(201).json({ success: true, data: actionByStep });
   } catch (error: any) {
+    console.error(error);
     res.status(400).json({ success: false, error: error.message });
   }
 };
@@ -32,6 +33,7 @@ const deleteAction = async (req: Request, res: Response) => {
     await prisma.action.delete({ where: { id } });
     res.status(200).json({ success: true, message: "Message deleted" });
   } catch (error: any) {
+    console.error(error);
     res.status(400).json({ success: false, error: error.message });
   }
 };
@@ -46,6 +48,7 @@ const updateAction = async (req: Request, res: Response) => {
     });
     res.status(200).json(updatedAction);
   } catch (error) {
+    console.error(error);
     res.status(400).json(error);
   }
 };
@@ -59,6 +62,7 @@ const getAllActionsByStep = async (req: Request, res: Response) => {
     });
     res.status(200).json(actionsByStep);
   } catch (error) {
+    console.error(error);
     res.status(404).json(error);
   }
 };
