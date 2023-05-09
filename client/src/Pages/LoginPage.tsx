@@ -67,7 +67,9 @@ const LoginPage = () => {
   }
 
   useEffect(() => {
+    console.log("i should run");
     if (codeParam && localStorage.getItem("accessToken") === null) {
+      console.log("i should only run with the post!");
       getAccessToken();
     }
   }, []);
