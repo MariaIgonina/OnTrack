@@ -87,10 +87,84 @@ const deleteApplicant = async (req: Request, res: Response) => {
   }
 }
 
+const filterApplicants = async (req: Request, res: Response) => {
+  const queryObj: any = {}
+  let {
+    salaryRange,
+    languages,
+    workingModal,
+    workingHours,
+    compLanguages,
+    readyMove,
+    stack,
+    skillsProf,
+    desiredLocation
+  } = req.query as {
+      salaryRange?: string,
+      languages?: string,
+      workingModal?: string,
+      workingHours?: string,
+      compLanguages?: string,
+      readyMove?: string,
+      stack?: string,
+      skillsProf?: string,
+      desiredLocation?: string,
+  };
+
+  if (desiredLocation) {
+    queryObj.OR = [
+        { desiredLocation: { hasSome: String(desiredLocation).split(',') } },
+        { location: desiredLocation }
+    ]
+  }
+  if (salaryRange) {
+    queryObj.salaryRange = { lte: +salaryRange! };
+  }
+  if (languages) {
+    queryObj.languages = { hasSome: String(languages).split(',') };
+  }
+  if (workingModal) {
+    queryObj.workingModal = workingModal;
+  }
+  if (workingHours) {
+    queryObj.workingHours = workingHours;
+  }
+  if (compLanguages) {
+    queryObj.compLanguages = {
+      hasSome: String(compLanguages).split(','),
+    };
+  }
+  if (readyMove) {
+    queryObj.readyMove = Boolean(readyMove);
+  }
+  if (stack) {
+    queryObj.stack = {
+      hasSome: String(stack).split(','),
+    };
+  }
+  if (skillsProf) {
+    queryObj.skillsProf = {
+      hasSome: String(skillsProf).split(','),
+    };
+  }
+
+  try {
+    const applicants = await prisma.applicant.findMany({
+      where: {...queryObj}
+    })
+    if (!applicants.length) throw new Error('No matches found');
+    res.status(200).json(applicants);
+  } catch (error: any) {
+    console.log(error);
+    res.status(400).json(error.message);
+  }
+}
+
 export const applicantControllers = {
   createApplicant,
   getApplicantById,
   updateApplicant,
   deleteApplicant,
-  getAllApplicants
+  getAllApplicants,
+  filterApplicants
 };
