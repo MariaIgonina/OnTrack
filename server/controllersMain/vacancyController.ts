@@ -141,6 +141,7 @@ const getVacanciesByFilter = async (req: Request, res: Response) => {
       requiredLanguages,
       salaryRange,
       title,
+      notDesiredLocation,
     } = req.query as {
       location?: string;
       experience?: string;
@@ -151,6 +152,7 @@ const getVacanciesByFilter = async (req: Request, res: Response) => {
       requiredLanguages?: string;
       salaryRange?: string;
       title?: string;
+      notDesiredLocation?: string;
     };
     console.log(req.query);
     const filter: any = {};
@@ -182,6 +184,11 @@ const getVacanciesByFilter = async (req: Request, res: Response) => {
     }
     if (title) {
       filter.title = title;
+    }
+    if (notDesiredLocation) {
+      filter.location = {
+        not: notDesiredLocation,
+      };
     }
 
     const filteredVacancies = await prisma.vacancy.findMany({
