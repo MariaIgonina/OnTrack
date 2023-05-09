@@ -33,13 +33,13 @@ export interface Applicant {
 export interface Recruiter {
   id: number,
   name: string,
-  vacancies: Vacancy[],
+  vacancies?: Vacancy[],
   logo: string,
   founded: string,
   about: string,
-  externalLinks: string[],
+  externalLinks?: string[],
   headOffice: string,
-  track: Track[]
+  track?: Track[]
 }
 
 export interface Vacancy {
