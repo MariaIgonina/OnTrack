@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
+import RegisterModal from "../Components/registerModal";
 
 import "./Login.css";
 
@@ -9,6 +8,11 @@ const CLIENT_ID = "Iv1.0f2124a7d7aa9dee";
 
 const LoginPage = () => {
   const [render, setReRender] = useState(false);
+  const [isOpen, setOpen] = useState(false);
+
+  function handleRegisterModal() {
+    setOpen(!isOpen);
+  }
 
   function loginWithGitHub() {
     window.location.assign(
@@ -79,9 +83,10 @@ const LoginPage = () => {
     <>
       <div className="wholepage">
         <div className="container">
+          <h1 className="title">Login</h1>
           {localStorage.getItem("accessToken") ? (
             <>
-              <h3 className="loggedin">You are already logged in</h3>
+              <h3 className="loggedin">You are logged in!</h3>
               <button onClick={getUserData}>Get Data from GitHub API</button>
               <Button
                 sx={{ backgroundColor: "#568ea3" }}
@@ -123,6 +128,12 @@ const LoginPage = () => {
               >
                 Login With GitHub
               </Button>
+              <div className="register">
+                <button className="smallbtn" onClick={handleRegisterModal}>
+                  <p>Or sign up for the first time by registering an account</p>
+                </button>
+              </div>
+              {isOpen ? <RegisterModal /> : null}
             </>
           )}
         </div>
