@@ -26,7 +26,8 @@ function App() {
         <Route path="/company" element={<CompanyPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/track" element={<TrackPage />} />
-        <Route path="/adduser" element={<AddUserPage />} />
+        <Route path="/adduser" element={<AddApplicantPage />} />
+        <Route path="/applicant" element={<ApplicantPage />} />
         <Route path="/settings" element={<SettingsPage />} />
       </Routes>
 
