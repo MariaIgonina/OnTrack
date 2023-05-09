@@ -9,7 +9,7 @@ const createMessage = async (req: Request, res: Response) => {
   try {
     const { trackId, text, date, files, stepId } = req.body;
     console.log(req.body);
-    if (!trackId || !text || !date || !files || !stepId) {
+    if (!trackId || !text || !date || !files) {
       res
         .status(400)
         .json({ success: false, message: "Missing required fields" });
@@ -21,7 +21,6 @@ const createMessage = async (req: Request, res: Response) => {
         text,
         date,
         files: { set: files },
-        stepId,
       },
     });
     res.status(201).json({ success: true, data: message });
@@ -58,12 +57,11 @@ const getAllMsgsByTrack = async (req: Request, res: Response) => {
 
 const getMessagesByFilter = async (req: Request, res: Response) => {
   try {
-    const { trackId, text, startDate, files, stepId } = req.query as {
+    const { trackId, text, startDate, files } = req.query as {
       trackId?: string;
       text?: string;
       startDate?: string;
       files?: string;
-      stepId?: string;
     };
 
     const filter: any = {};
@@ -81,9 +79,6 @@ const getMessagesByFilter = async (req: Request, res: Response) => {
     }
     if (files) {
       filter.files = { hasSome: files.split(",") };
-    }
-    if (stepId) {
-      filter.stepId = parseInt(stepId);
     }
 
     const filteredMessages = await prisma.message.findMany({

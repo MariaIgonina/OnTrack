@@ -14,9 +14,10 @@ async function createStep(req: Request, res: Response) {
     const step = await prisma.step.create({
       data: {
         title: req.body.title,
+        type: req.body.type,
+        about: req.body.about,
         durationInMs: parseInt(req.body.durationInMs),
-        hidden: false,
-        statusStep: false,
+        order: req.body.order,
         Track: { connect: { id: parseInt(req.body.trackId) } },
       },
     });
@@ -54,7 +55,7 @@ async function deleteStep(req: Request, res: Response) {
         id: parseInt(id),
       },
     });
-    
+
     res.json(step).status(204);
   } catch (error: any) {
     console.log(error);
@@ -66,7 +67,7 @@ async function deleteStep(req: Request, res: Response) {
 
 async function updateStepbyId(req: Request, res: Response) {
   const { id } = req.params;
-  const { title, actions, durationInMs, hidden, statusStep, questionaries } =
+  const { title, actions, durationInMs, hidden, active, questionaries } =
     req.body;
   console.log(title, hidden);
   try {
@@ -76,17 +77,17 @@ async function updateStepbyId(req: Request, res: Response) {
       },
       data: {
         title: title,
-        actions: actions,
         durationInMs: durationInMs,
         hidden: hidden ? JSON.parse(hidden) : undefined,
-        statusStep: statusStep ? JSON.parse(statusStep) : undefined,
+        active: active ? JSON.parse(active) : undefined,
         questionaries: questionaries,
       },
     });
     res.json(step).status(200);
   } catch (error: any) {
     console.log(error);
-    if (error.meta.cause === 'Record to update does not exist') res.status(404).json(error.meta.cause)
+    if (error.meta.cause === "Record to update does not exist")
+      res.status(404).json(error.meta.cause);
     else res.status(409).json(error.meta.cause);
   }
 }
