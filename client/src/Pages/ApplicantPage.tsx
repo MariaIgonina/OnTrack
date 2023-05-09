@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from "../store/store";
 
-import { fetchApplicant, setApplicant } from "../store/applicantSlice";
+import { fetchApplicant, fetchAllApplicants, setApplicant, updateApplicant } from "../store/applicantSlice";
 
 
 
@@ -19,6 +19,8 @@ const ApplicantPage = () => {
     dispatch(setApplicant(applicant));
     dispatch(fetchApplicant(1))
   }, [dispatch])
+
+
 
 
 

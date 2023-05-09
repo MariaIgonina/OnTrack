@@ -66,7 +66,7 @@ const createVacancy = createAsyncThunk(
   'vacancy/createVacancy',
   async function (vacancy: Vacancy, { rejectWithValue }) {
     try {
-      const response = await fetch(url + '/createApplicant', {
+      const response = await fetch(url + '/createvacancy', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ const deleteVacancy = createAsyncThunk(
   'recruiter/deleteVacancy',
   async function (vacancyId: number, { rejectWithValue }) {
     try {
-      const response = await fetch(`${url}/deleteApplicant/${vacancyId}`, {
+      const response = await fetch(`${url}/vacancy/${vacancyId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -102,11 +102,16 @@ const deleteVacancy = createAsyncThunk(
   }
 );
 
+interface IPutParams {
+  vacancyId: number
+  vacancy: any
+}
+
 const updateVacancy = createAsyncThunk(
   'recruiter/updateVacancy',
-  async function (vacancyId: number, vacancy: Vacancy, { rejectWithValue }) {
+  async function ({vacancyId, vacancy}: IPutParams, { rejectWithValue }) {
     try {
-      const response = await fetch(url + `/updateApplicant/${vacancyId}`, {
+      const response = await fetch(url + `/vacancy/${vacancyId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

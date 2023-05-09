@@ -78,9 +78,14 @@ const deleteRecruiter = createAsyncThunk(
   }
 );
 
+interface IPutParams {
+  recruiterId: number
+  recruiter: any
+}
+
 const updateRecruiter = createAsyncThunk(
   'recruiter/updateRecruiter',
-  async function (recruiterId: number, recruiter: Recruiter, { rejectWithValue }) {
+  async function ({recruiterId, recruiter}: IPutParams, { rejectWithValue }) {
     try {
       const response = await fetch(url + `/updateRecruiter/${recruiterId}`, {
         method: 'PUT',
