@@ -74,11 +74,6 @@ export default function RegisterModal({ isOpen, setOpen }) {
     setOpen(!isOpen);
   };
 
-  useEffect(() => {
-    console.log("recruiter", rformData);
-    console.log("user", uformData);
-  }, [rformData, uformData]);
-
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement

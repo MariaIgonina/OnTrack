@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
-import RegisterModal from "../Components/registerModal";
-
+import RegisterModal from "../Components/RegisterModal";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store/store";
 import "./Login.css";
+import { createApplicant } from "../store/applicantSlice";
+import { Applicant } from "../Interfaces";
 
 const CLIENT_ID = "Iv1.0f2124a7d7aa9dee";
 
 const LoginPage = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const [render, setReRender] = useState(false);
   const [isOpen, setOpen] = useState(false);
 
@@ -42,9 +46,6 @@ const LoginPage = () => {
             }
           )
             .then((data) => {
-              console.log("hello");
-              console.log(typeof data);
-              console.log("DATATATAT", data);
               return data.json();
             })
             .then(async (data) => {
@@ -57,36 +58,33 @@ const LoginPage = () => {
                   },
                 }
               ).then((data) => data.json());
-              console.log(" HOPEFULLY USER INFO ==> ", userInfo);
+              function extractUserData(userInfo: any) {
+                const { avatar_url, bio, email, html_url, node_id, name } =
+                  userInfo;
+                return {
+                  picture: avatar_url,
+                  about: bio,
+                  email,
+                  socialMedia: [html_url],
+                  idAuth: node_id,
+                  name,
+                };
+              }
+              const newUser: Applicant = extractUserData(userInfo);
+              console.log(extractUserData(userInfo));
+              dispatch(createApplicant(newUser));
               if (data.access_token) {
-                console.log("data.access_token =", data.access_token);
                 localStorage.setItem("accessToken", data.access_token);
                 setReRender(!render);
               }
             });
         } catch (e) {
-          console.log("EEEEError", e);
+          console.log("error", e);
         }
       }
       getAccessToken();
     }
   }, []);
-
-  async function getUserData() {
-    await fetch("http://localhost:3000/getUserData", {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("accessToken"),
-      },
-    })
-      .then((response) => {
-        console.log("hello");
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-      });
-  }
 
   return (
     <>
@@ -96,7 +94,6 @@ const LoginPage = () => {
           {localStorage.getItem("accessToken") ? (
             <>
               <h3 className="loggedin">You are logged in!</h3>
-              <button onClick={getUserData}>Get Data from GitHub API</button>
               <Button
                 sx={{ backgroundColor: "#568ea3" }}
                 variant="contained"
