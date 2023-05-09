@@ -8,6 +8,7 @@ import { AppDispatch, RootState } from "../store/store";
 
 import { fetchRecruiter, setRecruiter, createRecruiter } from "../store/recruiterSlice";
 import { Recruiter } from "../Interfaces";
+import { initialRecruiter } from "../store/recruiterSlice";
 
 const CompanyPage = () => {
   
@@ -19,20 +20,8 @@ const CompanyPage = () => {
     dispatch(fetchRecruiter(1))
   }, [dispatch])
 
-
-  const initialState: Recruiter = {
-    id: 0,
-    name: '',
-    vacancies: [],
-    logo: '',
-    founded: '',
-    about: '',
-    externalLinks: [],
-    headOffice: '',
-    track: []
-  }
   
-  const [formData, setFormData] = useState(initialState);
+  const [formData, setFormData] = useState(initialRecruiter);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target as HTMLInputElement;

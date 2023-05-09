@@ -7,6 +7,10 @@ import { RootState } from "./store";
 
 const initialRecruiter: Recruiter = {
   id: 0,
+  emailstring: '',
+  picture: '',
+  idAuth: '',
+  recuiterName: '',
   name: '',
   vacancies: [],
   logo: '',

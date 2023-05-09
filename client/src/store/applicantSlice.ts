@@ -12,10 +12,10 @@ const initialApplicant: Applicant = {
   picture: '',
   name: '',
   familyName: '',
-  age: 0,
+  age: new Date(),
   phone: '',
   location: '',
-  inProgressApplications: [],
+  track: [],
   coordinateX: '',
   coordinateY: '',
   readyToMove: false,
@@ -32,8 +32,8 @@ const initialApplicant: Applicant = {
   languages: [],
   hobbies: [],
   salaryRange: 0,
-  desiredLocation: '',
-  nonDesiredLocation: '',
+  desiredLocation: [],
+  nonDesiredLocation: [],
   desiredWorkingModal: '',
 }
 

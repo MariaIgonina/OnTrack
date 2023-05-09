@@ -3,43 +3,47 @@ export interface Applicant {
   idAuth?: string,
   email: string,
   picture: string,
-  name: string,
-  familyName: string,
-  age: number,
-  phone: string,
-  location: string,
-  inProgressApplications: Track [],
-  coordinateX: string,
-  coordinateY: string,
-  readyToMove: boolean,
-  workingHours: string,
-  workingModal: string,
-  socialMedia: string [],
-  skillsProf: string [],
-  stack: string [],
-  compLanguages: string [],
-  about: string,
-  video: string,
-  education: string [],
-  experiences: [],
-  languages: string [],
-  hobbies: string [],
-  salaryRange: number,
-  desiredLocation: string,
-  nonDesiredLocation: string,
-  desiredWorkingModal: string,
+  name?: string,
+  familyName?: string,
+  age?: Date,
+  phone?: string,
+  location?: string,
+  track?: Track [],
+  coordinateX?: string,
+  coordinateY?: string,
+  readyToMove?: boolean,
+  workingHours?: string,
+  workingModal?: string,
+  socialMedia?: string [],
+  skillsProf?: string [],
+  stack?: string [],
+  compLanguages?: string [],
+  about?: string,
+  video?: string,
+  education?: Education[],
+  experiences?: Experience[],
+  languages?: string [],
+  hobbies?: string [],
+  salaryRange?: number,
+  desiredLocation?: string [],
+  nonDesiredLocation?: string [],
+  desiredWorkingModal?: string,
 }
 
 export interface Recruiter {
   id: number,
+  emailstring: string,
+  picture: string,
+  idAuth: string,
+  recuiterName: string,
   name: string,
-  vacancies?: Vacancy[],
+  vacancies: Vacancy[]
   logo: string,
   founded: string,
   about: string,
-  externalLinks?: string[],
+  externalLinks: string[]
   headOffice: string,
-  track?: Track[]
+  track: Track[]
 }
 
 export interface Vacancy {
@@ -63,25 +67,28 @@ export interface Track {
   id: number,
   steps: Step[],
   recruiterID: number,
-  applicantID: number,
-  reject: boolean,
-  notes?: string,
-  vacancy: Vacancy,
-  vacancyId: number,
-  message: Message[],
-  applicant?: Applicant,
   recruiter: Recruiter
+  applicantID: number,
+  applicant?: Applicant,
+  applicantNotes: string,
+  recruiterNotes: string,
+  vacancyId: number,
+  vacancy: Vacancy
+  message: Message[]
 }
 
 export interface Step {
   id: number,
   title: string,
-  actions: Action[],
+  type: string,
+  about: string,
   durationInMs: number,
-  hidden: boolean,
-  statusStep: boolean,
-  questionaries: Questionary[],
-  Track?: Track,
+  scheduleDate: Date
+  order: number,
+  hidden: boolean
+  active: boolean
+  questionarie: Questionary[]
+  Track: Track
   trackId: number,
 }
 
@@ -92,14 +99,6 @@ export interface Message {
   text: string,
   date: Date,
   files: string[],
-  stepId: number,
-}
-export interface Action {
-  id: number,
-  action: Step,
-  stepId: number,
-  name: string,
-  scheduleDate: string,
 }
 
 export interface Questionary {
@@ -123,12 +122,12 @@ export interface Experience {
 }
 
 export interface Education {
-  id: number,
+  id?: number,
   place: string,
   startDate: Date,
   endDate: Date,
   degree: string,
   speciality: string,
-  Applicant?: Applicant,
+  applicant?: Applicant,
   applicantIdDB?: number,
 }

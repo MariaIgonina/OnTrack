@@ -5,7 +5,6 @@ import { Track } from "../Interfaces"
 import { RootState } from "./store";
 
 import { initialVacancy } from "./vacancySlice";
-
 import { initialApplicant } from "./applicantSlice";
 import { initialRecruiter } from "./recruiterSlice";
 
@@ -13,14 +12,14 @@ const initialTrack: Track = {
   id: 0,
   steps: [],
   recruiterID: 0,
+  recruiter: initialRecruiter,
   applicantID: 0,
-  reject: false,
-  notes: '',
-  vacancy: initialVacancy,
-  vacancyId: 0,
-  message: [],
   applicant: initialApplicant,
-  recruiter: initialRecruiter
+  applicantNotes: '',
+  recruiterNotes: '',
+  vacancyId: 0,
+  vacancy: initialVacancy,
+  message: []
 }
 
 
