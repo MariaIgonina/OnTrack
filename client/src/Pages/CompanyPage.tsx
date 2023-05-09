@@ -3,38 +3,44 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 
-import { fetchRecruiter, setRecruiter, createRecruiter } from "../store/recruiterSlice";
+import {
+  fetchRecruiter,
+  setRecruiter,
+  createRecruiter,
+} from "../store/recruiterSlice";
 import { Recruiter } from "../Interfaces";
 
 const CompanyPage = () => {
-  
-  const recruiter = useSelector((state:RootState) => state.recruiter)
+  const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
 
-  useEffect (() => {
+  useEffect(() => {
     dispatch(setRecruiter(recruiter));
-    dispatch(fetchRecruiter(1))
-  }, [dispatch])
-
+    dispatch(fetchRecruiter(1));
+  }, [dispatch]);
 
   const initialState: Recruiter = {
     id: 0,
-    name: '',
+    name: "",
     vacancies: [],
-    logo: '',
-    founded: '',
-    about: '',
+    logo: "",
+    founded: "",
+    about: "",
     externalLinks: [],
-    headOffice: '',
-    track: []
-  }
-  
+    headOffice: "",
+    track: [],
+  };
+
   const [formData, setFormData] = useState(initialState);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     const { name, value } = e.target as HTMLInputElement;
     setFormData({ ...formData, [name]: value });
   };
@@ -51,23 +57,20 @@ const CompanyPage = () => {
       about: formData.about,
       externalLinks: formData.externalLinks,
       headOffice: formData.headOffice,
-      track: formData.track
+      track: formData.track,
     };
-    console.log(newRecruiter)
-    dispatch(createRecruiter(newRecruiter))
-  }
-
+    console.log(newRecruiter);
+    dispatch(createRecruiter(newRecruiter));
+  };
 
   return (
     <>
       <div>
         {JSON.stringify(recruiter)}
-        
-        <form className="formStyle" onSubmit={handleSubmit}>
 
+        <form className="formStyle" onSubmit={handleSubmit}>
           <h2>Create a recruiter account</h2>
           <div className="form-group">
-
             <label htmlFor="name">Name</label>
             <input
               type="text"
@@ -77,7 +80,6 @@ const CompanyPage = () => {
               required
             />
 
-
             <label htmlFor="logo">Logo</label>
             <input
               type="text"
@@ -86,7 +88,7 @@ const CompanyPage = () => {
               onChange={handleChange}
               required
             />
-              <label htmlFor="founded">Founded</label>
+            <label htmlFor="founded">Founded</label>
             <input
               type="text"
               name="founded"
@@ -112,16 +114,13 @@ const CompanyPage = () => {
               onChange={handleChange}
               required
             />
-
-
           </div>
 
           <button type="submit">Create Recruiter</button>
         </form>
-
       </div>
     </>
   );
 };
 
-export default CompanyPage
+export default CompanyPage;

@@ -1,57 +1,143 @@
-let user1 = {
-  "idDB": 1,
-  "idAuth0": "1234",
-  "email": "asdf",
-  "picture": "asdf",
-  "name": "asdf",
-  "familyName": "new",
-  "age": "2023-05-08T13:09:14.771Z",
-  "phone": "1234567",
-  "location": "cuba",
+const xavi = {
+  "idAuth0": 9876,
+  "email": "xavier.graells@ontrack.com",
+  "picture": "xavier.png",
+  "name": "Xavier",
+  "familyName": "Graells",
+  "age": "1994-01-01T00:00:00.000Z",
+  "phone": "6578412",
+  "location": "barcelona",
+  "currentLocation": ['37.7749', '-122.4194' ],
+  "readyMove": true,
+  "workingHours": "full-time",
+  "workingModal": "office",
+  "socialMedia": ['xavi@instagram.com'],
+  "skillsProf": [
+    "analytics",
+    "UI"
+  ],
+  "stack": [
+    "express",
+    "cypress"
+  ],
+  "compLanguages": [
+    "javascript",
+    "react"
+  ],
+  "about": "I'm 28 years old catalan guy from Terrassa",
+  "video": "",
+  "languages": [
+    "spanish3",
+    "catalan3",
+    "english2"
+  ],
+  "hobbies": [
+    "sport"
+  ],
+  "salaryRange": 40000,
+  "desiredLocation": [
+    "londres",
+    "amsterdam"
+  ],
+  "notDesiredLocation": [
+    "terrassa"
+  ],
+  "desiredWorkingModal": "office"
+};
+
+const guillaume = {
+  "idAuth0": "4565",
+  "email": "guillaumerouchaud@ontrack.com",
+  "picture": "guillaume.png",
+  "name": "Guillaume",
+  "familyName": "Rouchaud",
+  "age": "1993-01-01T00:00:00.000Z",
+  "phone": "6578412",
+  "location": "barcelona",
   "currentLocation": [],
-  "readyMove": false,
-  "workingHours": "few",
+  "readyMove": true,
+  "workingHours": "internship",
   "workingModal": "hybrid",
-  "socialMedia": ["instagram-account"],
-  "skillsProf": [],
-  "stack": [],
-  "compLanguages": [],
-  "about": "not much",
-  "video": "asdf",
-  "languages": [],
-  "hobbies": [],
-  "salaryRange": 1000,
-  "desiredLocation": [],
-  "notDesiredLocation": [],
+  "socialMedia": ['www.facebook.com/guillaume'],
+  "skillsProf": [
+    "analytics",
+    "UI"
+  ],
+  "stack": [
+    "tailwind",
+    "express"
+  ],
+  "compLanguages": [
+    "javascript",
+    "typescript"
+  ],
+  "about": "I'm 29 years old guy from France",
+  "video": "",
+  "languages": [
+    "spanish2",
+    "catalan0",
+    "english2",
+    "french3"
+  ],
+  "hobbies": [
+    "sport"
+  ],
+  "salaryRange": 32000,
+  "desiredLocation": [
+    "madrid",
+    "san sebastian"
+  ],
+  "notDesiredLocation": [
+    "terrassa"
+  ],
   "desiredWorkingModal": "hybrid"
 }
 
-let user2 = {
-  "idDB": 2,
-  "idAuth0": "5678",
-  "email": "asdf@rightone.com",
-  "picture": "asdf",
+const paola = {
+  "idAuth0": '3241',
+  "email": "paolapatino@ontrack.com",
+  "picture": "paola.png",
   "name": "Paola",
-  "familyName": "new",
-  "age": "2023-05-08T13:10:13.989Z",
-  "phone": "1234567",
-  "location": "cuba",
+  "familyName": "Patiño",
+  "age": "1993-01-01T00:00:00.000Z",
+  "phone": "6578412",
+  "location": "barcelona",
   "currentLocation": [],
-  "readyMove": false,
-  "workingHours": "few",
-  "workingModal": "hybrid",
-  "socialMedia": [
-    "instagram-account"
+  "readyMove": true,
+  "workingHours": "part-time",
+  "workingModal": "remote",
+  "socialMedia": [],
+  "skillsProf": [
+    "automation",
+    "virtualisation"
   ],
-  "skillsProf": [],
-  "stack": [],
-  "compLanguages": [],
-  "about": "not much",
-  "video": "asdf",
-  "languages": [],
-  "hobbies": [],
-  "salaryRange": 1000,
-  "desiredLocation": [],
-  "notDesiredLocation": [],
-  "desiredWorkingModal": "hybrid"
+  "stack": [
+    "koa",
+    "cypress",
+    "jest"
+  ],
+  "compLanguages": [
+    "angular",
+    "react",
+    "python"
+  ],
+  "about": "I'm 29 years old girl guy from Colombia",
+  "video": "",
+  "languages": [
+    "spanish3",
+    "english2"
+  ],
+  "hobbies": [
+    "guitarra"
+  ],
+  "salaryRange": 35000,
+  "desiredLocation": [
+    "bogota",
+    "amsterdam",
+    "berlin"
+  ],
+  "notDesiredLocation": [
+    "terrassa"
+  ],
+  "desiredWorkingModal": "remote"
 }

@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./RegisterModal.css";
 import Button from "@mui/material/Button";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store/store";
+import { createRecruiter } from "../store/recruiterSlice";
+import { Recruiter, Applicant } from "../Interfaces";
+import { createApplicant } from "../store/applicantSlice";
 
-export default function RegisterModal() {
+export default function RegisterModal({ isOpen, setOpen }) {
   const [isUser, setisUser] = useState(false);
   const [isRecruiter, setisRecruiter] = useState(true);
 
@@ -10,19 +15,98 @@ export default function RegisterModal() {
     setisUser(!isUser);
     setisRecruiter(!isRecruiter);
   };
+  const dispatch = useDispatch<AppDispatch>();
+
+  const initialState: Recruiter = {
+    id: 0,
+    name: "",
+    vacancies: [],
+    logo: "",
+    founded: "",
+    about: "",
+    externalLinks: [],
+    headOffice: "",
+    track: [],
+  };
+
+  const initialApplicant: Applicant = {
+    idDB: 0,
+    idAuth: "",
+    email: "",
+    picture: "",
+    name: "",
+    familyName: "",
+    age: 0,
+    phone: "",
+    location: "",
+    inProgressApplications: [],
+    coordinateX: "",
+    coordinateY: "",
+    readyToMove: false,
+    workingHours: "",
+    workingModal: "",
+    socialMedia: [],
+    skillsProf: [],
+    stack: [],
+    compLanguages: [],
+    about: "",
+    video: "",
+    education: [],
+    experiences: [],
+    languages: [],
+    hobbies: [],
+    salaryRange: 0,
+    desiredLocation: "",
+    nonDesiredLocation: "",
+    desiredWorkingModal: "",
+  };
+
+  const [rformData, setFormData] = useState(initialState);
+  const [uformData, setuFormData] = useState(initialApplicant);
+
+  const handleSubmit = (e: React.FormEvent<EventTarget>): void => {
+    e.preventDefault();
+    if (isUser) {
+      dispatch(createRecruiter(rformData));
+    } else {
+      dispatch(createApplicant(uformData));
+    }
+    setOpen(!isOpen);
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    if (isUser) {
+      setFormData({ ...rformData, [e.target.name]: e.target.value });
+    } else {
+      setuFormData({ ...uformData, [e.target.name]: e.target.value });
+    }
+  };
+
   return (
     <div className="modal">
       <div className="modal-content">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="textinput">
             <label className="label" htmlFor="email">
               Email
             </label>
-            <input name="email" type="text"></input>
+            <input
+              name="email"
+              type="text"
+              onChange={handleInputChange}
+            ></input>
           </div>
           <div className="textinput" id="bottominput">
             <label className="label">Password</label>
-            <input name="Password" type="password"></input>
+            <input
+              name="Password"
+              type="password"
+              onChange={handleInputChange}
+            ></input>
           </div>
 
           <div className="checkbox">
@@ -32,7 +116,10 @@ export default function RegisterModal() {
               name="role"
               value="applicant"
               checked={!isUser}
-              onChange={handleToggle}
+              onChange={(e) => {
+                handleToggle();
+                handleInputChange(e);
+              }}
             />
             <label htmlFor="applicant">Applicant</label>
 
@@ -42,7 +129,10 @@ export default function RegisterModal() {
               name="role"
               value="recruiter"
               checked={!isRecruiter}
-              onChange={handleToggle}
+              onChange={(e) => {
+                handleToggle();
+                handleInputChange(e);
+              }}
             />
             <label htmlFor="recruiter">Recruiter</label>
           </div>
