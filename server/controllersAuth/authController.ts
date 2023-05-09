@@ -28,20 +28,17 @@ export const getAccessToken = async (req: Request, res: Response) => {
 };
 
 export const getUserData = async function (req: Request, res: Response) {
-  req.get("Authorization");
-  // const _res =
-  await fetch("https://api.github.com/user", {
+  const access_token = req.get("Authorization");
+  const _res = await fetch("https://api.github.com/user", {
     method: "GET",
     headers: {
-      Authorization: "Bearer" + req.get("Authorization"), //BEARER is essential to running. If you want the data in the console then removed the "bearer" bit
+      Authorization: access_token!,
     },
-  })
-    // const response = await _res.json();
-    // return response;
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      res.json(data);
-    });
+  });
+  const response = await _res.json();
+
+  console.log("IN HERE ==> ", response);
+  res.status(200);
+  res.json(response);
+  return;
 };
