@@ -2,6 +2,8 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import applicantReducer from "./applicantSlice"
 import recruiterReducer from "./recruiterSlice"
+import vacancyReducer from "./vacancySlice"
+import trackReducer from "./trackSlice"
 
 
 
@@ -9,7 +11,9 @@ import recruiterReducer from "./recruiterSlice"
 export const store = configureStore({
   reducer: {
     applicant: applicantReducer,
-    recruiter: recruiterReducer
+    recruiter: recruiterReducer,
+    vacancy: vacancyReducer,
+    track: trackReducer
   },
 })
 
