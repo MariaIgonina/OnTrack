@@ -1,50 +1,36 @@
 import { createAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
-import { Applicant, Track } from "../Interfaces"
+import { Vacancy } from "../Interfaces"
 
 import { RootState } from "./store";
 
+import { initialRecruiter } from "./recruiterSlice";
 
-const initialApplicant: Applicant = {
-  idDB: 0,
-  idAuth: '',
-  email: '',
-  picture: '',
-  name: '',
-  familyName: '',
-  age: 0,
-  phone: '',
-  location: '',
-  inProgressApplications: [],
-  coordinateX: '',
-  coordinateY: '',
-  readyToMove: false,
+const initialVacancy: Vacancy = {
+  id: 0,
+  recruiter: initialRecruiter,
+  recruiterId: 0,
+  about: '',
+  title: '',
+  jobTrack: [],
   workingHours: '',
   workingModal: '',
-  socialMedia: [],
-  skillsProf: [],
+  skills: [],
   stack: [],
-  compLanguages: [],
-  about: '',
-  video: '',
-  education: [],
-  experiences: [],
-  languages: [],
-  hobbies: [],
+  requiredLanguages: [],
+  experience: 0,
+  location: '',
   salaryRange: 0,
-  desiredLocation: '',
-  nonDesiredLocation: '',
-  desiredWorkingModal: '',
 }
 
 
 const url:string = 'http://localhost:3000'
 
-const fetchApplicant  = createAsyncThunk (
-  'applicant/fetchApplicant',
-  async function (applicantId: number, {rejectWithValue}) {
+const fetchVacancy  = createAsyncThunk (
+  'vacancy/fetchvacancy',
+  async function (vacancyId: Vacancy, {rejectWithValue}) {
     try {
-      const response = await fetch (`${url}/applicant/${applicantId}`)
+      const response = await fetch (`${url}/vacancy/${vacancyId}`)
       if (!response.ok) {
         throw new Error('Server error')
       }
@@ -58,11 +44,11 @@ const fetchApplicant  = createAsyncThunk (
   }
 )
 
-const fetchAllApplicants  = createAsyncThunk (
-  'applicant/fetchAllApplicants',
+const fetchAllVacancies  = createAsyncThunk (
+  'vacancies/fetchallvacancies',
   async function (_, {rejectWithValue}) {
     try {
-      const response = await fetch (url + '/applicants')
+      const response = await fetch (url + '/vacancyall')
       if (!response.ok) {
         throw new Error('Server error')
       }
@@ -76,16 +62,16 @@ const fetchAllApplicants  = createAsyncThunk (
   }
 )
 
-const createApplicant = createAsyncThunk(
-  'applicant/createApplicant',
-  async function (applicant: Applicant, { rejectWithValue }) {
+const createVacancy = createAsyncThunk(
+  'vacancy/createVacancy',
+  async function (vacancy: Vacancy, { rejectWithValue }) {
     try {
       const response = await fetch(url + '/createApplicant', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(applicant),
+        body: JSON.stringify(vacancy),
       });
       if (!response.ok) {
         throw new Error('Server error');
@@ -98,11 +84,11 @@ const createApplicant = createAsyncThunk(
   }
 );
 
-const deleteApplicant = createAsyncThunk(
-  'applicant/deleteApplicant',
-  async function (applicantId: number, { rejectWithValue }) {
+const deleteVacancy = createAsyncThunk(
+  'recruiter/deleteVacancy',
+  async function (vacancyId: number, { rejectWithValue }) {
     try {
-      const response = await fetch(`${url}/deleteApplicant/${applicantId}`, {
+      const response = await fetch(`${url}/deleteApplicant/${vacancyId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -116,16 +102,16 @@ const deleteApplicant = createAsyncThunk(
   }
 );
 
-const updateApplicant = createAsyncThunk(
-  'applicant/updateApplicant',
-  async function (applicantId: number, applicant: Applicant, { rejectWithValue }) {
+const updateVacancy = createAsyncThunk(
+  'recruiter/updateVacancy',
+  async function (vacancyId: number, vacancy: Vacancy, { rejectWithValue }) {
     try {
-      const response = await fetch(url + `/updateApplicant/${applicantId}`, {
+      const response = await fetch(url + `/updateApplicant/${vacancyId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(applicant),
+        body: JSON.stringify(vacancy),
       });
       if (!response.ok) {
         throw new Error('Server error');
@@ -139,104 +125,104 @@ const updateApplicant = createAsyncThunk(
 );
 
 interface IInitialState {
-  applicant: Applicant,
+  vacancy: Vacancy,
     status: 'loading' | 'resolved' | 'rejected' | null,
     error: null | Error
 }
 
 
-export const applicantSlice = createSlice<IInitialState, { setApplicant: (_state: IInitialState, action: {payload:any})=> void }>({
-  name: 'applicant',
+export const vacancySlice = createSlice<IInitialState, { setVacancy: (_state: IInitialState, action: {payload:any})=> void }>({
+  name: 'vacancy',
   initialState: {
-    applicant: initialApplicant,
+    vacancy: initialVacancy,
     status: null,
     error: null
   },
   reducers: {
-    setApplicant: (_state, action) => {
+    setVacancy: (_state, action) => {
       return action.payload;
     }
   },
   extraReducers: (builder) => {
     builder
       //getOne
-      .addCase(fetchApplicant.pending, (state, action) => {
+      .addCase(fetchVacancy.pending, (state, action) => {
         state.status = 'loading';
         state.error = null;
       })
-      .addCase(fetchApplicant.rejected, (state, action) => {
+      .addCase(fetchVacancy.rejected, (state, action) => {
         state.status = 'rejected';
         state.error = action.payload as Error;
       })
-      .addCase(fetchApplicant.fulfilled, (state, action) => {
+      .addCase(fetchVacancy.fulfilled, (state, action) => {
         state.status = 'resolved';
-        state.applicant = action.payload;
+        state.vacancy = action.payload;
         state.error = null;
       })
       //getAll
-      .addCase(fetchAllApplicants.pending, (state, action) => {
+      .addCase(fetchAllVacancies.pending, (state, action) => {
         state.status = 'loading';
         state.error = null;
       })
-      .addCase(fetchAllApplicants.rejected, (state, action) => {
+      .addCase(fetchAllVacancies.rejected, (state, action) => {
         state.status = 'rejected';
         state.error = action.payload as Error;
       })
-      .addCase(fetchAllApplicants.fulfilled, (state, action) => {
+      .addCase(fetchAllVacancies.fulfilled, (state, action) => {
         state.status = 'resolved';
-        state.applicant = action.payload;
+        state.vacancy = action.payload;
         state.error = null;
       })
-      //create
-      .addCase(createApplicant.pending, (state, action) => {
+      // post
+      .addCase(createVacancy.pending, (state, action) => {
         state.status = 'loading';
         state.error = null;
       })
-      .addCase(createApplicant.rejected, (state, action) => {
+      .addCase(createVacancy.rejected, (state, action) => {
         state.status = 'rejected';
         state.error = action.payload as Error;
       })
-      .addCase(createApplicant.fulfilled, (state, action) => {
+      .addCase(createVacancy.fulfilled, (state, action) => {
         state.status = 'resolved';
-        state.applicant = action.payload;
+        state.vacancy = action.payload;
         state.error = null;
       })
-      //delete
-      .addCase(deleteApplicant.pending, (state, action) => {
+      // delete
+      .addCase(deleteVacancy.pending, (state, action) => {
         state.status = 'loading';
         state.error = null;
       })
-      .addCase(deleteApplicant.rejected, (state, action) => {
+      .addCase(deleteVacancy.rejected, (state, action) => {
         state.status = 'rejected';
         state.error = action.payload as Error;
       })
-      .addCase(deleteApplicant.fulfilled, (state, action) => {
+      .addCase(deleteVacancy.fulfilled, (state, action) => {
         state.status = 'resolved';
-        state.applicant = action.payload;
+        state.vacancy = action.payload;
         state.error = null;
       })
-      //update
-      .addCase(updateApplicant.pending, (state, action) => {
+      // update
+      .addCase(updateVacancy.pending, (state, action) => {
         state.status = 'loading';
         state.error = null;
       })
-      .addCase(updateApplicant.rejected, (state, action) => {
+      .addCase(updateVacancy.rejected, (state, action) => {
         state.status = 'rejected';
         state.error = action.payload as Error;
       })
-      .addCase(updateApplicant.fulfilled, (state, action) => {
+      .addCase(updateVacancy.fulfilled, (state, action) => {
         state.status = 'resolved';
-        state.applicant = action.payload;
+        state.vacancy = action.payload;
         state.error = null;
       })
   }
 });
 
-export { initialApplicant }
+export { initialVacancy }
 
-export const { setApplicant } = applicantSlice.actions;
-export { fetchApplicant, fetchAllApplicants, createApplicant, deleteApplicant, updateApplicant }
+export const { setVacancy } = vacancySlice.actions;
+export { fetchVacancy, fetchAllVacancies, createVacancy, deleteVacancy, updateVacancy }
 
-export const selectapplicant = (state : RootState) => state.applicant
+export const selectvacancy = (state : RootState) => state.vacancy
 
-export default applicantSlice.reducer;
+export default vacancySlice.reducer;

@@ -17,7 +17,7 @@ const ApplicantPage = () => {
 
   useEffect (() => {
     dispatch(setApplicant(applicant));
-    dispatch(fetchApplicant())
+    dispatch(fetchApplicant(1))
   }, [dispatch])
 
 

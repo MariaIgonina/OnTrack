@@ -4,8 +4,6 @@ const prisma = new PrismaClient();
 import dotenv from "dotenv";
 dotenv.config();
 
-export { createMessage, deleteMessageById, getAllMsgsByTrack };
-
 const createMessage = async (req: Request, res: Response) => {
   try {
     const { trackId, text, date, files, stepId } = req.body;
@@ -52,4 +50,10 @@ const getAllMsgsByTrack = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({ success: false, error: error.message });
   }
+};
+
+export const messageController = {
+  createMessage,
+  deleteMessageById,
+  getAllMsgsByTrack,
 };
