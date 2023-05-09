@@ -68,7 +68,7 @@ model Recruiter {
   email         String
   picture       String
   idAuth        String    @unique
-  recuiterName  String
+  recruiterName String
   name          String?
   vacancies     Vacancy[]
   logo          String?
@@ -114,6 +114,8 @@ model Track {
 model Step {
   id            Int           @id @default(autoincrement())
   title         String
+  type          String //zoom call, sandbox etc..
+  about         String
   durationInMs  Int?
   scheduleDate  DateTime?
   order         Int           @unique
@@ -124,15 +126,6 @@ model Step {
   trackId       Int
 }
 
-model Message {
-  id      Int      @id @default(autoincrement())
-  trackId Int
-  track   Track    @relation(fields: [trackId], references: [id])
-  text    String
-  date    DateTime
-  files   String[]
-}
-
 model Questionary {
   id        Int      @id @default(autoincrement())
   questions String[]
@@ -140,4 +133,13 @@ model Questionary {
   date      DateTime
   Step      Step?    @relation(fields: [stepId], references: [id])
   stepId    Int?
+}
+
+model Message {
+  id      Int      @id @default(autoincrement())
+  trackId Int
+  track   Track    @relation(fields: [trackId], references: [id])
+  text    String
+  date    DateTime
+  files   String[]
 }
