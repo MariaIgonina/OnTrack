@@ -33,7 +33,7 @@ export const getUserData = async function (req: Request, res: Response) {
   await fetch("https://api.github.com/user", {
     method: "GET",
     headers: {
-      Authorization: "Bearer" + req.get("Authorization"),
+      Authorization: "Bearer" + req.get("Authorization"), //BEARER is essential to running. If you want the data in the console then removed the "bearer" bit
     },
   })
     // const response = await _res.json();

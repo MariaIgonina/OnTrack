@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap");
 
-#logo {
+/* #logo {
   height: 50px;
   margin: 10px;
 }
@@ -34,4 +34,10 @@
 
 .icon {
   color: #484848;
+} */
+
+.content {
+  margin-left: 250px;
+  flex-grow: 1;
+  overflow-y: auto;
 }
