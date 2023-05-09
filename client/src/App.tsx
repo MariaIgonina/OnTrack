@@ -19,7 +19,9 @@ function App() {
     <BrowserRouter>
       {/* <img src={logo} alt="logo" id="logo" /> */}
       {/* <Navbar /> */}
+
       <AgainSidebar />
+
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/user" element={<ApplicantPage />} />

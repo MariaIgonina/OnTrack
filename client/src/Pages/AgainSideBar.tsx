@@ -1,5 +1,4 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
@@ -11,13 +10,12 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-
 import Navbar from "./Navbar";
 import SettingsIcon from "@mui/icons-material/Settings";
 import HomeIcon from "@mui/icons-material/Home";
 import InsightsIcon from "@mui/icons-material/Insights";
-
 import LogoutIcon from "@mui/icons-material/Logout";
+import { Outlet, Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -29,11 +27,11 @@ export default function PermanentDrawerLeft() {
         position="fixed"
         sx={{ width: "100%", backgroundColor: "#568ea3" }}
       >
-        <Toolbar>
+        {/* <Toolbar>
           <Typography variant="h6" noWrap component="div">
             <Navbar />
           </Typography>
-        </Toolbar>
+        </Toolbar> */}
       </AppBar>
       <Drawer
         sx={{
@@ -48,29 +46,48 @@ export default function PermanentDrawerLeft() {
         anchor="left"
       >
         <List>
-          {["Your Dashboard", "Your Profile"].map((text, index) => (
-            <ListItem key={text} disablePadding>
+          <ListItem key={"Dashboard"} disablePadding>
+            <Link to="/dashboard" className="link">
               <ListItemButton>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InsightsIcon /> : <HomeIcon />}
+                  <InsightsIcon />
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={"Your Dashboard"} />
               </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["Logout", "Settings"].map((text, index) => (
-            <ListItem key={text} disablePadding>
+            </Link>
+          </ListItem>
+
+          <ListItem key={"Your Profile"} disablePadding>
+            <Link to="/applicant" className="link">
               <ListItemButton>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <LogoutIcon /> : <SettingsIcon />}
+                  <HomeIcon />
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={"Your Profile"} />
               </ListItemButton>
-            </ListItem>
-          ))}
+            </Link>
+          </ListItem>
+          <Divider />
+          <ListItem key={"Settings"} disablePadding>
+            <Link to="/settings" className="link">
+              <ListItemButton>
+                <ListItemIcon>
+                  <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Settings"} />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+          <ListItem key={"Logout"} disablePadding>
+            <Link to="/" className="link">
+              <ListItemButton>
+                <ListItemIcon>
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Logout"} />
+              </ListItemButton>
+            </Link>
+          </ListItem>
         </List>
       </Drawer>
     </>

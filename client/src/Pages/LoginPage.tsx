@@ -81,7 +81,7 @@ const LoginPage = () => {
         <div className="container">
           {localStorage.getItem("accessToken") ? (
             <>
-              <h3 className="loggedin">You are already logged in</h3>
+              <h3 className="loggedin">You are logged in!</h3>
               <button onClick={getUserData}>Get Data from GitHub API</button>
               <Button
                 sx={{ backgroundColor: "#568ea3" }}
