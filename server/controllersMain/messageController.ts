@@ -25,6 +25,7 @@ const createMessage = async (req: Request, res: Response) => {
     });
     res.status(201).json({ success: true, data: message });
   } catch (error: any) {
+    console.error(error);
     res.status(400).json({ success: false, error: error.message });
   }
 };
@@ -35,6 +36,7 @@ const deleteMessageById = async (req: Request, res: Response) => {
     await prisma.message.delete({ where: { id } });
     res.status(200).json({ message: "Message deleted" });
   } catch (error: any) {
+    console.error(error);
     res.status(400).json({ success: false, error: error.message });
   }
 };
@@ -48,6 +50,7 @@ const getAllMsgsByTrack = async (req: Request, res: Response) => {
     });
     res.status(200).json({ success: true, data: messages });
   } catch (error: any) {
+    console.error(error);
     res.status(400).json({ success: false, error: error.message });
   }
 };

@@ -59,6 +59,7 @@ const createVacancy = async (req: Request, res: Response) => {
 
     res.status(201).json({ success: true, data: vacancy });
   } catch (error: any) {
+    console.error(error);
     res.status(400).json({ success: false, error: error.message });
   }
 };
@@ -74,7 +75,8 @@ const getVacancyById = async (req: Request, res: Response) => {
     }
 
     res.status(200).json({ success: true, data: vacancy });
-  } catch (error:any) {
+  } catch (error: any) {
+    console.error(error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -85,6 +87,7 @@ const getVacancyByRecruiter = async (req: Request, res: Response) => {
     const vacancies = await prisma.vacancy.findMany({ where: { recruiterId } });
     res.status(200).json(vacancies);
   } catch (error) {
+    console.error(error);
     res.status(404).json(error);
   }
 };
@@ -95,6 +98,7 @@ const getAllVacancies = async (req: Request, res: Response) => {
     const AllVacancies = await prisma.vacancy.findMany();
     res.status(200).json(AllVacancies);
   } catch (error) {
+    console.error(error);
     res.status(404).json(error);
   }
 };
@@ -107,8 +111,9 @@ const updateVacancy = async (req: Request, res: Response) => {
       where: { id },
       data: updatedData,
     });
-    res.status(200).json(updateVacancy);
+    res.status(200).json(updatedVacancy);
   } catch (error) {
+    console.error(error);
     res.status(400).json(error);
   }
 };
@@ -119,6 +124,31 @@ const deleteVacancy = async (req: Request, res: Response) => {
     await prisma.vacancy.delete({ where: { id } });
     res.status(200).json({ message: "Succesfully deleted" });
   } catch (error) {
+    console.error(error);
+    res.status(400).json(error);
+  }
+};
+
+const getVacanciesByFilter = async (req: Request, res: Response) => {
+  try {
+    const queries: any = req.query;
+    console.log(queries);
+    const filter: any = {};
+    if (queries.location) {
+      filter.location = queries.location;
+    }
+    if (queries.experience) {
+      filter.experience = parseInt(queries.experience);
+    }
+    if (queries.workingModal) {
+      filter.workingModal = queries.workingModal;
+    }
+    const filteredVacancies = await prisma.vacancy.findMany({
+      where: filter,
+    });
+    res.status(200).json(filteredVacancies);
+  } catch (error) {
+    console.error(error);
     res.status(400).json(error);
   }
 };
@@ -130,4 +160,5 @@ export const vacancyController = {
   getAllVacancies,
   updateVacancy,
   deleteVacancy,
+  getVacanciesByFilter,
 };
