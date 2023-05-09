@@ -26,11 +26,16 @@ const initialTrack: Track = {
 
 const url:string = 'http://localhost:3000'
 
+interface IGetParams {
+  getTrackByWhat: string,
+  id: number
+}
+
 const fetchTrack  = createAsyncThunk (
   'track/fetchtrack',
-  async function (_, {rejectWithValue}) {
+  async function ({getTrackByWhat, id}:IGetParams, {rejectWithValue}) {
     try {
-      const response = await fetch (url + '/track/1')
+      const response = await fetch (`${url}/${getTrackByWhat}/${id}`)
       if (!response.ok) {
         throw new Error('Server error')
       }
@@ -48,7 +53,7 @@ const createTrack = createAsyncThunk(
   'track/createtrack',
   async function (track: Track, { rejectWithValue }) {
     try {
-      const response = await fetch(url + '/recruiter', {
+      const response = await fetch(url + '/createTrack', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -65,6 +70,52 @@ const createTrack = createAsyncThunk(
     }
   }
 );
+
+const deleteTrack = createAsyncThunk(
+  'track/deleteTrack',
+  async function (trackId: number, { rejectWithValue }) {
+    try {
+      const response = await fetch(`${url}/deletetrack/${trackId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Server error');
+      }
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      if (err instanceof Error) return rejectWithValue(err.message);
+    }
+  }
+);
+
+interface IPutParams {
+  trackId: number
+  track: any
+}
+
+const updateTrack = createAsyncThunk(
+  'track/updateTrack',
+  async function ({trackId, track}: IPutParams, { rejectWithValue }) {
+    try {
+      const response = await fetch(url + `/updatetrack/${trackId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(track),
+      });
+      if (!response.ok) {
+        throw new Error('Server error');
+      }
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      if (err instanceof Error) return rejectWithValue(err.message);
+    }
+  }
+);
+
 
 interface IInitialState {
   track: Track,
@@ -115,12 +166,42 @@ export const trackSlice = createSlice<IInitialState, { setTrack: (_state: IIniti
         state.track = action.payload;
         state.error = null;
       })
+      // delete
+      .addCase(deleteTrack.pending, (state, action) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(deleteTrack.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.error = action.payload as Error;
+      })
+      .addCase(deleteTrack.fulfilled, (state, action) => {
+        state.status = 'resolved';
+        state.track = action.payload;
+        state.error = null;
+      })
+      // update
+      .addCase(updateTrack.pending, (state, action) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(updateTrack.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.error = action.payload as Error;
+      })
+      .addCase(updateTrack.fulfilled, (state, action) => {
+        state.status = 'resolved';
+        state.track = action.payload;
+        state.error = null;
+      })
   }
 });
 
+export { initialTrack }
 
 export const { setTrack } = trackSlice.actions;
-export { fetchTrack, createTrack }
+
+export { fetchTrack, createTrack, deleteTrack, updateTrack }
 
 export const selecttrack = (state : RootState) => state.track
 
