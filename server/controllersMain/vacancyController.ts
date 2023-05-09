@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 import { Request, Response } from "express";
 const prisma = new PrismaClient();
 import dotenv from "dotenv";
@@ -131,18 +131,59 @@ const deleteVacancy = async (req: Request, res: Response) => {
 
 const getVacanciesByFilter = async (req: Request, res: Response) => {
   try {
-    const queries: any = req.query;
-    console.log(queries);
+    const {
+      location,
+      experience,
+      workingHours,
+      workingModal,
+      skills,
+      stack,
+      requiredLanguages,
+      salaryRange,
+      title,
+    } = req.query as {
+      location?: string;
+      experience?: string;
+      workingHours?: string;
+      workingModal?: string;
+      skills?: string;
+      stack?: string;
+      requiredLanguages?: string;
+      salaryRange?: string;
+      title?: string;
+    };
+    console.log(req.query);
     const filter: any = {};
-    if (queries.location) {
-      filter.location = queries.location;
+    if (location) {
+      filter.location = location;
     }
-    if (queries.experience) {
-      filter.experience = parseInt(queries.experience);
+    if (experience) {
+      filter.experience = { gte: parseInt(experience) };
     }
-    if (queries.workingModal) {
-      filter.workingModal = queries.workingModal;
+    if (workingModal) {
+      filter.workingModal = workingModal;
     }
+    if (workingHours) {
+      filter.workingHours = workingHours;
+    }
+    if (skills) {
+      filter.skills = { hasSome: skills.split(",") };
+    }
+    if (stack) {
+      filter.stack = { hasSome: stack.split(",") };
+    }
+    if (requiredLanguages) {
+      filter.requiredLanguages = {
+        hasSome: requiredLanguages.split(","),
+      };
+    }
+    if (salaryRange) {
+      filter.salaryRange = { gte: parseInt(salaryRange) };
+    }
+    if (title) {
+      filter.title = title;
+    }
+
     const filteredVacancies = await prisma.vacancy.findMany({
       where: filter,
     });
