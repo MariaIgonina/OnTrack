@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./RegisterModal.css";
-import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { createRecruiter } from "../store/recruiterSlice";
 import { Recruiter, Applicant } from "../Interfaces";
 import { createApplicant } from "../store/applicantSlice";
+import GithubBtn from "./GithubBtn";
 
-export default function RegisterModal({ isOpen, setOpen }) {
+type RegisterModalProps = {
+  isOpen: boolean;
+  setOpen: (value: boolean) => void;
+};
+
+export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
   const [isUser, setisUser] = useState(false);
   const [isRecruiter, setisRecruiter] = useState(true);
 
@@ -90,7 +95,7 @@ export default function RegisterModal({ isOpen, setOpen }) {
     <div className="modal">
       <div className="modal-content">
         <form onSubmit={handleSubmit}>
-          <div className="textinput">
+          {/* <div className="textinput">
             <label className="label" htmlFor="email">
               Email
             </label>
@@ -107,7 +112,7 @@ export default function RegisterModal({ isOpen, setOpen }) {
               type="password"
               onChange={handleInputChange}
             ></input>
-          </div>
+          </div> */}
 
           <div className="checkbox">
             <input
@@ -136,14 +141,15 @@ export default function RegisterModal({ isOpen, setOpen }) {
             />
             <label htmlFor="recruiter">Recruiter</label>
           </div>
-          <Button
+          {/* <Button
             sx={{ backgroundColor: "#568ea3" }}
             variant="contained"
             className="btn"
             type="submit"
           >
             SIGN UP
-          </Button>
+          </Button> */}
+          <GithubBtn text={"Sign-up with Github"}></GithubBtn>
         </form>
       </div>
     </div>
