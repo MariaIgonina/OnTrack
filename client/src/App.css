@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap");
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
+* {
+  margin: 0px;
+  font-family: "Lato", sans-serif;
+}
 /* #logo {
   height: 50px;
   margin: 10px;
