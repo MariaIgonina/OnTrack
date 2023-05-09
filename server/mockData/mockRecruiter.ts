@@ -1,9 +1,9 @@
 export const recruiter1 = {
-  idAuth0: "Auth@Paola",
-  email: "paolapatinorecruiter@ontrack.com",
+  email: "paolapewatidededef42er@ontrack.com",
   picture: "paola.png",
-  name: "Paola",
-  familyName: "Patiño",
+  idAuth: "Auth@Paolaewdedede24e2e2342",
+  name: "Apple",
+  recruiterName: "Paola",
   logo: "logo.png",
   founded: "1972",
   about: "I'm Director of Humar Ressources of Apple",
@@ -12,11 +12,11 @@ export const recruiter1 = {
 };
 
 export const recruiter2 = {
-  idAuth0: "Auth@Xavi",
-  email: "xavier.graellsrecruiter@ontrack.com",
+  email: "xaewvier.graedede22@ontrack.com",
   picture: "xavier.png",
-  name: "Xavier",
-  familyName: "Graells",
+  idAuth: "Auth@Xav4dededefe49334244",
+  recruiterName: "Xavi",
+  name: "Facebook",
   logo: "logo.png",
   founded: "2006",
   about: "I'm Director of Humar Ressources of Facebook",
@@ -25,11 +25,11 @@ export const recruiter2 = {
 };
 
 export const recruiter3 = {
-  idAuth0: "Auth@Guillaume",
-  email: "guillaumerouchaudrecruiter@ontrack.com",
+  email: "guillaumeewroucdedee2094iter@ontrack.com",
   picture: "guillaume.png",
-  name: "Guillaume",
-  familyName: "Rouchaud",
+  idAuth: "Auth@Guildedede2e2ef4f4e232442",
+  recruiterName: "Guillaume",
+  name: "Amazon",
   logo: "logo.png",
   founded: "2007",
   about: "I'm Director of Humar Ressources of Amazon",

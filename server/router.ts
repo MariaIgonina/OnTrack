@@ -2,12 +2,13 @@ import { Router, Request, Response } from "express";
 import { applicantControllers } from "./controllersMain/applicantControllers";
 import { vacancyController } from "./controllersMain/vacancyController";
 import { messageController } from "./controllersMain/messageController";
-import { actionController } from "./controllersMain/actionController";
+// import { actionController } from "./controllersMain/actionController";
 import { recruiterController } from "./controllersMain/recruiterController";
 import { trackControllers } from "./controllersMain/trackController";
 import { stepController } from "./controllersMain/stepController";
 import { questionnaryController } from "./controllersMain/questionnaryController";
 import { getAccessToken, getUserData } from "./controllersAuth/authController";
+import { populateDatabase } from "./controllersMain/populateController";
 
 const router = Router();
 
@@ -40,12 +41,12 @@ router.delete(
 );
 
 // Applicant routes
-router.get('/applicant/:id', applicantControllers.getApplicantById)
-router.get('/applicants', applicantControllers.getAllApplicants)
-router.post('/createApplicant', applicantControllers.createApplicant)
-router.put('/updateApplicant/:id', applicantControllers.updateApplicant)
-router.delete('/deleteApplicant/:id', applicantControllers.deleteApplicant)
-router.get('/filterApplicants/', applicantControllers.filterApplicants)
+router.get("/applicant/:id", applicantControllers.getApplicantById);
+router.get("/applicants", applicantControllers.getAllApplicants);
+router.post("/createApplicant", applicantControllers.createApplicant);
+router.put("/updateApplicant/:id", applicantControllers.updateApplicant);
+router.delete("/deleteApplicant/:id", applicantControllers.deleteApplicant);
+router.get("/filterApplicants/", applicantControllers.filterApplicants);
 
 // Auth routes
 router.get("/getAccessToken", getAccessToken);
@@ -86,10 +87,12 @@ router.delete("/deleteMessage/:id", messageController.deleteMessageById);
 router.get("/messagesByTrack/:trackId", messageController.getAllMsgsByTrack);
 router.get("/messagesByFilter", messageController.getMessagesByFilter);
 
+// Populate
+router.post("/generate", populateDatabase);
 // Action routes
-router.get("/actionsByStep/:stepId", actionController.getAllActionsByStep);
-router.post("/createAction", actionController.createActionbyStep);
-router.put("/updateAction/:id", actionController.updateAction);
-router.delete("/deleteAction/:id", actionController.deleteAction);
+// router.get("/actionsByStep/:stepId", actionController.getAllActionsByStep);
+// router.post("/createAction", actionController.createActionbyStep);
+// router.put("/updateAction/:id", actionController.updateAction);
+// router.delete("/deleteAction/:id", actionController.deleteAction);
 
 export default router;
