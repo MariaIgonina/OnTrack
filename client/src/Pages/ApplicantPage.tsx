@@ -6,7 +6,12 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 
-import { fetchApplicant, setApplicant } from "../store/applicantSlice";
+import {
+  fetchApplicant,
+  fetchAllApplicants,
+  setApplicant,
+  updateApplicant,
+} from "../store/applicantSlice";
 
 // import { PaperClipIcon } from "@heroicons/react/20/solid";
 
@@ -16,7 +21,7 @@ const ApplicantPage = () => {
 
   useEffect(() => {
     dispatch(setApplicant(applicant));
-    dispatch(fetchApplicant());
+    dispatch(fetchApplicant(1));
   }, [dispatch]);
 
   return (

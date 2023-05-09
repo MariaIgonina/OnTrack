@@ -42,9 +42,9 @@ const url:string = 'http://localhost:3000'
 
 const fetchApplicant  = createAsyncThunk (
   'applicant/fetchapplicant',
-  async function (_, {rejectWithValue}) {
+  async function (applicantId: number, {rejectWithValue}) {
     try {
-      const response = await fetch (url + '/applicant/5')
+      const response = await fetch (`${url}/applicant/${applicantId}`)
       if (!response.ok) {
         throw new Error('Server error')
       }
@@ -57,6 +57,98 @@ const fetchApplicant  = createAsyncThunk (
     }    
   }
 )
+
+const fetchAllApplicants  = createAsyncThunk (
+  'applicant/fetchAllApplicants',
+  async function (_, {rejectWithValue}) {
+    try {
+      const response = await fetch (url + '/applicants')
+      if (!response.ok) {
+        throw new Error('Server error')
+      }
+      const data = await response.json()
+      console.log("ALL APPLICANTS : ", data)
+      return data
+    } catch (err) {
+      if (err instanceof Error)
+      return rejectWithValue(err.message)
+    }    
+  }
+)
+
+const createApplicant = createAsyncThunk(
+  'applicant/createApplicant',
+  async function (applicant: Applicant, { rejectWithValue }) {
+    try {
+      const response = await fetch(url + '/createApplicant', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(applicant),
+      });
+      if (!response.ok) {
+        throw new Error('Server error');
+      }
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      if (err instanceof Error) return rejectWithValue(err.message);
+    }
+  }
+);
+
+const deleteApplicant = createAsyncThunk(
+  'applicant/deleteApplicant',
+  async function (applicantId: number, { rejectWithValue }) {
+    try {
+      const response = await fetch(`${url}/deleteApplicant/${applicantId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Server error');
+      }
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      if (err instanceof Error) return rejectWithValue(err.message);
+    }
+  }
+);
+
+interface IPutParams {
+  applicantId: number
+  applicant: any
+}
+
+//How will we call it!!!!!!!!!!!
+// const testPut = {
+//   applicantId: 1,
+//   applicant: {email: 'newemail'}
+// }
+// updateApplicant(testPut)
+
+const updateApplicant = createAsyncThunk(
+  'applicant/updateApplicant',
+  async function ({applicantId, applicant}: IPutParams, { rejectWithValue }) {
+    try {
+      const response = await fetch(url + `/updateApplicant/${applicantId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(applicant),
+      });
+      if (!response.ok) {
+        throw new Error('Server error');
+      }
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      if (err instanceof Error) return rejectWithValue(err.message);
+    }
+  }
+);
 
 interface IInitialState {
   applicant: Applicant,
@@ -79,6 +171,7 @@ export const applicantSlice = createSlice<IInitialState, { setApplicant: (_state
   },
   extraReducers: (builder) => {
     builder
+      //getOne
       .addCase(fetchApplicant.pending, (state, action) => {
         state.status = 'loading';
         state.error = null;
@@ -92,12 +185,69 @@ export const applicantSlice = createSlice<IInitialState, { setApplicant: (_state
         state.applicant = action.payload;
         state.error = null;
       })
+      //getAll
+      .addCase(fetchAllApplicants.pending, (state, action) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(fetchAllApplicants.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.error = action.payload as Error;
+      })
+      .addCase(fetchAllApplicants.fulfilled, (state, action) => {
+        state.status = 'resolved';
+        state.applicant = action.payload;
+        state.error = null;
+      })
+      //create
+      .addCase(createApplicant.pending, (state, action) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(createApplicant.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.error = action.payload as Error;
+      })
+      .addCase(createApplicant.fulfilled, (state, action) => {
+        state.status = 'resolved';
+        state.applicant = action.payload;
+        state.error = null;
+      })
+      //delete
+      .addCase(deleteApplicant.pending, (state, action) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(deleteApplicant.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.error = action.payload as Error;
+      })
+      .addCase(deleteApplicant.fulfilled, (state, action) => {
+        state.status = 'resolved';
+        state.applicant = action.payload;
+        state.error = null;
+      })
+      //update
+      .addCase(updateApplicant.pending, (state, action) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(updateApplicant.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.error = action.payload as Error;
+      })
+      .addCase(updateApplicant.fulfilled, (state, action) => {
+        state.status = 'resolved';
+        state.applicant = action.payload;
+        state.error = null;
+      })
   }
 });
 
+export { initialApplicant }
 
 export const { setApplicant } = applicantSlice.actions;
-export { fetchApplicant }
+export { fetchApplicant, fetchAllApplicants, createApplicant, deleteApplicant, updateApplicant }
 
 export const selectapplicant = (state : RootState) => state.applicant
 
