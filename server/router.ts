@@ -84,6 +84,7 @@ router.delete("/deleteVacancy/:id", vacancyController.deleteVacancy);
 router.post("/createMessage", messageController.createMessage);
 router.delete("/deleteMessage/:id", messageController.deleteMessageById);
 router.get("/messagesByTrack/:trackId", messageController.getAllMsgsByTrack);
+router.get("/messagesByFilter", messageController.getMessagesByFilter);
 
 // Action routes
 router.get("/actionsByStep/:stepId", actionController.getAllActionsByStep);

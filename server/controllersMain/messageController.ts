@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 const prisma = new PrismaClient();
 import dotenv from "dotenv";
+import { start } from "repl";
 dotenv.config();
 
 const createMessage = async (req: Request, res: Response) => {
@@ -55,8 +56,49 @@ const getAllMsgsByTrack = async (req: Request, res: Response) => {
   }
 };
 
+const getMessagesByFilter = async (req: Request, res: Response) => {
+  try {
+    const { trackId, text, startDate, files, stepId } = req.query as {
+      trackId?: string;
+      text?: string;
+      startDate?: string;
+      files?: string;
+      stepId?: string;
+    };
+
+    const filter: any = {};
+
+    if (trackId) {
+      filter.trackId = parseInt(trackId);
+    }
+    if (text) {
+      filter.text = { contains: text };
+    }
+    if (startDate) {
+      filter.date = {
+        gte: new Date(startDate),
+      };
+    }
+    if (files) {
+      filter.files = { hasSome: files.split(",") };
+    }
+    if (stepId) {
+      filter.stepId = parseInt(stepId);
+    }
+
+    const filteredMessages = await prisma.message.findMany({
+      where: filter,
+    });
+    res.status(200).json(filteredMessages);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json(error);
+  }
+};
+
 export const messageController = {
   createMessage,
   deleteMessageById,
   getAllMsgsByTrack,
+  getMessagesByFilter,
 };
