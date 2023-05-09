@@ -7,27 +7,12 @@ dotenv.config()
 const prisma = new PrismaClient();
 
 const createApplicant = async (req: Request, res: Response) => {
-  // let {
-  //   currentLocation, socialMedia, skillsProf, stack, compLanguages, languages,
-  //   hobbies, desiredLocation, notDesiredLocation
-  // } = req.body;
-
-  // if (!currentLocation) currentLocation = [];
-  // if (!socialMedia) socialMedia = [];
-  // if (!skillsProf) skillsProf = [];
-  // if (!stack) stack = [];
-  // if (!compLanguages) compLanguages = [];
-  // if (!languages) languages = [];
-  // if (!hobbies) hobbies = [];
-  // if (!desiredLocation) desiredLocation = [];
-  // if (!notDesiredLocation) notDesiredLocation = [];
-
   try {
     // Verify email:
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(req.body.email)) {
       throw new Error("Invalid email");
-    } else if (!req.body.idAuth0.length) {
+    } else if (!req.body.idAuth.length) {
       throw new Error("Invalid idAuth0");
     }
     const response = await prisma.applicant.create({
@@ -57,20 +42,124 @@ const getApplicantById = async (req: Request, res: Response) => {
 }
 
 const updateApplicant = async (req: Request, res: Response) => {
+  let {
+    email, picture, name, familyName, age, phone, location, readyMove, workingHours, workingModal,
+    about, video, salaryRange, desiredWorkingModal,
+    currentLocation, socialMedia, skillsProf, stack, compLanguages, languages,
+    hobbies, desiredLocation, notDesiredLocation, experiences, education
+  } = req.body;
+
+  const id = +req.params.id;
+
+  if (!currentLocation) currentLocation = [];
+  if (!socialMedia) socialMedia = [];
+  if (!skillsProf) skillsProf = [];
+  if (!stack) stack = [];
+  if (!compLanguages) compLanguages = [];
+  if (!languages) languages = [];
+  if (!hobbies) hobbies = [];
+  if (!desiredLocation) desiredLocation = [];
+  if (!notDesiredLocation) notDesiredLocation = [];
+
+  let updatedPlainData = {
+    email, picture, name, familyName, age, phone, location, readyMove, workingHours, workingModal,
+    about, video, salaryRange, desiredWorkingModal,
+    currentLocation, socialMedia, skillsProf, stack, compLanguages, languages,
+    hobbies, desiredLocation, notDesiredLocation
+  } as any;
+
+  console.log(experiences.length);
+  console.log(experiences);
+
+  // The creation and update of Experiences and Education could be simplified if the name of the field
+  // "experiences" in the Applicant schema is changed to 'experience'. It could be only one if statment
+  // inside of a helper function called 'populateNestedFields'. -Paola
+  // if (experiences.length > 0) {
+  //   for (let i = 0; i < experiences.length; i++) {
+  //     if (!experiences[i].id) {
+  //       try {
+  //         await prisma.experience.create({
+  //           data: { ...experiences[i], applicant: { connect: { idDB: id } } }
+  //         })
+  //       } catch (error) {
+  //         console.log('error creating new expirience ', error, experiences[i])
+  //       }
+  //     } else {
+  //       try {
+  //         await prisma.applicant.update({
+  //           where: { idDB: id },
+  //           data: {
+  //             experiences: {
+  //               update: [{ data: experiences[i], where: { id: experiences[i].id } }],
+  //             },
+  //           },
+  //         })
+  //       } catch (error) {
+  //         console.log('error updating experience: ', error, experiences[i])
+  //       }
+  //     }
+  //   }
+  // } else {
+  //   try {
+  //     await prisma.experience.deleteMany({
+  //       where: {
+  //         applicantId: id
+  //       }
+  //     })
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+  // if (education.length) {
+  //   for (let i = 0; i < education.length; i++) {
+  //     if (!education[i].id) {
+  //       try {
+  //         await prisma.education.create({
+  //           data: { ...education[i], applicant: { connect: { idDB: id } } }
+  //         })
+  //       } catch (error) {
+  //         console.log('error creating new expirience ', error, education[i])
+  //       }
+  //     } else {
+  //       try {
+  //         await prisma.applicant.update({
+  //           where: { idDB: id },
+  //           data: {
+  //             education: {
+  //               update: [{ data: education[i], where: { id: education[i].id } }],
+  //             },
+  //           },
+  //         })
+  //       } catch (error) {
+  //         console.log('error updating experience: ', error, education[i])
+  //       }
+  //     }
+  //   }
+  // } else {
+  //   try {
+  //     await prisma.experience.deleteMany({
+  //       where: {
+  //         applicantId: id
+  //       }
+  //     })
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
   try {
-    const id = req.params.id;
-    const updatedData = req.body;
     const response = await prisma.applicant.update({
-      where: {
-        idDB: +id
-      },
-      data: updatedData,
+      where: { idDB: id },
+      data: updatedPlainData
     });
     res.status(200).json(response);
   } catch (error: any) {
     console.log(error);
-    if (error.meta.cause === 'Record to update does not exist') res.status(404).json(error.meta.cause)
-    else res.status(409).json(error.meta.cause);
+    if (error.meta) {
+      error.meta.cause === 'Record to update does not exist' ? res.status(404).json(error.meta.cause)
+        : res.status(409).json(error.meta.cause);
+    } else res.status(500).json(error)
   }
 }
 

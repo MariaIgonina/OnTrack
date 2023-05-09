@@ -8,6 +8,7 @@ import { trackControllers } from "./controllersMain/trackController";
 import { stepController } from "./controllersMain/stepController";
 import { questionnaryController } from "./controllersMain/questionnaryController";
 import { getAccessToken, getUserData } from "./controllersAuth/authController";
+import { educationController } from "./controllersMain/educationController";
 
 const router = Router();
 
@@ -91,5 +92,9 @@ router.get("/actionsByStep/:stepId", actionController.getAllActionsByStep);
 router.post("/createAction", actionController.createActionbyStep);
 router.put("/updateAction/:id", actionController.updateAction);
 router.delete("/deleteAction/:id", actionController.deleteAction);
+
+// Education routes
+router.post('/createEducationTitle/:applicantId', educationController.createTitle);
+router.get('/education/:appId', educationController.getAllEducationByApplicantId);
 
 export default router;

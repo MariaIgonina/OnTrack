@@ -7,7 +7,7 @@ const xavi = {
   "age": "1994-01-01T00:00:00.000Z",
   "phone": "6578412",
   "location": "barcelona",
-  "currentLocation": ['37.7749', '-122.4194' ],
+  "currentLocation": ['37.7749', '-122.4194'],
   "readyMove": true,
   "workingHours": "full-time",
   "workingModal": "office",
@@ -46,7 +46,7 @@ const xavi = {
 };
 
 const guillaume = {
-  "idAuth0": "4565",
+  "idAuth": "4565",
   "email": "guillaumerouchaud@ontrack.com",
   "picture": "guillaume.png",
   "name": "Guillaume",
@@ -94,7 +94,7 @@ const guillaume = {
 }
 
 const paola = {
-  "idAuth0": '3241',
+  "idAuth": '3241',
   "email": "paolapatino@ontrack.com",
   "picture": "paola.png",
   "name": "Paola",
@@ -143,8 +143,49 @@ const paola = {
 }
 
 const registration = {
-  "idAuth0": '3241',
+  "idAuth": "3241",
   "email": "ppc@ontrack.com",
-  "picture": 'nasdf.png',
-  "name": 'Andrea',
+  "picture": "nasdf.png",
+  "name": "Andrea"
+}
+
+const user5 = {
+  "idAuth": 3241,
+  "email": "ppc@ontrack.com",
+  "picture": "nasdf.png",
+  "name": "Andrea",
+  "age": null,
+  "phone": null,
+  "location": "Barcelona",
+  "currentLocation": null,
+  "readyMove": false,
+  "familyName": "Castillo",
+  "workingHours": null,
+  "workingModal": null,
+  "socialMedia": null,
+  "skillsProf": null,
+  "stack": ["express"],
+  "compLanguages": null,
+  "about": null,
+  "video": null,
+  "education": null,
+  "experiences": [{
+    "jobTitle": "a nice one",
+    "company": "a company",
+    "startDate": "2023-05-09T17:43:42.591Z",
+    "endDate": "2023-05-09T17:43:42.591Z",
+    "description": "blah"
+  }, {
+    "jobTitle": "second job",
+    "company": "somewhere",
+    "startDate": "2023-05-09T17:43:42.591Z",
+    "endDate": "2023-05-09T17:43:42.591Z",
+    "description": "bluh"
+  }],
+  "languages": null,
+  "hobbies": null,
+  "salaryRange": 50000,
+  "desiredLocation": ["london"],
+  "notDesiredLocation": null,
+  "desiredWorkingModal": null
 }
