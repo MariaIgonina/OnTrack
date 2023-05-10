@@ -101,7 +101,7 @@ router.post("/generate", populateDatabase);
 router.post('/createEducationTitle/:applicantId', educationController.createTitle);
 router.get('/education/:applicantId', educationController.getAllEducationByApplicantId);
 router.put('/updateEducationTitle/:titleId', educationController.updateTitleById);
-router.delete('/deleteEducationTitle/:titleId', educationController.updateTitleById);
+router.delete('/deleteEducationTitle/:titleId', educationController.deleteTitleById);
 router.get('/getEducationTitle/:titleId', educationController.getTitleById)
 
 // Experience routes
