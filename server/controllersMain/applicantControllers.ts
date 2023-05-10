@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { Applicant, PrismaClient } from "@prisma/client";
 
 import dotenv from 'dotenv';
 dotenv.config()
@@ -12,7 +12,7 @@ const createApplicant = async (req: Request, res: Response) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(req.body.email)) {
       throw new Error("Invalid email");
-    } else if (!req.body.idAuth0.length) {
+    } else if (!req.body.idAuth.length) {
       throw new Error("Invalid idAuth0");
     }
     const response = await prisma.applicant.create({
@@ -42,20 +42,44 @@ const getApplicantById = async (req: Request, res: Response) => {
 }
 
 const updateApplicant = async (req: Request, res: Response) => {
+  let {
+    email, picture, name, familyName, age, phone, location, readyMove, workingHours, workingModal,
+    about, video, salaryRange, desiredWorkingModal,
+    currentLocation, socialMedia, skillsProf, stack, compLanguages, languages,
+    hobbies, desiredLocation, notDesiredLocation
+  } = req.body;
+
+  const id = +req.params.id;
+
+  if (!currentLocation) currentLocation = [];
+  if (!socialMedia) socialMedia = [];
+  if (!skillsProf) skillsProf = [];
+  if (!stack) stack = [];
+  if (!compLanguages) compLanguages = [];
+  if (!languages) languages = [];
+  if (!hobbies) hobbies = [];
+  if (!desiredLocation) desiredLocation = [];
+  if (!notDesiredLocation) notDesiredLocation = [];
+
+  let updatedData = {
+    email, picture, name, familyName, age, phone, location, readyMove, workingHours, workingModal,
+    about, video, salaryRange, desiredWorkingModal,
+    currentLocation, socialMedia, skillsProf, stack, compLanguages, languages,
+    hobbies, desiredLocation, notDesiredLocation
+  } as Applicant;
+
   try {
-    const id = req.params.id;
-    const updatedData = req.body;
     const response = await prisma.applicant.update({
-      where: {
-        idDB: +id
-      },
-      data: updatedData,
+      where: { idDB: id },
+      data: updatedData
     });
     res.status(200).json(response);
   } catch (error: any) {
     console.log(error);
-    if (error.meta.cause === 'Record to update does not exist') res.status(404).json(error.meta.cause)
-    else res.status(409).json(error.meta.cause);
+    if (error.meta) {
+      error.meta.cause === 'Record to update does not exist' ? res.status(404).json(error.meta.cause)
+        : res.status(409).json(error.meta.cause);
+    } else res.status(500).json(error)
   }
 }
 
@@ -100,21 +124,21 @@ const filterApplicants = async (req: Request, res: Response) => {
     skillsProf,
     desiredLocation
   } = req.query as {
-      salaryRange?: string,
-      languages?: string,
-      workingModal?: string,
-      workingHours?: string,
-      compLanguages?: string,
-      readyMove?: string,
-      stack?: string,
-      skillsProf?: string,
-      desiredLocation?: string,
+    salaryRange?: string,
+    languages?: string,
+    workingModal?: string,
+    workingHours?: string,
+    compLanguages?: string,
+    readyMove?: string,
+    stack?: string,
+    skillsProf?: string,
+    desiredLocation?: string,
   };
 
   if (desiredLocation) {
     queryObj.OR = [
-        { desiredLocation: { hasSome: String(desiredLocation).split(',') } },
-        { location: desiredLocation }
+      { desiredLocation: { hasSome: String(desiredLocation).split(',') } },
+      { location: desiredLocation }
     ]
   }
   if (salaryRange) {
@@ -150,7 +174,7 @@ const filterApplicants = async (req: Request, res: Response) => {
 
   try {
     const applicants = await prisma.applicant.findMany({
-      where: {...queryObj}
+      where: { ...queryObj }
     })
     if (!applicants.length) throw new Error('No matches found');
     res.status(200).json(applicants);
