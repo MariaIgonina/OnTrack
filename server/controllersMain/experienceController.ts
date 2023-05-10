@@ -14,7 +14,7 @@ async function createExperience(req: Request, res: Response) {
   }
 }
 async function getAllExperienceByApplicantId(req: Request, res: Response) {
-  const paramsId: number = +req.body.applicantId
+  const paramsId: number = +req.params.applicantId
   try {
     const experienceArr = await prisma.experience.findMany({
       where: {
@@ -46,12 +46,12 @@ async function getExperienceById(req: Request, res: Response) {
 async function deleteExperienceById(req: Request, res: Response) {
   const experienceId = +req.params.experienceId;
   try {
-    await prisma.experience.delete({
+    const deleted = await prisma.experience.delete({
       where: {
         id: experienceId
       }
     })
-    res.status(200).send(true)
+    res.status(200).send(deleted)
   } catch (error: any) {
     console.log(error)
     res.status(400).json(error.message || error)
