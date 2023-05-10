@@ -35,7 +35,7 @@ export interface Recruiter {
   emailstring: string,
   picture: string,
   idAuth: string,
-  recuiterName: string,
+  recruiterName: string,
   name: string,
   vacancies: Vacancy[]
   logo: string,

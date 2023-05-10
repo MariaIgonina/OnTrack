@@ -10,7 +10,7 @@ const initialRecruiter: Recruiter = {
   emailstring: '',
   picture: '',
   idAuth: '',
-  recuiterName: '',
+  recruiterName: '',
   name: '',
   vacancies: [],
   logo: '',
@@ -46,6 +46,7 @@ const createRecruiter = createAsyncThunk(
   'recruiter/createRecruiter',
   async function (recruiter: Recruiter, { rejectWithValue }) {
     try {
+      console.log("inside redux", recruiter);
       const response = await fetch(url + '/createRecruiter', {
         method: 'POST',
         headers: {
