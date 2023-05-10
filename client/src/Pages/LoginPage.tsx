@@ -12,7 +12,7 @@ import { findUser, setCurrentUser } from "../store/CurrentUserSlice";
 const LoginPage = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const role = useSelector((state: RootState) => state.currentUser);
+  // const role = useSelector((state: RootState) => state.currentUser);
 
   const [render, setReRender] = useState(false);
   const [isOpen, setOpen] = useState(false);
@@ -27,6 +27,7 @@ const LoginPage = () => {
 
   function logoutFromGithub() {
     localStorage.removeItem("accessToken");
+    dispatch(setCurrentUser({ id: "", role: "" }));
     setReRender(!render);
   }
 
@@ -42,53 +43,80 @@ const LoginPage = () => {
     };
   }
 
-  async function getAccessToken() {
+  async function AuthenticateUserfromGH() {
     try {
-      await fetch("http://localhost:3000/getAccessToken?code=" + codeParam, {
-        method: "GET",
-      })
-        .then((data) => {
-          return data.json();
-        })
-        .then(async (data) => {
-          const userInfo = await fetch("http://localhost:3000/getUserData", {
-            headers: {
-              Method: "GET",
-              Authorization: "Bearer " + data.access_token,
-            },
-          }).then((data) => data.json());
-          const newUser: Applicant = extractUserData(userInfo);
-          const id = newUser.idAuth;
+      const tokenData = await fetchTokenData(codeParam!);
+      const userInfo = await fetchUserData(tokenData.access_token);
+      const newUser: Applicant = extractUserData(userInfo);
+      const id = newUser.idAuth;
+      const role = await fetchUserRole(id!);
 
-          const role = await dispatch(findUser(id!));
+      // const role = await dispatch(findUser(id!));
 
-          if (role) {
-            //if user exists then set state
-            console.log("im here");
-            dispatch(setCurrentUser({ id: id, role: role.payload }));
-          } else {
-            //SEPERATE IF USER OR APPLICANT
-            //dispatch(createApplicant(newUser));
-          }
-          if (data.access_token) {
-            localStorage.setItem("accessToken", data.access_token);
-            setReRender(!render);
-          }
-        });
+      if (role) {
+        dispatch(setCurrentUser({ id: id, role: role.payload }));
+      }
+
+      console.log("this please", role!.payload);
+
+      //THIS IS NT IT
+      // if (role.role == "Applicant") {
+      //   dispatch(createApplicant(newUser));
+      // }
+
+      if (tokenData.access_token) {
+        localStorage.setItem("accessToken", tokenData.access_token);
+        setReRender(!render);
+      }
     } catch (e) {
       console.log("error", e);
     }
   }
 
-  useEffect(() => {
-    if (codeParam && localStorage.getItem("accessToken") === null) {
-      getAccessToken();
+  async function fetchTokenData(codeParam: string) {
+    const response = await fetch(
+      "http://localhost:3000/getAccessToken?code=" + codeParam,
+      { method: "GET" }
+    );
+    if (!response.ok) {
+      throw new Error("Server error");
     }
-  }, []);
+    const data = await response.json();
+    return data;
+  }
+
+  async function fetchUserData(accessToken: string) {
+    const response = await fetch("http://localhost:3000/getUserData", {
+      headers: {
+        Method: "GET",
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Server error");
+    }
+    const data = await response.json();
+    return data;
+  }
+
+  async function fetchUserRole(id: string) {
+    try {
+      const response = await dispatch(findUser(id));
+      if (response) {
+        return response;
+      } else {
+        throw new Error("Unable to fetch user role");
+      }
+    } catch (error) {
+      console.log("Error fetching user role:", error);
+    }
+  }
 
   useEffect(() => {
-    console.log("state of user is", role);
-  }, [role]);
+    if (codeParam && localStorage.getItem("accessToken") === null) {
+      AuthenticateUserfromGH();
+    }
+  }, []);
 
   return (
     <>
