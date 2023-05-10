@@ -87,6 +87,19 @@ async function createRecruiter(req: Request, res: Response) {
     res.json(recruiter).status(201);
   } catch (error: any) {
     console.log(error);
-    res.status(404).json(error.message);
+    if (error.meta.target[0] === 'email' || error.meta.target[0] === 'idAuth') {
+      try {
+        const foundRecruiter = await prisma.recruiter.findUnique({
+          where: {
+            idAuth: req.body.idAuth
+          }
+        });
+        res.status(200).json(foundRecruiter)
+      } catch (error) {
+        res.status(500).json('Internal server error' + error)
+      }
+    } else {
+      res.status(404).json(error.message);
+    }
   }
 }

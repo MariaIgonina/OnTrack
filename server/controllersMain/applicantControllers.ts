@@ -7,8 +7,6 @@ dotenv.config();
 const prisma = new PrismaClient();
 
 const createApplicant = async (req: Request, res: Response) => {
-  console.log(req.body);
-
   try {
     const response = await prisma.applicant.create({
       data: req.body,
