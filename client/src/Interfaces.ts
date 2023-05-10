@@ -5,7 +5,7 @@ export interface Applicant {
   picture: string,
   name?: string,
   familyName?: string,
-  age?: Date,
+  age?: Date | string,
   phone?: string,
   location?: string,
   track?: Track [],
@@ -83,7 +83,7 @@ export interface Step {
   type: string,
   about: string,
   durationInMs: number,
-  scheduleDate: Date
+  scheduleDate: Date | string
   order: number,
   hidden: boolean
   active: boolean
@@ -97,7 +97,7 @@ export interface Message {
   trackId: number,
   track: Track,
   text: string,
-  date: Date,
+  date: Date | string,
   files: string[],
 }
 
@@ -105,7 +105,7 @@ export interface Questionary {
   id: number,
   questions: string[],
   answer: string[],
-  date: Date,
+  date: Date | string,
   step?: Step,
   stepId?: number,
 }
@@ -114,8 +114,8 @@ export interface Experience {
   id: number,
   jobTitle: string,
   company: string,
-  startDate: Date,
-  endDate: Date,
+  startDate: Date | string,
+  endDate: Date | string,
   description: string,
   applicant: Applicant,
   applicantId: number,
@@ -124,8 +124,8 @@ export interface Experience {
 export interface Education {
   id?: number,
   place: string,
-  startDate: Date,
-  endDate: Date,
+  startDate: Date | string,
+  endDate: Date | string,
   degree: string,
   speciality: string,
   applicant?: Applicant,

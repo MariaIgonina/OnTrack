@@ -14,7 +14,7 @@ import {
   Avatar
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTwitter, faInstagram, faFacebook, faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faTwitter, faInstagram, faFacebook, faGithub, faYoutube } from "@fortawesome/free-brands-svg-icons";
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
@@ -24,7 +24,7 @@ import { updateApplicant, setApplicant, initialApplicant } from "../store/applic
 import { initialExperience } from "../store/experienceSlice";
 import { initialEducation } from "../store/educationSlice";
 import { Applicant, Education, Experience } from "../Interfaces";
-import { languages, profSkills, compLanguages, stack } from "../library";
+import { languages, profSkills, compLanguages, stack, workingModals, workingHours } from "../library";
 import './addApplicant.css'
 
 
@@ -43,7 +43,8 @@ const AddApplicantPage = () => {
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target as HTMLInputElement;
-    setFormData({ ...formData, [name]: value });
+    const updatedValue = name === 'age' ? new Date(value) : value;
+    setFormData({ ...formData, [name]: updatedValue });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,7 +66,7 @@ const AddApplicantPage = () => {
       // compLanguages: string [],
       about: formData.about,
       video: formData.video,
-      // languages: string [],
+      languages: collLanguages,
       hobbies: hobbies,
       salaryRange: formData.salaryRange,
       desiredLocation: formData.desiredLocation,
@@ -81,7 +82,9 @@ const AddApplicantPage = () => {
 
   const handleChangeEducation = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target as HTMLInputElement;
-    setEducationData({ ...educationData, [name]: value });
+    const updatedValue = name === 'startDate' || name === 'endDate' ? 
+    new Date(value) : value;
+    setEducationData({ ...educationData, [name]: updatedValue });
   };
 
   const handleSubmitEducation = (e: React.FormEvent<HTMLFormElement>) => {
@@ -103,7 +106,9 @@ const AddApplicantPage = () => {
 
   const handleChangeExperience = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target as HTMLInputElement;
-    setExperienceData({ ...experienceData, [name]: value });
+    const updatedValue = name === 'startDate' || name === 'endDate' ? 
+    new Date(value) : value;
+    setExperienceData({ ...experienceData, [name]: updatedValue });
   };
 
   const handleSubmitExperience = (e: React.FormEvent<HTMLFormElement>) => {
@@ -164,18 +169,41 @@ const AddApplicantPage = () => {
   const [collLanguage, setCollLanguage] = useState("");
   const [collLanguages, setCollLanguages] = useState([]);
 
-  const handleLanguageChange = (event: any) => {
-    setCollLanguage(event.target.value);
-    setCollLanguages([...collLanguages, collLanguage]);
+  const handleLanguageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newLanguage = event.target.value;
+    setCollLanguages(prevLanguages => [...prevLanguages, newLanguage]);
     setCollLanguage("");
-    console.log(collLanguages)
   };
 
-  // const handleAddLanguage = () => {
-  // };
+  //CompLanguages collecting
+  const [collCompLanguage, setCollCompLanguage] = useState("");
+  const [collCompLanguages, setCollCompLanguages] = useState([]);
 
+  const handleCompLanguageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newCompLanguage = event.target.value;
+    setCollCompLanguages(prev => [...prev, newCompLanguage]);
+    setCollCompLanguage("");
+  };
 
+   //Skills collecting
+   const [skill, setSkill] = useState("");
+   const [skills, setSkills] = useState([]);
+ 
+   const handleSkillsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+     const newSkill = event.target.value;
+     setSkills(prev => [...prev, newSkill]);
+     setSkill("");
+   };
 
+    //Stack collecting
+    const [collStack, setCollStack] = useState("");
+    const [collStacks, setcollStacks] = useState([]);
+  
+    const handleCollStackChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newStack = event.target.value;
+      setcollStacks(prev => [...prev, newStack]);
+      setCollStack("");
+    };
 
   return (
     <>
@@ -197,19 +225,19 @@ const AddApplicantPage = () => {
                 required
               />
 
-              <label htmlFor="family-name">Family Name</label>
+              <label htmlFor="familyName">Family Name</label>
               <input
                 type="text"
-                name="family-name"
+                name="familyName"
                 value={formData.familyName}
                 onChange={handleChange}
                 required
               />
               
-              <label htmlFor="birth">Date of birth</label>
+              <label htmlFor="age">Date of birth</label>
               <input 
                 type="date"
-                name="birth"
+                name="age"
                 max={new Date().toISOString().split('T')[0]}
                 value={formData.age ? formData.age.toISOString().split('T')[0] : ''}
                 onChange={handleChange}
@@ -347,24 +375,24 @@ const AddApplicantPage = () => {
             />
 
             <div className="from-to-dates"> 
-            <label htmlFor="start-date">Start Date</label>
+            <label htmlFor="startDate">Start Date</label>
             <input 
                 type="date"
-                name="start-date"
+                name="startDate"
                 max={new Date().toISOString().split('T')[0]}
                 value={educationData.startDate ? educationData.startDate.toISOString().split('T')[0] : ''}
-                onChange={handleChange}
+                onChange={handleChangeEducation}
                 required
               />
             </div>
 
-            <label htmlFor="end-date">End Date</label>
+            <label htmlFor="endDate">End Date</label>
             <input 
                 type="date"
-                name="end-date"
+                name="endDate"
                 max={new Date().toISOString().split('T')[0]}
-                value={educationData.startDate ? educationData.startDate.toISOString().split('T')[0] : ''}
-                onChange={handleChange}
+                value={educationData.endDate ? educationData.endDate.toISOString().split('T')[0] : ''}
+                onChange={handleChangeEducation}
                 required
               />
 
@@ -394,10 +422,10 @@ const AddApplicantPage = () => {
 
             <h4>Experience</h4>
 
-            <label htmlFor="job-title">Job Title</label>
+            <label htmlFor="jobTitle">Job Title</label>
             <input
               type="text"
-              name="job-title"
+              name="jobTitle"
               value={experienceData.jobTitle}
               onChange={handleChangeExperience}
               required
@@ -413,20 +441,20 @@ const AddApplicantPage = () => {
             />
 
             <div className="from-to-dates">
-            <label htmlFor="start-date">Start Date</label>
+            <label htmlFor="startDate">Start Date</label>
             <input 
                 type="date"
-                name="start-date"
+                name="startDate"
                 max={new Date().toISOString().split('T')[0]}
                 value={experienceData.startDate ? experienceData.startDate.toISOString().split('T')[0] : ''}
                 onChange={handleChangeExperience}
                 required
               />
 
-            <label htmlFor="name">End Date</label>
+            <label htmlFor="endDate">End Date</label>
             <input 
                 type="date"
-                name="end-date"
+                name="endDate"
                 max={new Date().toISOString().split('T')[0]}
                 value={experienceData.endDate ? experienceData.endDate.toISOString().split('T')[0] : ''}
                 onChange={handleChangeExperience}
@@ -459,10 +487,10 @@ const AddApplicantPage = () => {
             <>
             <h4>Skills</h4>
 
-            <label htmlFor="languages">Languages</label>
+            <label htmlFor="collLanguage">Languages</label>
             <input
               type="text"
-              name="languages"
+              name="collLanguage"
               value={collLanguage}
               onChange={handleLanguageChange}
               list="languages"
@@ -472,14 +500,91 @@ const AddApplicantPage = () => {
                 <option key={language} value={language} />
               ))}
             </datalist>
-            
+
             <ul>
               {collLanguages.map((language, index) => (
                 <li key={index}>{language}</li>
               ))}
             </ul>
+
+            <label htmlFor="collCompLanguages">Computer Languages</label>
+            <input
+              type="text"
+              name="collCompLanguages"
+              value={collCompLanguage}
+              onChange={handleCompLanguageChange}
+              list="compLanguages"
+            />
+            <datalist id="compLanguages">
+              {compLanguages.map((language) => (
+                <option key={language} value={language} />
+              ))}
+            </datalist>
+
+            <ul>
+              {collCompLanguages.map((language, index) => (
+                <li key={index}>{language}</li>
+              ))}
+            </ul>
+            
+            <label htmlFor="skills">Professional skills</label>
+            <input
+              type="text"
+              name="skills"
+              value={skill}
+              onChange={handleSkillsChange}
+              list="profSkills"
+            />
+            <datalist id="profSkills">
+              {profSkills.map((skill) => (
+                <option key={skill} value={skill} />
+              ))}
+            </datalist>
+
+            <ul>
+              {skills.map((skill, index) => (
+                <li key={index}>{skill}</li>
+              ))}
+            </ul>
+
+            <label htmlFor="collStack">Stack</label>
+            <input
+              type="text"
+              name="collStack"
+              value={collStack}
+              onChange={handleCollStackChange}
+              list="stack"
+            />
+            <datalist id="stack">
+              {stack.map((st) => (
+                <option key={st} value={st} />
+              ))}
+            </datalist>
+
+            <ul>
+              {collStacks.map((st, index) => (
+                <li key={index}>{st}</li>
+              ))}
+            </ul>
+
+            <label htmlFor="video">Here you can share the video of your project you proud of</label>
+              <div>
+                <input 
+                  type="video"
+                  name="video"
+                  value={formData.video} 
+                  onChange={handleChange} 
+                />
+                
+              
+
+              </div>
+
           </>
           )}
+        
+
+          
           </Step>
 
       
