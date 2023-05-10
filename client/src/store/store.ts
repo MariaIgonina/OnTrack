@@ -1,3 +1,4 @@
+
 import { configureStore } from '@reduxjs/toolkit'
 
 import applicantReducer from "./applicantSlice"
@@ -10,6 +11,13 @@ import experienceReducer from "./educationSlice"
 
 
 
+import applicantReducer from "./applicantSlice";
+import recruiterReducer from "./recruiterSlice";
+import vacancyReducer from "./vacancySlice";
+import trackReducer from "./trackSlice";
+import messageReducer from "./messageSlice";
+import currentUserReducer from "./CurrentUserSlice";
+
 export const store = configureStore({
   reducer: {
     applicant: applicantReducer,
@@ -17,11 +25,15 @@ export const store = configureStore({
     vacancy: vacancyReducer,
     track: trackReducer,
     message: messageReducer,
+
     education: educationReducer,
-    experience: experienceReducer
+    experience: experienceReducer,
+
+    currentUser: currentUserReducer,
+
   },
-})
+});
 
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>;
 
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;

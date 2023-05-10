@@ -95,25 +95,6 @@ export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
     <div className="modal">
       <div className="modal-content">
         <form onSubmit={handleSubmit}>
-          {/* <div className="textinput">
-            <label className="label" htmlFor="email">
-              Email
-            </label>
-            <input
-              name="email"
-              type="text"
-              onChange={handleInputChange}
-            ></input>
-          </div>
-          <div className="textinput" id="bottominput">
-            <label className="label">Password</label>
-            <input
-              name="Password"
-              type="password"
-              onChange={handleInputChange}
-            ></input>
-          </div> */}
-
           <div className="checkbox">
             <input
               type="checkbox"
@@ -127,7 +108,6 @@ export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
               }}
             />
             <label htmlFor="applicant">Applicant</label>
-
             <input
               type="checkbox"
               id="recruiter"
@@ -141,14 +121,6 @@ export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
             />
             <label htmlFor="recruiter">Recruiter</label>
           </div>
-          {/* <Button
-            sx={{ backgroundColor: "#568ea3" }}
-            variant="contained"
-            className="btn"
-            type="submit"
-          >
-            SIGN UP
-          </Button> */}
           <GithubBtn text={"Sign-up with Github"}></GithubBtn>
         </form>
       </div>

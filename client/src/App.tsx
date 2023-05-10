@@ -11,6 +11,8 @@ import DashboardPage from "./Pages/DashboardPage";
 import TrackPage from "./Pages/TrackPage";
 import AddApplicantPage from "./Pages/AddApplicantPage";
 import SettingsPage from "./Pages/SettingsPage";
+import LogedWithGoogle from "./Components/LogedWithGoogle";
+import SignInWithGoogle from "./Components/SignInWithGoogle";
 
 //import "./index.css";
 
@@ -29,6 +31,8 @@ function App() {
           <Route path="/applicant" element={<ApplicantPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/addapplicant" element={<AddApplicantPage />} />
+          <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
+          <Route path="/signInWithGoogle" element={<SignInWithGoogle/>} />
         </Routes>
       </div>
     </BrowserRouter>
