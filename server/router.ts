@@ -8,6 +8,8 @@ import { trackControllers } from "./controllersMain/trackController";
 import { stepController } from "./controllersMain/stepController";
 import { questionnaryController } from "./controllersMain/questionnaryController";
 import { getAccessToken, getUserData } from "./controllersAuth/authController";
+import { educationController } from "./controllersMain/educationController";
+import { experienceController } from "./controllersMain/experienceController";
 import { populateDatabase } from "./controllersMain/populateController";
 
 const router = Router();
@@ -94,5 +96,19 @@ router.post("/generate", populateDatabase);
 // router.post("/createAction", actionController.createActionbyStep);
 // router.put("/updateAction/:id", actionController.updateAction);
 // router.delete("/deleteAction/:id", actionController.deleteAction);
+
+// Education routes
+router.post('/createEducationTitle/:applicantId', educationController.createTitle);
+router.get('/education/:applicantId', educationController.getAllEducationByApplicantId);
+router.put('/updateEducationTitle/:titleId', educationController.updateTitleById);
+router.delete('/deleteEducationTitle/:titleId', educationController.updateTitleById);
+router.get('/getEducationTitle/:titleId', educationController.getTitleById)
+
+// Experience routes
+router.post('/createExperience/:applicantId', experienceController.createExperience);
+router.get('/experience/:applicantId', experienceController.getAllExperienceByApplicantId);
+router.put('/updateExperience/:experienceId', experienceController.updateExperienceById);
+router.delete('/deleteExperience/:experienceId', experienceController.deleteExperienceById);
+router.get('/getExperience/:experienceId', experienceController.getExperienceById)
 
 export default router;

@@ -40,7 +40,6 @@ model Applicant {
   notDesiredLocation  String[]
   desiredWorkingModal String?
 }
-
 model Experience {
   id          Int       @id @default(autoincrement())
   jobTitle    String
@@ -51,7 +50,6 @@ model Experience {
   applicant   Applicant @relation(fields: [applicantId], references: [idDB])
   applicantId Int
 }
-
 model Education {
   id            Int        @id @default(autoincrement())
   place         String
@@ -62,7 +60,6 @@ model Education {
   Applicant     Applicant? @relation(fields: [applicantIdDB], references: [idDB])
   applicantIdDB Int?
 }
-
 model Recruiter {
   id            Int       @id @default(autoincrement())
   email         String
@@ -78,7 +75,6 @@ model Recruiter {
   headOffice    String?
   Track         Track[]
 }
-
 model Vacancy {
   id                Int       @id @default(autoincrement())
   recruiter         Recruiter @relation(fields: [recruiterId], references: [id])
@@ -95,7 +91,6 @@ model Vacancy {
   location          String
   salaryRange       Int?
 }
-
 model Track {
   id             Int        @id @default(autoincrement())
   steps          Step[]
@@ -110,7 +105,6 @@ model Track {
   Vacancy        Vacancy    @relation(fields: [vacancyId], references: [id])
   Message        Message[]
 }
-
 model Step {
   id            Int           @id @default(autoincrement())
   title         String
@@ -125,7 +119,6 @@ model Step {
   Track         Track?        @relation(fields: [trackId], references: [id])
   trackId       Int
 }
-
 model Questionary {
   id        Int      @id @default(autoincrement())
   questions String[]
@@ -134,7 +127,6 @@ model Questionary {
   Step      Step?    @relation(fields: [stepId], references: [id])
   stepId    Int?
 }
-
 model Message {
   id      Int      @id @default(autoincrement())
   trackId Int
