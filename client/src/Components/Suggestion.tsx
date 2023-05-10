@@ -6,12 +6,13 @@ import UserCard from "./UserCard";
 import { Applicant } from "../Interfaces";
 
 export default function Suggestion() {
-  //THIS WILL BE THE FILTERED RESULT FROM BE!
+  //THIS WILL BE THE FILTERED RESULT FROM BackEnd!
   const applicants = useSelector(
     (s: RootState) => s.applicant.applicant
   ) as unknown as Applicant[]; //THIS IS BAD TYPESCRIPT REFACTOR THIS ROSIE
   const dispatch = useDispatch<AppDispatch>();
 
+  console.log("APPLICANTS ==> ", applicants);
   useEffect(() => {
     dispatch(fetchAllApplicants());
   }, []);
@@ -28,9 +29,10 @@ export default function Suggestion() {
           </p>
         </div>
         <div className="overflow-x-scroll flex flex-nowrap  my-8 ">
-          {applicants.map((applicant) => (
-            <UserCard applicant={applicant}></UserCard>
-          ))}
+          {applicants.length &&
+            applicants.map((applicant) => (
+              <UserCard applicant={applicant} key={applicant.idAuth}></UserCard>
+            ))}
         </div>
       </div>
     </div>
