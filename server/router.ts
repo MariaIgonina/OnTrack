@@ -11,6 +11,7 @@ import { getAccessToken, getUserData } from "./controllersAuth/authController";
 import { educationController } from "./controllersMain/educationController";
 import { experienceController } from "./controllersMain/experienceController";
 import { populateDatabase } from "./controllersMain/populateController";
+import { googleApiAuth } from "./controllersAuth/googleAuth";
 
 const router = Router();
 
@@ -54,6 +55,8 @@ router.get("/userrole/:id", applicantControllers.getuserRole);
 // Auth routes
 router.get("/getAccessToken", getAccessToken);
 router.get("/getUserData", getUserData);
+// Auth google routs
+router.post("/getGoogleUserInfo", googleApiAuth.getGoogleUserInfo);
 
 // Track routes
 router.post("/createTrack", trackControllers.createTrack);
