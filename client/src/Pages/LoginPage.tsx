@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import RegisterModal from "../Components/RegisterModal";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
 import "./Login.css";
 import { createApplicant } from "../store/applicantSlice";
 import { Applicant } from "../Interfaces";
 import GithubBtn from "../Components/GithubBtn";
+import { findUser, setCurrentUser } from "../store/CurrentUserSlice";
 
 const LoginPage = () => {
-  const text = "Login with Github";
   const dispatch = useDispatch<AppDispatch>();
+
+  const role = useSelector((state: RootState) => state.currentUser);
+
   const [render, setReRender] = useState(false);
   const [isOpen, setOpen] = useState(false);
 
@@ -55,7 +58,18 @@ const LoginPage = () => {
             },
           }).then((data) => data.json());
           const newUser: Applicant = extractUserData(userInfo);
-          dispatch(createApplicant(newUser));
+          const id = newUser.idAuth;
+
+          const role = await dispatch(findUser(id!));
+
+          if (role) {
+            //if user exists then set state
+            console.log("im here");
+            dispatch(setCurrentUser({ id: id, role: role.payload }));
+          } else {
+            //SEPERATE IF USER OR APPLICANT
+            //dispatch(createApplicant(newUser));
+          }
           if (data.access_token) {
             localStorage.setItem("accessToken", data.access_token);
             setReRender(!render);
@@ -67,12 +81,14 @@ const LoginPage = () => {
   }
 
   useEffect(() => {
-    console.log("i should run");
     if (codeParam && localStorage.getItem("accessToken") === null) {
-      console.log("i should only run with the post!");
       getAccessToken();
     }
   }, []);
+
+  useEffect(() => {
+    console.log("state of user is", role);
+  }, [role]);
 
   return (
     <>
@@ -94,28 +110,7 @@ const LoginPage = () => {
             </>
           ) : (
             <>
-              {/* <div className="textinput">
-                <label className="label" htmlFor="email">
-                  Email
-                </label>
-                <input name="email" type="text"></input>
-              </div>
-              <div className="textinput" id="bottominput">
-                <label className="label">Password</label>
-                <input name="Password" type="password"></input>
-              </div>
-              <Button
-                sx={{ backgroundColor: "#568EA3" }}
-                variant="contained"
-                className="btn"
-                type="submit"
-              >
-                LOG IN
-              </Button>
-              <p className="dividerText"> OR </p> */}
-
-              <GithubBtn text={text}></GithubBtn>
-
+              <GithubBtn text={"Login with Github"}></GithubBtn>
               <div className="register">
                 <button className="smallbtn" onClick={handleRegisterModal}>
                   <p>Or sign up for the first time by registering an account</p>
