@@ -65,7 +65,7 @@ model Recruiter {
   email         String
   picture       String
   idAuth        String    @unique
-  recuiterName  String
+  recruiterName String
   name          String?
   vacancies     Vacancy[]
   logo          String?

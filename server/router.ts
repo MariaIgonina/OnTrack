@@ -10,6 +10,7 @@ import { questionnaryController } from "./controllersMain/questionnaryController
 import { getAccessToken, getUserData } from "./controllersAuth/authController";
 import { educationController } from "./controllersMain/educationController";
 import { experienceController } from "./controllersMain/experienceController";
+import { populateDatabase } from "./controllersMain/populateController";
 
 const router = Router();
 
@@ -42,12 +43,12 @@ router.delete(
 );
 
 // Applicant routes
-router.get('/applicant/:id', applicantControllers.getApplicantById)
-router.get('/applicants', applicantControllers.getAllApplicants)
-router.post('/createApplicant', applicantControllers.createApplicant)
-router.put('/updateApplicant/:id', applicantControllers.updateApplicant)
-router.delete('/deleteApplicant/:id', applicantControllers.deleteApplicant)
-router.get('/filterApplicants/', applicantControllers.filterApplicants)
+router.get("/applicant/:id", applicantControllers.getApplicantById);
+router.get("/applicants", applicantControllers.getAllApplicants);
+router.post("/createApplicant", applicantControllers.createApplicant);
+router.put("/updateApplicant/:id", applicantControllers.updateApplicant);
+router.delete("/deleteApplicant/:id", applicantControllers.deleteApplicant);
+router.get("/filterApplicants/", applicantControllers.filterApplicants);
 
 // Auth routes
 router.get("/getAccessToken", getAccessToken);
@@ -88,6 +89,8 @@ router.delete("/deleteMessage/:id", messageController.deleteMessageById);
 router.get("/messagesByTrack/:trackId", messageController.getAllMsgsByTrack);
 router.get("/messagesByFilter", messageController.getMessagesByFilter);
 
+// Populate
+router.post("/generate", populateDatabase);
 // Action routes
 // router.get("/actionsByStep/:stepId", actionController.getAllActionsByStep);
 // router.post("/createAction", actionController.createActionbyStep);
