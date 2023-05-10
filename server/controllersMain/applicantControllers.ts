@@ -7,21 +7,28 @@ dotenv.config()
 const prisma = new PrismaClient();
 
 const createApplicant = async (req: Request, res: Response) => {
+  console.log(req.body);
+
   try {
-    // Verify email:
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(req.body.email)) {
-      throw new Error("Invalid email");
-    } else if (!req.body.idAuth.length) {
-      throw new Error("Invalid idAuth0");
-    }
     const response = await prisma.applicant.create({
       data: req.body
     });
     res.status(201).json(response)
   } catch (error: any) {
-    console.log(error)
-    res.status(404).json(error.message)
+    if (error.meta.target[0] === 'email' || error.meta.target[0] === 'idAuth') {
+      try {
+        const foundApplicant = await prisma.applicant.findUnique({
+          where: {
+            email: req.body.email
+          }
+        });
+        res.status(200).json(foundApplicant)
+      } catch (error) {
+        res.status(500).json('Internal server error' + error)
+      }
+    } else {
+      res.status(404).json(error.meta.cause)
+    }
   }
 }
 
