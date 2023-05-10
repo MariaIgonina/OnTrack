@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { Applicant, PrismaClient } from "@prisma/client";
 
 import dotenv from 'dotenv';
 dotenv.config()
@@ -46,7 +46,7 @@ const updateApplicant = async (req: Request, res: Response) => {
     email, picture, name, familyName, age, phone, location, readyMove, workingHours, workingModal,
     about, video, salaryRange, desiredWorkingModal,
     currentLocation, socialMedia, skillsProf, stack, compLanguages, languages,
-    hobbies, desiredLocation, notDesiredLocation, experiences, education
+    hobbies, desiredLocation, notDesiredLocation
   } = req.body;
 
   const id = +req.params.id;
@@ -61,97 +61,17 @@ const updateApplicant = async (req: Request, res: Response) => {
   if (!desiredLocation) desiredLocation = [];
   if (!notDesiredLocation) notDesiredLocation = [];
 
-  let updatedPlainData = {
+  let updatedData = {
     email, picture, name, familyName, age, phone, location, readyMove, workingHours, workingModal,
     about, video, salaryRange, desiredWorkingModal,
     currentLocation, socialMedia, skillsProf, stack, compLanguages, languages,
     hobbies, desiredLocation, notDesiredLocation
-  } as any;
-
-  console.log(experiences.length);
-  console.log(experiences);
-
-  // The creation and update of Experiences and Education could be simplified if the name of the field
-  // "experiences" in the Applicant schema is changed to 'experience'. It could be only one if statment
-  // inside of a helper function called 'populateNestedFields'. -Paola
-  // if (experiences.length > 0) {
-  //   for (let i = 0; i < experiences.length; i++) {
-  //     if (!experiences[i].id) {
-  //       try {
-  //         await prisma.experience.create({
-  //           data: { ...experiences[i], applicant: { connect: { idDB: id } } }
-  //         })
-  //       } catch (error) {
-  //         console.log('error creating new expirience ', error, experiences[i])
-  //       }
-  //     } else {
-  //       try {
-  //         await prisma.applicant.update({
-  //           where: { idDB: id },
-  //           data: {
-  //             experiences: {
-  //               update: [{ data: experiences[i], where: { id: experiences[i].id } }],
-  //             },
-  //           },
-  //         })
-  //       } catch (error) {
-  //         console.log('error updating experience: ', error, experiences[i])
-  //       }
-  //     }
-  //   }
-  // } else {
-  //   try {
-  //     await prisma.experience.deleteMany({
-  //       where: {
-  //         applicantId: id
-  //       }
-  //     })
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
-  // if (education.length) {
-  //   for (let i = 0; i < education.length; i++) {
-  //     if (!education[i].id) {
-  //       try {
-  //         await prisma.education.create({
-  //           data: { ...education[i], applicant: { connect: { idDB: id } } }
-  //         })
-  //       } catch (error) {
-  //         console.log('error creating new expirience ', error, education[i])
-  //       }
-  //     } else {
-  //       try {
-  //         await prisma.applicant.update({
-  //           where: { idDB: id },
-  //           data: {
-  //             education: {
-  //               update: [{ data: education[i], where: { id: education[i].id } }],
-  //             },
-  //           },
-  //         })
-  //       } catch (error) {
-  //         console.log('error updating experience: ', error, education[i])
-  //       }
-  //     }
-  //   }
-  // } else {
-  //   try {
-  //     await prisma.experience.deleteMany({
-  //       where: {
-  //         applicantId: id
-  //       }
-  //     })
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  } as Applicant;
 
   try {
     const response = await prisma.applicant.update({
       where: { idDB: id },
-      data: updatedPlainData
+      data: updatedData
     });
     res.status(200).json(response);
   } catch (error: any) {
