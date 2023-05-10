@@ -21,16 +21,20 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from "../store/store";
 
 import { updateApplicant, setApplicant, initialApplicant } from "../store/applicantSlice";
-import { initialExperience } from "../store/experienceSlice";
-import { initialEducation } from "../store/educationSlice";
+import { createEducation, setEducation, initialEducation } from "../store/educationSlice";
+import { createExperience, setExperience, initialExperience } from "../store/experienceSlice";
+
 import { Applicant, Education, Experience } from "../Interfaces";
-import { languages, profSkills, compLanguages, stack, workingModals, workingHours } from "../library";
+import { languages, profSkills, compLanguages, stack, workingModals, workingHours, levelLanguages } from "../library";
 import './addApplicant.css'
 
 
 const AddApplicantPage = () => {
 
-  const applicant = useSelector((state:RootState) => state.applicant)
+  const dbApplicant = useSelector((state:RootState) => state.applicant)
+  const dbEducation = useSelector((state:RootState) => state.education)
+  const dbExperience = useSelector((state:RootState) => state.experience)
+  
   const dispatch = useDispatch<AppDispatch>();
 
   // useEffect (() => {
@@ -47,7 +51,7 @@ const AddApplicantPage = () => {
     setFormData({ ...formData, [name]: updatedValue });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     const newApplicant: Applicant = {
       ...formData,
@@ -57,21 +61,20 @@ const AddApplicantPage = () => {
       age: formData.age,
       phone: formData.phone,
       location: formData.location,
-      readyToMove: formData.readyToMove,
+      readyToMove: moveChecked,
       workingHours: formData.workingHours,
       workingModal: formData.workingModal,
       socialMedia: links,
-      // skillsProf: string [],
-      // stack: string [],
-      // compLanguages: string [],
+      skillsProf: profSkills,
+      stack: collStacks,
+      compLanguages: collCompLanguages,
       about: formData.about,
       video: formData.video,
       languages: collLanguages,
       hobbies: hobbies,
       salaryRange: formData.salaryRange,
-      desiredLocation: formData.desiredLocation,
-      nonDesiredLocation: formData.nonDesiredLocation,
-      desiredWorkingModal: formData.desiredWorkingModal,
+      desiredLocation: desiredLocations,
+      nonDesiredLocation: nonDesiredLocations,
     };
     console.log(newApplicant)
     // dispatch(updateApplicant(newApplicant))
@@ -79,6 +82,7 @@ const AddApplicantPage = () => {
 
   //For the education
   const [educationData, setEducationData] = useState(initialEducation);
+  const [educations, setEducations] = useState<Education[]>([])
 
   const handleChangeEducation = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target as HTMLInputElement;
@@ -87,8 +91,8 @@ const AddApplicantPage = () => {
     setEducationData({ ...educationData, [name]: updatedValue });
   };
 
-  const handleSubmitEducation = (e: React.FormEvent<HTMLFormElement>) => {
-    // e.preventDefault();
+  const handleSubmitEducation = (e:any) => {
+    e.preventDefault();
     const newEducation: Education = {
       ...educationData,
       place: educationData.place,
@@ -99,10 +103,14 @@ const AddApplicantPage = () => {
       // applicantId: applicant.idAuth,
     };
     console.log(newEducation)
+    setEducations([...educations, newEducation])
+
   }
+
 
   //For the experience
   const [experienceData, setExperienceData] = useState(initialExperience);
+  const [experiences, setExperiences] = useState<Experience[]>([])
 
   const handleChangeExperience = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target as HTMLInputElement;
@@ -111,8 +119,8 @@ const AddApplicantPage = () => {
     setExperienceData({ ...experienceData, [name]: updatedValue });
   };
 
-  const handleSubmitExperience = (e: React.FormEvent<HTMLFormElement>) => {
-    // e.preventDefault();
+  const handleSubmitExperience = (e: any) => {
+    e.preventDefault();
     const newExperience: Experience = {
       ...experienceData,
       jobTitle: experienceData.jobTitle,
@@ -122,8 +130,15 @@ const AddApplicantPage = () => {
       description: experienceData.description,
       // applicantId: applicant.idAuth,
     };
-    console.log(newExperience)
+    setExperiences([...experiences, newExperience])
+    console.log(experiences)
   }
+  
+  // const isFormExpValid = 
+  //   experienceData.jobTitle && 
+  //   experienceData.company && 
+  //   experienceData.startDate && 
+  //   experienceData.endDate;
 
   //Steps activity 
   const [activeStep, setActiveStep] = useState(0);
@@ -138,7 +153,7 @@ const AddApplicantPage = () => {
 
   //Hobbies collecting
   const [hobbie, setHobbie] = useState("");
-  const [hobbies, setHobbies] = useState([]);
+  const [hobbies, setHobbies] = useState<string[]>([]);
 
   const handleHobbieChange = (event: any) => {
     setHobbie(event.target.value);
@@ -154,7 +169,7 @@ const AddApplicantPage = () => {
 
   //Soсial media collecting
   const [link, setLink] = useState("");
-  const [links, setLinks] = useState([]);
+  const [links, setLinks] = useState<string[]>([]);
 
   const handleLinkChange = (event: any) => {
     setLink(event.target.value);
@@ -167,17 +182,29 @@ const AddApplicantPage = () => {
 
   //Languages collecting
   const [collLanguage, setCollLanguage] = useState("");
-  const [collLanguages, setCollLanguages] = useState([]);
+  const [level, setLevel] = useState('')
+  const [collLanguages, setCollLanguages] = useState<string[]>([]);
 
   const handleLanguageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newLanguage = event.target.value;
-    setCollLanguages(prevLanguages => [...prevLanguages, newLanguage]);
+    setCollLanguage(event.target.value);
+  };
+
+  const handleLevelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLevel(event.target.value);
+  };
+  
+  const handleLanguage = () => {
+    const newLangCouple = `${collLanguage} - ${level}`
+    setCollLanguages(prevLanguages => [...prevLanguages, newLangCouple]);
+    setLevel("");
     setCollLanguage("");
   };
 
+
+
   //CompLanguages collecting
   const [collCompLanguage, setCollCompLanguage] = useState("");
-  const [collCompLanguages, setCollCompLanguages] = useState([]);
+  const [collCompLanguages, setCollCompLanguages] = useState<string[]>([]);
 
   const handleCompLanguageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newCompLanguage = event.target.value;
@@ -187,17 +214,17 @@ const AddApplicantPage = () => {
 
    //Skills collecting
    const [skill, setSkill] = useState("");
-   const [skills, setSkills] = useState([]);
+   const [skills, setSkills] = useState<string[]>([]);
  
    const handleSkillsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
      const newSkill = event.target.value;
-     setSkills(prev => [...prev, newSkill]);
+     setSkills((prev:string[]) => [...prev, newSkill]);
      setSkill("");
    };
 
     //Stack collecting
     const [collStack, setCollStack] = useState("");
-    const [collStacks, setcollStacks] = useState([]);
+    const [collStacks, setcollStacks] = useState<string[]>([]);
   
     const handleCollStackChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const newStack = event.target.value;
@@ -205,15 +232,50 @@ const AddApplicantPage = () => {
       setCollStack("");
     };
 
+    //Desired Location collecting
+    const [desiredLocation, setDesiredLocation] = useState("");
+    const [desiredLocations, setDesiredLocations] = useState<string[]>([]);
+  
+    const handleDesiredLocationChange = (event: any) => {
+      setDesiredLocation(event.target.value);
+    };
+    
+    const handleDesiredLocation = () => {
+      setDesiredLocations([...desiredLocations, desiredLocation]);
+      setDesiredLocation("");
+    };
+
+    //Desired Location collecting
+    const [nonDesiredLocation, setNonDesiredLocation] = useState("");
+    const [nonDesiredLocations, setNonDesiredLocations] = useState<string[]>([]);
+  
+    const handleNonDesiredLocationChange = (event: any) => {
+      setNonDesiredLocation(event.target.value);
+    };
+    
+    const handleNonDesiredLocation = () => {
+      setNonDesiredLocations([...nonDesiredLocations, nonDesiredLocation]);
+      setNonDesiredLocation("");
+    };
+
+    //Ready to move toggle
+    const [moveChecked, setMoveChecked] = useState(false);
+    
+    const handleMoveToggle = () => {
+      setMoveChecked(!moveChecked);
+    };
+    
+
   return (
     <>
       <div>
-        <div className="stepper">
+        <div className="flex flex-col items-center">
         <Stepper activeStep={activeStep} alternativeLabel>
         
 
           <Step key="Personal Information">
             <StepLabel>Personal Information</StepLabel>
+            <div className="flex justify-center">
             {activeStep === 0 && (
             <>
               <label htmlFor="name">Name</label>
@@ -239,7 +301,7 @@ const AddApplicantPage = () => {
                 type="date"
                 name="age"
                 max={new Date().toISOString().split('T')[0]}
-                value={formData.age ? formData.age.toISOString().split('T')[0] : ''}
+                value={formData.age instanceof Date ? formData.age.toISOString().split('T')[0] : ''}
                 onChange={handleChange}
                 required
               />
@@ -288,6 +350,7 @@ const AddApplicantPage = () => {
               </div> */}
             </>
           )}
+          </div>
           </Step>
 
 
@@ -375,26 +438,26 @@ const AddApplicantPage = () => {
             />
 
             <div className="from-to-dates"> 
-            <label htmlFor="startDate">Start Date</label>
-            <input 
+              <label htmlFor="startDate">Start Date</label>
+              <input 
                 type="date"
                 name="startDate"
                 max={new Date().toISOString().split('T')[0]}
                 value={educationData.startDate ? educationData.startDate.toISOString().split('T')[0] : ''}
                 onChange={handleChangeEducation}
                 required
-              />
-            </div>
+                />
 
-            <label htmlFor="endDate">End Date</label>
-            <input 
+              <label htmlFor="endDate">End Date</label>
+              <input 
                 type="date"
                 name="endDate"
                 max={new Date().toISOString().split('T')[0]}
                 value={educationData.endDate ? educationData.endDate.toISOString().split('T')[0] : ''}
                 onChange={handleChangeEducation}
                 required
-              />
+                />
+            </div>
 
             <label htmlFor="degree">Degree</label>
             <input
@@ -415,10 +478,21 @@ const AddApplicantPage = () => {
             />
 
             <button
-              onClick={() => handleSubmitEducation()}
+              onClick={handleSubmitEducation}
             >
               Add
             </button>
+
+            <ul>
+            {educations.map((edu, index) =>
+              <li key={'edu-'+index}>
+                <h4>{edu.place}</h4>
+                <h5>{edu.speciality}</h5>
+                <h5>{edu.degree}</h5>
+                <p>Add beautiful dates</p>
+              </li>
+            )}
+            </ul>
 
             <h4>Experience</h4>
 
@@ -446,7 +520,7 @@ const AddApplicantPage = () => {
                 type="date"
                 name="startDate"
                 max={new Date().toISOString().split('T')[0]}
-                value={experienceData.startDate ? experienceData.startDate.toISOString().split('T')[0] : ''}
+                value={experienceData.startDate instanceof Date ? experienceData.startDate.toISOString().split('T')[0] : ''}
                 onChange={handleChangeExperience}
                 required
               />
@@ -456,7 +530,7 @@ const AddApplicantPage = () => {
                 type="date"
                 name="endDate"
                 max={new Date().toISOString().split('T')[0]}
-                value={experienceData.endDate ? experienceData.endDate.toISOString().split('T')[0] : ''}
+                value={experienceData.endDate instanceof Date ? experienceData.endDate.toISOString().split('T')[0] : ''}
                 onChange={handleChangeExperience}
                 required
               />
@@ -470,10 +544,21 @@ const AddApplicantPage = () => {
             />
             
             <button
-              onClick={() => handleSubmitExperience()}
+              onClick={handleSubmitExperience}
+              // disabled={!isFormExpValid}
             >
               Add
             </button>
+
+            <ul>
+            {experiences.map((exp, index) =>
+              <li key={'exp-'+index}>
+                <h4>{exp.jobTitle}</h4>
+                <h5>{exp.company}</h5>
+                <p>Add beautiful dates</p>
+              </li>
+            )}
+            </ul>
 
           </>
           )}
@@ -487,7 +572,7 @@ const AddApplicantPage = () => {
             <>
             <h4>Skills</h4>
 
-            <label htmlFor="collLanguage">Languages</label>
+            <label htmlFor="collLanguage">Choose the language</label>
             <input
               type="text"
               name="collLanguage"
@@ -496,10 +581,26 @@ const AddApplicantPage = () => {
               list="languages"
             />
             <datalist id="languages">
-              {languages.map((language) => (
-                <option key={language} value={language} />
+              {languages.map((lang) => (
+                <option key={lang} value={lang} />
               ))}
             </datalist>
+
+            <label htmlFor="levelLanguage">Choose your level</label>
+            <input
+              type="text"
+              name="levelLanguage"
+              value={level}
+              onChange={handleLevelChange}
+              list="levelLanguages"
+            />
+            <datalist id="levelLanguages">
+              {levelLanguages.map((level) => (
+                <option key={level} value={level} />
+              ))}
+            </datalist>
+            
+            <button onClick={handleLanguage}>Add</button>
 
             <ul>
               {collLanguages.map((language, index) => (
@@ -567,7 +668,7 @@ const AddApplicantPage = () => {
               ))}
             </ul>
 
-            <label htmlFor="video">Here you can share the video of your project you proud of</label>
+            <label htmlFor="video">Here you can share the link to the video of your project you proud of</label>
               <div>
                 <input 
                   type="video"
@@ -582,6 +683,95 @@ const AddApplicantPage = () => {
           
           </Step>
 
+          <Step key="Skills">
+            
+            <StepLabel>Preferences</StepLabel>
+            {activeStep === 4 && (
+            <>
+            <h4>Preferences</h4>
+
+            <label htmlFor="desiredLocations">Desired Locations</label>
+            <div>
+            <input
+              type="text"
+              name="desiredLocations"
+              value={desiredLocation}
+              onChange={handleDesiredLocationChange}
+            />
+
+            <button onClick={handleDesiredLocation}>Add more</button>
+            <ul>
+              {desiredLocations.map((loc, index) => (
+                <li key={index}>{loc}</li>
+              ))}
+            </ul>
+          </div>
+            
+          <label htmlFor="nonDesiredLocations">Non-desired Locations</label>
+            <div>
+            <input
+              type="text"
+              name="nonDesiredLocations"
+              value={nonDesiredLocation}
+              onChange={handleNonDesiredLocationChange}
+            />
+
+            <button onClick={handleNonDesiredLocation}>Add more</button>
+            <ul>
+              {nonDesiredLocations.map((loc, index) => (
+                <li key={index}>{loc}</li>
+              ))}
+            </ul>
+          </div>
+
+          <label htmlFor="workingModal">Working Modal</label>
+          <input
+            type="text"
+            name="workingModal"
+            value={formData.workingModal}
+            onChange={handleChange}
+            list="workingModals"
+          />
+          <datalist id="workingModals">
+            {workingModals.map((modal) => (
+              <option key={modal} value={modal} />
+            ))}
+          </datalist>
+
+          <label htmlFor="workingHours">Working Hours</label>
+          <input
+            type="text"
+            name="workingHours"
+            value={formData.workingHours}
+            onChange={handleChange}
+            list="workingHours"
+          />
+          <datalist id="workingHours">
+            {workingHours.map((hour) => (
+              <option key={hour} value={hour} />
+            ))}
+          </datalist>
+
+          <label htmlFor="readyToMove">Are you ready to move?</label>
+          <input
+            type="checkbox"
+            id="readyToMove"
+            checked={moveChecked}
+            onChange={handleMoveToggle}
+          />
+
+          <label htmlFor="salaryRange">Minimum Salary, $</label>
+          <input
+            type="number"
+            name="salaryRange"
+            value={formData.salaryRange}
+            onChange={handleChange}
+          />
+
+          </>
+          )}
+          
+          </Step>
       
         </Stepper>
       </div>
@@ -603,6 +793,12 @@ const AddApplicantPage = () => {
         </Button>
       </div>
       </div>
+
+      <Button
+          onClick={handleSubmit}
+          variant="contained"
+          color="primary"
+        >Create account</Button>
     </>
   );
 };
