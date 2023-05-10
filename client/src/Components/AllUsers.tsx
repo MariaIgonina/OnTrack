@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { fetchAllApplicants } from "../store/applicantSlice";
-import UserCard from "./UserCard";
-import { Applicant } from "../Interfaces";
 
-export default function Suggestion() {
+export default function AllUsers() {
   const applicants = useSelector((s: RootState) => s.applicant.applicant);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -159,65 +157,59 @@ export default function Suggestion() {
     <div className="bg-stone-100 py-24 sm:py-32 rounded-lg m-4 ">
       <div className="mx-auto max-w-7xl lg:px-8 ">
         <div className="mx-auto max-w-2xl lg:mx-0  ">
-          <h2 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-4xl mb-8">
-            Your Personalized Suggestions
-          </h2>
           <p className="mt-2 text-lg text-[#026767] leading-8 text-gray-600 ">
-            We think these applicants will catch your eye
+            Search all the candidates using OnTrack
           </p>
         </div>
-        <div className="overflow-x-scroll flex flex-nowrap  my-8 ">
-          {/* bg-teal-100 */}
-          {/* //mt-3 max-w-xl gap-x-8 gap-y-8 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3 */}
+        {/* <div className="grid grid-cols-3 gap-4 my-8 mt-3 max-w-xl gap-x-8 gap-y-8 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3"> */}
+        <div className="mx-auto mt-10 grid max-w-2xl grid-cols-3 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {posts.map((applicant) => (
-            <>
-              {/* <UserCard applicant={applicant}></UserCard> */}
-              <article
-                key={applicant.idAuth}
-                className="flex-shrink-0 flex-col flex rounded-2xl shadow-md bg-white p-3 m-5"
-                style={{ minWidth: "300px" }}
-              >
-                <div className="flex items-center gap-x-4 text-xs">
-                  <time className="text-gray-500">{applicant.location}</time>
-                  <a
-                    href={applicant.workingHours}
-                    className="relative z-10 ml-auto rounded-full bg-green-100 text-white px-3 py-1.5 font-medium text-gray-600"
-                  >
-                    Looking for {applicant.workingHours}
+            <article
+              key={applicant.idAuth}
+              //   className="grid grid-cols-1 gap-4 rounded-2xl shadow-md bg-white p-3 m-5"
+              className="flex max-w-xl flex-col items-start rounded-2xl justify-between shadow-md bg-white p-3 m-5"
+              style={{ minWidth: "300px", maxWidth: "400px" }}
+            >
+              <div className="flex items-center gap-x-4 text-xs">
+                <time className="text-gray-500">{applicant.location}</time>
+                <a
+                  href={applicant.workingHours}
+                  className="relative z-10 ml-auto rounded-full bg-green-100 text-white px-3 py-1.5 font-medium text-gray-600"
+                >
+                  Looking for {applicant.workingHours}
+                </a>
+              </div>
+              <div className="group relative">
+                <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                  <a href={applicant.name}>
+                    <span className="absolute inset-0" />
+                    {applicant.name}
                   </a>
-                </div>
-                <div className="group relative">
-                  <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                    <a href={applicant.name}>
+                </h3>
+                <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
+                  {applicant.about}
+                </p>
+                <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
+                  {applicant.stack}
+                </p>
+              </div>
+              <div className="relative mt-8 flex items-center gap-x-4">
+                <img
+                  src={applicant.picture}
+                  alt=""
+                  className="h-10 w-10 rounded-full bg-gray-50"
+                />
+                <div className="text-sm leading-6">
+                  <p className="font-semibold text-gray-900">
+                    <a href={applicant.email}>
                       <span className="absolute inset-0" />
-                      {applicant.name}
+                      {applicant.email}
                     </a>
-                  </h3>
-                  <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
-                    {applicant.about}
                   </p>
-                  <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
-                    {applicant.stack}
-                  </p>
+                  <p className="text-gray-600">{applicant.phone}</p>
                 </div>
-                <div className="relative mt-8 flex items-center gap-x-4">
-                  <img
-                    src={applicant.picture}
-                    alt=""
-                    className="h-10 w-10 rounded-full bg-gray-50"
-                  />
-                  <div className="text-sm leading-6">
-                    <p className="font-semibold text-gray-900">
-                      <a href={applicant.email}>
-                        <span className="absolute inset-0" />
-                        {applicant.email}
-                      </a>
-                    </p>
-                    <p className="text-gray-600">{applicant.phone}</p>
-                  </div>
-                </div>
-              </article>
-            </>
+              </div>
+            </article>
           ))}
         </div>
       </div>

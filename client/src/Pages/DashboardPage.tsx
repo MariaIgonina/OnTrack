@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import AllUsers from "../Components/AllUsers";
 import Suggestion from "../Components/Suggestion";
 
 const DashboardPage = () => {
@@ -19,6 +20,7 @@ const DashboardPage = () => {
   return (
     <>
       <Suggestion></Suggestion>
+      <AllUsers />
       <Suggestion></Suggestion>
       <Suggestion></Suggestion>
     </>
