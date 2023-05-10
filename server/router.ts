@@ -2,12 +2,15 @@ import { Router, Request, Response } from "express";
 import { applicantControllers } from "./controllersMain/applicantControllers";
 import { vacancyController } from "./controllersMain/vacancyController";
 import { messageController } from "./controllersMain/messageController";
-import { actionController } from "./controllersMain/actionController";
+// import { actionController } from "./controllersMain/actionController";
 import { recruiterController } from "./controllersMain/recruiterController";
 import { trackControllers } from "./controllersMain/trackController";
 import { stepController } from "./controllersMain/stepController";
 import { questionnaryController } from "./controllersMain/questionnaryController";
 import { getAccessToken, getUserData } from "./controllersAuth/authController";
+import { educationController } from "./controllersMain/educationController";
+import { experienceController } from "./controllersMain/experienceController";
+import { populateDatabase } from "./controllersMain/populateController";
 
 const router = Router();
 
@@ -45,6 +48,7 @@ router.get("/applicants", applicantControllers.getAllApplicants);
 router.post("/createApplicant", applicantControllers.createApplicant);
 router.put("/updateApplicant/:id", applicantControllers.updateApplicant);
 router.delete("/deleteApplicant/:id", applicantControllers.deleteApplicant);
+router.get("/filterApplicants/", applicantControllers.filterApplicants);
 
 // Auth routes
 router.get("/getAccessToken", getAccessToken);
@@ -68,21 +72,43 @@ router.put("/updatetrack/:id", trackControllers.updatetrackbyId);
 router.delete("/deletetrack/:id", trackControllers.deletetrack);
 
 // Vacancy routes
-router.post("/vacancy", vacancyController.createVacancy);
+router.post("/createVacancy", vacancyController.createVacancy);
 router.get("/vacancy/:id", vacancyController.getVacancyById);
-router.get("/vacancyall", vacancyController.getAllVacancies);
-router.put("/vacancy/:id", vacancyController.updateVacancy);
-router.delete("/vacancy/:id", vacancyController.deleteVacancy);
+router.get("/vacanciesAll", vacancyController.getAllVacancies);
+router.get(
+  "/vacanciesByRecruiter/:recruiterId",
+  vacancyController.getVacancyByRecruiter
+);
+router.get("/vacanciesByFilter", vacancyController.getVacanciesByFilter);
+router.put("/updateVacancy/:id", vacancyController.updateVacancy);
+router.delete("/deleteVacancy/:id", vacancyController.deleteVacancy);
 
 // Message routes
-router.post("/message", messageController.createMessage);
-router.delete("/message/:id", messageController.deleteMessageById);
-router.get("/message/:trackId", messageController.getAllMsgsByTrack);
+router.post("/createMessage", messageController.createMessage);
+router.delete("/deleteMessage/:id", messageController.deleteMessageById);
+router.get("/messagesByTrack/:trackId", messageController.getAllMsgsByTrack);
+router.get("/messagesByFilter", messageController.getMessagesByFilter);
 
+// Populate
+router.post("/generate", populateDatabase);
 // Action routes
-router.get("/action/step/:stepId", actionController.getAllActionsByStep);
-router.post("/action", actionController.createActionbyStep);
-router.put("/action/:id", actionController.updateAction);
-router.delete("/action/:id", actionController.deleteAction);
+// router.get("/actionsByStep/:stepId", actionController.getAllActionsByStep);
+// router.post("/createAction", actionController.createActionbyStep);
+// router.put("/updateAction/:id", actionController.updateAction);
+// router.delete("/deleteAction/:id", actionController.deleteAction);
+
+// Education routes
+router.post('/createEducationTitle/:applicantId', educationController.createTitle);
+router.get('/education/:applicantId', educationController.getAllEducationByApplicantId);
+router.put('/updateEducationTitle/:titleId', educationController.updateTitleById);
+router.delete('/deleteEducationTitle/:titleId', educationController.deleteTitleById);
+router.get('/getEducationTitle/:titleId', educationController.getTitleById)
+
+// Experience routes
+router.post('/createExperience/:applicantId', experienceController.createExperience);
+router.get('/experience/:applicantId', experienceController.getAllExperienceByApplicantId);
+router.put('/updateExperience/:experienceId', experienceController.updateExperienceById);
+router.delete('/deleteExperience/:experienceId', experienceController.deleteExperienceById);
+router.get('/getExperience/:experienceId', experienceController.getExperienceById)
 
 export default router;

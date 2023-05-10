@@ -1,30 +1,30 @@
 -- CreateTable
 CREATE TABLE "Applicant" (
     "idDB" SERIAL NOT NULL,
-    "idAuth0" TEXT NOT NULL,
+    "idAuth" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "picture" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "familyName" TEXT NOT NULL,
-    "age" TIMESTAMP(3) NOT NULL,
-    "phone" TEXT NOT NULL,
-    "location" TEXT NOT NULL,
+    "familyName" TEXT,
+    "age" TIMESTAMP(3),
+    "phone" TEXT,
+    "location" TEXT,
     "currentLocation" TEXT[],
-    "readyMove" BOOLEAN NOT NULL,
-    "workingHours" TEXT NOT NULL,
-    "workingModal" TEXT NOT NULL,
+    "readyMove" BOOLEAN,
+    "workingHours" TEXT,
+    "workingModal" TEXT,
     "socialMedia" TEXT[],
     "skillsProf" TEXT[],
     "stack" TEXT[],
     "compLanguages" TEXT[],
-    "about" TEXT NOT NULL,
-    "video" TEXT NOT NULL,
+    "about" TEXT,
+    "video" TEXT,
     "languages" TEXT[],
     "hobbies" TEXT[],
-    "salaryRange" INTEGER NOT NULL,
+    "salaryRange" INTEGER,
     "desiredLocation" TEXT[],
     "notDesiredLocation" TEXT[],
-    "desiredWorkingModal" TEXT NOT NULL,
+    "desiredWorkingModal" TEXT,
 
     CONSTRAINT "Applicant_pkey" PRIMARY KEY ("idDB")
 );
@@ -58,12 +58,16 @@ CREATE TABLE "Education" (
 -- CreateTable
 CREATE TABLE "Recruiter" (
     "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
-    "logo" TEXT NOT NULL,
-    "founded" TEXT NOT NULL,
-    "about" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "picture" TEXT NOT NULL,
+    "idAuth" TEXT NOT NULL,
+    "recruiterName" TEXT NOT NULL,
+    "name" TEXT,
+    "logo" TEXT,
+    "founded" TEXT,
+    "about" TEXT,
     "externalLinks" TEXT[],
-    "headOffice" TEXT NOT NULL,
+    "headOffice" TEXT,
 
     CONSTRAINT "Recruiter_pkey" PRIMARY KEY ("id")
 );
@@ -74,14 +78,14 @@ CREATE TABLE "Vacancy" (
     "recruiterId" INTEGER NOT NULL,
     "about" TEXT NOT NULL,
     "title" TEXT NOT NULL,
-    "workingHours" TEXT NOT NULL,
-    "workingModal" TEXT NOT NULL,
+    "workingHours" TEXT,
+    "workingModal" TEXT,
     "skills" TEXT[],
     "stack" TEXT[],
     "requiredLanguages" TEXT[],
-    "experience" INTEGER NOT NULL,
+    "experience" INTEGER,
     "location" TEXT NOT NULL,
-    "salaryRange" INTEGER NOT NULL,
+    "salaryRange" INTEGER,
 
     CONSTRAINT "Vacancy_pkey" PRIMARY KEY ("id")
 );
@@ -92,7 +96,8 @@ CREATE TABLE "Track" (
     "recruiterID" INTEGER NOT NULL,
     "applicantID" INTEGER,
     "reject" BOOLEAN NOT NULL DEFAULT false,
-    "notes" TEXT,
+    "applicantNotes" TEXT,
+    "recruiterNotes" TEXT,
     "vacancyId" INTEGER NOT NULL,
 
     CONSTRAINT "Track_pkey" PRIMARY KEY ("id")
@@ -102,34 +107,16 @@ CREATE TABLE "Track" (
 CREATE TABLE "Step" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "durationInMs" INTEGER NOT NULL,
-    "hidden" BOOLEAN NOT NULL,
-    "statusStep" BOOLEAN NOT NULL,
+    "type" TEXT NOT NULL,
+    "about" TEXT NOT NULL,
+    "durationInMs" INTEGER,
+    "scheduleDate" TIMESTAMP(3),
+    "order" INTEGER NOT NULL,
+    "hidden" BOOLEAN NOT NULL DEFAULT false,
+    "active" BOOLEAN NOT NULL DEFAULT true,
     "trackId" INTEGER NOT NULL,
 
     CONSTRAINT "Step_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Message" (
-    "id" SERIAL NOT NULL,
-    "trackId" INTEGER NOT NULL,
-    "text" TEXT NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL,
-    "files" TEXT[],
-    "stepId" INTEGER NOT NULL,
-
-    CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Action" (
-    "id" SERIAL NOT NULL,
-    "stepId" INTEGER NOT NULL,
-    "name" TEXT NOT NULL,
-    "scheduleDate" TEXT NOT NULL,
-
-    CONSTRAINT "Action_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -143,11 +130,28 @@ CREATE TABLE "Questionary" (
     CONSTRAINT "Questionary_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Message" (
+    "id" SERIAL NOT NULL,
+    "trackId" INTEGER NOT NULL,
+    "text" TEXT NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL,
+    "files" TEXT[],
+
+    CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
-CREATE UNIQUE INDEX "Applicant_idAuth0_key" ON "Applicant"("idAuth0");
+CREATE UNIQUE INDEX "Applicant_idAuth_key" ON "Applicant"("idAuth");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Applicant_email_key" ON "Applicant"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Recruiter_idAuth_key" ON "Recruiter"("idAuth");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Step_order_key" ON "Step"("order");
 
 -- AddForeignKey
 ALTER TABLE "Experience" ADD CONSTRAINT "Experience_applicantId_fkey" FOREIGN KEY ("applicantId") REFERENCES "Applicant"("idDB") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -159,22 +163,19 @@ ALTER TABLE "Education" ADD CONSTRAINT "Education_applicantIdDB_fkey" FOREIGN KE
 ALTER TABLE "Vacancy" ADD CONSTRAINT "Vacancy_recruiterId_fkey" FOREIGN KEY ("recruiterId") REFERENCES "Recruiter"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Track" ADD CONSTRAINT "Track_vacancyId_fkey" FOREIGN KEY ("vacancyId") REFERENCES "Vacancy"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Track" ADD CONSTRAINT "Track_recruiterID_fkey" FOREIGN KEY ("recruiterID") REFERENCES "Recruiter"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Track" ADD CONSTRAINT "Track_applicantID_fkey" FOREIGN KEY ("applicantID") REFERENCES "Applicant"("idDB") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Track" ADD CONSTRAINT "Track_recruiterID_fkey" FOREIGN KEY ("recruiterID") REFERENCES "Recruiter"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Track" ADD CONSTRAINT "Track_vacancyId_fkey" FOREIGN KEY ("vacancyId") REFERENCES "Vacancy"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Step" ADD CONSTRAINT "Step_trackId_fkey" FOREIGN KEY ("trackId") REFERENCES "Track"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Message" ADD CONSTRAINT "Message_trackId_fkey" FOREIGN KEY ("trackId") REFERENCES "Track"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Action" ADD CONSTRAINT "Action_stepId_fkey" FOREIGN KEY ("stepId") REFERENCES "Step"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "Questionary" ADD CONSTRAINT "Questionary_stepId_fkey" FOREIGN KEY ("stepId") REFERENCES "Step"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Message" ADD CONSTRAINT "Message_trackId_fkey" FOREIGN KEY ("trackId") REFERENCES "Track"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

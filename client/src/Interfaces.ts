@@ -47,20 +47,20 @@ export interface Recruiter {
 }
 
 export interface Vacancy {
-  id: number,
-  recruiter: Recruiter,
-  recruiterId: number,
-  about: string,
-  title: string,
-  jobTrack: Track[],
-  workingHours: string,
-  workingModal: string,
-  skills: string[],
-  stack: string[],
-  requiredLanguages: string[],
-  experience: number,
-  location: string,
-  salaryRange:number,
+  id: number;
+  recruiter: Recruiter;
+  recruiterId: number;
+  about: string;
+  title: string;
+  jobTrack: Track[];
+  workingHours: string;
+  workingModal: string;
+  skills: string[];
+  stack: string[];
+  requiredLanguages: string[];
+  experience: number;
+  location: string;
+  salaryRange: number;
 }
 
 export interface Track {
