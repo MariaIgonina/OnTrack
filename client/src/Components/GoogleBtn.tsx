@@ -34,7 +34,7 @@ export default function LoginGoogle() {
       "client_id": REACT_APP_GOOGLE_CLIENT_ID,
       "redirect_uri": redirectUri,
       "response_type": "token",
-      "scope": "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/userinfo.profile",
+      "scope": "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
       "include_granted_scopes": 'true',
       "state": 'pass-through-value'
     };
