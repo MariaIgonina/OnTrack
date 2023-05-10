@@ -4,11 +4,13 @@ const prisma = new PrismaClient();
 
 async function createExperience(req: Request, res: Response) {
   try {
-    await prisma.experience.create({
+    const experience = await prisma.experience.create({
       data: { ...req.body, applicant: { connect: { idDB: +req.params.applicantId } } }
     })
+    res.status(200).json(experience)
   } catch (error) {
-    console.log('error creating new experience ', error)
+    console.log('error creating new experience ', error);
+    res.status(500).json(error)
   }
 }
 async function getAllExperienceByApplicantId(req: Request, res: Response) {

@@ -61,11 +61,7 @@ CREATE TABLE "Recruiter" (
     "email" TEXT NOT NULL,
     "picture" TEXT NOT NULL,
     "idAuth" TEXT NOT NULL,
-<<<<<<<< HEAD:server/prisma/migrations/20230509162712_no_name/migration.sql
-    "recuiterName" TEXT NOT NULL,
-========
     "recruiterName" TEXT NOT NULL,
->>>>>>>> Development:server/prisma/migrations/20230509175733_/migration.sql
     "name" TEXT,
     "logo" TEXT,
     "founded" TEXT,
