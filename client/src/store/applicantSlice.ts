@@ -6,17 +6,17 @@ import { RootState } from "./store";
 
 const initialApplicant: Applicant = {
   idDB: 0,
-  idAuth: "",
-  email: "",
-  picture: "",
-  name: "",
-  familyName: "",
-  age: 0,
-  phone: "",
-  location: "",
-  inProgressApplications: [],
-  coordinateX: "",
-  coordinateY: "",
+  idAuth: '',
+  email: '',
+  picture: '',
+  name: '',
+  familyName: '',
+  age: new Date(),
+  phone: '',
+  location: '',
+  track: [],
+  coordinateX: '',
+  coordinateY: '',
   readyToMove: false,
   workingHours: "",
   workingModal: "",
@@ -31,10 +31,11 @@ const initialApplicant: Applicant = {
   languages: [],
   hobbies: [],
   salaryRange: 0,
-  desiredLocation: "",
-  nonDesiredLocation: "",
-  desiredWorkingModal: "",
-};
+  desiredLocation: [],
+  nonDesiredLocation: [],
+  desiredWorkingModal: '',
+}
+
 
 const url: string = "http://localhost:3000";
 

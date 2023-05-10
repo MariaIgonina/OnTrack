@@ -28,6 +28,7 @@ function App() {
           <Route path="/adduser" element={<AddApplicantPage />} />
           <Route path="/applicant" element={<ApplicantPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/addapplicant" element={<AddApplicantPage />} />
         </Routes>
       </div>
     </BrowserRouter>

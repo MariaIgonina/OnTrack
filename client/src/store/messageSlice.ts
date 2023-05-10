@@ -14,7 +14,6 @@ const initialMessage: Message = {
   text: '',
   date: new Date(),
   files: [],
-  stepId: 0,
 }
 
 

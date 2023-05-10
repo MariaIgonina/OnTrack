@@ -12,6 +12,7 @@ import {
   createRecruiter,
 } from "../store/recruiterSlice";
 import { Recruiter } from "../Interfaces";
+import { initialRecruiter } from "../store/recruiterSlice";
 
 const CompanyPage = () => {
   const recruiter = useSelector((state: RootState) => state.recruiter);
@@ -19,22 +20,11 @@ const CompanyPage = () => {
 
   useEffect(() => {
     dispatch(setRecruiter(recruiter));
-    dispatch(fetchRecruiter(1));
-  }, [dispatch]);
+    dispatch(fetchRecruiter(1))
+  }, [dispatch])
 
-  const initialState: Recruiter = {
-    id: 0,
-    name: "",
-    vacancies: [],
-    logo: "",
-    founded: "",
-    about: "",
-    externalLinks: [],
-    headOffice: "",
-    track: [],
-  };
-
-  const [formData, setFormData] = useState(initialState);
+  
+  const [formData, setFormData] = useState(initialRecruiter);
 
   const handleChange = (
     e: React.ChangeEvent<
