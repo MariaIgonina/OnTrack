@@ -12,7 +12,6 @@ export default function Suggestion() {
   ) as unknown as Applicant[]; //THIS IS BAD TYPESCRIPT REFACTOR THIS ROSIE
   const dispatch = useDispatch<AppDispatch>();
 
-  console.log("APPLICANTS ==> ", applicants);
   useEffect(() => {
     dispatch(fetchAllApplicants());
   }, []);
