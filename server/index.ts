@@ -4,6 +4,7 @@ import router from "./router";
 import bodyParser from "body-parser";
 import { PrismaClient } from "@prisma/client";
 import cors from "cors";
+import { populateDatabase } from "./controllersMain/populateController";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(router);
     await prisma.$connect();
     app.listen(PORT, () => {
       console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
+      // populateDatabase();
     });
   } catch (error) {
     console.log("Error in connecting to database :", error);

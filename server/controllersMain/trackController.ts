@@ -98,7 +98,7 @@ async function deletetrack(req: Request, res: Response) {
 
 async function updatetrackbyId(req: Request, res: Response) {
   const { id } = req.params;
-  const { reject, notes } = req.body;
+  const { reject, applicantNotes } = req.body;
   try {
     const track = await prisma.track.update({
       where: {
@@ -106,7 +106,7 @@ async function updatetrackbyId(req: Request, res: Response) {
       },
       data: {
         reject: JSON.parse(reject),
-        notes: notes,
+        applicantNotes: applicantNotes,
       },
     });
     res.json(track).status(200);

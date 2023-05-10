@@ -12,7 +12,7 @@ import TrackPage from "./Pages/TrackPage";
 import AddApplicantPage from "./Pages/AddApplicantPage";
 import SettingsPage from "./Pages/SettingsPage";
 
-import "./App.css";
+//import "./index.css";
 
 function App() {
   return (

@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
-import RegisterModal from "../Components/registerModal";
-
+import RegisterModal from "../Components/RegisterModal";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store/store";
 import "./Login.css";
-
-const CLIENT_ID = "Iv1.0f2124a7d7aa9dee";
+import { createApplicant } from "../store/applicantSlice";
+import { Applicant } from "../Interfaces";
+import GithubBtn from "../Components/GithubBtn";
 
 const LoginPage = () => {
+  const text = "Login with Github";
+  const dispatch = useDispatch<AppDispatch>();
   const [render, setReRender] = useState(false);
   const [isOpen, setOpen] = useState(false);
 
@@ -14,70 +18,61 @@ const LoginPage = () => {
     setOpen(!isOpen);
   }
 
-  function loginWithGitHub() {
-    window.location.assign(
-      "https://github.com/login/oauth/authorize?client_id=" + CLIENT_ID
-    );
-  }
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const codeParam = urlParams.get("code");
 
   function logoutFromGithub() {
     localStorage.removeItem("accessToken");
     setReRender(!render);
   }
 
-  useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const codeParam = urlParams.get("code");
-    console.log(codeParam);
+  function extractUserData(userInfo: any) {
+    const { avatar_url, bio, email, html_url, node_id, name } = userInfo;
+    return {
+      picture: avatar_url,
+      about: bio,
+      email,
+      socialMedia: [html_url],
+      idAuth: node_id,
+      name,
+    };
+  }
 
+  async function getAccessToken() {
+    try {
+      await fetch("http://localhost:3000/getAccessToken?code=" + codeParam, {
+        method: "GET",
+      })
+        .then((data) => {
+          return data.json();
+        })
+        .then(async (data) => {
+          const userInfo = await fetch("http://localhost:3000/getUserData", {
+            headers: {
+              Method: "GET",
+              Authorization: "Bearer " + data.access_token,
+            },
+          }).then((data) => data.json());
+          const newUser: Applicant = extractUserData(userInfo);
+          dispatch(createApplicant(newUser));
+          if (data.access_token) {
+            localStorage.setItem("accessToken", data.access_token);
+            setReRender(!render);
+          }
+        });
+    } catch (e) {
+      console.log("error", e);
+    }
+  }
+
+  useEffect(() => {
+    console.log("i should run");
     if (codeParam && localStorage.getItem("accessToken") === null) {
-      //this should got in API service file
-      async function getAccessToken() {
-        try {
-          await fetch(
-            "http://localhost:3000/getAccessToken?code=" + codeParam,
-            {
-              method: "GET",
-            }
-          )
-            .then((data) => {
-              console.log("hello");
-              console.log(typeof data);
-              console.log("DATATATAT", data);
-              return data.json();
-            })
-            .then((data) => {
-              console.log("data", data);
-              if (data.access_token) {
-                console.log("data.access_token =", data.access_token);
-                localStorage.setItem("accessToken", data.access_token);
-                setReRender(!render);
-              }
-            });
-        } catch (e) {
-          console.log("EEEEError", e);
-        }
-      }
+      console.log("i should only run with the post!");
       getAccessToken();
     }
   }, []);
-
-  async function getUserData() {
-    await fetch("http://localhost:3000/getUserData", {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("accessToken"),
-      },
-    })
-      .then((response) => {
-        console.log("hello");
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-      });
-  }
 
   return (
     <>
@@ -87,9 +82,8 @@ const LoginPage = () => {
           {localStorage.getItem("accessToken") ? (
             <>
               <h3 className="loggedin">You are logged in!</h3>
-              <button onClick={getUserData}>Get Data from GitHub API</button>
               <Button
-                sx={{ backgroundColor: "#568ea3" }}
+                sx={{ backgroundColor: "#568EA3" }}
                 variant="contained"
                 className="btn"
                 type="submit"
@@ -100,7 +94,7 @@ const LoginPage = () => {
             </>
           ) : (
             <>
-              <div className="textinput">
+              {/* <div className="textinput">
                 <label className="label" htmlFor="email">
                   Email
                 </label>
@@ -111,29 +105,25 @@ const LoginPage = () => {
                 <input name="Password" type="password"></input>
               </div>
               <Button
-                sx={{ backgroundColor: "#568ea3" }}
+                sx={{ backgroundColor: "#568EA3" }}
                 variant="contained"
                 className="btn"
                 type="submit"
               >
                 LOG IN
               </Button>
-              <p className="dividerText"> OR </p>
-              <Button
-                onClick={loginWithGitHub}
-                sx={{ backgroundColor: "#568ea3", margin: "5px" }}
-                variant="contained"
-                className="btn"
-                type="submit"
-              >
-                Login With GitHub
-              </Button>
+              <p className="dividerText"> OR </p> */}
+
+              <GithubBtn text={text}></GithubBtn>
+
               <div className="register">
                 <button className="smallbtn" onClick={handleRegisterModal}>
                   <p>Or sign up for the first time by registering an account</p>
                 </button>
               </div>
-              {isOpen ? <RegisterModal /> : null}
+              {isOpen ? (
+                <RegisterModal isOpen={isOpen} setOpen={setOpen} />
+              ) : null}
             </>
           )}
         </div>
