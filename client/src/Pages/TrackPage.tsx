@@ -39,8 +39,9 @@ const mockVacancy: Vacancy = {
 interface TrackProps {
   vacancy: Vacancy,
 }
+// React.FC<TrackProps | null>
 
-const TrackPage: React.FC<TrackProps> = ({}) => {
+const TrackPage  = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
