@@ -1,7 +1,11 @@
 import React from "react";
 import { Applicant } from "../Interfaces";
 
-export default function UserCard(applicant: Applicant) {
+interface UserCardProps {
+  applicant: Applicant;
+}
+
+export default function UserCard({ applicant }: UserCardProps) {
   return (
     <article
       key={applicant.idAuth}
