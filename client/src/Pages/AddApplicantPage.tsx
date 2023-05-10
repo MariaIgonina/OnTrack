@@ -575,15 +575,10 @@ const AddApplicantPage = () => {
                   value={formData.video} 
                   onChange={handleChange} 
                 />
-                
-              
-
               </div>
 
           </>
           )}
-        
-
           
           </Step>
 
