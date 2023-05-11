@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type InfoRequestData = {
   token: string
@@ -8,7 +9,8 @@ type InfoRequestData = {
 const loggedWithGoogle = () => {
   const [userName, setUserName] = useState('')
   const [userImg, setUserImg] = useState<any>('')
-  
+  const navigate = useNavigate();
+
   let params: any = {};
 
   let regex = /([^&=]+)=([^&]*)/g, m;
@@ -48,12 +50,24 @@ const loggedWithGoogle = () => {
 
   //redirect somewhere here
 
+  function logout() {
+    fetch(`https://oauth2.googleapis.com/revoke?token=${info['access_token']}`, {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }).then(data => {
+      localStorage.removeItem('authInfo')
+      navigate('/')
+    })
+  }
+
   return (
     <div>
       <h1> You've been loged with google, ain't it fun?!</h1>
       <h2>Your full name: {userName}</h2>
       <img id="profilePicture" src={userImg} />
-      <button>Logout</button>
+      <button onClick={logout}>Logout</button>
     </div>);
 }
 
