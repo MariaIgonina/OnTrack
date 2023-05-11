@@ -32,7 +32,7 @@ function App() {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/addapplicant" element={<AddApplicantPage />} />
           <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
-          <Route path="/signInWithGoogle" element={<SignInWithGoogle/>} />
+          <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
         </Routes>
       </div>
     </BrowserRouter>
