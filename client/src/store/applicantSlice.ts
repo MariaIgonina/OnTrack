@@ -41,6 +41,7 @@ const url: string = "http://localhost:3000";
 const fetchApplicant = createAsyncThunk(
   "applicant/fetchapplicant",
   async function (applicantId: number, { rejectWithValue }) {
+    console.log(applicantId);
     try {
       const response = await fetch(`${url}/applicant/${applicantId}`);
       if (!response.ok) {

@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./RegisterModal.css";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store/store";
-import { createRecruiter } from "../store/recruiterSlice";
 import { Recruiter, Applicant } from "../Interfaces";
-import { createApplicant } from "../store/applicantSlice";
 import GithubBtn from "./GithubBtn";
 
 type RegisterModalProps = {
@@ -24,8 +20,6 @@ export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
   useEffect(() => {
     console.log("state of applicant", isApplicant);
   }, [isApplicant]);
-
-  const dispatch = useDispatch<AppDispatch>();
 
   const initialState: Recruiter = {
     id: 0,
@@ -78,7 +72,6 @@ export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
   return (
     <div className="modal">
       <div className="modal-content">
-        {/* <form onSubmit={handleSubmit}> */}
         <div className="checkbox">
           <input
             type="checkbox"
@@ -88,7 +81,7 @@ export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
             checked={isApplicant}
             onChange={(e) => {
               handleToggle();
-              // handleInputChange(e);
+              localStorage.setItem("currentUser", e.target.value);
             }}
           />
           <label htmlFor="applicant">Applicant</label>
@@ -100,16 +93,12 @@ export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
             checked={!isApplicant}
             onChange={(e) => {
               handleToggle();
-              // handleInputChange(e);
+              localStorage.setItem("currentUser", e.target.value);
             }}
           />
           <label htmlFor="recruiter">Recruiter</label>
         </div>
-        <GithubBtn
-          text={"Sign-up with Github"}
-          isApplicant={isApplicant}
-        ></GithubBtn>
-        {/* </form> */}
+        <GithubBtn text={"Sign-up with Github"}></GithubBtn>
       </div>
     </div>
   );

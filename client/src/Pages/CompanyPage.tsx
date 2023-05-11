@@ -17,10 +17,7 @@ import { initialRecruiter } from "../store/recruiterSlice";
 const CompanyPage = () => {
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
-
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const codeParam = urlParams.get("id");
+  const codeParam = window.location.pathname.split("/").reverse()[0];
 
   useEffect(() => {
     dispatch(setRecruiter(recruiter));
