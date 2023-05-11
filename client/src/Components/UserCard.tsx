@@ -6,6 +6,16 @@ interface UserCardProps {
 }
 
 export default function UserCard({ applicant }: UserCardProps) {
+  const stackarr = applicant
+    .stack!.map((word, index) => {
+      if (index === applicant.stack!.length - 1) {
+        return word;
+      } else {
+        return word + ", ";
+      }
+    })
+    .join("");
+
   return (
     <article
       key={applicant.idAuth}
@@ -32,7 +42,7 @@ export default function UserCard({ applicant }: UserCardProps) {
           {applicant.about}
         </p>
         <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
-          {applicant.stack}
+          Stack: {stackarr}
         </p>
       </div>
       <div className="relative mt-8 flex items-center gap-x-4">

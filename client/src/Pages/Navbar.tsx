@@ -28,7 +28,6 @@ function NavBar() {
             }}
             sx={{
               "@media (max-width: 400px)": {
-                // change the flexDirection to column on small screens
                 flexDirection: "column",
               },
             }}
