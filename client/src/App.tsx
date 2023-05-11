@@ -17,12 +17,13 @@ import VacancyList from "./Components/VacancyList";
 import LogedWithGoogle from "./Components/LogedWithGoogle";
 import SignInWithGoogle from "./Components/SignInWithGoogle";
 import RecruiterProfilePage from "./Pages/RecruiterProfilePage";
+import NotePad from "./Components/NotePad"
 import "./index.css";
 
 function App() {
   return (
     <BrowserRouter>
-      <AgainSidebar />
+      {/* <AgainSidebar /> */}
       <div className="content">
         <Routes>
           <Route path="/" element={<LoginPage />} />
@@ -41,7 +42,6 @@ function App() {
           <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
           <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
           <Route path="/recruiter/:id" element={<CompanyPage />} />
-          {/* /recruiter/?id=${id}` */}
         </Routes>
       </div>
     </BrowserRouter>
