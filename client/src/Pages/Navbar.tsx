@@ -16,7 +16,7 @@ function NavBar() {
   return (
     <>
       <AppBar
-        position="fixed"
+        position="relative"
         sx={{ width: "100%", backgroundColor: "#568ea3" }}
       >
         <nav>

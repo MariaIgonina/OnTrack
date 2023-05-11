@@ -17,34 +17,25 @@ export default function AllUsers() {
   }, []);
 
   return (
-    <div>
-      {applicants.length &&
-        applicants.map((applicant) => (
-          <Link to="/applicant">
-            <UserCard applicant={applicant} key={applicant.idAuth}></UserCard>
-          </Link>
-        ))}
+    <div className="bg-stone-100 py-8 sm:py-32 rounded-lg w-full m-5 mt-8">
+      <div className="mx-auto max-w-10xl lg:px-8">
+        <div className="mx-auto max-w-2xl lg:mx-0">
+          <h2 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-4xl mb-2">
+            Search all the candidates using OnTrack
+          </h2>
+        </div>
+        <div className="overflow-x-scroll flex   my-8 ">
+          {applicants.length &&
+            applicants.map((applicant) => (
+              <Link to="/applicant">
+                <UserCard
+                  applicant={applicant}
+                  key={applicant.idAuth}
+                ></UserCard>
+              </Link>
+            ))}
+        </div>
+      </div>
     </div>
-
-    // <div className="bg-stone-100 py-24 sm:py-32 rounded-lg m-4 ">
-    //   <div className="mx-auto max-w-7xl lg:px-8 ">
-    //     <div className="mx-auto max-w-2xl lg:mx-0  ">
-    //       <p className="mt-2 text-lg text-[#026767] leading-8 text-gray-600 ">
-    //         Search all the candidates using OnTrack
-    //       </p>
-    //     </div>
-    //     <div className="mx-auto mt-10 max-w-2xl grid-cols-3 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 lg:grid-cols-3 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-    //       {applicants.length &&
-    //         applicants.map((applicant) => (
-    //           <Link to="/applicant">
-    //             <UserCard
-    //               applicant={applicant}
-    //               key={applicant.idAuth}
-    //             ></UserCard>
-    //           </Link>
-    //         ))}
-    //     </div>
-    //   </div>
-    // </div>
   );
 }

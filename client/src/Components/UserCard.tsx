@@ -1,5 +1,6 @@
 import React from "react";
 import { Applicant } from "../Interfaces";
+import { Link } from "react-router-dom";
 
 interface UserCardProps {
   applicant: Applicant;
@@ -15,6 +16,8 @@ export default function UserCard({ applicant }: UserCardProps) {
       }
     })
     .join("");
+
+  const id = applicant.idDB;
 
   return (
     <article
