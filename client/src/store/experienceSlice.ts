@@ -8,14 +8,14 @@ import { Experience } from "../Interfaces";
 
 
 const initialExperience: Experience = {
-  id: 0,
+  // id: 0,
   jobTitle: '',
   company: '',
   startDate: new Date(),
   endDate: new Date(),
   description: '',
-  applicant: initialApplicant,
-  applicantId: 0,
+  // applicant: initialApplicant,
+  // applicantId: 0,
 }
 
 const url:string = 'http://localhost:3000'
