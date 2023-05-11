@@ -1,19 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import RegisterModal from "../Components/RegisterModal";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store/store";
 import "./Login.css";
-import { createApplicant } from "../store/applicantSlice";
-
 import GithubBtn from "../Components/GithubBtn";
-import { findUser, setCurrentUser } from "../store/CurrentUserSlice";
+import { setCurrentUser } from "../store/CurrentUserSlice";
 
 const LoginPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-
-  // const role = useSelector((state: RootState) => state.currentUser);
-
   const [render, setReRender] = useState(false);
   const [isOpen, setOpen] = useState(false);
 
@@ -23,6 +18,7 @@ const LoginPage = () => {
 
   function logoutFromGithub() {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("currentUser");
     dispatch(setCurrentUser({ id: "", role: "" }));
     setReRender(!render);
   }

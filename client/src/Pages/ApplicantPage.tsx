@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -17,6 +18,7 @@ import About from "../Components/appPageComp/About";
 import { Applicant } from "../Interfaces";
 
 import { useState, useEffect } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import {
@@ -26,18 +28,16 @@ import {
   updateApplicant,
 } from "../store/applicantSlice";
 
-
 const ApplicantPage = () => {
   const applicant = useSelector((state: RootState) => state.applicant);
   const dispatch = useDispatch<AppDispatch>();
-
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const codeParam = urlParams.get("id");
+  const codeParam = window.location.pathname.split("/").reverse()[0];
 
   useEffect(() => {
     dispatch(setApplicant(applicant));
-    dispatch(fetchApplicant(+codeParam!));
+    if (codeParam) {
+      dispatch(fetchApplicant(+codeParam!));
+    }
   }, [dispatch]);
 
   return (
