@@ -1,45 +1,86 @@
-import React from "react";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
 import { Outlet, Link } from "react-router-dom";
 import SettingsIcon from "@mui/icons-material/Settings";
 import HomeIcon from "@mui/icons-material/Home";
 import InsightsIcon from "@mui/icons-material/Insights";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import LogoutIcon from "@mui/icons-material/Logout";
 
-const Navbar = () => {
+function NavBar() {
   return (
-    <div className="navbar">
-      <nav>
-        <Link to="/" className="link">
-          Login
-        </Link>
+    <>
+      <AppBar
+        position="fixed"
+        sx={{ width: "100%", backgroundColor: "#568ea3" }}
+      >
+        <nav>
+          <List
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginLeft: "600px",
+            }}
+            sx={{
+              "@media (max-width: 400px)": {
+                // change the flexDirection to column on small screens
+                flexDirection: "column",
+              },
+            }}
+          >
+            <ListItem key={"Dashboard"} disablePadding>
+              <Link to="/dashboard" className="link">
+                <ListItemButton>
+                  <ListItemIcon>
+                    <InsightsIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={"Your Dashboard"} />
+                </ListItemButton>
+              </Link>
+            </ListItem>
 
-        <Link to="/addapplicant" className="link">
-          Add applicant
-        </Link>
-
-        <Link to="/company" className="link">
-          Company Page
-        </Link>
-
-        <Link to="/applicant" className="link">
-          <HomeIcon className="icon" />
-        </Link>
-
-        <Link to="/dashboard" className="link">
-          <DashboardIcon className="icon" />
-        </Link>
-
-        <Link to="/track" className="link">
-          <InsightsIcon className="icon" />
-        </Link>
-
-        <Link to="/settings" className="link">
-          <SettingsIcon className="icon" />
-        </Link>
-      </nav>
-      <Outlet />
-    </div>
+            <ListItem key={"Your Profile"} disablePadding>
+              <Link to="/recruiterProfile" className="link">
+                <ListItemButton>
+                  <ListItemIcon>
+                    <HomeIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={"Your Profile"} />
+                </ListItemButton>
+              </Link>
+            </ListItem>
+            <Divider />
+            <ListItem key={"Settings"} disablePadding>
+              <Link to="/settings" className="link">
+                <ListItemButton>
+                  <ListItemIcon>
+                    <SettingsIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={"Settings"} />
+                </ListItemButton>
+              </Link>
+            </ListItem>
+            <ListItem key={"Logout"} disablePadding>
+              <Link to="/" className="link">
+                <ListItemButton>
+                  <ListItemIcon>
+                    <LogoutIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={"Logout"} />
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          </List>
+        </nav>
+        <Outlet />
+      </AppBar>
+    </>
   );
-};
+}
 
-export default Navbar;
+export default NavBar;

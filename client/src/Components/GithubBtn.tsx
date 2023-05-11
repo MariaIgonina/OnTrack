@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import Button from "@mui/material/Button";
 import { Applicant, Recruiter } from "../Interfaces";
-import { findUser, setCurrentUser } from "../store/CurrentUserSlice";
+import { setCurrentUser } from "../store/CurrentUserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,7 @@ type GithubBtnProps = {
 export default function GithubBtn({ text }: GithubBtnProps) {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
   const currentUser = localStorage.getItem("currentUser");
 
   const newApplicant = useSelector(
@@ -45,18 +46,33 @@ export default function GithubBtn({ text }: GithubBtnProps) {
 
   function extractRecruiterData(userInfo: any) {
     const { avatar_url, bio, email, node_id, name } = userInfo;
-    return {
-      picture: avatar_url,
-      about: bio || "",
-      email,
-      idAuth: node_id,
-      recruiterName: name,
-      name: "",
-      logo: "",
-      founded: "",
-      externalLinks: [],
-      headOffice: "",
-    };
+    if (userInfo.name) {
+      return {
+        picture: avatar_url,
+        about: bio || "",
+        email,
+        idAuth: node_id,
+        recruiterName: name,
+        name: "",
+        logo: "",
+        founded: "",
+        externalLinks: [],
+        headOffice: "",
+      };
+    } else {
+      return {
+        picture: avatar_url,
+        about: bio || "",
+        email,
+        idAuth: node_id,
+        recruiterName: "",
+        name: "",
+        logo: "",
+        founded: "",
+        externalLinks: [],
+        headOffice: "",
+      };
+    }
   }
 
   async function AuthenticateUserfromGH() {
@@ -64,13 +80,15 @@ export default function GithubBtn({ text }: GithubBtnProps) {
       const tokenData = await fetchTokenData(codeParam!);
       const userInfo = await fetchUserData(tokenData.access_token);
       if (currentUser === "applicant") {
-        localStorage.setItem('login', 'applicant')
+        localStorage.setItem("login", "applicant");
         const newUser: Applicant = extractApplicantData(userInfo);
         dispatch(createApplicant(newUser));
+        dispatch(setCurrentUser({ id: newUser.idDB, role: "applicant" }));
       } else {
-        localStorage.setItem('login', 'recruiter')
+        localStorage.setItem("login", "recruiter");
         const newRecruiter: Recruiter = extractRecruiterData(userInfo);
         dispatch(createRecruiter(newRecruiter));
+        dispatch(setCurrentUser({ id: newRecruiter.id, role: "recruiter" }));
       }
       if (tokenData.access_token) {
         localStorage.setItem("accessToken", tokenData.access_token);
@@ -85,10 +103,16 @@ export default function GithubBtn({ text }: GithubBtnProps) {
   }, [newRecruiter, newApplicant]);
 
   const redirectUser = () => {
-    if (currentUser === "applicant" || localStorage.getItem('login') === 'applicant') {
+    if (
+      currentUser === "applicant" ||
+      localStorage.getItem("login") === "applicant"
+    ) {
       const id = newApplicant.idDB;
       if (id) navigate(`/applicant/${id}`);
-    } else if (currentUser === "recruiter" || localStorage.getItem('login') === 'recruiter') {
+    } else if (
+      currentUser === "recruiter" ||
+      localStorage.getItem("login") === "recruiter"
+    ) {
       const id = newRecruiter.id;
       if (id) navigate(`/recruiter/${id}`);
     }
