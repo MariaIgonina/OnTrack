@@ -2,10 +2,23 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+import Avatar from "../Components/appPageComp/Avatar";
+import CurrentLocation from "../Components/appPageComp/CurrLocation";
+import Education from "../Components/appPageComp/Education";
+import Experience from "../Components/appPageComp/Experience";
+import Hobbies from "../Components/appPageComp/Hobbies";
+import JobPreferences from "../Components/appPageComp/JobPrefer";
+import Languages from "../Components/appPageComp/Languages";
+import PersonalInfo from "../Components/appPageComp/PersonalInfo";
+import Skills from "../Components/appPageComp/Skills";
+import Video from "../Components/appPageComp/Video";
+import About from "../Components/appPageComp/About";
+
+import { Applicant } from "../Interfaces";
+
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
-
 import {
   fetchApplicant,
   fetchAllApplicants,
@@ -13,7 +26,6 @@ import {
   updateApplicant,
 } from "../store/applicantSlice";
 
-// import { PaperClipIcon } from "@heroicons/react/20/solid";
 
 const ApplicantPage = () => {
   const applicant = useSelector((state: RootState) => state.applicant);
@@ -26,7 +38,28 @@ const ApplicantPage = () => {
 
   return (
     <>
-      <div>{JSON.stringify(applicant)}</div>
+      <Avatar 
+      applicant = {applicant}/>
+      <PersonalInfo 
+      applicant = {applicant}/>
+      <CurrentLocation 
+      applicant = {applicant}/>
+      <JobPreferences 
+      applicant = {applicant}/>
+      <Skills 
+      applicant = {applicant}/>
+      <About 
+      applicant = {applicant}/>
+      <Video 
+      applicant = {applicant}/>
+      <Experience 
+      applicant = {applicant}/>
+      <Education 
+      applicant = {applicant}/>
+      <Languages 
+      applicant = {applicant}/>
+      <Hobbies 
+      applicant = {applicant}/>
     </>
   );
 };
