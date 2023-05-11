@@ -31,7 +31,7 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/track" element={<TrackPage />} />
           {/* <Route path="/adduser" element={<AddApplicantPage />} /> */}
-          <Route path="/applicant" element={<ApplicantPage />} />
+          <Route path="/applicant/:id" element={<ApplicantPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/addapplicant" element={<AddApplicantPage />} />
           <Route path="/create-vacancy" element={<VacancyCreate />} />
@@ -39,6 +39,8 @@ function App() {
           <Route path="/vacancyList" element={<VacancyList />} />
           <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
           <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
+          <Route path="/recruiter/:id" element={<CompanyPage />} />
+          {/* /recruiter/?id=${id}` */}
         </Routes>
       </div>
     </BrowserRouter>

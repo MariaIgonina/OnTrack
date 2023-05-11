@@ -13,19 +13,19 @@ const createApplicant = async (req: Request, res: Response) => {
     });
     res.status(201).json(response);
   } catch (error: any) {
-    if (error.meta.target[0] === 'email' || error.meta.target[0] === 'idAuth') {
+    if (error.meta.target[0] === "email" || error.meta.target[0] === "idAuth") {
       try {
         const foundApplicant = await prisma.applicant.findUnique({
           where: {
-            email: req.body.email
-          }
+            email: req.body.email,
+          },
         });
-        res.status(200).json(foundApplicant)
+        res.status(200).json(foundApplicant);
       } catch (error) {
-        res.status(500).json('Internal server error' + error)
+        res.status(500).json("Internal server error" + error);
       }
     } else {
-      res.status(404).json(error.meta.cause)
+      res.status(404).json(error.meta.cause);
     }
   }
 };
@@ -33,6 +33,7 @@ const createApplicant = async (req: Request, res: Response) => {
 const getApplicantById = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
+    console.log("id for fetching one applicant is", id);
     const foundApplicant = await prisma.applicant.findUnique({
       where: {
         idDB: +id,
@@ -42,7 +43,7 @@ const getApplicantById = async (req: Request, res: Response) => {
     res.status(200).json(foundApplicant);
   } catch (error: any) {
     console.log("error in applicantController, ", error);
-    res.status(400).json(error.message);
+    res.status(400).json(error);
   }
 };
 
@@ -60,10 +61,10 @@ const getuserRole = async (req: Request, res: Response) => {
       },
     });
     if (foundApplicant) {
-      res.status(200).json("Applicant");
+      res.status(200).json(foundApplicant);
     }
     if (foundRecruiter) {
-      res.status(200).json("Recruiter");
+      res.status(200).json(foundRecruiter);
     }
     if (!foundApplicant && !foundRecruiter) {
       throw new Error("Applicant not found!");

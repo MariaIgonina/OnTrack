@@ -31,19 +31,19 @@ export interface Applicant {
 }
 
 export interface Recruiter {
-  id: number;
-  emailstring: string;
+  id?: number;
+  email: string;
   picture: string;
   idAuth: string;
   recruiterName: string;
-  name: string;
-  vacancies: Vacancy[];
-  logo: string;
-  founded: string;
-  about: string;
-  externalLinks: string[];
-  headOffice: string;
-  track: Track[];
+  name?: string;
+  vacancies?: Vacancy[];
+  logo?: string;
+  founded?: string;
+  about?: string;
+  externalLinks?: string[];
+  headOffice?: string;
+  track?: Track[];
 }
 
 export interface Vacancy {
