@@ -6,7 +6,7 @@ import Navbar from "./Pages/Navbar";
 import AgainSidebar from "./Pages/AgainSideBar";
 import LoginPage from "./Pages/LoginPage";
 import ApplicantPage from "./Pages/ApplicantPage";
-import CompanyPage from "./Pages/CompanyPage";
+import RecruiterForm from "./Components/RecruiterForm";
 import DashboardPage from "./Pages/DashboardPage";
 import TrackPage from "./Pages/TrackPage";
 import AddApplicantPage from "./Pages/AddApplicantPage";
@@ -17,6 +17,7 @@ import VacancyList from "./Components/VacancyList";
 import LogedWithGoogle from "./Components/LogedWithGoogle";
 import SignInWithGoogle from "./Components/SignInWithGoogle";
 import RecruiterProfilePage from "./Pages/RecruiterProfilePage";
+import RecruiterPage from "./Pages/RecruiterPage"
 import "./index.css";
 
 function App() {
@@ -27,7 +28,6 @@ function App() {
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/user" element={<ApplicantPage />} />
-          <Route path="/company" element={<CompanyPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/track" element={<TrackPage />} />
           {/* <Route path="/adduser" element={<AddApplicantPage />} /> */}
@@ -40,7 +40,7 @@ function App() {
           <Route path="/vacancyList" element={<VacancyList />} />
           <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
           <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
-          <Route path="/recruiter/:id" element={<CompanyPage />} />
+          <Route path="/recruiter/:id" element={<RecruiterPage />} />
           {/* /recruiter/?id=${id}` */}
         </Routes>
       </div>

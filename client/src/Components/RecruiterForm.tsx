@@ -10,6 +10,7 @@ import {
   fetchRecruiter,
   setRecruiter,
   createRecruiter,
+  updateRecruiter,
 } from "../store/recruiterSlice";
 import { Recruiter } from "../Interfaces";
 import { initialRecruiter } from "../store/recruiterSlice";
@@ -18,30 +19,38 @@ import { uploadImage, loadImages } from "../api.cloudinary";
 import { preview } from "vite";
 import { useDescriptions } from "@headlessui/react/dist/components/description/description";
 
-const CompanyPage = () => {
+
+const RecruiterForm = () => {
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
   const [imageIds, setImageIds] = useState<ICloudImage[]>([]);
 
-  const baseUrl = `https://res.cloudinary.com/dd9tj642b/image/upload/`;
+  // const baseUrl = `https://res.cloudinary.com/dd9tj642b/image/upload/`;
 
-  useEffect(() => {
-    async function fetchImages() {
-      const images = await loadImages();
-      setImageIds(images);
-    }
-    fetchImages();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchImages() {
+  //     const images = await loadImages();
+  //     setImageIds(images);
+  //   }
+  //   fetchImages();
+  // }, []);
 
   const codeParam = window.location.pathname.split("/").reverse()[0];
 
   useEffect(() => {
     dispatch(setRecruiter(recruiter));
     dispatch(fetchRecruiter(+codeParam!));
+    console.log("recruiter.object", recruiter);
 
   }, [dispatch]);
 
-  const [formData, setFormData] = useState(initialRecruiter);
+  const [formData, setFormData] = useState(recruiter.recruiter);
+  useEffect(() => {
+    setFormData(recruiter.recruiter);
+  }, [recruiter]);
+
+  console.log("recruiter before formaData", recruiter.recruiter);
+  console.log("formData",formData);
 
   const [fileInputState, setFileInputState] = useState<string>("");
   const [selectFile, setSelectFile] = useState<File | null>(null);
@@ -66,43 +75,37 @@ const CompanyPage = () => {
     };
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => {
-    const { name, value } = e.target as HTMLInputElement;
-    setFormData({ ...formData, [name]: value });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value ,
+    }));
   };
 
-  const handleCreateRecruiter = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleCreateRecruiter = async () => {
+      if (!formData.name) {
+        alert("Please enter a company name.");
+      } else {
 
-    const newRecruiter: Recruiter = {
-      ...formData,
-      id: formData.id,
-      email: formData.email, //DELETE THIS ONCE THE LOGIN WORKS!!!!
-      picture: formData.picture, //DELETE THIS ONCE THE LOGIN WORKS!!!!
-      idAuth: formData.idAuth, //DELETE THIS ONCE THE LOGIN WORKS!!!!
-      recruiterName: formData.recruiterName,
-      name: formData.name,
-      vacancies: formData.vacancies,
-      founded: formData.founded,
-      about: formData.about,
-      externalLinks: externalLinks,
-      headOffice: formData.headOffice,
-      track: formData.track,
-    };
 
     if (previewSource) {
       const base64EncodedImage = previewSource instanceof ArrayBuffer?
       Buffer.from(previewSource).toString("base64"):previewSource
       const returnedLogo = await uploadImage(base64EncodedImage)
-      newRecruiter.logo = returnedLogo.secure_url
+      formData.logo = returnedLogo.secure_url
     }
 
-    dispatch(createRecruiter(newRecruiter));
-  };
+    const dbArg = {
+      recruiterId: recruiter.recruiter.id!,
+      recruiter: formData}
+      console.log(dbArg)
+
+    dispatch(updateRecruiter(dbArg));
+    window.location.reload()
+  }
+};
+
 
   //ExternalLinks media collecting
   const [externalLink, setExternalLink] = useState("");
@@ -126,38 +129,13 @@ const CompanyPage = () => {
         <form className="formStyle">
           <h2>Create a recruiter account</h2>
           <div className="form-group">
+
             <label htmlFor="name">Company Name</label>
             <input
               type="text"
+              id="name"
               name="name"
               value={formData.name}
-              onChange={handleChange}
-              required
-            />
-
-            <label htmlFor="recruiterName">Recruiter Name</label>
-            <input
-              type="text"
-              name="recruiterName"
-              value={formData.recruiterName}
-              onChange={handleChange}
-              required
-            />
-
-            <label htmlFor="picture">TO BE DELETED picture</label>
-            <input
-              type="text"
-              name="picture"
-              value={formData.picture}
-              onChange={handleChange}
-              required
-            />
-
-            <label htmlFor="idAuth">TO BE DELETED idAuth</label>
-            <input
-              type="text"
-              name="idAuth"
-              value={formData.idAuth}
               onChange={handleChange}
               required
             />
@@ -165,55 +143,44 @@ const CompanyPage = () => {
             <label htmlFor="founded">Founded</label>
             <input
               type="text"
+              id="founded"
               name="founded"
               value={formData.founded}
               onChange={handleChange}
-              required
             />
 
             <label htmlFor="about">About</label>
             <input
               type="text"
+              id="about"
               name="about"
               value={formData.about}
               onChange={handleChange}
-              required
             />
 
             <label htmlFor="headOffice">Head office</label>
             <input
               type="text"
+              id="headOffice"
               name="headOffice"
               value={formData.headOffice}
               onChange={handleChange}
-              required
-            />
-
-            <label htmlFor="email">
-              {" "}
-              TO BE DELETED : Email{" "}
-            </label>
-            <input
-              type="text"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
             />
 
             <label htmlFor="logo">Logo</label>
             <input
               type="file"
+              id="logo"
               name="logo"
               onChange={handleFileInputChange}
               value={fileInputState}
-              // required
             />
 
             <label htmlFor="externalLinks">External Links</label>
             <div>
               <input
                 type="text"
+                id="externalLinks"
                 name="externalLinks"
                 value={externalLink}
                 onChange={handleExtLinkChange}
@@ -238,7 +205,7 @@ const CompanyPage = () => {
             style={{ height: "300px" }}
           />
         )}
-        <h1>Coming from the cloudinary</h1>
+        {/* <h1>Coming from the cloudinary</h1>
         <div>
           {imageIds &&
             imageIds.map((image) => (
@@ -249,10 +216,10 @@ const CompanyPage = () => {
                 height="100px"
               />
             ))}
-        </div>
+        </div> */}
       </div>
     </>
   );
 };
 
-export default CompanyPage;
+export default RecruiterForm;
