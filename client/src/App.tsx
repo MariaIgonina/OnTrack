@@ -17,8 +17,7 @@ import VacancyList from "./Components/VacancyList";
 import LogedWithGoogle from "./Components/LogedWithGoogle";
 import SignInWithGoogle from "./Components/SignInWithGoogle";
 import RecruiterProfilePage from "./Pages/RecruiterProfilePage";
-
-//import "./index.css";
+import "./index.css";
 
 function App() {
   return (

@@ -52,13 +52,17 @@ const TrackPage = ({ vacancy = mockVacancy }) => {
 
   return (
     <>
-      <div id='track-container' className="flex flex-col">
+      <div id='track-container' className="flex flex-col h-screen">
         <div id='Info'>
           <h1>{title}</h1>
           <p>{description}</p>
         </div>
-        <div id="steps-container" className="flex flex-col items-center justify-center ">
-          <div className="w-[60%] ">THIS WILL BE A STEP COMPONENT (AN ACTION) QUESTIONARY OR WHATEVER </div>
+        <div id="steps-container"
+          className="flex flex-col items-center justify-center my-8 ">
+          <div
+            className="bg-green-100 rounded-lg py-8 ">
+            This is a step
+          </div>
         </div>
       </div>
     </>
