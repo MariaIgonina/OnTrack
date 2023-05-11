@@ -13,10 +13,30 @@ import {
 } from "../store/recruiterSlice";
 import { Recruiter } from "../Interfaces";
 import { initialRecruiter } from "../store/recruiterSlice";
+import { ICloudImage } from "../Interfaces";
+import { uploadImage, loadImages } from "../api.cloudinary";
+import { preview } from "vite";
+import { useDescriptions } from "@headlessui/react/dist/components/description/description";
 
 const CompanyPage = () => {
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
+  // const imageIds = useSelector((state: RootState) => state.cloudinary.imageIds);
+  const [imageIds, setImageIds] = useState<ICloudImage[]>([]);
+
+  const baseUrl = `https://res.cloudinary.com/dd9tj642b/image/upload/`;
+
+  useEffect(() => {
+    async function fetchImages() {
+      const images = await loadImages();
+      setImageIds(images);
+    }
+    fetchImages();
+  }, []);
+
+  // useEffect(() => {
+  //   console.log("array 2", imageIds);
+  // }, [imageIds])
 
   useEffect(() => {
     dispatch(setRecruiter(recruiter));
@@ -24,6 +44,29 @@ const CompanyPage = () => {
   }, [dispatch]);
 
   const [formData, setFormData] = useState(initialRecruiter);
+
+  const [fileInputState, setFileInputState] = useState<string>("");
+  const [selectFile, setSelectFile] = useState<File | null>(null);
+  const [previewSource, setPreviewSource] = useState<
+    string | ArrayBuffer | null
+  >();
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      setSelectFile(file);
+      previewFile(file);
+    }
+  };
+
+
+  const previewFile = (file: File) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+    };
+  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -34,23 +77,32 @@ const CompanyPage = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleCreateRecruiter  = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCreateRecruiter = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const newRecruiter: Recruiter = {
       ...formData,
       id: formData.id,
       emailstring: formData.emailstring, //DELETE THIS ONCE THE LOGIN WORKS!!!!
+      picture: formData.picture, //DELETE THIS ONCE THE LOGIN WORKS!!!!
+      idAuth: formData.idAuth, //DELETE THIS ONCE THE LOGIN WORKS!!!!
       recruiterName: formData.recruiterName,
       name: formData.name,
       vacancies: formData.vacancies,
-      logo: formData.logo,
       founded: formData.founded,
       about: formData.about,
       externalLinks: externalLinks,
       headOffice: formData.headOffice,
       track: formData.track,
     };
-    console.log("HERE", newRecruiter);
+
+    if (previewSource) {
+      const base64EncodedImage = previewSource instanceof ArrayBuffer?
+      Buffer.from(previewSource).toString("base64"):previewSource
+      const returnedLogo = await uploadImage(base64EncodedImage)
+      newRecruiter.logo = returnedLogo.secure_url
+    }
+
     dispatch(createRecruiter(newRecruiter));
   };
 
@@ -94,6 +146,24 @@ const CompanyPage = () => {
               required
             />
 
+            <label htmlFor="picture">TO BE DELETED picture</label>
+            <input
+              type="text"
+              name="picture"
+              value={formData.picture}
+              onChange={handleChange}
+              required
+            />
+
+            <label htmlFor="idAuth">TO BE DELETED idAuth</label>
+            <input
+              type="text"
+              name="idAuth"
+              value={formData.idAuth}
+              onChange={handleChange}
+              required
+            />
+
             <label htmlFor="founded">Founded</label>
             <input
               type="text"
@@ -121,7 +191,10 @@ const CompanyPage = () => {
               required
             />
 
-            <label htmlFor="emailstring"> DELETE THIS ONCE LOGIN WORKS : Email </label>
+            <label htmlFor="emailstring">
+              {" "}
+              TO BE DELETED : Email{" "}
+            </label>
             <input
               type="text"
               name="emailstring"
@@ -132,11 +205,11 @@ const CompanyPage = () => {
 
             <label htmlFor="logo">Logo</label>
             <input
-              type="text"
+              type="file"
               name="logo"
-              value={formData.logo}
-              onChange={handleChange}
-              required
+              onChange={handleFileInputChange}
+              value={fileInputState}
+              // required
             />
 
             <label htmlFor="externalLinks">External Links</label>
@@ -158,8 +231,27 @@ const CompanyPage = () => {
             </div>
           </div>
 
-          <button onClick={handleCreateRecruiter }>Create Recruiter</button>
+          <button onClick={handleCreateRecruiter}>Create Recruiter</button>
         </form>
+        {previewSource && (
+          <img
+            src={previewSource.toString()}
+            alt="Preview"
+            style={{ height: "300px" }}
+          />
+        )}
+        <h1>Coming from the cloudinary</h1>
+        <div>
+          {imageIds &&
+            imageIds.map((image) => (
+              <img
+                src={image.secure_url}
+                key={image.asset_id}
+                alt="Your image"
+                height="100px"
+              />
+            ))}
+        </div>
       </div>
     </>
   );

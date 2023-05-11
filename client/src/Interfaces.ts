@@ -131,3 +131,8 @@ export interface Education {
   applicant?: Applicant,
   applicantIdDB?: number,
 }
+
+export interface ICloudImage {
+  asset_id : string
+  secure_url: string
+}
