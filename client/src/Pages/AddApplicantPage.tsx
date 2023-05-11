@@ -187,7 +187,7 @@ const AddApplicantPage = () => {
       setHobbies([...hobbies, hobbie]);
       setHobbie("");
     }
-
+    console.log(currentUser)
   };
 
   // //Avatar
@@ -366,7 +366,7 @@ const AddApplicantPage = () => {
                   name="hobbies"
                   value={hobbie} 
                   onChange={handleHobbieChange}
-                  disabled={hobbie === ""}
+                  
                 />
                 
                 <button onClick={handleAddHobbie}>Add more</button>

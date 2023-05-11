@@ -5,7 +5,6 @@ import { findUser, setCurrentUser } from "../store/CurrentUserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
-import { ReportProblem } from "@mui/icons-material";
 import { createApplicant } from "../store/applicantSlice";
 import { createRecruiter } from "../store/recruiterSlice";
 
@@ -13,14 +12,12 @@ const CLIENT_ID = "Iv1.0f2124a7d7aa9dee";
 
 type GithubBtnProps = {
   text: string;
-  isApplicant: boolean;
 };
 
-export default function GithubBtn({ text, isApplicant }: GithubBtnProps) {
+export default function GithubBtn({ text }: GithubBtnProps) {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-
-  const currentUser = useRef<boolean>(isApplicant);
+  const currentUser = localStorage.getItem("currentUser");
 
   const newApplicant = useSelector(
     (state: RootState) => state.applicant.applicant
@@ -63,13 +60,10 @@ export default function GithubBtn({ text, isApplicant }: GithubBtnProps) {
   }
 
   async function AuthenticateUserfromGH() {
-    console.log("HELLO");
     try {
       const tokenData = await fetchTokenData(codeParam!);
       const userInfo = await fetchUserData(tokenData.access_token);
-
-      //if user registered as recruiter or applicant the BE function sorts it all out
-      if (currentUser) {
+      if (currentUser === "applicant") {
         const newUser: Applicant = extractApplicantData(userInfo);
         dispatch(createApplicant(newUser));
       } else {
@@ -78,7 +72,6 @@ export default function GithubBtn({ text, isApplicant }: GithubBtnProps) {
       }
       if (tokenData.access_token) {
         localStorage.setItem("accessToken", tokenData.access_token);
-        // redirectUser();
       }
     } catch (e) {
       console.log("error", e);
@@ -86,26 +79,15 @@ export default function GithubBtn({ text, isApplicant }: GithubBtnProps) {
   }
 
   useEffect(() => {
-    if (typeof isApplicant !== "undefined") {
-      // setApp(isApplicant);
-      currentUser.current = isApplicant;
-    }
-    console.log("this is isApplicant", isApplicant);
-  }, []);
-
-  useEffect(() => {
     redirectUser();
   }, [newRecruiter, newApplicant]);
 
   const redirectUser = () => {
-    if (currentUser) {
+    if (currentUser === "applicant") {
       const id = newApplicant.idDB;
       if (id) navigate(`/applicant/${id}`);
-    } else {
+    } else if (currentUser === "recruiter") {
       const id = newRecruiter.id;
-      console.log("status", status);
-      console.log("LOOK HERE FOR NEW RECIRUTIER ==> ", newRecruiter);
-      console.log("id from from end", id);
       if (id) navigate(`/recruiter/${id}`);
     }
   };
@@ -134,19 +116,6 @@ export default function GithubBtn({ text, isApplicant }: GithubBtnProps) {
     }
     const data = await response.json();
     return data;
-  }
-
-  async function fetchUserRole(id: string) {
-    try {
-      const response = await dispatch(findUser(id));
-      if (response) {
-        return response;
-      } else {
-        throw new Error("Unable to fetch user role");
-      }
-    } catch (error) {
-      console.log("Error fetching user role:", error);
-    }
   }
 
   useEffect(() => {
