@@ -48,7 +48,7 @@ const fetchApplicant = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("DATA FROM REDUX THUNK : ", data);
+      // console.log("DATA FROM REDUX THUNK : ", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -66,6 +66,23 @@ const fetchAllApplicants = createAsyncThunk(
       }
       const data = await response.json();
       //console.log("ALL APPLICANTS : ", data);
+      return data;
+    } catch (err) {
+      if (err instanceof Error) return rejectWithValue(err.message);
+    }
+  }
+);
+
+const fetchFilteredApplicants = createAsyncThunk(
+  "applicant/fetchFilteredApplicants",
+
+  async function (query: string, { rejectWithValue }) {
+    try {
+      const response = await fetch(url + `/filterApplicants/${query}`);
+      if (!response.ok) {
+        throw new Error("Server error");
+      }
+      const data = await response.json();
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -212,6 +229,20 @@ export const applicantSlice = createSlice<
         state.applicant = action.payload;
         state.error = null;
       })
+      //getFiltered
+      .addCase(fetchFilteredApplicants.pending, (state, action) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchFilteredApplicants.rejected, (state, action) => {
+        state.status = "rejected";
+        state.error = action.payload as Error;
+      })
+      .addCase(fetchFilteredApplicants.fulfilled, (state, action) => {
+        state.status = "resolved";
+        state.applicant = action.payload;
+        state.error = null;
+      })
       //create
       .addCase(createApplicant.pending, (state, action) => {
         state.status = "loading";
@@ -263,6 +294,7 @@ export const { setApplicant } = applicantSlice.actions;
 export {
   fetchApplicant,
   fetchAllApplicants,
+  fetchFilteredApplicants,
   createApplicant,
   deleteApplicant,
   updateApplicant,

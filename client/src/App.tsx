@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import logo from "./assets/logo.png";
 import "./App.css";
 import Navbar from "./Pages/Navbar";
-import AgainSidebar from "./Pages/AgainSideBar";
 import LoginPage from "./Pages/LoginPage";
 import ApplicantPage from "./Pages/ApplicantPage";
 import RecruiterForm from "./Components/RecruiterForm";
@@ -23,8 +22,8 @@ import "./index.css";
 function App() {
   return (
     <BrowserRouter>
-      <AgainSidebar />
-      <div className="content">
+      <div className="container">
+      <Navbar />
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/user" element={<ApplicantPage />} />

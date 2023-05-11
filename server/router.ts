@@ -51,7 +51,6 @@ router.post("/createApplicant", applicantControllers.createApplicant);
 router.put("/updateApplicant/:id", applicantControllers.updateApplicant);
 router.delete("/deleteApplicant/:id", applicantControllers.deleteApplicant);
 router.get("/filterApplicants/", applicantControllers.filterApplicants);
-router.get("/userrole/:id", applicantControllers.getuserRole);
 
 // Auth routes
 router.get("/getAccessToken", getAccessToken);

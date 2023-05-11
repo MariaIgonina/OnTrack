@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 const prisma = new PrismaClient();
 
 async function createTitle(req: Request, res: Response) {
+  console.log('!!!!!', req.body)
   try {
     const newTitle = await prisma.education.create({
       data: { ...req.body, Applicant: { connect: { idDB: +req.params.applicantId } } }
