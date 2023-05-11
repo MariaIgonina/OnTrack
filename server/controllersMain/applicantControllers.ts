@@ -39,8 +39,16 @@ const getApplicantById = async (req: Request, res: Response) => {
         idDB: +id,
       },
     });
+    const foundApplicantExperience = await prisma.experience.findMany({
+      where: {
+        applicantId: +id,
+      },
+    });
+    console.log("expe", { ...foundApplicant, ...foundApplicantExperience });
     if (!foundApplicant) throw new Error("Applicant not found!");
-    res.status(200).json(foundApplicant);
+    res
+      .status(200)
+      .json({ ...foundApplicant, experience: { foundApplicantExperience } });
   } catch (error: any) {
     console.log("error in applicantController, ", error);
     res.status(400).json(error);
@@ -76,6 +84,7 @@ const updateApplicant = async (req: Request, res: Response) => {
 
   const id = +req.params.id;
 
+  
   if (!currentLocation) currentLocation = [];
   if (!socialMedia) socialMedia = [];
   if (!skillsProf) skillsProf = [];

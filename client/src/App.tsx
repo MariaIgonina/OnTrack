@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import logo from "./assets/logo.png";
 import "./App.css";
+
 import Navbar from "./Pages/Navbar";
 import LoginPage from "./Pages/LoginPage";
 import ApplicantPage from "./Pages/ApplicantPage";
