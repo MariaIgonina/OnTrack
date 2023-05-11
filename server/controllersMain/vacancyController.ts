@@ -26,14 +26,10 @@ const createVacancy = async (req: Request, res: Response) => {
       recruiterId === undefined ||
       !about ||
       !title ||
-      !workingHours ||
-      !workingModal ||
-      !skills ||
-      !stack ||
-      !requiredLanguages ||
-      experience === undefined ||
-      !location ||
-      salaryRange === undefined
+      skills.length === 0 ||
+      stack.length === 0 ||
+      requiredLanguages.length === 0 ||
+      !location
     ) {
       res
         .status(400)

@@ -1,52 +1,108 @@
 import { Request, Response } from "express";
 import { Applicant, PrismaClient } from "@prisma/client";
 
-import dotenv from 'dotenv';
-dotenv.config()
+import dotenv from "dotenv";
+dotenv.config();
 
 const prisma = new PrismaClient();
 
 const createApplicant = async (req: Request, res: Response) => {
   try {
-    // Verify email:
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(req.body.email)) {
-      throw new Error("Invalid email");
-    } else if (!req.body.idAuth.length) {
-      throw new Error("Invalid idAuth0");
-    }
     const response = await prisma.applicant.create({
-      data: req.body
+      data: req.body,
     });
-    res.status(201).json(response)
+    res.status(201).json(response);
   } catch (error: any) {
-    console.log(error)
-    res.status(404).json(error.message)
+    if (error.meta.target[0] === "email" || error.meta.target[0] === "idAuth") {
+      try {
+        const foundApplicant = await prisma.applicant.findUnique({
+          where: {
+            email: req.body.email,
+          },
+        });
+        res.status(200).json(foundApplicant);
+      } catch (error) {
+        res.status(500).json("Internal server error" + error);
+      }
+    } else {
+      res.status(404).json(error.meta.cause);
+    }
   }
-}
+};
 
 const getApplicantById = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
+    console.log("id for fetching one applicant is", id);
     const foundApplicant = await prisma.applicant.findUnique({
       where: {
-        idDB: +id
-      }
+        idDB: +id,
+      },
     });
-    if (!foundApplicant) throw new Error("Applicant not found!")
+    if (!foundApplicant) throw new Error("Applicant not found!");
     res.status(200).json(foundApplicant);
   } catch (error: any) {
-    console.log('error in applicantController, ', error)
+    console.log("error in applicantController, ", error);
+    res.status(400).json(error);
+  }
+};
+
+const getuserRole = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const foundApplicant = await prisma.applicant.findUnique({
+      where: {
+        idAuth: id,
+      },
+    });
+    const foundRecruiter = await prisma.recruiter.findUnique({
+      where: {
+        idAuth: id,
+      },
+    });
+    if (foundApplicant) {
+      res.status(200).json(foundApplicant);
+    }
+    if (foundRecruiter) {
+      res.status(200).json(foundRecruiter);
+    }
+    if (!foundApplicant && !foundRecruiter) {
+      throw new Error("Applicant not found!");
+    }
+  } catch (error: any) {
+    console.log(
+      "error in applicantController getting the user by Role, ",
+      error
+    );
     res.status(400).json(error.message);
   }
-}
+};
 
 const updateApplicant = async (req: Request, res: Response) => {
   let {
-    email, picture, name, familyName, age, phone, location, readyMove, workingHours, workingModal,
-    about, video, salaryRange, desiredWorkingModal,
-    currentLocation, socialMedia, skillsProf, stack, compLanguages, languages,
-    hobbies, desiredLocation, notDesiredLocation
+    email,
+    picture,
+    name,
+    familyName,
+    age,
+    phone,
+    location,
+    readyMove,
+    workingHours,
+    workingModal,
+    about,
+    video,
+    salaryRange,
+    desiredWorkingModal,
+    currentLocation,
+    socialMedia,
+    skillsProf,
+    stack,
+    compLanguages,
+    languages,
+    hobbies,
+    desiredLocation,
+    notDesiredLocation,
   } = req.body;
 
   const id = +req.params.id;
@@ -62,57 +118,78 @@ const updateApplicant = async (req: Request, res: Response) => {
   if (!notDesiredLocation) notDesiredLocation = [];
 
   let updatedData = {
-    email, picture, name, familyName, age, phone, location, readyMove, workingHours, workingModal,
-    about, video, salaryRange, desiredWorkingModal,
-    currentLocation, socialMedia, skillsProf, stack, compLanguages, languages,
-    hobbies, desiredLocation, notDesiredLocation
+    email,
+    picture,
+    name,
+    familyName,
+    age,
+    phone,
+    location,
+    readyMove,
+    workingHours,
+    workingModal,
+    about,
+    video,
+    salaryRange,
+    desiredWorkingModal,
+    currentLocation,
+    socialMedia,
+    skillsProf,
+    stack,
+    compLanguages,
+    languages,
+    hobbies,
+    desiredLocation,
+    notDesiredLocation,
   } as Applicant;
 
   try {
     const response = await prisma.applicant.update({
       where: { idDB: id },
-      data: updatedData
+      data: updatedData,
     });
     res.status(200).json(response);
   } catch (error: any) {
     console.log(error);
     if (error.meta) {
-      error.meta.cause === 'Record to update does not exist' ? res.status(404).json(error.meta.cause)
+      error.meta.cause === "Record to update does not exist"
+        ? res.status(404).json(error.meta.cause)
         : res.status(409).json(error.meta.cause);
-    } else res.status(500).json(error)
+    } else res.status(500).json(error);
   }
-}
+};
 
 const getAllApplicants = async (req: Request, res: Response) => {
   try {
     const applicants = await prisma.applicant.findMany({});
-    console.log(applicants, applicants.length)
-    if (!applicants.length) throw new Error("Applicant not found!")
+    console.log(applicants, applicants.length);
+    if (!applicants.length) throw new Error("Applicant not found!");
     res.status(200).json(applicants);
   } catch (error: any) {
     console.log(error);
-    res.status(500).json()
+    res.status(500).json();
   }
-}
+};
 
 const deleteApplicant = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
     const response = await prisma.applicant.delete({
       where: {
-        idDB: +id
-      }
+        idDB: +id,
+      },
     });
     res.status(204).json(response);
   } catch (error: any) {
-    console.log(error)
-    if (error.meta.cause === 'Record to delete does not exist') res.status(404).json(error.meta.cause)
+    console.log(error);
+    if (error.meta.cause === "Record to delete does not exist")
+      res.status(404).json(error.meta.cause);
     else res.status(409).json(error.meta.cause);
   }
-}
+};
 
 const filterApplicants = async (req: Request, res: Response) => {
-  const queryObj: any = {}
+  const queryObj: any = {};
   let {
     salaryRange,
     languages,
@@ -122,30 +199,30 @@ const filterApplicants = async (req: Request, res: Response) => {
     readyMove,
     stack,
     skillsProf,
-    desiredLocation
+    desiredLocation,
   } = req.query as {
-    salaryRange?: string,
-    languages?: string,
-    workingModal?: string,
-    workingHours?: string,
-    compLanguages?: string,
-    readyMove?: string,
-    stack?: string,
-    skillsProf?: string,
-    desiredLocation?: string,
+    salaryRange?: string;
+    languages?: string;
+    workingModal?: string;
+    workingHours?: string;
+    compLanguages?: string;
+    readyMove?: string;
+    stack?: string;
+    skillsProf?: string;
+    desiredLocation?: string;
   };
 
   if (desiredLocation) {
     queryObj.OR = [
-      { desiredLocation: { hasSome: String(desiredLocation).split(',') } },
-      { location: desiredLocation }
-    ]
+      { desiredLocation: { hasSome: String(desiredLocation).split(",") } },
+      { location: desiredLocation },
+    ];
   }
   if (salaryRange) {
     queryObj.salaryRange = { lte: +salaryRange! };
   }
   if (languages) {
-    queryObj.languages = { hasSome: String(languages).split(',') };
+    queryObj.languages = { hasSome: String(languages).split(",") };
   }
   if (workingModal) {
     queryObj.workingModal = workingModal;
@@ -155,7 +232,7 @@ const filterApplicants = async (req: Request, res: Response) => {
   }
   if (compLanguages) {
     queryObj.compLanguages = {
-      hasSome: String(compLanguages).split(','),
+      hasSome: String(compLanguages).split(","),
     };
   }
   if (readyMove) {
@@ -163,26 +240,26 @@ const filterApplicants = async (req: Request, res: Response) => {
   }
   if (stack) {
     queryObj.stack = {
-      hasSome: String(stack).split(','),
+      hasSome: String(stack).split(","),
     };
   }
   if (skillsProf) {
     queryObj.skillsProf = {
-      hasSome: String(skillsProf).split(','),
+      hasSome: String(skillsProf).split(","),
     };
   }
 
   try {
     const applicants = await prisma.applicant.findMany({
-      where: { ...queryObj }
-    })
-    if (!applicants.length) throw new Error('No matches found');
+      where: { ...queryObj },
+    });
+    if (!applicants.length) throw new Error("No matches found");
     res.status(200).json(applicants);
   } catch (error: any) {
     console.log(error);
     res.status(400).json(error.message);
   }
-}
+};
 
 export const applicantControllers = {
   createApplicant,
@@ -190,5 +267,6 @@ export const applicantControllers = {
   updateApplicant,
   deleteApplicant,
   getAllApplicants,
-  filterApplicants
+  filterApplicants,
+  getuserRole,
 };

@@ -14,9 +14,17 @@ export const workingModals = [
     "Flextime"
   ];
 
-  export const workingHours = [
-    "On-site/Office",
-    "Remote/Telecommute",
-    "Hybrid/Blended",
-  ];
+export const workingHours = [
+    "On-site",
+    "Remote",
+    "Hybrid",
+];
+
+export const levelLanguages = [
+    "beginner",
+    "elementary",
+    "intermediate",
+    "advanced",
+    "native"
+]
   
