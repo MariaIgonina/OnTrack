@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Vacancy, Applicant, Track, Recruiter } from "../Interfaces";
 import TrackSideBar from "../Components/TrackSidebar";
 import recruiterSlice from "../store/recruiterSlice";
+import StepTemplate from "../Components/StepTemplate";
 
 const mockRecruiter: Recruiter = {
   id: 1,
@@ -27,7 +28,7 @@ const mockVacancy: Vacancy = {
   id: 1235,
   recruiter: mockRecruiter,
   recruiterId: mockRecruiter.id!,
-  about: "I am a fake vacancy, blah añldsfh a. Elkad, oadshfn ashdjf  adsufh jhdas! Dkahuh! akdsjh faks dhflasiudhf lads  uashdf uh d ladsfb way f, iadsuh uebakjdb aj. Af a diubakdgb a bgkajdn giabd adbv aha,aduh auds.",
+  about: "I am a fake vacancy, click on me and you'll see the vacancy page if there's one or the company profile. Blah añldsfh a. Elkad, oadshfn ashdjf  adsufh jhdas! Dkahuh! akdsjh faks dhflasiudhf lads  uashdf uh d ladsfb way f, iadsuh uebakjdb aj. Af a diubakdgb a bgkajdn giabd adbv aha,aduh auds.",
   title: "Software Engineer",
   jobTrack: [],
   workingHours: "full-time",
@@ -56,10 +57,10 @@ const TrackPage = ({ vacancy = mockVacancy }) => {
   })
 
   return (
-    <div id='track-container' className="flex h-screen ">
-      <TrackSideBar />
+    <div id='track-container' className="flex h-screen fixed top-[88px]">
+      <TrackSideBar trackId={4} />
       <div className="w-full mx-5">
-        <div id='Info' >
+        <div id='Info' className="mb-10">
           <h2 className="text-3xl font-extrabold my-2" >{mockRecruiter.name}</h2>
           {/* dark:bg-gray-800 */}
           <div className="w-full">
@@ -76,13 +77,8 @@ const TrackPage = ({ vacancy = mockVacancy }) => {
 
         <div id="steps-container"
           className="flex flex-col items-center justify-center">
-          <div
-            className="bg-green-100 rounded-lg py-8 ">
-            This is a step
-          </div>
-          <div>
-
-          </div>
+          <StepTemplate step='Apply'/>
+         
         </div>
       </div>
     </div >

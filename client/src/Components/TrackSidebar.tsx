@@ -1,15 +1,17 @@
 import NotePad from "./NotePad";
 import Button from "@mui/material/Button";
 
-
-const TrackSideBar = () => {
+type TrackSideBarProps = {
+  trackId: number
+}
+const TrackSideBar = ({trackId}: TrackSideBarProps) => {
 
   return (<>
     {/* {dark: bg-gray-800 } */}
     <div className="relative px-3 py-4 overflow-y-hidden bg-gray-100 
-      flex flex-col items-center shadow-md shadow-gray w-80">
+      flex flex-col items-center shadow-md shadow-gray w-80 h-[90%]">
 
-      <NotePad />
+      <NotePad trackId={trackId} />
 
       <div className="absolute px-2" style={{ bottom: '25px' }}>
         <div className="bg-green-100 mb-5 rounded-lg">THIS IS THE CALENDAR</div>

@@ -1,20 +1,39 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
+import { fetchTrack, setTrack, updateTrack } from "../store/trackSlice";
 
-export default function NotePad(): JSX.Element {
+type NotePadProps = {
+  trackId: number
+}
+
+export default function NotePad({ trackId }: NotePadProps): JSX.Element {
   const [note, setNote] = useState<string>("");
   const [isFocused, setIsFocused] = useState(false);
-
-  function handleFocus() {
-    setIsFocused(true);
-  }
+  const dispatch = useDispatch<AppDispatch>()
+  const track = useSelector((state: RootState) => state.track);
 
   function handleBlur() {
     setIsFocused(false);
+    updateNotes()
   }
 
   useEffect(() => {
-    console.log('this goes to the DB => ', note)
-  }, [isFocused])
+    dispatch(fetchTrack({ getTrackByWhat: 'getTrackById', id: 4 }))
+  }, [])
+  useEffect(() => {
+    if (track.track) {
+      setNote(track.track.applicantNotes)
+    }
+  }, [track.track])
+
+  const updateNotes = useCallback(() => {
+    if (note.length) {
+      dispatch(updateTrack({ trackId: 4, track: { applicantNotes: note } }))
+    } else {
+      dispatch(updateTrack({ trackId: 4, track: { applicantNotes: '' } }))
+    }
+  }, [note])
 
   return (
     // <div id="note-container" className="flex flex-col w-full max-w-lg mx-auto p-4 space-y-4">
@@ -23,12 +42,11 @@ export default function NotePad(): JSX.Element {
         id="notePad"
         name="notePad"
         rows={4}
-        className="border border-gray-300 py-2 flex-1 bg-stone-100 rounded-lg shadow-md shadow-gray max-h-[32rem]"
+        className="text-sm border border-gray-300 p-5 flex-1 bg-stone-100 rounded-lg shadow-md shadow-gray max-h-[32rem]"
         style={{ height: '400px' }}
         placeholder="Notes..."
         value={note}
         onChange={(e) => setNote(e.target.value)}
-        onFocus={handleFocus}
         onBlur={handleBlur}
       ></textarea>
     </div>
