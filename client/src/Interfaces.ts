@@ -113,14 +113,13 @@ export interface Questionary {
 }
 
 export interface Experience {
-  id: number;
+  id?: number;
   jobTitle: string;
   company: string;
   startDate: Date | string;
   endDate: Date | string;
-  description: string;
-  applicant: Applicant;
-  applicantId: number;
+  description?: string;
+  applicantId?: number;
 }
 
 export interface Education {
@@ -130,6 +129,5 @@ export interface Education {
   endDate: Date | string;
   degree: string;
   speciality: string;
-  applicant?: Applicant;
   applicantIdDB?: number;
 }

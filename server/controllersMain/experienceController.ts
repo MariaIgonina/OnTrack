@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
+import { request } from "http";
 const prisma = new PrismaClient();
 
 async function createExperience(req: Request, res: Response) {
@@ -22,6 +23,7 @@ async function getAllExperienceByApplicantId(req: Request, res: Response) {
       }
     })
     if (!experienceArr.length) throw new Error('No experience found');
+
     res.status(200).json(experienceArr)
   } catch (error: any) {
     console.log(error);
