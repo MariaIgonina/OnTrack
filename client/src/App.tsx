@@ -11,6 +11,9 @@ import DashboardPage from "./Pages/DashboardPage";
 import TrackPage from "./Pages/TrackPage";
 import AddApplicantPage from "./Pages/AddApplicantPage";
 import SettingsPage from "./Pages/SettingsPage";
+import VacancyCreate from "./Components/VacancyCreate";
+import VacancyDetails from "./Components/VacancyDetails";
+import VacancyList from "./Components/VacancyList";
 import LogedWithGoogle from "./Components/LogedWithGoogle";
 import SignInWithGoogle from "./Components/SignInWithGoogle";
 
@@ -31,8 +34,11 @@ function App() {
           <Route path="/applicant" element={<ApplicantPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/addapplicant" element={<AddApplicantPage />} />
+          <Route path="/create-vacancy" element={<VacancyCreate />} />
+          <Route path="/vacancy/:vacancyId" element={<VacancyDetails />} />
+          <Route path="/vacancyList" element={<VacancyList />} />
           <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
-          <Route path="/signInWithGoogle" element={<SignInWithGoogle/>} />
+          <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
         </Routes>
       </div>
     </BrowserRouter>
