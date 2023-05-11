@@ -4,9 +4,10 @@ import { AppDispatch, RootState } from "../store/store";
 import { fetchAllApplicants } from "../store/applicantSlice";
 import { Applicant } from "../Interfaces";
 import UserCard from "./UserCard";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function AllUsers() {
+  const navigate = useNavigate();
   const applicants = useSelector(
     (s: RootState) => s.applicant.applicant
   ) as unknown as Applicant[]; //THIS IS BAD TYPESCRIPT REFACTOR THIS ROSIE
@@ -27,12 +28,17 @@ export default function AllUsers() {
         <div className="overflow-x-scroll flex   my-8 ">
           {applicants.length &&
             applicants.map((applicant) => (
-              <Link to="/applicant">
+              // <Link to="/applicant/">
+              <button
+                type="submit"
+                onClick={() => navigate(`/applicant/${applicant.idDB}`)}
+              >
                 <UserCard
                   applicant={applicant}
                   key={applicant.idAuth}
                 ></UserCard>
-              </Link>
+              </button>
+              // </Link>
             ))}
         </div>
       </div>

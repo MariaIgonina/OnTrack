@@ -14,7 +14,7 @@ interface IInitialState {
 
 const initialState: CurrentUserState = {
   id: "",
-  role: "undefined",
+  role: "",
 };
 
 export const currentUserSlice = createSlice<

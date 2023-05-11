@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
-import { fetchFilteredApplicants } from "../store/applicantSlice";
+import {
+  fetchAllApplicants,
+  fetchFilteredApplicants,
+} from "../store/applicantSlice";
 import UserCard from "./UserCard";
 import { Applicant } from "../Interfaces";
 
@@ -16,6 +19,7 @@ export default function Suggestion() {
 
   useEffect(() => {
     dispatch(fetchFilteredApplicants("?location=Barcelona"));
+    // dispatch(fetchAllApplicants);
   }, []);
 
   return (
