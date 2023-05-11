@@ -74,7 +74,7 @@ async function createRecruiter(req: Request, res: Response) {
     const recruiter = await prisma.recruiter.create({
       data: {
         name: req.body.name,
-        email: req.body.emailstring,
+        email: req.body.email,
         picture: req.body.picture,
         idAuth: req.body.idAuth,
         recruiterName: req.body.recruiterName,

@@ -19,6 +19,7 @@ const LoginPage = () => {
   function logoutFromGithub() {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("currentUser");
+    localStorage.removeItem("login");
     dispatch(setCurrentUser({ id: "", role: "" }));
     setReRender(!render);
   }
