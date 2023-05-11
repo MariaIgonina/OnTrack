@@ -18,12 +18,15 @@ const CompanyPage = () => {
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
 
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const codeParam = urlParams.get("id");
+
   useEffect(() => {
     dispatch(setRecruiter(recruiter));
-    dispatch(fetchRecruiter(1))
-  }, [dispatch])
+    dispatch(fetchRecruiter(+codeParam!));
+  }, [dispatch]);
 
-  
   const [formData, setFormData] = useState(initialRecruiter);
 
   const handleChange = (

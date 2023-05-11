@@ -6,17 +6,17 @@ import { RootState } from "./store";
 
 const initialApplicant: Applicant = {
   idDB: 0,
-  idAuth: '',
-  email: '',
-  picture: '',
-  name: '',
-  familyName: '',
+  idAuth: "",
+  email: "",
+  picture: "",
+  name: "",
+  familyName: "",
   age: new Date(),
-  phone: '',
-  location: '',
+  phone: "",
+  location: "",
   track: [],
-  coordinateX: '',
-  coordinateY: '',
+  coordinateX: "",
+  coordinateY: "",
   readyToMove: false,
   workingHours: "",
   workingModal: "",
@@ -33,9 +33,8 @@ const initialApplicant: Applicant = {
   salaryRange: 0,
   desiredLocation: [],
   nonDesiredLocation: [],
-  desiredWorkingModal: '',
-}
-
+  desiredWorkingModal: "",
+};
 
 const url: string = "http://localhost:3000";
 
@@ -65,7 +64,7 @@ const fetchAllApplicants = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("ALL APPLICANTS : ", data);
+      //console.log("ALL APPLICANTS : ", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);

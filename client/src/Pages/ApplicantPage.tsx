@@ -31,9 +31,13 @@ const ApplicantPage = () => {
   const applicant = useSelector((state: RootState) => state.applicant);
   const dispatch = useDispatch<AppDispatch>();
 
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const codeParam = urlParams.get("id");
+
   useEffect(() => {
     dispatch(setApplicant(applicant));
-    dispatch(fetchApplicant(1));
+    dispatch(fetchApplicant(+codeParam!));
   }, [dispatch]);
 
   return (

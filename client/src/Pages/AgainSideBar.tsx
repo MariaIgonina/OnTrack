@@ -58,7 +58,7 @@ export default function PermanentDrawerLeft() {
           </ListItem>
 
           <ListItem key={"Your Profile"} disablePadding>
-            <Link to="/applicant" className="link">
+            <Link to="/recruiterProfile" className="link">
               <ListItemButton>
                 <ListItemIcon>
                   <HomeIcon />
