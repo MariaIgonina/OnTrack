@@ -5,10 +5,10 @@ import { Vacancy, Applicant, Track, Recruiter } from "../Interfaces";
 
 const mockRecruiter: Recruiter = {
   id: 1,
-  emailstring: "",
+  email: "",
   picture: "",
   idAuth: "",
-  recuiterName: "",
+  recruiterName: "",
   name: "",
   vacancies: [],
   logo: "",
@@ -22,8 +22,8 @@ const mockRecruiter: Recruiter = {
 const mockVacancy: Vacancy = {
   id: 1235,
   recruiter: mockRecruiter,
-  recruiterId: mockRecruiter.id,
-  about: "I am a fake vacancy",
+  recruiterId: mockRecruiter.id!,
+  about: "I am a fake vacancy, blah añldsfh a. Elkad, oadshfn ashdjf  adsufh jhdas! Dkahuh!",
   title: "Fake Vacancy",
   jobTrack: [],
   workingHours: "full-time",
@@ -41,9 +41,9 @@ interface TrackProps {
 }
 // React.FC<TrackProps | null>
 
-const TrackPage  = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+const TrackPage = ({ vacancy = mockVacancy }) => {
+  const [title, setTitle] = useState(mockVacancy.title);
+  const [description, setDescription] = useState(mockVacancy.about);
 
   useEffect(() => {
     setTitle(mockVacancy.title)
@@ -52,8 +52,14 @@ const TrackPage  = () => {
 
   return (
     <>
-      <div>
-        I'm track
+      <div id='track-container' className="flex flex-col">
+        <div id='Info'>
+          <h1>{title}</h1>
+          <p>{description}</p>
+        </div>
+        <div id="steps-container" className="flex flex-col items-center justify-center ">
+          <div style={{backgroundColor: "purple", width: '60%'}}>THIS WILL BE A STEP COMPONENT (AN ACTION) QUESTIONARY OR WHATEVER </div>
+        </div>
       </div>
     </>
   );
