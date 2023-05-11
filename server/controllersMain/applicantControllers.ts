@@ -84,6 +84,7 @@ const updateApplicant = async (req: Request, res: Response) => {
 
   const id = +req.params.id;
 
+  
   if (!currentLocation) currentLocation = [];
   if (!socialMedia) socialMedia = [];
   if (!skillsProf) skillsProf = [];

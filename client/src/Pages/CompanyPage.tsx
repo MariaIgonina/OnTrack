@@ -18,12 +18,11 @@ const CompanyPage = () => {
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
   const codeParam = window.location.pathname.split("/").reverse()[0];
+  
 
   useEffect(() => {
     dispatch(setRecruiter(recruiter));
-
     dispatch(fetchRecruiter(+codeParam!));
-
   }, [dispatch]);
 
   const [formData, setFormData] = useState(initialRecruiter);
@@ -42,7 +41,7 @@ const CompanyPage = () => {
     const newRecruiter: Recruiter = {
       ...formData,
       id: formData.id,
-      emailstring: formData.emailstring, //DELETE THIS ONCE THE LOGIN WORKS!!!!
+      email: formData.email, //DELETE THIS ONCE THE LOGIN WORKS!!!!
       recruiterName: formData.recruiterName,
       name: formData.name,
       vacancies: formData.vacancies,
