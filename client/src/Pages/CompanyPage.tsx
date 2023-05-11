@@ -24,7 +24,9 @@ const CompanyPage = () => {
 
   useEffect(() => {
     dispatch(setRecruiter(recruiter));
+
     dispatch(fetchRecruiter(+codeParam!));
+
   }, [dispatch]);
 
   const [formData, setFormData] = useState(initialRecruiter);
@@ -38,22 +40,38 @@ const CompanyPage = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    // e.preventDefault();
+  const handleCreateRecruiter  = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const newRecruiter: Recruiter = {
       ...formData,
       id: formData.id,
+      emailstring: formData.emailstring, //DELETE THIS ONCE THE LOGIN WORKS!!!!
+      recruiterName: formData.recruiterName,
       name: formData.name,
       vacancies: formData.vacancies,
       logo: formData.logo,
       founded: formData.founded,
       about: formData.about,
-      externalLinks: formData.externalLinks,
+      externalLinks: externalLinks,
       headOffice: formData.headOffice,
       track: formData.track,
     };
-    console.log(newRecruiter);
+    console.log("HERE", newRecruiter);
     dispatch(createRecruiter(newRecruiter));
+  };
+
+  //ExternalLinks media collecting
+  const [externalLink, setExternalLink] = useState("");
+  const [externalLinks, setExternalLinks] = useState([]);
+
+  const handleExtLinkChange = (event: any) => {
+    setExternalLink(event.target.value);
+  };
+
+  const handleAddLink = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setExternalLinks([...externalLinks, externalLink]);
+    setExternalLink("");
   };
 
   return (
@@ -61,10 +79,10 @@ const CompanyPage = () => {
       <div>
         {JSON.stringify(recruiter)}
 
-        <form className="formStyle" onSubmit={handleSubmit}>
+        <form className="formStyle">
           <h2>Create a recruiter account</h2>
           <div className="form-group">
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">Company Name</label>
             <input
               type="text"
               name="name"
@@ -73,14 +91,15 @@ const CompanyPage = () => {
               required
             />
 
-            <label htmlFor="logo">Logo</label>
+            <label htmlFor="recruiterName">Recruiter Name</label>
             <input
               type="text"
-              name="logo"
-              value={formData.logo}
+              name="recruiterName"
+              value={formData.recruiterName}
               onChange={handleChange}
               required
             />
+
             <label htmlFor="founded">Founded</label>
             <input
               type="text"
@@ -107,9 +126,45 @@ const CompanyPage = () => {
               onChange={handleChange}
               required
             />
+
+            <label htmlFor="emailstring"> DELETE THIS ONCE LOGIN WORKS : Email </label>
+            <input
+              type="text"
+              name="emailstring"
+              value={formData.emailstring}
+              onChange={handleChange}
+              required
+            />
+
+            <label htmlFor="logo">Logo</label>
+            <input
+              type="text"
+              name="logo"
+              value={formData.logo}
+              onChange={handleChange}
+              required
+            />
+
+            <label htmlFor="externalLinks">External Links</label>
+            <div>
+              <input
+                type="text"
+                name="externalLinks"
+                value={externalLink}
+                onChange={handleExtLinkChange}
+              />
+
+              <button onClick={handleAddLink}>Add more</button>
+
+              <ul>
+                {externalLinks.map((link, index) => (
+                  <li key={index}>{link}</li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          <button type="submit">Create Recruiter</button>
+          <button onClick={handleCreateRecruiter }>Create Recruiter</button>
         </form>
       </div>
     </>

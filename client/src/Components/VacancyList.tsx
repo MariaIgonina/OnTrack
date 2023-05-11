@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
@@ -14,25 +14,29 @@ const VacancyList: React.FC = () => {
   const vacancy: Vacancy = useSelector(
     (state: RootState) => state.vacancy.vacancy
   );
-
+  const [isCreatingVacancy, setIsCreatingVacancy] = useState(false);
   useEffect(() => {
     dispatch(fetchvacanciesByRecruiter(1));
   }, [dispatch, vacancy]);
 
+  const handleCreateVacancy = () => {
+    setIsCreatingVacancy(true);
+  };
+
+  const handleCancelCreateVacancy = () => {
+    setIsCreatingVacancy(false);
+  };
+
   return (
-    <div className="bg-stone-100 py-24 sm:py-32 rounded-lg m-4 ">
-      <div className="mx-auto max-w-7xl lg:px-8 ">
-        <div className="mx-auto max-w-2xl lg:mx-0  ">
+    <div className="bg-stone-100 py-24 sm:py-32 rounded-lg m-4">
+      <div className="mx-auto max-w-7xl lg:px-8">
+        <div className="mx-auto max-w-2xl lg:mx-0">
           <h2 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-4xl mb-8">
             Vacancy List
           </h2>
-          <p className="mt-2 text-lg text-[#026767] leading-8 text-gray-600 ">
-            All your vacancies:
-          </p>
         </div>
 
-        <VacancyCreate />
-        <div className="overflow-x-scroll flex flex-nowrap  my-8 ">
+        <div className="overflow-x-scroll flex flex-nowrap my-8">
           {vacancies.length ? (
             vacancies.map((vacancy) => (
               <article
@@ -70,6 +74,26 @@ const VacancyList: React.FC = () => {
             </li>
           )}
         </div>
+        {isCreatingVacancy ? (
+          <div>
+            <VacancyCreate />
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={handleCancelCreateVacancy}
+                className="px-4 py-2 font-medium text-red-600 border border-red-600 rounded-md focus:outline-none focus:ring"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button
+            onClick={handleCreateVacancy}
+            className="mt-4 px-4 py-2 font-medium text-indigo-600 border border-indigo-600 rounded-md focus:outline-none focus:ring"
+          >
+            +
+          </button>
+        )}
       </div>
     </div>
   );

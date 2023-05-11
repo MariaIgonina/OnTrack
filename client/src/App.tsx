@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import logo from "./assets/logo.png";
 import "./App.css";
 import Navbar from "./Pages/Navbar";
@@ -16,6 +16,7 @@ import VacancyDetails from "./Components/VacancyDetails";
 import VacancyList from "./Components/VacancyList";
 import LogedWithGoogle from "./Components/LogedWithGoogle";
 import SignInWithGoogle from "./Components/SignInWithGoogle";
+import RecruiterProfilePage from "./Pages/RecruiterProfilePage";
 
 //import "./index.css";
 
@@ -31,6 +32,7 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/track" element={<TrackPage />} />
           {/* <Route path="/adduser" element={<AddApplicantPage />} /> */}
+          <Route path="/recruiterProfile" element={<RecruiterProfilePage />} />
           <Route path="/applicant/:id" element={<ApplicantPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/addapplicant" element={<AddApplicantPage />} />

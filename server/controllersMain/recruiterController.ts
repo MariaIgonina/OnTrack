@@ -69,11 +69,12 @@ async function updateRecruiterbyId(req: Request, res: Response) {
 }
 
 async function createRecruiter(req: Request, res: Response) {
+  console.log("heeeeere", req.body);
   try {
     const recruiter = await prisma.recruiter.create({
       data: {
         name: req.body.name,
-        email: req.body.email,
+        email: req.body.emailstring,
         picture: req.body.picture,
         idAuth: req.body.idAuth,
         recruiterName: req.body.recruiterName,
