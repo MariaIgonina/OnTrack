@@ -23,6 +23,7 @@ import { AppDispatch, RootState } from "../store/store";
 import { updateApplicant, setApplicant, initialApplicant } from "../store/applicantSlice";
 import { createEducation, setEducation, initialEducation } from "../store/educationSlice";
 import { createExperience, setExperience, initialExperience } from "../store/experienceSlice";
+import { setCurrentUser } from "../store/CurrentUserSlice";
 
 import { Applicant, Education, Experience } from "../Interfaces";
 import { languages, profSkills, compLanguages, stack, workingModals, workingHours, levelLanguages } from "../library";
@@ -34,6 +35,7 @@ const AddApplicantPage = () => {
   const dbApplicant = useSelector((state:RootState) => state.applicant)
   const dbEducation = useSelector((state:RootState) => state.education)
   const dbExperience = useSelector((state:RootState) => state.experience)
+  const currentUser = useSelector((state:RootState) => state.currentUser)
   
   const dispatch = useDispatch<AppDispatch>();
 
@@ -53,32 +55,39 @@ const AddApplicantPage = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    const newApplicant: Applicant = {
-      ...formData,
-      // picture: avatarUrl,
-      name: formData.name,
-      familyName: formData.familyName,
-      age: formData.age,
-      phone: formData.phone,
-      location: formData.location,
-      readyToMove: moveChecked,
-      workingHours: formData.workingHours,
-      workingModal: formData.workingModal,
-      socialMedia: links,
-      skillsProf: profSkills,
-      stack: collStacks,
-      compLanguages: collCompLanguages,
-      about: formData.about,
-      video: formData.video,
-      languages: collLanguages,
-      hobbies: hobbies,
-      salaryRange: formData.salaryRange,
-      desiredLocation: desiredLocations,
-      nonDesiredLocation: nonDesiredLocations,
-    };
-    console.log(newApplicant)
+    const isFormValid = Object.values(formData).every(value => value);
+    setIsFormValid(isFormValid);
+    if (isFormValid) {
+      const newApplicant: Applicant = {
+        ...formData,
+        // picture: avatarUrl,
+        name: formData.name,
+        familyName: formData.familyName,
+        age: formData.age,
+        phone: formData.phone,
+        location: formData.location,
+        readyToMove: moveChecked,
+        workingHours: formData.workingHours,
+        workingModal: formData.workingModal,
+        socialMedia: links,
+        skillsProf: profSkills,
+        stack: collStacks,
+        compLanguages: collCompLanguages,
+        about: formData.about,
+        video: formData.video,
+        languages: collLanguages,
+        hobbies: hobbies,
+        salaryRange: formData.salaryRange,
+        desiredLocation: desiredLocations,
+        nonDesiredLocation: nonDesiredLocations,
+      }
+      alert(newApplicant)
+    } else alert("Please fill in all fields.")
     // dispatch(updateApplicant(newApplicant))
   }
+
+  //Buttons validation
+  const [isFormValid, setIsFormValid] = useState(false);
 
   //For the education
   const [educationData, setEducationData] = useState(initialEducation);
@@ -93,20 +102,32 @@ const AddApplicantPage = () => {
 
   const handleSubmitEducation = (e:any) => {
     e.preventDefault();
-    const newEducation: Education = {
-      ...educationData,
-      place: educationData.place,
-      startDate: educationData.startDate,
-      endDate: educationData.endDate,
-      degree: educationData.degree,
-      speciality: educationData.speciality,
-      // applicantId: applicant.idAuth,
-    };
-    console.log(newEducation)
-    setEducations([...educations, newEducation])
-
+    if (educationData.place !== '' && 
+        educationData.speciality !== '') {
+      const newEducation: Education = {
+        ...educationData,
+        place: educationData.place,
+        startDate: educationData.startDate,
+        endDate: educationData.endDate,
+        degree: educationData.degree,
+        speciality: educationData.speciality,
+        // applicantId: applicant.idAuth,
+      };
+      setEducations([...educations, newEducation])
+      console.log(newEducation)
+      console.log(currentUser)
+      // setDatesEdu(dateString(newEducation.startDate, newEducation.endDate))
+    } 
   }
 
+  //Dates prettifying
+  function dateString (date:any) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+
+    const formattedDate = `${year}-${month}`;
+    return formattedDate
+  }
 
   //For the experience
   const [experienceData, setExperienceData] = useState(initialExperience);
@@ -121,6 +142,9 @@ const AddApplicantPage = () => {
 
   const handleSubmitExperience = (e: any) => {
     e.preventDefault();
+    if (experienceData.jobTitle !== '' && 
+        experienceData.company !== '' &&
+        experienceData.description !== '') {
     const newExperience: Experience = {
       ...experienceData,
       jobTitle: experienceData.jobTitle,
@@ -131,14 +155,13 @@ const AddApplicantPage = () => {
       // applicantId: applicant.idAuth,
     };
     setExperiences([...experiences, newExperience])
-    console.log(experiences)
+    console.log(newExperience)
+    // const dbArg = {
+    //   applicantId: currentUser.id, 
+    //   experience: newExperience}
+    // createExperience(dbArg);
+    } 
   }
-  
-  // const isFormExpValid = 
-  //   experienceData.jobTitle && 
-  //   experienceData.company && 
-  //   experienceData.startDate && 
-  //   experienceData.endDate;
 
   //Steps activity 
   const [activeStep, setActiveStep] = useState(0);
@@ -160,12 +183,25 @@ const AddApplicantPage = () => {
   };
 
   const handleAddHobbie = () => {
-    setHobbies([...hobbies, hobbie]);
-    setHobbie("");
+    if (hobbie !== '') {
+      setHobbies([...hobbies, hobbie]);
+      setHobbie("");
+    }
+
   };
 
   // //Avatar
   // const [avatarUrl, setAvatarUrl] = useState("");
+  
+  // //Formatting date
+  // function formatDate(date:any) {
+  //   if (!date) return '';
+    
+  //   const year = date.getFullYear();
+  //   const month = String(date.getMonth() + 1).padStart(2, '0');
+    
+  //   return `${year}-${month}`;
+  // }
 
   //Soсial media collecting
   const [link, setLink] = useState("");
@@ -176,8 +212,10 @@ const AddApplicantPage = () => {
   };
 
   const handleAddLink = () => {
-    setLinks([...links, link]);
-    setLink("");
+    if (link !== '') {
+      setLinks([...links, link]);
+      setLink("");
+    }
   };
 
   //Languages collecting
@@ -194,10 +232,12 @@ const AddApplicantPage = () => {
   };
   
   const handleLanguage = () => {
-    const newLangCouple = `${collLanguage} - ${level}`
-    setCollLanguages(prevLanguages => [...prevLanguages, newLangCouple]);
-    setLevel("");
-    setCollLanguage("");
+      if (collLanguage !== '' && level !== '') {
+      const newLangCouple = `${collLanguage} - ${level}`
+      setCollLanguages(prevLanguages => [...prevLanguages, newLangCouple]);
+      setLevel("");
+      setCollLanguage("");
+    }
   };
 
 
@@ -241,8 +281,10 @@ const AddApplicantPage = () => {
     };
     
     const handleDesiredLocation = () => {
-      setDesiredLocations([...desiredLocations, desiredLocation]);
-      setDesiredLocation("");
+      if (desiredLocation !== '') {
+        setDesiredLocations([...desiredLocations, desiredLocation]);
+        setDesiredLocation("");
+      }
     };
 
     //Desired Location collecting
@@ -254,8 +296,10 @@ const AddApplicantPage = () => {
     };
     
     const handleNonDesiredLocation = () => {
-      setNonDesiredLocations([...nonDesiredLocations, nonDesiredLocation]);
-      setNonDesiredLocation("");
+      if (nonDesiredLocation !== '') {
+        setNonDesiredLocations([...nonDesiredLocations, nonDesiredLocation]);
+        setNonDesiredLocation("");
+      }
     };
 
     //Ready to move toggle
@@ -268,16 +312,18 @@ const AddApplicantPage = () => {
 
   return (
     <>
-      <div>
-        <div className="flex flex-col items-center">
+      <div className="flex flex-col">
+        <div className="flex items-center justify-center p-4 m-4 flex-col">
+        <div className="stepper">
         <Stepper activeStep={activeStep} alternativeLabel>
         
 
           <Step key="Personal Information">
             <StepLabel>Personal Information</StepLabel>
-            <div className="flex justify-center">
             {activeStep === 0 && (
             <>
+            <div className="flex fixed flex-col ">
+              
               <label htmlFor="name">Name</label>
               <input
                 type="text"
@@ -319,7 +365,8 @@ const AddApplicantPage = () => {
                   type="text"
                   name="hobbies"
                   value={hobbie} 
-                  onChange={handleHobbieChange} 
+                  onChange={handleHobbieChange}
+                  disabled={hobbie === ""}
                 />
                 
                 <button onClick={handleAddHobbie}>Add more</button>
@@ -348,9 +395,9 @@ const AddApplicantPage = () => {
                   />
                 )}
               </div> */}
+            </div>
             </>
           )}
-          </div>
           </Step>
 
 
@@ -359,6 +406,7 @@ const AddApplicantPage = () => {
             <StepLabel>Contact Information</StepLabel>
             {activeStep === 1 && (
               <>
+              <div className="flex fixed flex-col ">
               <label htmlFor="phone">Phone number</label>
               <input
                 type="text"
@@ -416,6 +464,7 @@ const AddApplicantPage = () => {
 
                 </ul>
               </div>
+              </div>
             </>
           )}
           </Step>
@@ -426,6 +475,7 @@ const AddApplicantPage = () => {
             <StepLabel>Education and Experience</StepLabel>
             {activeStep === 2 && (
             <>
+            <div className="flex fixed flex-col ">
             <h4>Education</h4>
 
             <label htmlFor="place">Place</label>
@@ -439,21 +489,22 @@ const AddApplicantPage = () => {
 
             <div className="from-to-dates"> 
               <label htmlFor="startDate">Start Date</label>
-              <input 
-                type="date"
-                name="startDate"
-                max={new Date().toISOString().split('T')[0]}
-                value={educationData.startDate ? educationData.startDate.toISOString().split('T')[0] : ''}
-                onChange={handleChangeEducation}
-                required
-                />
+              <input
+              type="month"
+              name="startDate"
+              max={new Date().toISOString().split('T')[0]}
+              value={educationData.startDate instanceof Date ? educationData.startDate.toISOString().slice(0, 7) : ''}
+              onChange={handleChangeEducation}
+              required
+            />
+
 
               <label htmlFor="endDate">End Date</label>
               <input 
-                type="date"
+                type="month"
                 name="endDate"
                 max={new Date().toISOString().split('T')[0]}
-                value={educationData.endDate ? educationData.endDate.toISOString().split('T')[0] : ''}
+                value={educationData.endDate instanceof Date ? educationData.endDate.toISOString().slice(0, 7) : ''}
                 onChange={handleChangeEducation}
                 required
                 />
@@ -517,20 +568,20 @@ const AddApplicantPage = () => {
             <div className="from-to-dates">
             <label htmlFor="startDate">Start Date</label>
             <input 
-                type="date"
+                type="month"
                 name="startDate"
                 max={new Date().toISOString().split('T')[0]}
-                value={experienceData.startDate instanceof Date ? experienceData.startDate.toISOString().split('T')[0] : ''}
+                value={experienceData.startDate instanceof Date ? experienceData.startDate.toISOString().slice(0, 7) : ''}
                 onChange={handleChangeExperience}
                 required
               />
 
             <label htmlFor="endDate">End Date</label>
             <input 
-                type="date"
+                type="month"
                 name="endDate"
                 max={new Date().toISOString().split('T')[0]}
-                value={experienceData.endDate instanceof Date ? experienceData.endDate.toISOString().split('T')[0] : ''}
+                value={experienceData.endDate instanceof Date ? experienceData.endDate.toISOString().slice(0, 7) : ''}
                 onChange={handleChangeExperience}
                 required
               />
@@ -559,7 +610,7 @@ const AddApplicantPage = () => {
               </li>
             )}
             </ul>
-
+            </div>
           </>
           )}
           </Step>
@@ -570,6 +621,7 @@ const AddApplicantPage = () => {
             <StepLabel>Skills</StepLabel>
             {activeStep === 3 && (
             <>
+            <div className="flex fixed flex-col ">
             <h4>Skills</h4>
 
             <label htmlFor="collLanguage">Choose the language</label>
@@ -677,17 +729,18 @@ const AddApplicantPage = () => {
                   onChange={handleChange} 
                 />
               </div>
-
+              </div>
           </>
           )}
           
           </Step>
 
-          <Step key="Skills">
+          <Step key="Preferences">
             
             <StepLabel>Preferences</StepLabel>
             {activeStep === 4 && (
             <>
+            <div className="flex fixed flex-col ">
             <h4>Preferences</h4>
 
             <label htmlFor="desiredLocations">Desired Locations</label>
@@ -767,7 +820,7 @@ const AddApplicantPage = () => {
             value={formData.salaryRange}
             onChange={handleChange}
           />
-
+          </div>
           </>
           )}
           
@@ -775,7 +828,12 @@ const AddApplicantPage = () => {
       
         </Stepper>
       </div>
-      <div className="back-next-buttons">
+      </div>
+
+      
+      </div>
+      <div className="flex ">
+      {activeStep > 0 && (
         <Button
           onClick={handleBack}
           variant="contained"
@@ -783,7 +841,9 @@ const AddApplicantPage = () => {
         >
           Back
         </Button>
+      )}
 
+      {activeStep < 4 && (
         <Button
           onClick={handleNext}
           variant="contained"
@@ -791,14 +851,18 @@ const AddApplicantPage = () => {
         >
           Next
         </Button>
-      </div>
-      </div>
+      )}
+    </div>
 
-      <Button
-          onClick={handleSubmit}
-          variant="contained"
-          color="primary"
-        >Create account</Button>
+    <div>
+      {activeStep === 4 && (
+       <Button
+       onClick={handleSubmit}
+       variant="contained"
+       color="primary"
+      >Create account</Button>
+      )}
+    </div>
     </>
   );
 };
