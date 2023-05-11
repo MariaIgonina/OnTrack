@@ -9,8 +9,8 @@ export default function UserCard({ applicant }: UserCardProps) {
   return (
     <article
       key={applicant.idAuth}
-      className="flex-shrink-0 flex-col flex rounded-2xl shadow-md bg-white p-3 m-5"
-      style={{ minWidth: "300px" }}
+      className="flex-shrink-0 flex-col flex rounded-2xl shadow-md bg-white p-3 m-5 "
+      style={{ minWidth: "300px", maxWidth: "400px" }}
     >
       <div className="flex items-center gap-x-4 text-xs">
         <time className="text-gray-500">{applicant.location}</time>
