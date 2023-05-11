@@ -60,7 +60,6 @@ export default function GithubBtn({ text }: GithubBtnProps) {
   }
 
   async function AuthenticateUserfromGH() {
-    console.log("HELLO");
     try {
       const tokenData = await fetchTokenData(codeParam!);
       const userInfo = await fetchUserData(tokenData.access_token);
@@ -89,9 +88,6 @@ export default function GithubBtn({ text }: GithubBtnProps) {
       if (id) navigate(`/applicant/${id}`);
     } else if (currentUser === "recruiter") {
       const id = newRecruiter.id;
-      console.log("status", status);
-      console.log("LOOK HERE FOR NEW RECIRUTIER ==> ", newRecruiter);
-      console.log("id from from end", id);
       if (id) navigate(`/recruiter/${id}`);
     }
   };
