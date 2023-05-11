@@ -33,18 +33,13 @@ const CompanyPage = () => {
     fetchImages();
   }, []);
 
-  // useEffect(() => {
-  //   console.log("array 2", imageIds);
-  // }, [imageIds])
+  const codeParam = window.location.pathname.split("/").reverse()[0];
 
-  // const queryString = window.location.search;
-  // const urlParams = new URLSearchParams(queryString);
-  // const codeParam = urlParams.get("id");
+  useEffect(() => {
+    dispatch(setRecruiter(recruiter));
+    dispatch(fetchRecruiter(+codeParam!));
 
-  // // useEffect(() => {
-  //   dispatch(setRecruiter(recruiter));
-  //   dispatch(fetchRecruiter(1));
-  // }, [dispatch]);
+  }, [dispatch]);
 
   const [formData, setFormData] = useState(initialRecruiter);
 
@@ -86,7 +81,7 @@ const CompanyPage = () => {
     const newRecruiter: Recruiter = {
       ...formData,
       id: formData.id,
-      emailstring: formData.emailstring, //DELETE THIS ONCE THE LOGIN WORKS!!!!
+      email: formData.email, //DELETE THIS ONCE THE LOGIN WORKS!!!!
       picture: formData.picture, //DELETE THIS ONCE THE LOGIN WORKS!!!!
       idAuth: formData.idAuth, //DELETE THIS ONCE THE LOGIN WORKS!!!!
       recruiterName: formData.recruiterName,
@@ -194,14 +189,14 @@ const CompanyPage = () => {
               required
             />
 
-            <label htmlFor="emailstring">
+            <label htmlFor="email">
               {" "}
               TO BE DELETED : Email{" "}
             </label>
             <input
               type="text"
-              name="emailstring"
-              value={formData.emailstring}
+              name="email"
+              value={formData.email}
               onChange={handleChange}
               required
             />

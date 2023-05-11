@@ -6,11 +6,11 @@ import { RootState } from "./store";
 
 const initialRecruiter: Recruiter = {
   id: 0,
-  emailstring: '',
-  picture: '',
-  idAuth: '',
-  recruiterName: '',
-  name: '',
+  email: "",
+  picture: "",
+  idAuth: "",
+  recruiterName: "",
+  name: "",
   vacancies: [],
   logo: "",
   founded: "",
@@ -43,8 +43,10 @@ const createRecruiter = createAsyncThunk(
   "recruiter/createRecruiter",
   async function (recruiter: Recruiter, { rejectWithValue }) {
     try {
+
       const response = await fetch(url + "/createRecruiter", {
         method: "POST",
+
         headers: {
           "Content-Type": "application/json",
         },
