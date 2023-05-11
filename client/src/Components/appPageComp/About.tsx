@@ -1,7 +1,8 @@
 import React from "react";
+import { Applicant } from "../../Interfaces";
 
 
-const About = ({applicant}) => {
+const About = ({applicant}:{applicant: Applicant}) => {
 
   return (
     <>

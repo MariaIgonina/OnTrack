@@ -29,17 +29,19 @@ import {
 } from "../store/applicantSlice";
 
 const ApplicantPage = () => {
-  const applicant = useSelector((state: RootState) => state.applicant);
+  const applicant = useSelector((state: RootState) => state.applicant.applicant);
   const dispatch = useDispatch<AppDispatch>();
   const codeParam = window.location.pathname.split("/").reverse()[0];
 
   useEffect(() => {
       dispatch(fetchApplicant(54));
-      dispatch(setApplicant(applicant.applicant));
+      // dispatch(setApplicant(applicant));
+      console.log("App", applicant)
   }, [dispatch]);
 
   return (
     <>
+      <div className="mt-20">
       <Avatar 
       applicant = {applicant}/>
       <PersonalInfo 
@@ -62,6 +64,7 @@ const ApplicantPage = () => {
       applicant = {applicant}/>
       <Hobbies 
       applicant = {applicant}/>
+      </div>
     </>
   );
 };
