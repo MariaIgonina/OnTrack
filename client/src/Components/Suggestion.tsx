@@ -14,6 +14,7 @@ export default function Suggestion() {
 
   useEffect(() => {
     dispatch(fetchAllApplicants());
+    //there is a console error here about age being the wrong type - "A non-serializable value?""
   }, []);
 
   return (

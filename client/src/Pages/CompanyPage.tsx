@@ -38,10 +38,14 @@ const CompanyPage = () => {
   //   console.log("array 2", imageIds);
   // }, [imageIds])
 
-  useEffect(() => {
-    dispatch(setRecruiter(recruiter));
-    dispatch(fetchRecruiter(1));
-  }, [dispatch]);
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const codeParam = urlParams.get("id");
+
+  // useEffect(() => {
+  //   dispatch(setRecruiter(recruiter));
+  //   dispatch(fetchRecruiter(1));
+  // }, [dispatch]);
 
   const [formData, setFormData] = useState(initialRecruiter);
 
