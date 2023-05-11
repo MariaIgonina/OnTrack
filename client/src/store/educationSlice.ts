@@ -7,14 +7,14 @@ import { Education } from "../Interfaces";
 
 
 const initialEducation = {
-  id: 0,
+  // id: 0,
   place: '',
   startDate: new Date(),
   endDate: new Date(),
   degree: '',
   speciality: '',
-  applicant: initialApplicant,
-  applicantIdDB: 0
+  // applicant: initialApplicant,
+  // applicantIdDB: 0
 }
 
 const url:string = 'http://localhost:3000'

@@ -58,9 +58,7 @@ const AddApplicantPage = () => {
     const isFormValid = Object.values(formData).every(value => value);
     setIsFormValid(isFormValid);
     if (isFormValid) {
-      const newApplicant: Applicant = {
-        ...formData,
-        // picture: avatarUrl,
+      const newApplicant = {
         name: formData.name,
         familyName: formData.familyName,
         age: formData.age,
@@ -70,20 +68,24 @@ const AddApplicantPage = () => {
         workingHours: formData.workingHours,
         workingModal: formData.workingModal,
         socialMedia: links,
-        skillsProf: profSkills,
+        skillsProf: skills,
         stack: collStacks,
         compLanguages: collCompLanguages,
         about: formData.about,
         video: formData.video,
         languages: collLanguages,
         hobbies: hobbies,
-        salaryRange: formData.salaryRange,
+        salaryRange: Number(formData.salaryRange),
         desiredLocation: desiredLocations,
         nonDesiredLocation: nonDesiredLocations,
       }
-      alert(newApplicant)
+      const dbArg = {
+        applicantId: 54, 
+        applicant: newApplicant}
+  
+      dispatch(updateApplicant(dbArg));
+  
     } else alert("Please fill in all fields.")
-    // dispatch(updateApplicant(newApplicant))
   }
 
   //Buttons validation
@@ -105,18 +107,20 @@ const AddApplicantPage = () => {
     if (educationData.place !== '' && 
         educationData.speciality !== '') {
       const newEducation: Education = {
-        ...educationData,
         place: educationData.place,
         startDate: educationData.startDate,
         endDate: educationData.endDate,
         degree: educationData.degree,
         speciality: educationData.speciality,
-        // applicantId: applicant.idAuth,
       };
       setEducations([...educations, newEducation])
-      console.log(newEducation)
-      console.log(currentUser)
-      // setDatesEdu(dateString(newEducation.startDate, newEducation.endDate))
+      
+      const dbArg = {
+        applicantId: 54, 
+        education: newEducation}
+        
+        console.log(dbArg)
+      dispatch(createEducation(dbArg));
     } 
   }
 
@@ -146,20 +150,20 @@ const AddApplicantPage = () => {
         experienceData.company !== '' &&
         experienceData.description !== '') {
     const newExperience: Experience = {
-      ...experienceData,
       jobTitle: experienceData.jobTitle,
       company: experienceData.company,
       startDate: experienceData.startDate,
       endDate: experienceData.endDate,
       description: experienceData.description,
-      // applicantId: applicant.idAuth,
     };
+
     setExperiences([...experiences, newExperience])
-    console.log(newExperience)
-    // const dbArg = {
-    //   applicantId: currentUser.id, 
-    //   experience: newExperience}
-    // createExperience(dbArg);
+    
+    const dbArg = {
+      applicantId: 54, 
+      experience: newExperience}
+
+    dispatch(createExperience(dbArg));
     } 
   }
 
@@ -172,7 +176,6 @@ const AddApplicantPage = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
 
   //Hobbies collecting
   const [hobbie, setHobbie] = useState("");
@@ -187,21 +190,8 @@ const AddApplicantPage = () => {
       setHobbies([...hobbies, hobbie]);
       setHobbie("");
     }
-
+    console.log(currentUser)
   };
-
-  // //Avatar
-  // const [avatarUrl, setAvatarUrl] = useState("");
-  
-  // //Formatting date
-  // function formatDate(date:any) {
-  //   if (!date) return '';
-    
-  //   const year = date.getFullYear();
-  //   const month = String(date.getMonth() + 1).padStart(2, '0');
-    
-  //   return `${year}-${month}`;
-  // }
 
   //Soсial media collecting
   const [link, setLink] = useState("");
@@ -239,8 +229,6 @@ const AddApplicantPage = () => {
       setCollLanguage("");
     }
   };
-
-
 
   //CompLanguages collecting
   const [collCompLanguage, setCollCompLanguage] = useState("");
@@ -316,7 +304,6 @@ const AddApplicantPage = () => {
         <div className="flex items-center justify-center p-4 m-4 flex-col">
         <div className="stepper">
         <Stepper activeStep={activeStep} alternativeLabel>
-        
 
           <Step key="Personal Information">
             <StepLabel>Personal Information</StepLabel>
@@ -366,7 +353,7 @@ const AddApplicantPage = () => {
                   name="hobbies"
                   value={hobbie} 
                   onChange={handleHobbieChange}
-                  disabled={hobbie === ""}
+                  
                 />
                 
                 <button onClick={handleAddHobbie}>Add more</button>
@@ -378,28 +365,10 @@ const AddApplicantPage = () => {
                 </ul>
               </div>
 
-              {/* <div>
-                <label htmlFor="avatarUrl">Avatar URL</label>
-                <input
-                  type="text"
-                  name="avatarUrl"
-                  value={avatarUrl}
-                  onChange={(e) => setAvatarUrl(e.target.value)}
-                />
-
-                {avatarUrl && (
-                  <Avatar
-                    alt="Avatar"
-                    src={avatarUrl}
-                    style={{ width: "100px", height: "100px", marginTop: "20px" }}
-                  />
-                )}
-              </div> */}
             </div>
             </>
           )}
           </Step>
-
 
 
           <Step key="Contact Information">
@@ -470,7 +439,6 @@ const AddApplicantPage = () => {
           </Step>
 
 
-
           <Step key="Education and Experience">
             <StepLabel>Education and Experience</StepLabel>
             {activeStep === 2 && (
@@ -497,7 +465,6 @@ const AddApplicantPage = () => {
               onChange={handleChangeEducation}
               required
             />
-
 
               <label htmlFor="endDate">End Date</label>
               <input 
@@ -596,7 +563,6 @@ const AddApplicantPage = () => {
             
             <button
               onClick={handleSubmitExperience}
-              // disabled={!isFormExpValid}
             >
               Add
             </button>
@@ -729,11 +695,12 @@ const AddApplicantPage = () => {
                   onChange={handleChange} 
                 />
               </div>
-              </div>
+            </div>
           </>
           )}
           
           </Step>
+
 
           <Step key="Preferences">
             
@@ -829,9 +796,9 @@ const AddApplicantPage = () => {
         </Stepper>
       </div>
       </div>
-
       
       </div>
+      
       <div className="flex ">
       {activeStep > 0 && (
         <Button

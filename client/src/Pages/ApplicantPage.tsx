@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import Avatar from "../Components/appPageComp/Avatar";
 import CurrentLocation from "../Components/appPageComp/CurrLocation";
-import Education from "../Components/appPageComp/Education";
+import EducationComp from "../Components/appPageComp/Education";
 import Experience from "../Components/appPageComp/Experience";
 import Hobbies from "../Components/appPageComp/Hobbies";
 import JobPreferences from "../Components/appPageComp/JobPrefer";
@@ -34,10 +34,8 @@ const ApplicantPage = () => {
   const codeParam = window.location.pathname.split("/").reverse()[0];
 
   useEffect(() => {
-    dispatch(setApplicant(applicant));
-    if (codeParam) {
-      dispatch(fetchApplicant(+codeParam!));
-    }
+      dispatch(fetchApplicant(54));
+      dispatch(setApplicant(applicant.applicant));
   }, [dispatch]);
 
   return (
@@ -58,7 +56,7 @@ const ApplicantPage = () => {
       applicant = {applicant}/>
       <Experience 
       applicant = {applicant}/>
-      <Education 
+      <EducationComp
       applicant = {applicant}/>
       <Languages 
       applicant = {applicant}/>

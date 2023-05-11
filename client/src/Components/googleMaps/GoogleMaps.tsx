@@ -1,5 +1,10 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
 import { fetchAllApplicants } from "../../store/applicantSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Applicant } from "../../Interfaces";
@@ -23,6 +28,10 @@ interface ICenter {
 }
 
 const GoogleMaps: React.FC = () => {
+  const [selectedApplicant, setSelectedApplicant] = useState<Applicant | null>(
+    null
+  );
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyDaIfGIGsLwAdkkp3mxtP_9AF7_YXIybBs",
@@ -40,10 +49,10 @@ const GoogleMaps: React.FC = () => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
   const onLoad = useCallback((map: google.maps.Map) => {
-    const bounds = new window.google.maps.LatLngBounds(
-      center as google.maps.LatLngLiteral
-    );
-    map.fitBounds(bounds);
+    // const bounds = new window.google.maps.LatLngBounds(
+    //   center as google.maps.LatLngLiteral
+    // );
+    // map.fitBounds(bounds);
 
     setMap(map);
   }, []);
@@ -56,7 +65,7 @@ const GoogleMaps: React.FC = () => {
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center as google.maps.LatLngLiteral}
-      zoom={7}
+      zoom={8}
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
@@ -64,14 +73,38 @@ const GoogleMaps: React.FC = () => {
       {applicants.length > 0 &&
         applicants.map((applicant) => (
           <Marker
-            key={applicant}
+            key={applicant.idAuth}
             position={{
-              lat: Number(applicant.desiredLocation[0]),
-              lng: Number(applicant.desiredLocation[1]),
+              lat: Number(applicant.currentLocation[0]),
+              lng: Number(applicant.currentLocation[1]),
             }}
-            className="marker-analog"
+            onClick={() => setSelectedApplicant(applicant)}
           />
         ))}
+      {selectedApplicant && (
+        <InfoWindow
+          position={{
+            lat: Number(selectedApplicant.currentLocation[0]),
+            lng: Number(selectedApplicant.currentLocation[1]),
+          }}
+          onCloseClick={() => setSelectedApplicant(null)}
+        >
+          <div>
+            <img
+              src={selectedApplicant.picture}
+              alt={selectedApplicant.name}
+              width="100"
+            />
+            <h2>
+              {selectedApplicant.name} {selectedApplicant.familyName}
+            </h2>
+            <p>Stack: {selectedApplicant.stack}</p>
+            <p>Skills: {selectedApplicant.skillsProf}</p>
+            <p>Exp: {selectedApplicant.skillsProf}</p>
+            <p>Email: {selectedApplicant.email}</p>
+          </div>
+        </InfoWindow>
+      )}
     </GoogleMap>
   ) : (
     <></>

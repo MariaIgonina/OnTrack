@@ -39,42 +39,19 @@ const getApplicantById = async (req: Request, res: Response) => {
         idDB: +id,
       },
     });
+    const foundApplicantExperience = await prisma.experience.findMany({
+      where: {
+        applicantId: +id,
+      },
+    });
+    console.log("expe", { ...foundApplicant, ...foundApplicantExperience });
     if (!foundApplicant) throw new Error("Applicant not found!");
-    res.status(200).json(foundApplicant);
+    res
+      .status(200)
+      .json({ ...foundApplicant, experience: { foundApplicantExperience } });
   } catch (error: any) {
     console.log("error in applicantController, ", error);
     res.status(400).json(error);
-  }
-};
-
-const getuserRole = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const foundApplicant = await prisma.applicant.findUnique({
-      where: {
-        idAuth: id,
-      },
-    });
-    const foundRecruiter = await prisma.recruiter.findUnique({
-      where: {
-        idAuth: id,
-      },
-    });
-    if (foundApplicant) {
-      res.status(200).json(foundApplicant);
-    }
-    if (foundRecruiter) {
-      res.status(200).json(foundRecruiter);
-    }
-    if (!foundApplicant && !foundRecruiter) {
-      throw new Error("Applicant not found!");
-    }
-  } catch (error: any) {
-    console.log(
-      "error in applicantController getting the user by Role, ",
-      error
-    );
-    res.status(400).json(error.message);
   }
 };
 
@@ -268,5 +245,4 @@ export const applicantControllers = {
   deleteApplicant,
   getAllApplicants,
   filterApplicants,
-  getuserRole,
 };

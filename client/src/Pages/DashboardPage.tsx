@@ -7,22 +7,12 @@ import GoogleMaps from "../Components/googleMaps/GoogleMaps";
 
 const DashboardPage = () => {
   //NEED TO SORT OUT AUTHENTICATION OF USER FOR THE BELOW
-  // if (isLoading) {
-  //   return <div>Loading ...</div>;
-  // }
 
-  // return (
-  //   isAuthenticated ? (
-  //     <>
-  //       <div>I'm dashboard</div>
-  //     </>
-  //   ) : null
-  // );
   return (
     <>
       <Suggestion></Suggestion>
-      <AllUsers />
       <GoogleMaps />
+      <AllUsers />
       <Suggestion></Suggestion>
       <Suggestion></Suggestion>
     </>

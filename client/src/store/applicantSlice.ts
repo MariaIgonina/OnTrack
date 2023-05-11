@@ -15,8 +15,7 @@ const initialApplicant: Applicant = {
   phone: "",
   location: "",
   track: [],
-  coordinateX: "",
-  coordinateY: "",
+  currentLocation: [],
   readyToMove: false,
   workingHours: "",
   workingModal: "",
@@ -48,7 +47,7 @@ const fetchApplicant = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("DATA FROM REDUX THUNK : ", data);
+      // console.log("DATA FROM REDUX THUNK : ", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -66,6 +65,23 @@ const fetchAllApplicants = createAsyncThunk(
       }
       const data = await response.json();
       //console.log("ALL APPLICANTS : ", data);
+      return data;
+    } catch (err) {
+      if (err instanceof Error) return rejectWithValue(err.message);
+    }
+  }
+);
+
+const fetchFilteredApplicants = createAsyncThunk(
+  "applicant/fetchFilteredApplicants",
+
+  async function (query: string, { rejectWithValue }) {
+    try {
+      const response = await fetch(url + `/filterApplicants/${query}`);
+      if (!response.ok) {
+        throw new Error("Server error");
+      }
+      const data = await response.json();
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -143,6 +159,13 @@ const updateApplicant = createAsyncThunk(
   "applicant/updateApplicant",
   async function ({ applicantId, applicant }: IPutParams, { rejectWithValue }) {
     try {
+      const coordinates = await fetchCityCoordinates(applicant.location);
+      if (coordinates) {
+        applicant.currentLocation = [
+          coordinates.lat.toString(),
+          coordinates.lng.toString(),
+        ];
+      }
       const response = await fetch(url + `/updateApplicant/${applicantId}`, {
         method: "PUT",
         headers: {
@@ -212,6 +235,20 @@ export const applicantSlice = createSlice<
         state.applicant = action.payload;
         state.error = null;
       })
+      //getFiltered
+      .addCase(fetchFilteredApplicants.pending, (state, action) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchFilteredApplicants.rejected, (state, action) => {
+        state.status = "rejected";
+        state.error = action.payload as Error;
+      })
+      .addCase(fetchFilteredApplicants.fulfilled, (state, action) => {
+        state.status = "resolved";
+        state.applicant = action.payload;
+        state.error = null;
+      })
       //create
       .addCase(createApplicant.pending, (state, action) => {
         state.status = "loading";
@@ -263,6 +300,7 @@ export const { setApplicant } = applicantSlice.actions;
 export {
   fetchApplicant,
   fetchAllApplicants,
+  fetchFilteredApplicants,
   createApplicant,
   deleteApplicant,
   updateApplicant,
@@ -271,3 +309,25 @@ export {
 export const selectapplicant = (state: RootState) => state.applicant;
 
 export default applicantSlice.reducer;
+
+const fetchCityCoordinates = async (
+  cityName: string
+): Promise<google.maps.LatLngLiteral | null> => {
+  try {
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+        cityName
+      )}&key=AIzaSyDaIfGIGsLwAdkkp3mxtP_9AF7_YXIybBs`
+    );
+    const data = await response.json();
+
+    if (data.status === "OK") {
+      const coordinates = data.results[0].geometry.location;
+      return { lat: coordinates.lat, lng: coordinates.lng };
+    }
+  } catch (error) {
+    console.error("Error fetching city coordinates:", error);
+  }
+
+  return null;
+};
