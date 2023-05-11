@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
-import dotenv from "dotenv";
-dotenv.config();
+// import dotenv from "dotenv";
+// dotenv.config();
 
 const prisma = new PrismaClient();
 
@@ -78,6 +78,19 @@ const getTracksByApplicant = async (req: Request, res: Response) => {
     console.log(error);
   }
 };
+const getTrackById= async (req: Request, res: Response) => {
+  try {
+    const trackId = req.params.trackId;
+    const tracks = await prisma.track.findUnique({
+      where: {
+        id: +trackId,
+      },
+    });
+    return res.status(200).json(tracks);
+  } catch (error: any) {
+    console.log(error);
+  }
+};
 
 async function deletetrack(req: Request, res: Response) {
   const { id } = req.params;
@@ -98,16 +111,14 @@ async function deletetrack(req: Request, res: Response) {
 
 async function updatetrackbyId(req: Request, res: Response) {
   const { id } = req.params;
-  const { reject, applicantNotes } = req.body;
+  // const { reject, applicantNotes } = req.body;
+  
   try {
     const track = await prisma.track.update({
       where: {
         id: parseInt(id),
       },
-      data: {
-        reject: JSON.parse(reject),
-        applicantNotes: applicantNotes,
-      },
+      data: req.body,
     });
     res.json(track).status(200);
   } catch (error: any) {
@@ -125,4 +136,5 @@ export const trackControllers = {
   getTracksByApplicant,
   deletetrack,
   updatetrackbyId,
+  getTrackById
 };
