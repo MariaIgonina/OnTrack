@@ -8,14 +8,6 @@ import trackReducer from "./trackSlice"
 import messageReducer from "./messageSlice"
 import educationReducer from "./educationSlice"
 import experienceReducer from "./educationSlice"
-
-
-
-import applicantReducer from "./applicantSlice";
-import recruiterReducer from "./recruiterSlice";
-import vacancyReducer from "./vacancySlice";
-import trackReducer from "./trackSlice";
-import messageReducer from "./messageSlice";
 import currentUserReducer from "./CurrentUserSlice";
 
 export const store = configureStore({

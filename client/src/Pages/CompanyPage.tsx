@@ -21,7 +21,6 @@ import { useDescriptions } from "@headlessui/react/dist/components/description/d
 const CompanyPage = () => {
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
-  // const imageIds = useSelector((state: RootState) => state.cloudinary.imageIds);
   const [imageIds, setImageIds] = useState<ICloudImage[]>([]);
 
   const baseUrl = `https://res.cloudinary.com/dd9tj642b/image/upload/`;
@@ -38,11 +37,11 @@ const CompanyPage = () => {
   //   console.log("array 2", imageIds);
   // }, [imageIds])
 
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const codeParam = urlParams.get("id");
+  // const queryString = window.location.search;
+  // const urlParams = new URLSearchParams(queryString);
+  // const codeParam = urlParams.get("id");
 
-  // useEffect(() => {
+  // // useEffect(() => {
   //   dispatch(setRecruiter(recruiter));
   //   dispatch(fetchRecruiter(1));
   // }, [dispatch]);
