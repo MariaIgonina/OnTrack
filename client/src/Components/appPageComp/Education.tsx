@@ -24,7 +24,7 @@ const EducationComp = ({applicant}) => {
   return (
     <>
       <div 
-      className="flex-shrink-0 flex-col flex rounded-2xl shadow-md bg-white p-3 m-5 ">
+      className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 m-4 mt-0 ">
         <h2
         className="text-lg font-semibold leading-6 text-[#026767] sm:text-3xl"
         >Education</h2>
@@ -32,10 +32,14 @@ const EducationComp = ({applicant}) => {
           {Array.isArray(educations) && educations.map((edu) => {
             return (
               <li key={edu.id}>
-                <h3>{edu.place}</h3>
+                <h3
+                className=" font-semibold leading-2 "
+                >{edu.place}</h3>
                 <h4>{edu.degree}</h4>
                 <h4>{edu.speciality}</h4>
-                <p>{`${moment(edu.startDate).format("MMM YYYY")} - ${moment(edu.endDate).format("MMM YYYY")}`}</p>
+                <p
+                className="leading-2 text-secondary sm:text-3xl mb-2"
+                >{`${moment(edu.startDate).format("MMM YYYY")} - ${moment(edu.endDate).format("MMM YYYY")}`}</p>
               </li>
             )
           })}
