@@ -63,7 +63,12 @@ const createVacancy = async (req: Request, res: Response) => {
 const getVacancyById = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
-    const vacancy = await prisma.vacancy.findUnique({ where: { id } });
+    const vacancy = await prisma.vacancy.findUnique({
+      where: { id },
+      include: {
+        jobTrack: true,
+      },
+    });
 
     if (!vacancy) {
       res.status(404).json({ success: false, message: "Vacancy not found" });
@@ -80,7 +85,12 @@ const getVacancyById = async (req: Request, res: Response) => {
 const getVacancyByRecruiter = async (req: Request, res: Response) => {
   try {
     const recruiterId = parseInt(req.params.recruiterId);
-    const vacancies = await prisma.vacancy.findMany({ where: { recruiterId } });
+    const vacancies = await prisma.vacancy.findMany({
+      where: { recruiterId },
+      include: {
+        jobTrack: true,
+      },
+    });
     res.status(200).json(vacancies);
   } catch (error) {
     console.error(error);
@@ -91,7 +101,11 @@ const getVacancyByRecruiter = async (req: Request, res: Response) => {
 const getAllVacancies = async (req: Request, res: Response) => {
   console.log("Inside getAllVacancies");
   try {
-    const AllVacancies = await prisma.vacancy.findMany();
+    const AllVacancies = await prisma.vacancy.findMany({
+      include: {
+        jobTrack: true,
+      },
+    });
     res.status(200).json(AllVacancies);
   } catch (error) {
     console.error(error);
@@ -117,7 +131,12 @@ const updateVacancy = async (req: Request, res: Response) => {
 const deleteVacancy = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
-    await prisma.vacancy.delete({ where: { id } });
+    await prisma.vacancy.delete({
+      where: { id },
+      include: {
+        jobTrack: true,
+      },
+    });
     res.status(200).json({ message: "Succesfully deleted" });
   } catch (error) {
     console.error(error);
@@ -189,6 +208,9 @@ const getVacanciesByFilter = async (req: Request, res: Response) => {
 
     const filteredVacancies = await prisma.vacancy.findMany({
       where: filter,
+      include: {
+        jobTrack: true,
+      },
     });
     res.status(200).json(filteredVacancies);
   } catch (error) {

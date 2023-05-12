@@ -35,6 +35,9 @@ async function getStepsbyTrack(req: Request, res: Response) {
       where: {
         trackId: parseInt(id),
       },
+      include: {
+        questionaries: true,
+      },
     });
 
     if (!step) throw new Error("Step not found!");
@@ -53,6 +56,9 @@ async function deleteStep(req: Request, res: Response) {
     const step = await prisma.step.delete({
       where: {
         id: parseInt(id),
+      },
+      include: {
+        questionaries: true,
       },
     });
 
