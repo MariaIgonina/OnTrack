@@ -44,6 +44,8 @@ router.delete(
   questionnaryController.deleteQuestionary
 );
 
+router.get("/getNotes/:TrackId", getNotesByTrackId);
+
 // Applicant routes
 router.get("/applicant/:id", applicantControllers.getApplicantById);
 router.get("/applicants", applicantControllers.getAllApplicants);
@@ -72,10 +74,7 @@ router.get(
   "/getTracksByApplicant/:applicantId",
   trackControllers.getTracksByApplicant
 );
-router.get(
-  "/getTrackById/:trackId",
-  trackControllers.getTrackById
-);
+router.get("/getTrackById/:trackId", trackControllers.getTrackById);
 router.put("/updatetrack/:id", trackControllers.updatetrackbyId);
 router.delete("/deletetrack/:id", trackControllers.deletetrack);
 
@@ -147,7 +146,7 @@ router.get(
 );
 
 // Upload Image to cloudinary
-router.post('/postToCloudinary', cloudinaryControllers.postImageToCloudinary)
-router.get('/getFromCloudinary', cloudinaryControllers.getImageFromCloudinary)
+router.post("/postToCloudinary", cloudinaryControllers.postImageToCloudinary);
+router.get("/getFromCloudinary", cloudinaryControllers.getImageFromCloudinary);
 
 export default router;

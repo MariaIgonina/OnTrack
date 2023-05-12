@@ -1,6 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +10,7 @@ import VacancyList from "../Components/VacancyList";
 const RecruiterProfilePage = () => {
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
+  const codeParam = window.location.pathname.split("/").reverse()[0];
 
   useEffect(() => {
     dispatch(setRecruiter(recruiter));
@@ -20,8 +19,8 @@ const RecruiterProfilePage = () => {
 
   return (
     <div
-      className="bg-stone-100 py-12 sm:py-16 rounded-lg m-4"
-      style={{ height: "100%" }}
+      className="bg-stone-100 py-12 sm:py-16 rounded-lg"
+      style={{ height: "100%", marginTop: "100px" }}
     >
       {/* <>{JSON.stringify(recruiter)}</> */}
       <div className="relative max-w-md mx-auto md:max-w-2xl mt-6 min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-xl mt-16">
@@ -80,7 +79,6 @@ const RecruiterProfilePage = () => {
           </div>
         </div>
       </div>
-
       <footer className="relative pt-6 pb-2 mt-6">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center md:justify-between justify-center">
