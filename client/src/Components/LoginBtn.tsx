@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Button from "@mui/material/Button";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { setCurrentUser } from "../store/CurrentUserSlice";
@@ -20,35 +20,45 @@ type LoginBtnProps = {
 export default function LoginBtn({ text }: LoginBtnProps) {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const currentUser = useSelector((state: RootState) => state.currentUser);
+
+  const currentUserID = useSelector(
+    (s: RootState) => s.currentUser.currentUser.id
+  );
+
+  // useEffect(() => {
+  //   console.log("this is from state", currentUserID);
+  // }, [currentUserID]);
+
+  // const firstUpdate = useRef(true);
+  // useEffect(() => {
+  //   if (firstUpdate.current) {
+  //     // firstUpdate.current = false;
+  //     return;
+  //   }
+  //   console.log("this is from state", currentUserID);
+  // });
 
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const codeParam = urlParams.get("code");
 
   async function AuthenticateUserfromGH() {
-    console.log("REGISTER");
     try {
       const tokenData = await fetchTokenData(codeParam!);
       const userInfo = await fetchUserData(tokenData.access_token);
-      //THIS NEEDS TO BE BASED ON THE OUTCOME OF SEARCHING THE DATABASE
       const gitHubID = userInfo.node_id;
-      console.log(userInfo);
-      //get the user a
       const returnedRole = await dispatch(findUser(gitHubID));
 
-      console.log(returnedRole.payload);
-
       if (!returnedRole.payload) {
-        console.log(
-          "if we hit here, user does not exist therefore we must create it."
-        );
+        // console.log(
+        //   "if we hit here, user does not exist therefore we must create it."
+        // );
         const isApplicant = localStorage.getItem("currentUser") == "applicant";
         if (isApplicant) {
           const applicantCreated = await dispatch(
             createApplicant(extractApplicantData(userInfo))
           );
-          console.log(applicantCreated);
+          // console.log(applicantCreated);
           dispatch(
             setCurrentUser({
               id: applicantCreated.payload.idDB,
@@ -60,7 +70,7 @@ export default function LoginBtn({ text }: LoginBtnProps) {
           const recruiterCreated = await dispatch(
             createRecruiter(extractRecruiterData(userInfo))
           );
-          console.log(recruiterCreated);
+          // console.log(recruiterCreated);
           dispatch(
             setCurrentUser({
               id: recruiterCreated.payload.id,
@@ -71,8 +81,6 @@ export default function LoginBtn({ text }: LoginBtnProps) {
         }
       }
 
-      //NOW A CONDITIONAL TO KNOW
-      //ONCE THE RETURNED ROLE HAS BEEN RESOLVED
       if (returnedRole.payload && returnedRole.payload.recruiterName) {
         dispatch(
           setCurrentUser({ id: returnedRole.payload.id, role: "recruiter" })
@@ -88,8 +96,6 @@ export default function LoginBtn({ text }: LoginBtnProps) {
       if (tokenData.access_token) {
         localStorage.setItem("accessToken", tokenData.access_token);
       }
-      //clearURLParams(codeParam);
-      // redirectUser();
     } catch (e) {
       console.log("error", e);
     }
@@ -105,7 +111,6 @@ export default function LoginBtn({ text }: LoginBtnProps) {
       throw new Error("Server error");
     }
     const data = await response.json();
-    console.log("DATA FROM FETCH TOKEN DATA ==> ", data);
     return data;
   }
 
@@ -131,7 +136,6 @@ export default function LoginBtn({ text }: LoginBtnProps) {
   useEffect(() => {
     if (codeParam && localStorage.getItem("accessToken") === null) {
       AuthenticateUserfromGH();
-      //remove code params
       clearURLParams();
     }
   }, []);

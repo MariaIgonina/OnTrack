@@ -4,12 +4,13 @@ import RegisterModal from "../Components/RegisterModal";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import "./Login.css";
-import GithubBtn from "../Components/GithubBtn";
 import { setCurrentUser } from "../store/CurrentUserSlice";
 import LoginBtn from "../Components/LoginBtn";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const [render, setReRender] = useState(false);
   const [isOpen, setOpen] = useState(false);
 
@@ -23,6 +24,7 @@ const LoginPage = () => {
     localStorage.removeItem("login");
     dispatch(setCurrentUser({ id: "", role: "" }));
     setReRender(!render);
+    // navigate(`/`)}
   }
 
   return (
@@ -45,8 +47,7 @@ const LoginPage = () => {
             </>
           ) : (
             <>
-              <LoginBtn text={"please"} />
-              {/* <GithubBtn text={"Login with Github"}></GithubBtn> */}
+              <LoginBtn text={"Login with Github"} />
               <div className="register">
                 <button className="smallbtn" onClick={handleRegisterModal}>
                   <p>Or sign up for the first time by registering an account</p>

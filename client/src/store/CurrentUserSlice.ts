@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "./store";
+import { useDispatch } from "react-redux";
 
 interface CurrentUserState {
   id: string;
@@ -30,6 +31,7 @@ const findUser = createAsyncThunk(
       }
       const data = await response.json();
       console.log("DATA FROM REDUX THUNK : ", data);
+      // useDispatch(setCurrentUser({id: data.id, role: ""}))
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);

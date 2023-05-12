@@ -19,7 +19,7 @@ export default function GithubBtn({ text }: GithubBtnProps) {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const currentUser = localStorage.getItem("currentUser");
+  const currentUserinStore = localStorage.getItem("currentUser");
 
   const newApplicant = useSelector(
     (state: RootState) => state.applicant.applicant
@@ -81,7 +81,7 @@ export default function GithubBtn({ text }: GithubBtnProps) {
     try {
       const tokenData = await fetchTokenData(codeParam!);
       const userInfo = await fetchUserData(tokenData.access_token);
-      if (currentUser === "applicant") {
+      if (currentUserinStore === "applicant") {
         localStorage.setItem("login", "applicant");
         const newUser: Applicant = extractApplicantData(userInfo);
         dispatch(createApplicant(newUser));
@@ -100,6 +100,7 @@ export default function GithubBtn({ text }: GithubBtnProps) {
   }
 
   useEffect(() => {
+    console.log("inside the useEffect inside 103 GitHubButton");
     if (newApplicant.idDB)
       dispatch(setCurrentUser({ id: newApplicant.idDB, role: "applicant" }));
     else if (newRecruiter.id)
@@ -109,14 +110,14 @@ export default function GithubBtn({ text }: GithubBtnProps) {
 
   const redirectUser = () => {
     if (
-      currentUser === "applicant" ||
+      currentUserinStore === "applicant" ||
       localStorage.getItem("login") === "applicant"
     ) {
       const id = newApplicant.idDB;
       console.log("IDDDDD => ", id);
       if (id) navigate(`/applicant/${id}`);
     } else if (
-      currentUser === "recruiter" ||
+      currentUserinStore === "recruiter" ||
       localStorage.getItem("login") === "recruiter"
     ) {
       const id = newRecruiter.id;
