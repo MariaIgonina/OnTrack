@@ -26,17 +26,17 @@ const TrackPage = () => {
     dispatch(fetchTrack({ getTrackByWhat: 'getTrackById', id: +queryObj.trackId }))
     dispatch(fetchVacancy(+queryObj.vacancyId));
     setUserRole(queryObj.userRole)
-    // console.log('vacancy fetched', vacancy.data);
+    console.log('vacancy fetched', vacancy.data);
   }, []);
 
-  useEffect(() => {
-    if (track.track.applicantID) {
-      dispatch(fetchApplicant(track.track.applicantID));
-      dispatch(fetchRecruiter(track.track.recruiterID));
-      console.log('aplicant fetched => ', applicant.applicant)
-      console.log('recruiter fetched => ', recruiter.recruiter)
-    }
-  }, [track.track.applicantID])
+  // useEffect(() => {
+  //   if (track.track.applicantID) {
+  //     dispatch(fetchApplicant(track.track.applicantID));
+  //     dispatch(fetchRecruiter(track.track.recruiterID));
+  //     console.log('aplicant fetched => ', applicant.applicant)
+  //     console.log('recruiter fetched => ', recruiter.recruiter)
+  //   }
+  // }, [track.track.applicantID])
 
 
 
