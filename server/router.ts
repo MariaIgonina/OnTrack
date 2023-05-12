@@ -13,6 +13,7 @@ import { experienceController } from "./controllersMain/experienceController";
 import { populateDatabase } from "./controllersMain/populateController";
 import { cloudinaryControllers } from "./controllersMain/cloudinaryController";
 import { googleApiAuth } from "./controllersAuth/googleAuth";
+import getNotesByTrackId from "./controllersMain/getNotes";
 
 const router = Router();
 
@@ -44,6 +45,8 @@ router.delete(
   questionnaryController.deleteQuestionary
 );
 
+router.get("/getNotes/:TrackId", getNotesByTrackId)
+
 // Applicant routes
 router.get("/applicant/:id", applicantControllers.getApplicantById);
 router.get("/applicants", applicantControllers.getAllApplicants);
@@ -71,6 +74,10 @@ router.get(
 router.get(
   "/getTracksByApplicant/:applicantId",
   trackControllers.getTracksByApplicant
+);
+router.get(
+  "/getTrackById/:trackId",
+  trackControllers.getTrackById
 );
 router.put("/updatetrack/:id", trackControllers.updatetrackbyId);
 router.delete("/deletetrack/:id", trackControllers.deletetrack);

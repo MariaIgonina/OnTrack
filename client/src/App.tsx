@@ -22,8 +22,8 @@ import "./index.css";
 function App() {
   return (
     <BrowserRouter>
-      <div className="container">
       <Navbar />
+      <div className="content">
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/user" element={<ApplicantPage />} />
@@ -39,7 +39,7 @@ function App() {
           <Route path="/vacancyList" element={<VacancyList />} />
           <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
           <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
-          <Route path="/recruiter/:id" element={<RecruiterPage />} />
+          {/* <Route path="/recruiter/:id" element={<RecruiterPage />} /> */}
           {/* /recruiter/?id=${id}` */}
         </Routes>
       </div>

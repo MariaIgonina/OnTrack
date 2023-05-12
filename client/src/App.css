@@ -3,6 +3,7 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+
 * {
   margin: 0px;
   font-family: "Lato", sans-serif;
@@ -52,3 +53,5 @@
   flex-grow: 1;
   overflow-y: auto;
 } */
+
+
