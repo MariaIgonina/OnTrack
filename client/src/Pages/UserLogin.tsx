@@ -18,12 +18,12 @@ export default function RecruiterLogin() {
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
   const applicant = useSelector((state: RootState) => state.applicant);
-  const role = 'applicant' // cCURRENT USER STATE REDUX
+  const role = "recruiter"; // cCURRENT USER STATE REDUX
 
   const codeParam = window.location.pathname.split("/").reverse()[0];
 
   useEffect(() => {
-    if (role === 'applicant') {
+    if (role === "applicant") {
       dispatch(setRecruiter(recruiter));
       dispatch(fetchRecruiter(+codeParam!));
     } else {
@@ -32,7 +32,7 @@ export default function RecruiterLogin() {
     }
   }, [dispatch]);
 
-  if (role !== 'applicant') {
+  if (role !== "applicant") {
     if (!recruiter.recruiter.name) {
       return <RecruiterForm />;
     } else {
