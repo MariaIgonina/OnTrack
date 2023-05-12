@@ -37,7 +37,7 @@ const ApplicantPage = () => {
 
   useEffect(() => {
     dispatch(fetchApplicant(54));
-    dispatch(setApplicant(applicant));
+    //dispatch(setApplicant(applicant));
     // console.log("App", applicant);
   }, [dispatch]);
 
