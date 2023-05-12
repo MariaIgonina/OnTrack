@@ -29,19 +29,16 @@ export default function TrackerComponent() {
 
   return (
     <>
-      <div className="h-96 my-8 bg-stone-100">
-        <h1 className="my-8">This is the components for the Trackers </h1>
+      <div className=" my-8 bg-stone-100">
+        <h2 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-4xl m-8">
+          Monitor the progress of your applicants in one place
+        </h2>
         <div className="overflow-x-scroll flex flex-nowrap">
           {tracksbyRecruiter.length &&
             tracksbyRecruiter.map((x) => (
-              // <TrackDashboard track={x} ></TrackDashboard>
               <div
-                style={{
-                  minWidth: "300px",
-                  minHeight: "300px",
-                  backgroundColor: "white",
-                }}
-                className=" m-2 rounded-2xl "
+                className="flex-shrink-0 flex-col flex rounded-2xl shadow-md bg-white p-3 m-5 "
+                style={{ minWidth: "300px", height: "300px", width: "400px" }}
               >
                 <button
                   type="submit"
@@ -51,7 +48,7 @@ export default function TrackerComponent() {
                     )
                   }
                 >
-                  <h1>This is a track {x.id}</h1>
+                  <h1>NAME's track for VACANCY {x.id}</h1>
                 </button>
               </div>
             ))}

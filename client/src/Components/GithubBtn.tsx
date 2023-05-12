@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import Button from "@mui/material/Button";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import { Applicant, Recruiter } from "../Interfaces";
 import { setCurrentUser } from "../store/CurrentUserSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -167,6 +168,7 @@ export default function GithubBtn({ text }: GithubBtnProps) {
       className="btn"
       type="submit"
     >
+      <GitHubIcon sx={{ marginRight: "15px" }} />
       {text}
     </Button>
   );
