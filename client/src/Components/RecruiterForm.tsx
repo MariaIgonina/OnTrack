@@ -133,11 +133,7 @@ const RecruiterForm = () => {
   return (
     <>
       <div>
-        {JSON.stringify(recruiter)}
-
         <form className="formStyle">
-          <h2>Create a recruiter account</h2>
-
           <div className="flex h-screen bg-gray-200 items-center justify-center  mt-32 mb-32">
             <div className="grid bg-white rounded-lg shadow-xl w-11/12 md:w-9/12 lg:w-1/2">
               <div className="flex justify-center py-4">
@@ -162,7 +158,7 @@ const RecruiterForm = () => {
               <div className="flex justify-center">
                 <div className="flex">
                   <h1 className="text-gray-600 font-bold md:text-2xl text-xl">
-                    Tailwind Form
+                  Recruiter account
                   </h1>
                 </div>
               </div>
@@ -351,97 +347,6 @@ const RecruiterForm = () => {
             </div>
           </div>
         </form>
-
-        {/* <div className="form-group">
-            <label htmlFor="name">Company Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-
-            <label htmlFor="founded">Founded</label>
-            <input
-              type="text"
-              id="founded"
-              name="founded"
-              value={formData.founded}
-              onChange={handleChange}
-            />
-
-            <label htmlFor="about">About</label>
-            <input
-              type="text"
-              id="about"
-              name="about"
-              value={formData.about}
-              onChange={handleChange}
-            />
-            
-            <label htmlFor="headOffice">Head office</label>
-            <input
-              type="text"
-              id="headOffice"
-              name="headOffice"
-              value={formData.headOffice}
-              onChange={handleChange}
-            />
-
-            <label htmlFor="logo">Logo</label>
-            <input
-              type="file"
-              id="logo"
-              name="logo"
-              onChange={handleFileInputChange}
-              value={fileInputState}
-            />
-
-            <label htmlFor="externalLinks">External Links</label>
-            <div>
-              <input
-                type="text"
-                id="externalLinks"
-                name="externalLinks"
-                value={externalLink}
-                onChange={handleExtLinkChange}
-              />
-
-              <button onClick={handleAddLink}>Add more</button>
-
-              <ul>
-                {externalLinks.map((link, index) => (
-                  <li key={index}>{link}</li>
-                ))}
-              </ul>
-            </div>
-          </div> */}
-
-        {/* <button onClick={(e) => handleCreateRecruiter(e)}>
-            Create Recruiter
-          </button>
-
-        {previewSource && (
-          <img
-            src={previewSource.toString()}
-            alt="Preview"
-            style={{ height: "300px" }}
-          />
-        )}
-        <h1>Coming from the cloudinary</h1>
-        <div>
-          {imageIds &&
-            imageIds.map((image) => (
-              <img
-                src={image.secure_url}
-                key={image.asset_id}
-                alt="Your image"
-                height="100px"
-              />
-            ))}
-        </div> */}
       </div>
     </>
   );
