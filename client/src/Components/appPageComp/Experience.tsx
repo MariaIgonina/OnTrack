@@ -39,7 +39,7 @@ const ExperienceComp = ({applicant}) => {
                 <h4>{exp.company}</h4>
                 <h4>{exp.description}</h4>
                 <p
-                className="leading-2 text-secondary sm:text-3xl mb-2"
+                
                 >{`${moment(exp.startDate).format("MMM YYYY")} - ${moment(exp.endDate).format("MMM YYYY")}`}</p>
               </li>
             )
