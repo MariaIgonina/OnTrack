@@ -6,9 +6,8 @@ module.exports = {
       backgroundColor: {
         "stone-100": "#FFFDED",
         "green-100": "#568EA3",
-        "yellow-100": '#FCE762',
+        "yellow-100": "#FCE762",
         "orange-100": "#FFB17A",
-      
       },
 
       // colors: {

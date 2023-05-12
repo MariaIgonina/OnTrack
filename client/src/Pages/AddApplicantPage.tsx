@@ -27,7 +27,9 @@ import { setCurrentUser } from "../store/CurrentUserSlice";
 
 import { Applicant, Education, Experience } from "../Interfaces";
 import { languages, profSkills, compLanguages, stack, workingModals, workingHours, levelLanguages } from "../library";
-import './addApplicant.css'
+// import './addApplicant.css'
+import moment from 'moment';
+import 'tailwindcss/tailwind.css';
 
 
 const AddApplicantPage = () => {
@@ -299,17 +301,20 @@ const AddApplicantPage = () => {
     
 
   return (
-    <>
-      <div className="flex flex-col">
-        <div className="flex items-center justify-center p-4 m-4 flex-col">
-        <div className="stepper">
-        <Stepper activeStep={activeStep} alternativeLabel>
+    <div className="bg-stone-100 flex items-center justify-center p-4 mt-20 flex-col m-0">
+      <div>
+        <div className="container flex items-center justify-center p-4 m-4 flex-col">
+        <div className="stepper flex flex-col">
+        
+        <Stepper activeStep={activeStep} alternativeLabel className="stepper flex flex-col">
 
-          <Step key="Personal Information">
+          <Step key="Personal Information" 
+          
+          >
             <StepLabel>Personal Information</StepLabel>
             {activeStep === 0 && (
             <>
-            <div className="flex fixed flex-col ">
+            <div className="flex justify-center mt-8 p-4 m-4 flex-col">
               
               <label htmlFor="name">Name</label>
               <input
@@ -356,7 +361,9 @@ const AddApplicantPage = () => {
                   
                 />
                 
-                <button onClick={handleAddHobbie}>Add more</button>
+                <button onClick={handleAddHobbie}
+                className="bg-blue-500 hover:bg-blue-700 text-black font-bold rounded"
+                >Add more</button>
                 
                 <ul>
                   {hobbies.map((hobbie, index) => (
@@ -375,7 +382,7 @@ const AddApplicantPage = () => {
             <StepLabel>Contact Information</StepLabel>
             {activeStep === 1 && (
               <>
-              <div className="flex fixed flex-col ">
+              <div className="flex justify-center mt-8 p-4 m-4 flex-col">
               <label htmlFor="phone">Phone number</label>
               <input
                 type="text"
@@ -443,7 +450,7 @@ const AddApplicantPage = () => {
             <StepLabel>Education and Experience</StepLabel>
             {activeStep === 2 && (
             <>
-            <div className="flex fixed flex-col ">
+            <div className="flex justify-center mt-8 p-4 m-4 flex-col">
             <h4>Education</h4>
 
             <label htmlFor="place">Place</label>
@@ -461,7 +468,7 @@ const AddApplicantPage = () => {
               type="month"
               name="startDate"
               max={new Date().toISOString().split('T')[0]}
-              value={educationData.startDate instanceof Date ? educationData.startDate.toISOString().slice(0, 7) : ''}
+              value={educationData.startDate ? educationData.startDate.toISOString().slice(0, 7) : ''}
               onChange={handleChangeEducation}
               required
             />
@@ -471,7 +478,7 @@ const AddApplicantPage = () => {
                 type="month"
                 name="endDate"
                 max={new Date().toISOString().split('T')[0]}
-                value={educationData.endDate instanceof Date ? educationData.endDate.toISOString().slice(0, 7) : ''}
+                value={educationData.endDate ? educationData.endDate.toISOString().slice(0, 7) : ''}
                 onChange={handleChangeEducation}
                 required
                 />
@@ -507,7 +514,7 @@ const AddApplicantPage = () => {
                 <h4>{edu.place}</h4>
                 <h5>{edu.speciality}</h5>
                 <h5>{edu.degree}</h5>
-                <p>Add beautiful dates</p>
+                <p>{`${moment(edu.startDate).format("MMM YYYY")} - ${moment(edu.endDate).format("MMM YYYY")}`}</p>
               </li>
             )}
             </ul>
@@ -572,7 +579,7 @@ const AddApplicantPage = () => {
               <li key={'exp-'+index}>
                 <h4>{exp.jobTitle}</h4>
                 <h5>{exp.company}</h5>
-                <p>Add beautiful dates</p>
+                <p className="text-grey">{`${moment(exp.startDate).format("MMM YYYY")} - ${moment(exp.endDate).format("MMM YYYY")}`}</p>
               </li>
             )}
             </ul>
@@ -587,7 +594,7 @@ const AddApplicantPage = () => {
             <StepLabel>Skills</StepLabel>
             {activeStep === 3 && (
             <>
-            <div className="flex fixed flex-col ">
+            <div className="flex justify-center mt-8 p-4 m-4 flex-col">
             <h4>Skills</h4>
 
             <label htmlFor="collLanguage">Choose the language</label>
@@ -707,7 +714,7 @@ const AddApplicantPage = () => {
             <StepLabel>Preferences</StepLabel>
             {activeStep === 4 && (
             <>
-            <div className="flex fixed flex-col ">
+            <div className="flex justify-center mt-8 p-4 m-4 flex-col">
             <h4>Preferences</h4>
 
             <label htmlFor="desiredLocations">Desired Locations</label>
@@ -830,7 +837,7 @@ const AddApplicantPage = () => {
       >Create account</Button>
       )}
     </div>
-    </>
+    </div>
   );
 };
 

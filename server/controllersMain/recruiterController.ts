@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 
-
 const prisma = new PrismaClient();
 
 export const recruiterController = {
@@ -18,6 +17,10 @@ async function getRecruiterbyId(req: Request, res: Response) {
       where: {
         id: parseInt(id),
       },
+      include: {
+        vacancies: true,
+        Track: true,
+      },
     });
     res.json(recruiter).status(200);
   } catch (error: any) {
@@ -32,6 +35,10 @@ async function deleteRecruiterbyId(req: Request, res: Response) {
     const recruiter = await prisma.recruiter.delete({
       where: {
         id: parseInt(id),
+      },
+      include: {
+        vacancies: true,
+        Track: true,
       },
     });
     res.json(recruiter).status(204);

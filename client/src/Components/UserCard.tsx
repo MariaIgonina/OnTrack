@@ -1,5 +1,6 @@
 import React from "react";
 import { Applicant } from "../Interfaces";
+import { Link } from "react-router-dom";
 
 interface UserCardProps {
   applicant: Applicant;
@@ -16,11 +17,13 @@ export default function UserCard({ applicant }: UserCardProps) {
     })
     .join("");
 
+  const id = applicant.idDB;
+
   return (
     <article
       key={applicant.idAuth}
       className="flex-shrink-0 flex-col flex rounded-2xl shadow-md bg-white p-3 m-5 "
-      style={{ minWidth: "300px", maxWidth: "400px" }}
+      style={{ minWidth: "300px", height: "300px", width: "400px" }}
     >
       <div className="flex items-center gap-x-4 text-xs">
         <time className="text-gray-500">{applicant.location}</time>

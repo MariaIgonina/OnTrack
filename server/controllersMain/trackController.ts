@@ -44,6 +44,10 @@ const getTracksByVacancy = async (req: Request, res: Response) => {
       where: {
         vacancyId: +vacancyId,
       },
+      include: {
+        steps: true,
+        Message: true,
+      },
     });
     return res.status(200).json(tracks);
   } catch (error: any) {
@@ -58,7 +62,12 @@ const getTracksByRecruiter = async (req: Request, res: Response) => {
       where: {
         recruiterID: +recruiterID,
       },
+      include: {
+        steps: true,
+        Message: true,
+      },
     });
+
     return res.status(200).json(tracks);
   } catch (error: any) {
     console.log(error);
@@ -72,18 +81,26 @@ const getTracksByApplicant = async (req: Request, res: Response) => {
       where: {
         applicantID: +applicantID,
       },
+      include: {
+        steps: true,
+        Message: true,
+      },
     });
     return res.status(200).json(tracks);
   } catch (error: any) {
     console.log(error);
   }
 };
-const getTrackById= async (req: Request, res: Response) => {
+const getTrackById = async (req: Request, res: Response) => {
   try {
     const trackId = req.params.trackId;
     const tracks = await prisma.track.findUnique({
       where: {
         id: +trackId,
+      },
+      include: {
+        steps: true,
+        Message: true,
       },
     });
     return res.status(200).json(tracks);
@@ -99,6 +116,10 @@ async function deletetrack(req: Request, res: Response) {
       where: {
         id: parseInt(id),
       },
+      include: {
+        steps: true,
+        Message: true,
+      },
     });
     res.json(track).status(204);
   } catch (error: any) {
@@ -112,7 +133,7 @@ async function deletetrack(req: Request, res: Response) {
 async function updatetrackbyId(req: Request, res: Response) {
   const { id } = req.params;
   // const { reject, applicantNotes } = req.body;
-  
+
   try {
     const track = await prisma.track.update({
       where: {
@@ -136,5 +157,5 @@ export const trackControllers = {
   getTracksByApplicant,
   deletetrack,
   updatetrackbyId,
-  getTrackById
+  getTrackById,
 };

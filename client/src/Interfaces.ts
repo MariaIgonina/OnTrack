@@ -5,7 +5,7 @@ export interface Applicant {
   picture: string;
   name?: string;
   familyName?: string;
-  age?: Date | string;
+  age?: string;
   phone?: string;
   location?: string;
   track?: Track[];
@@ -60,6 +60,7 @@ export interface Vacancy {
   experience?: number;
   location: string;
   salaryRange?: number;
+  data?: any
 }
 
 export interface Track {
