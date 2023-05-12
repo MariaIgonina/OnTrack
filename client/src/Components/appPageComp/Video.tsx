@@ -1,8 +1,8 @@
 import React from "react";
 import YouTube from 'react-youtube';
+import { Applicant } from "../../Interfaces";
 
-
-const Video = ({applicant}) => {
+const Video = ({applicant}:{applicant: Applicant}) => {
 
   const opts = {
     height: '190',

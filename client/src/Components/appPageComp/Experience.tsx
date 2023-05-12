@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useState, useEffect } from "react";
-
+import { Applicant } from "../../Interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { fetchExperienceByApplicant } from "../../store/experienceSlice";
@@ -9,7 +9,7 @@ import { Experience } from "../../Interfaces";
 import moment from 'moment'
 
 
-const ExperienceComp = ({applicant}) => {
+const ExperienceComp = ({applicant}:{applicant: Applicant}) => {
 
   const experiences = useSelector(
     (s: RootState) => s.experience.experience
@@ -39,7 +39,7 @@ const ExperienceComp = ({applicant}) => {
                 <h4>{exp.company}</h4>
                 <h4>{exp.description}</h4>
                 <p
-                className="leading-2 text-secondary sm:text-3xl mb-2"
+                // className="leading-2 text-secondary sm:text-3xl mb-2"
                 >{`${moment(exp.startDate).format("MMM YYYY")} - ${moment(exp.endDate).format("MMM YYYY")}`}</p>
               </li>
             )

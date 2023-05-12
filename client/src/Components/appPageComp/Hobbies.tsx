@@ -1,7 +1,7 @@
 import React from "react";
+import { Applicant } from "../../Interfaces";
 
-
-const Hobbies = ({applicant}) => {
+const Hobbies = ({applicant}:{applicant: Applicant}) => {
 
   return (
     <>

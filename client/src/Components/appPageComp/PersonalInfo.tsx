@@ -4,10 +4,10 @@ import { faTwitter, faInstagram, faFacebook, faGithub, faYoutube } from "@fortaw
 import moment from 'moment'
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import PhoneIcon from '@mui/icons-material/Phone';
+import { Applicant } from "../../Interfaces";
 
 
-
-const PersonalInfo = ({applicant}) => {
+const PersonalInfo = ({applicant}:{applicant: Applicant}) => {
 
   const applicantAge = function() {
     const birthDate = moment(applicant.age);

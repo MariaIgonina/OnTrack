@@ -1,7 +1,7 @@
 import React from "react";
+import { Applicant } from "../../Interfaces";
 
-
-const Languages = ({applicant}) => {
+const Languages = ({applicant}:{applicant: Applicant}) => {
 
   return (
     <>

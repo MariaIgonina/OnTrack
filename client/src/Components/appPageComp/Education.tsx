@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-
+import { Applicant } from "../../Interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { fetchEducationByApplicant, setEducation } from "../../store/educationSlice";
@@ -8,7 +8,7 @@ import { Education } from "../../Interfaces";
 import moment from 'moment'
 
 
-const EducationComp = ({applicant}) => {
+const EducationComp = ({applicant}:{applicant: Applicant}) => {
 
   const educations = useSelector(
     (s: RootState) => s.education.education
@@ -38,7 +38,7 @@ const EducationComp = ({applicant}) => {
                 <h4>{edu.degree}</h4>
                 <h4>{edu.speciality}</h4>
                 <p
-                className="leading-2 text-secondary sm:text-3xl mb-2"
+                // className="leading-7 text-secondary sm:text-3xl mb-2"
                 >{`${moment(edu.startDate).format("MMM YYYY")} - ${moment(edu.endDate).format("MMM YYYY")}`}</p>
               </li>
             )

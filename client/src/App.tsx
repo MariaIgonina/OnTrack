@@ -18,6 +18,7 @@ import LogedWithGoogle from "./Components/LogedWithGoogle";
 import SignInWithGoogle from "./Components/SignInWithGoogle";
 import RecruiterProfilePage from "./Pages/RecruiterProfilePage";
 import RecruiterPage from "./Pages/RecruiterPage";
+import Questionary from "./Components/QuestionaryPage";
 import "./index.css";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
@@ -31,7 +32,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="container">
+      {/* <div className="container"> */}
         <Navbar />
         <Routes>
           <>
@@ -70,10 +71,11 @@ function App() {
             <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
             <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
             <Route path="/recruiter/:id" element={<RecruiterPage />} />
+            <Route path="/createTrack" element={<Questionary />} />
             {/* /recruiter/?id=${id}` */}
           </>
         </Routes>
-      </div>
+      {/* </div> */}
     </BrowserRouter>
   );
 }

@@ -1,7 +1,7 @@
 import React from "react";
+import { Applicant } from "../../Interfaces";
 
-
-const JobPreferences = ({applicant}) => {
+const JobPreferences = ({applicant}:{applicant: Applicant}) => {
 
   return (
     <>

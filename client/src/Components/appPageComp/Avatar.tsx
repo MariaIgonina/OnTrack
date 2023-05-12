@@ -1,9 +1,9 @@
 import React from "react";
-
+import { Applicant } from "../../Interfaces";
 import UserCard from "../UserCard";
 
 
-const Avatar = ({applicant}) => {
+const Avatar = ({applicant}:{applicant: Applicant}) => {
 
   return (
     <>

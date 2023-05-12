@@ -1,7 +1,7 @@
 import React from "react";
+import { Applicant } from "../../Interfaces";
 
-
-const CurrentLocation = ({applicant}) => {
+const CurrentLocation = ({applicant}:{applicant: Applicant}) => {
 
   return (
     <>

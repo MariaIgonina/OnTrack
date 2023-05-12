@@ -2,16 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { 
-  TextField, 
-  Select, 
-  InputLabel, 
-  FormControl, 
-  MenuItem,
   Stepper,
   StepLabel,
   Step,
-  Button,
-  Avatar
+  Button
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter, faInstagram, faFacebook, faGithub, faYoutube } from "@fortawesome/free-brands-svg-icons";
