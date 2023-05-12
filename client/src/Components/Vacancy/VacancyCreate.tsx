@@ -1,9 +1,9 @@
 import React, { FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
-import { createVacancy } from "../store/vacancySlice";
-import type { Vacancy } from "../Interfaces";
-import type { AppDispatch } from "../store/store";
-import { initialVacancy } from "../store/vacancySlice";
+import { createVacancy } from "../../store/vacancySlice";
+import type { Vacancy } from "../../Interfaces";
+import type { AppDispatch } from "../../store/store";
+import { initialVacancy } from "../../store/vacancySlice";
 type VacancyCreateProps = {
   onCancel: () => void;
 };
@@ -41,6 +41,7 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
           : formData.requiredLanguages,
     };
     await dispatch(createVacancy(newVacancy));
+    onCancel();
   };
 
   return (
@@ -286,7 +287,7 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
             Cancel
           </button>
           <button
-            type="submit"
+            onClick={handleSubmit}
             className="w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2"
           >
             Create

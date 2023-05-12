@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import VacancyCreate from "./VacancyCreate";
-import { fetchvacanciesByRecruiter } from "../store/vacancySlice";
-import { Vacancy } from "../Interfaces";
+import { fetchvacanciesByRecruiter } from "../../store/vacancySlice";
+import { Vacancy } from "../../Interfaces";
 import Modal from "react-modal";
 
 const VacancyList: React.FC = () => {
@@ -17,18 +17,10 @@ const VacancyList: React.FC = () => {
   const vacancy: Vacancy = useSelector(
     (state: RootState) => state.vacancy.vacancy
   );
-  const [isCreatingVacancy, setIsCreatingVacancy] = useState(false);
   useEffect(() => {
     dispatch(fetchvacanciesByRecruiter(1));
   }, [dispatch, vacancy]);
 
-  const handleCreateVacancy = () => {
-    setIsCreatingVacancy(true);
-  };
-
-  const handleCancelCreateVacancy = () => {
-    setIsCreatingVacancy(false);
-  };
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -66,7 +58,7 @@ const VacancyList: React.FC = () => {
 
             <button
               onClick={openModal}
-              className="mt-4 px-4 py-2 font-medium text-indigo-600 border border-indigo-600 rounded-md focus:outline-none focus:ring"
+              className="mt-4 px-4 py-2 font-medium text-black border-2 border-black rounded-md focus:outline-none focus:ring"
             >
               +
             </button>
