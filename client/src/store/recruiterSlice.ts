@@ -91,6 +91,7 @@ const updateRecruiter = createAsyncThunk(
   "recruiter/updateRecruiter",
   async function ({ recruiterId, recruiter }: IPutParams, { rejectWithValue }) {
     try {
+      console.log("recruiter inside upload",recruiter);
       const response = await fetch(url + `/updateRecruiter/${recruiterId}`, {
         method: "PUT",
         headers: {

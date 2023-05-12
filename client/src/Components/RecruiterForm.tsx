@@ -19,7 +19,6 @@ import { uploadImage, loadImages } from "../api.cloudinary";
 import { preview } from "vite";
 import { useDescriptions } from "@headlessui/react/dist/components/description/description";
 
-
 const RecruiterForm = () => {
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
@@ -40,8 +39,6 @@ const RecruiterForm = () => {
   useEffect(() => {
     dispatch(setRecruiter(recruiter));
     dispatch(fetchRecruiter(+codeParam!));
-    console.log("recruiter.object", recruiter);
-
   }, [dispatch]);
 
   const [formData, setFormData] = useState(recruiter.recruiter);
@@ -49,8 +46,6 @@ const RecruiterForm = () => {
     setFormData(recruiter.recruiter);
   }, [recruiter]);
 
-  console.log("recruiter before formaData", recruiter.recruiter);
-  console.log("formData",formData);
 
   const [fileInputState, setFileInputState] = useState<string>("");
   const [selectFile, setSelectFile] = useState<File | null>(null);
@@ -66,7 +61,6 @@ const RecruiterForm = () => {
     }
   };
 
-
   const previewFile = (file: File) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -79,33 +73,38 @@ const RecruiterForm = () => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value ,
+      [name]: value,
     }));
   };
 
-  const handleCreateRecruiter = async () => {
-      if (!formData.name) {
-        alert("Please enter a company name.");
-      } else {
+  const handleCreateRecruiter = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    console.log("inside handleCreateRecruiter");
+    e.preventDefault()
+    if (!formData.name) {
+      alert("Please enter a company name.");
+      return;
+    } 
 
+      let updatedFormData = { ...formData, logo: undefined }
 
-    if (previewSource) {
-      const base64EncodedImage = previewSource instanceof ArrayBuffer?
-      Buffer.from(previewSource).toString("base64"):previewSource
-      const returnedLogo = await uploadImage(base64EncodedImage)
-      formData.logo = returnedLogo.secure_url
-    }
+      if (previewSource) {
+        const base64EncodedImage =
+          previewSource instanceof ArrayBuffer
+            ? Buffer.from(previewSource).toString("base64")
+            : previewSource;
+        const returnedLogo = await uploadImage(base64EncodedImage);
+        console.log(returnedLogo)
+        updatedFormData = { ...updatedFormData, logo: returnedLogo.secure_url };
+        setFormData(updatedFormData);
+      }
 
-    const dbArg = {
-      recruiterId: recruiter.recruiter.id!,
-      recruiter: formData}
-      console.log(dbArg)
+      const dbArg = {
+        recruiterId: recruiter.recruiter.id!,
+        recruiter: updatedFormData,
+      };
 
-    dispatch(updateRecruiter(dbArg));
-    window.location.reload()
-  }
-};
-
+      dispatch(updateRecruiter(dbArg));
+  };
 
   //ExternalLinks media collecting
   const [externalLink, setExternalLink] = useState("");
@@ -129,7 +128,6 @@ const RecruiterForm = () => {
         <form className="formStyle">
           <h2>Create a recruiter account</h2>
           <div className="form-group">
-
             <label htmlFor="name">Company Name</label>
             <input
               type="text"
@@ -196,7 +194,7 @@ const RecruiterForm = () => {
             </div>
           </div>
 
-          <button onClick={handleCreateRecruiter}>Create Recruiter</button>
+          <button onClick={e => handleCreateRecruiter(e)}>Create Recruiter</button>
         </form>
         {previewSource && (
           <img
