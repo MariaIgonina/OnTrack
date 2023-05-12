@@ -25,13 +25,12 @@ import { RootState } from "./store/store";
 function App() {
   const currentUser = useSelector((state: RootState) => state.currentUser);
 
-  useEffect(() => {
-    console.log("i am a", currentUser.role);
-  }, [currentUser]);
+  // useEffect(() => {
+  //   console.log("i am a", currentUser.currentUser.role);
+  // }, [currentUser.currentUser]);
 
   return (
     <BrowserRouter>
-      {/* <div className="container"> */}
       <Navbar />
       <Routes>
         <>

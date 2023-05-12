@@ -9,6 +9,7 @@ import { findUser } from "../store/CurrentUserSlice";
 import { createApplicant } from "../store/applicantSlice";
 import { extractApplicantData, extractRecruiterData } from "../lib/extractInfo";
 import { createRecruiter } from "../store/recruiterSlice";
+import { clear } from "console";
 
 const CLIENT_ID = "Iv1.0f2124a7d7aa9dee";
 
@@ -54,6 +55,7 @@ export default function LoginBtn({ text }: LoginBtnProps) {
               role: "applicant",
             })
           );
+          navigate(`/applicant/${applicantCreated.payload.idDB}`);
         } else {
           const recruiterCreated = await dispatch(
             createRecruiter(extractRecruiterData(userInfo))
@@ -65,6 +67,7 @@ export default function LoginBtn({ text }: LoginBtnProps) {
               role: "applicant",
             })
           );
+          navigate(`/recruiter/${recruiterCreated.payload.id}`);
         }
       }
 
@@ -74,38 +77,23 @@ export default function LoginBtn({ text }: LoginBtnProps) {
         dispatch(
           setCurrentUser({ id: returnedRole.payload.id, role: "recruiter" })
         );
+        navigate(`/recruiter/${returnedRole.payload.id}`);
       } else if (returnedRole.payload && returnedRole.payload.idDB) {
         dispatch(
           setCurrentUser({ id: returnedRole.payload.idDB, role: "applicant" })
         );
+        navigate(`/applicant/${returnedRole.payload.idDB}`);
       }
-
-      redirectUser();
 
       if (tokenData.access_token) {
         localStorage.setItem("accessToken", tokenData.access_token);
       }
+      //clearURLParams(codeParam);
+      // redirectUser();
     } catch (e) {
       console.log("error", e);
     }
   }
-
-  const redirectUser = () => {
-    if (
-      currentUser.currentUser.role === "applicant" ||
-      localStorage.getItem("login") === "applicant"
-    ) {
-      const id = currentUser.currentUser.id;
-      console.log("IDDDDD => ", id);
-      if (id) navigate(`/applicant/${id}`);
-    } else if (
-      currentUser.currentUser.role === "recruiter" ||
-      localStorage.getItem("login") === "recruiter"
-    ) {
-      const id = currentUser.currentUser.id;
-      if (id) navigate(`/recruiter/${id}`);
-    }
-  };
 
   async function fetchTokenData(codeParam: string) {
     console.log("easfesgsegesgesg ==>", codeParam);
@@ -135,17 +123,16 @@ export default function LoginBtn({ text }: LoginBtnProps) {
     return data;
   }
 
-  function clearURLParams(codeParam: any) {
-    const oldToken = window.location.search;
-    const oldURLParams = new URLSearchParams(oldToken);
-    oldURLParams.delete(codeParam);
+  function clearURLParams() {
+    const newUrl = window.location.origin + window.location.pathname;
+    window.history.pushState({}, "/", newUrl);
   }
 
   useEffect(() => {
     if (codeParam && localStorage.getItem("accessToken") === null) {
       AuthenticateUserfromGH();
       //remove code params
-      clearURLParams(codeParam);
+      clearURLParams();
     }
   }, []);
 
