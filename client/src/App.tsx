@@ -31,7 +31,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="container">
+      {/* <div className="container"> */}
         <Navbar />
         <Routes>
           <>
@@ -69,11 +69,11 @@ function App() {
             <Route path="/vacancyList" element={<VacancyList />} />
             <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
             <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
-            <Route path="/recruiter/:id" element={<RecruiterPage />} />
+            <Route path="/recruiter/:id" element={<RecruiterProfilePage />} />
             {/* /recruiter/?id=${id}` */}
           </>
         </Routes>
-      </div>
+      {/* </div> */}
     </BrowserRouter>
   );
 }
