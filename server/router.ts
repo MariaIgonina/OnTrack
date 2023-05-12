@@ -44,7 +44,6 @@ router.delete(
   questionnaryController.deleteQuestionary
 );
 
-
 // Applicant routes
 router.get("/applicant/:id", applicantControllers.getApplicantById);
 router.get("/applicants", applicantControllers.getAllApplicants);

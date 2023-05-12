@@ -69,7 +69,7 @@ function App() {
             <Route path="/vacancyList" element={<VacancyList />} />
             <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
             <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
-            <Route path="/recruiter/:id" element={<RecruiterProfilePage />} />
+            <Route path="/recruiter/:id" element={<RecruiterPage />} />
             {/* /recruiter/?id=${id}` */}
           </>
         </Routes>
