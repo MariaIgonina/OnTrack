@@ -44,8 +44,6 @@ router.delete(
   questionnaryController.deleteQuestionary
 );
 
-router.get("/getNotes/:TrackId", getNotesByTrackId);
-
 // Applicant routes
 router.get("/applicant/:id", applicantControllers.getApplicantById);
 router.get("/applicants", applicantControllers.getAllApplicants);

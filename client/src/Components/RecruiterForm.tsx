@@ -46,7 +46,6 @@ const RecruiterForm = () => {
     setFormData(recruiter.recruiter);
   }, [recruiter]);
 
-
   const [fileInputState, setFileInputState] = useState<string>("");
   const [selectFile, setSelectFile] = useState<File | null>(null);
   const [previewSource, setPreviewSource] = useState<
@@ -77,47 +76,58 @@ const RecruiterForm = () => {
     }));
   };
 
-  const handleCreateRecruiter = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleCreateRecruiter = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     console.log("inside handleCreateRecruiter");
-    e.preventDefault()
+    e.preventDefault();
     if (!formData.name) {
       alert("Please enter a company name.");
       return;
-    } 
+    }
 
-      let updatedFormData = { ...formData, logo: undefined }
+    let updatedFormData = { ...formData, logo: undefined, externalLinks:externalLinks! };
 
-      if (previewSource) {
-        const base64EncodedImage =
-          previewSource instanceof ArrayBuffer
-            ? Buffer.from(previewSource).toString("base64")
-            : previewSource;
-        const returnedLogo = await uploadImage(base64EncodedImage);
-        console.log(returnedLogo)
-        updatedFormData = { ...updatedFormData, logo: returnedLogo.secure_url };
-        setFormData(updatedFormData);
-      }
+    if (previewSource) {
+      const base64EncodedImage =
+        previewSource instanceof ArrayBuffer
+          ? Buffer.from(previewSource).toString("base64")
+          : previewSource;
+      const returnedLogo = await uploadImage(base64EncodedImage);
+      console.log(returnedLogo);
+      updatedFormData = { ...updatedFormData, logo: returnedLogo.secure_url};
+      setFormData(updatedFormData);
+    }
 
-      const dbArg = {
-        recruiterId: recruiter.recruiter.id!,
-        recruiter: updatedFormData,
-      };
+    const dbArg = {
+      recruiterId: recruiter.recruiter.id!,
+      recruiter: updatedFormData,
+    };
 
-      dispatch(updateRecruiter(dbArg));
+    console.log("objet envoyé", dbArg);
+    dispatch(updateRecruiter(dbArg));
   };
 
   //ExternalLinks media collecting
-  const [externalLink, setExternalLink] = useState("");
-  const [externalLinks, setExternalLinks] = useState([]);
+  const [externalLink, setExternalLink] = useState<string>("");
+  const [externalLinks, setExternalLinks] = useState<(string | undefined)[]>([]);
 
   const handleExtLinkChange = (event: any) => {
     setExternalLink(event.target.value);
+  };
+
+  const handleDeleteLink = (index: number) => {
+    const updatedLinks = [...externalLinks];
+    updatedLinks.splice(index, 1);
+    setExternalLinks(updatedLinks);
+    console.log("here", externalLinks);
   };
 
   const handleAddLink = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setExternalLinks([...externalLinks, externalLink]);
     setExternalLink("");
+    console.log("here", externalLinks);
   };
 
   return (
@@ -127,7 +137,222 @@ const RecruiterForm = () => {
 
         <form className="formStyle">
           <h2>Create a recruiter account</h2>
-          <div className="form-group">
+
+          <div className="flex h-screen bg-gray-200 items-center justify-center  mt-32 mb-32">
+            <div className="grid bg-white rounded-lg shadow-xl w-11/12 md:w-9/12 lg:w-1/2">
+              <div className="flex justify-center py-4">
+                <div className="flex bg-purple-200 rounded-full md:p-4 p-2 border-2 border-purple-300">
+                  <svg
+                    className="w-8 h-8 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+
+              <div className="flex justify-center">
+                <div className="flex">
+                  <h1 className="text-gray-600 font-bold md:text-2xl text-xl">
+                    Tailwind Form
+                  </h1>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 mt-5 mx-7">
+                <label
+                  htmlFor="name"
+                  className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
+                >
+                  Company Name
+                </label>
+                <input
+                  className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
+                <div className="grid grid-cols-1">
+                  <label
+                    htmlFor="founded"
+                    className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
+                  >
+                    Founded
+                  </label>
+                  <input
+                    className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    type="text"
+                    id="founded"
+                    name="founded"
+                    value={formData.founded}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1">
+                  <label
+                    htmlFor="headOffice"
+                    className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
+                  >
+                    Head office
+                  </label>
+                  <input
+                    className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    type="text"
+                    id="headOffice"
+                    name="headOffice"
+                    value={formData.headOffice}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 mt-5 mx-7">
+                <label
+                  htmlFor="about"
+                  className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
+                >
+                  About
+                </label>
+                <input
+                  className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  type="text"
+                  id="about"
+                  name="about"
+                  value={formData.about}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 mt-5 mx-7">
+                <label
+                  htmlFor="externalLinks"
+                  className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
+                >
+                  Add your external Links
+                </label>
+                <input
+                  className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  type="text"
+                  id="externalLinks"
+                  name="externalLinks"
+                  value={externalLink}
+                  onChange={handleExtLinkChange}
+                />
+
+                <button
+                  onClick={handleAddLink}
+                  className="mt-3 w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2"
+                >
+                  Add more
+                </button>
+
+                <ul>
+                  {externalLinks.map((link, index) => (
+                    <li key={index}>
+                      {link}
+                      <button
+                        onClick={() => handleDeleteLink(index)}
+                        className="ml-2 mt-1.5 inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-500 hover:bg-red-600 focus:outline-none"
+                      >
+                        <svg
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          viewBox="0 0 24 24"
+                          className="w-4 h-4 text-white"
+                        >
+                          <path d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="grid grid-cols-1 mt-5 mx-7">
+                <label
+                  htmlFor="logo"
+                  className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1"
+                >
+                  Upload Logo
+                </label>
+                <div className="flex items-center justify-center w-full">
+                  <label className="flex flex-col border-4 border-dashed w-full h-32 hover:bg-gray-100 hover:border-purple-300 group">
+                    {previewSource && (
+                      <img
+                        src={previewSource}
+                        alt="Preview"
+                        className="w-full h-full object-contain"
+                      />
+                    )}
+                    <div className="flex flex-col items-center justify-center pt-7">
+                      {!previewSource && (
+                        <>
+                          <svg
+                            className="w-10 h-10 text-purple-400 group-hover:text-purple-600"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            ></path>
+                          </svg>
+                          <p className="lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider">
+                            Select a photo
+                          </p>
+                        </>
+                      )}
+                    </div>
+                    <input
+                      type="file"
+                      id="logo"
+                      name="logo"
+                      onChange={handleFileInputChange}
+                      value={fileInputState}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-center  md:gap-8 gap-4 pt-5 pb-5">
+                <button className="w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2">
+                  Cancel
+                </button>
+                <button
+                  onClick={(e) => handleCreateRecruiter(e)}
+                  className="w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        {/* <div className="form-group">
             <label htmlFor="name">Company Name</label>
             <input
               type="text"
@@ -155,7 +380,7 @@ const RecruiterForm = () => {
               value={formData.about}
               onChange={handleChange}
             />
-
+            
             <label htmlFor="headOffice">Head office</label>
             <input
               type="text"
@@ -192,10 +417,12 @@ const RecruiterForm = () => {
                 ))}
               </ul>
             </div>
-          </div>
+          </div> */}
 
-          <button onClick={e => handleCreateRecruiter(e)}>Create Recruiter</button>
-        </form>
+        {/* <button onClick={(e) => handleCreateRecruiter(e)}>
+            Create Recruiter
+          </button>
+
         {previewSource && (
           <img
             src={previewSource.toString()}
@@ -203,7 +430,7 @@ const RecruiterForm = () => {
             style={{ height: "300px" }}
           />
         )}
-        {/* <h1>Coming from the cloudinary</h1>
+        <h1>Coming from the cloudinary</h1>
         <div>
           {imageIds &&
             imageIds.map((image) => (
