@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store/store";
-import { fetchTrack, setTrack, updateTrack } from "../store/trackSlice";
+import { AppDispatch, RootState } from "../../store/store";
+import { fetchTrack, setTrack, updateTrack } from "../../store/trackSlice";
 
 type NotePadProps = {
   trackId: number

@@ -12,7 +12,6 @@ import { educationController } from "./controllersMain/educationController";
 import { experienceController } from "./controllersMain/experienceController";
 import { populateDatabase } from "./controllersMain/populateController";
 import { googleApiAuth } from "./controllersAuth/googleAuth";
-import getNotesByTrackId from "./controllersMain/getNotes";
 
 const router = Router();
 
@@ -43,8 +42,6 @@ router.delete(
   "/deleteQuestionary/:id",
   questionnaryController.deleteQuestionary
 );
-
-router.get("/getNotes/:TrackId", getNotesByTrackId)
 
 // Applicant routes
 router.get("/applicant/:id", applicantControllers.getApplicantById);

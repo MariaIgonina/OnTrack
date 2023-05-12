@@ -60,6 +60,7 @@ export interface Vacancy {
   experience?: number;
   location: string;
   salaryRange?: number;
+  data?: any
 }
 
 export interface Track {
