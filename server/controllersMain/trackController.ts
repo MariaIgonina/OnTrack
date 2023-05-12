@@ -44,6 +44,10 @@ const getTracksByVacancy = async (req: Request, res: Response) => {
       where: {
         vacancyId: +vacancyId,
       },
+      include: {
+        steps: true,
+        Message: true,
+      },
     });
     return res.status(200).json(tracks);
   } catch (error: any) {
@@ -58,7 +62,12 @@ const getTracksByRecruiter = async (req: Request, res: Response) => {
       where: {
         recruiterID: +recruiterID,
       },
+      include: {
+        steps: true,
+        Message: true,
+      },
     });
+
     return res.status(200).json(tracks);
   } catch (error: any) {
     console.log(error);
@@ -71,6 +80,10 @@ const getTracksByApplicant = async (req: Request, res: Response) => {
     const tracks = await prisma.track.findMany({
       where: {
         applicantID: +applicantID,
+      },
+      include: {
+        steps: true,
+        Message: true,
       },
     });
     return res.status(200).json(tracks);
@@ -85,6 +98,10 @@ const getTrackById = async (req: Request, res: Response) => {
       where: {
         id: +trackId,
       },
+      include: {
+        steps: true,
+        Message: true,
+      },
     });
     return res.status(200).json(tracks);
   } catch (error: any) {
@@ -98,6 +115,10 @@ async function deletetrack(req: Request, res: Response) {
     const track = await prisma.track.delete({
       where: {
         id: parseInt(id),
+      },
+      include: {
+        steps: true,
+        Message: true,
       },
     });
     res.json(track).status(204);
