@@ -14,19 +14,21 @@ interface IInitialState {
 
 const initialState: CurrentUserState = {
   id: "",
-  role: "undefined",
+  role: "",
 };
 
-export const currentUserSlice = createSlice<
-  IInitialState,
-  { setCurrentUser: (_state: IInitialState, action: { payload: any }) => void }
->({
+export const currentUserSlice = createSlice({
+  // createSlice<
+  //   IInitialState,
+  //   { setCurrentUser: (_state: IInitialState, action: { payload: any }) => void }
+  // >({
   name: "currentUser",
-  initialState: {
-    currentUser: initialState,
-    status: null,
-    error: null,
-  },
+  initialState,
+  // {
+  //   currentUser: initialState,
+  //   status: null,
+  //   error: null,
+  // },
   reducers: {
     setCurrentUser: (_state, action) => {
       return action.payload;
