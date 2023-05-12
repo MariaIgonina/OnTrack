@@ -78,7 +78,7 @@ const getTracksByApplicant = async (req: Request, res: Response) => {
     console.log(error);
   }
 };
-const getTrackById= async (req: Request, res: Response) => {
+const getTrackById = async (req: Request, res: Response) => {
   try {
     const trackId = req.params.trackId;
     const tracks = await prisma.track.findUnique({
@@ -112,7 +112,7 @@ async function deletetrack(req: Request, res: Response) {
 async function updatetrackbyId(req: Request, res: Response) {
   const { id } = req.params;
   // const { reject, applicantNotes } = req.body;
-  
+
   try {
     const track = await prisma.track.update({
       where: {
@@ -136,5 +136,5 @@ export const trackControllers = {
   getTracksByApplicant,
   deletetrack,
   updatetrackbyId,
-  getTrackById
+  getTrackById,
 };

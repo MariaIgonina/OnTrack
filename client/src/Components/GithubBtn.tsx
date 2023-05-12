@@ -83,12 +83,11 @@ export default function GithubBtn({ text }: GithubBtnProps) {
         localStorage.setItem("login", "applicant");
         const newUser: Applicant = extractApplicantData(userInfo);
         dispatch(createApplicant(newUser));
-        dispatch(setCurrentUser({ id: newUser.idDB, role: "applicant" }));
       } else {
         localStorage.setItem("login", "recruiter");
         const newRecruiter: Recruiter = extractRecruiterData(userInfo);
         dispatch(createRecruiter(newRecruiter));
-        dispatch(setCurrentUser({ id: newRecruiter.id, role: "recruiter" }));
+        console.log(newRecruiter);
       }
       if (tokenData.access_token) {
         localStorage.setItem("accessToken", tokenData.access_token);
@@ -99,6 +98,10 @@ export default function GithubBtn({ text }: GithubBtnProps) {
   }
 
   useEffect(() => {
+    if (newApplicant.idDB)
+      dispatch(setCurrentUser({ id: newApplicant.idDB, role: "applicant" }));
+    else if (newRecruiter.id)
+      dispatch(setCurrentUser({ id: newRecruiter.id, role: "recruiter" }));
     redirectUser();
   }, [newRecruiter, newApplicant]);
 

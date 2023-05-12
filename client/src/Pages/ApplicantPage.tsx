@@ -34,34 +34,23 @@ const ApplicantPage = () => {
   const codeParam = window.location.pathname.split("/").reverse()[0];
 
   useEffect(() => {
-      dispatch(fetchApplicant(54));
-      dispatch(setApplicant(applicant.applicant));
+    dispatch(fetchApplicant(54));
+    dispatch(setApplicant(applicant.applicant));
   }, [dispatch]);
 
   return (
     <>
-      <Avatar 
-      applicant = {applicant}/>
-      <PersonalInfo 
-      applicant = {applicant}/>
-      <CurrentLocation 
-      applicant = {applicant}/>
-      <JobPreferences 
-      applicant = {applicant}/>
-      <Skills 
-      applicant = {applicant}/>
-      <About 
-      applicant = {applicant}/>
-      <Video 
-      applicant = {applicant}/>
-      <Experience 
-      applicant = {applicant}/>
-      <EducationComp
-      applicant = {applicant}/>
-      <Languages 
-      applicant = {applicant}/>
-      <Hobbies 
-      applicant = {applicant}/>
+      <Avatar applicant={applicant} />
+      <PersonalInfo applicant={applicant} />
+      <CurrentLocation applicant={applicant} />
+      <JobPreferences applicant={applicant} />
+      <Skills applicant={applicant} />
+      <About applicant={applicant} />
+      <Video applicant={applicant} />
+      <Experience applicant={applicant} />
+      <EducationComp applicant={applicant} />
+      <Languages applicant={applicant} />
+      <Hobbies applicant={applicant} />
     </>
   );
 };

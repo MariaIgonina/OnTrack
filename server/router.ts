@@ -44,7 +44,7 @@ router.delete(
   questionnaryController.deleteQuestionary
 );
 
-router.get("/getNotes/:TrackId", getNotesByTrackId)
+router.get("/getNotes/:TrackId", getNotesByTrackId);
 
 // Applicant routes
 router.get("/applicant/:id", applicantControllers.getApplicantById);
@@ -74,10 +74,7 @@ router.get(
   "/getTracksByApplicant/:applicantId",
   trackControllers.getTracksByApplicant
 );
-router.get(
-  "/getTrackById/:trackId",
-  trackControllers.getTrackById
-);
+router.get("/getTrackById/:trackId", trackControllers.getTrackById);
 router.put("/updatetrack/:id", trackControllers.updatetrackbyId);
 router.delete("/deletetrack/:id", trackControllers.deletetrack);
 

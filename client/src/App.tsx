@@ -25,7 +25,7 @@ function App() {
   const currentUser = useSelector((state: RootState) => state.currentUser);
 
   useEffect(() => {
-    console.log("i am this user", currentUser);
+    console.log("i am a", currentUser.role);
   }, [currentUser]);
 
   return (
@@ -34,23 +34,24 @@ function App() {
         <Navbar />
         <Routes>
           <>
-            <Route
+            {/* <Route
               path="/"
               element={
-                !currentUser.currentUser.role ? (
+                !currentUser.role ? (
                   <LoginPage />
-                ) : currentUser.currentUser.role === "applicant" ? (
+                ) : currentUser.role === "applicant" ? (
                   //put applicant roles here
 
                   <Route path="/dashboard" element={<DashboardPage />} />
-                ) : currentUser.currentUser.role === "recruiter" ? (
+                ) : currentUser.role === "recruiter" ? (
                   //put recruiter roots here
                   <Route path="/dashboard" element={<DashboardPage />} />
                 ) : (
                   <LoginPage />
                 )
               }
-            />
+            /> */}
+            <Route path="/" element={<LoginPage />} />
             <Route path="/user" element={<ApplicantPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/track" element={<TrackPage />} />

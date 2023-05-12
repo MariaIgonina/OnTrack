@@ -16,7 +16,7 @@ function NavBar() {
   return (
     <>
       <AppBar
-        position="relative"
+        position="sticky"
         sx={{ width: "100%", backgroundColor: "#568ea3" }}
       >
         <nav>
@@ -24,7 +24,6 @@ function NavBar() {
             style={{
               display: "flex",
               flexDirection: "row",
-              marginLeft: "600px",
             }}
             sx={{
               "@media (max-width: 400px)": {
