@@ -8,7 +8,6 @@ import trackReducer from "./trackSlice"
 import messageReducer from "./messageSlice"
 import educationReducer from "./educationSlice"
 import experienceReducer from "./educationSlice"
-
 import currentUserReducer from "./CurrentUserSlice";
 
 export const store = configureStore({
@@ -18,10 +17,8 @@ export const store = configureStore({
     vacancy: vacancyReducer,
     track: trackReducer,
     message: messageReducer,
-
     education: educationReducer,
     experience: experienceReducer,
-
     currentUser: currentUserReducer,
 
   },
