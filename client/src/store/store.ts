@@ -7,7 +7,7 @@ import vacancyReducer from "./vacancySlice"
 import trackReducer from "./trackSlice"
 import messageReducer from "./messageSlice"
 import educationReducer from "./educationSlice"
-import experienceReducer from "./educationSlice"
+import experienceReducer from "./experienceSlice"
 
 import currentUserReducer from "./CurrentUserSlice";
 

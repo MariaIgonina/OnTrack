@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { fetchEducationByApplicant, setEducation } from "../../store/educationSlice";
 import { Education } from "../../Interfaces";
+import moment from 'moment'
 
 
 const EducationComp = ({applicant}) => {
@@ -15,25 +16,30 @@ const EducationComp = ({applicant}) => {
   const dispatch = useDispatch<AppDispatch>();
 
 
-  console.log("!!!!!!!!!!", educations)
+
   useEffect(() => {
     dispatch(fetchEducationByApplicant(54));
 }, []);
 
   return (
     <>
-      <div className="grid gap-8 md:grid-rows-2 lg:grid-cols-2">
-        <ul>
-        {Array.isArray(educations) && educations.map((edu) => {
-          return (
-            <li key={edu.id}>
-              <h3>{edu.place}</h3>
-              <h4>{edu.degree}</h4>
-              <h4>{edu.speciality}</h4>
-            </li>
-          )
-        })}
-        </ul>
+      <div 
+      className="flex-shrink-0 flex-col flex rounded-2xl shadow-md bg-white p-3 m-5 ">
+        <h2
+        className="text-lg font-semibold leading-6 text-[#026767] sm:text-3xl"
+        >Education</h2>
+          <ul>
+          {Array.isArray(educations) && educations.map((edu) => {
+            return (
+              <li key={edu.id}>
+                <h3>{edu.place}</h3>
+                <h4>{edu.degree}</h4>
+                <h4>{edu.speciality}</h4>
+                <p>{`${moment(edu.startDate).format("MMM YYYY")} - ${moment(edu.endDate).format("MMM YYYY")}`}</p>
+              </li>
+            )
+          })}
+          </ul>
       </div>
     </>
   );

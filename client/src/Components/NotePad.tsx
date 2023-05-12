@@ -1,16 +1,55 @@
-import { Applicant, Recruiter } from "../Interfaces"
+import { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
+import { fetchTrack, setTrack, updateTrack } from "../store/trackSlice";
 
-interface trackParams {
-  applicantId?: String | null,
-  recruiterId?: String | null,
+type NotePadProps = {
+  trackId: number
 }
 
-const NotePad = ({ }) => {
+export default function NotePad({ trackId }: NotePadProps): JSX.Element {
+  const [note, setNote] = useState<string>("");
+  const [isFocused, setIsFocused] = useState(false);
+  const dispatch = useDispatch<AppDispatch>()
+  const track = useSelector((state: RootState) => state.track);
+
+  function handleBlur() {
+    setIsFocused(false);
+    updateNotes()
+  }
+
+  useEffect(() => {
+    dispatch(fetchTrack({ getTrackByWhat: 'getTrackById', id: 4 }))
+  }, [])
+  useEffect(() => {
+    if (track.track) {
+      setNote(track.track.applicantNotes)
+    }
+  }, [track.track])
+
+  const updateNotes = useCallback(() => {
+    if (note.length) {
+      dispatch(updateTrack({ trackId: 4, track: { applicantNotes: note } }))
+    } else {
+      dispatch(updateTrack({ trackId: 4, track: { applicantNotes: '' } }))
+    }
+  }, [note])
+
   return (
-    <div id="NotePad-container">
-      <h1>I am a NotePad</h1>
+    // <div id="note-container" className="flex flex-col w-full max-w-lg mx-auto p-4 space-y-4">
+    <div className="flex space-x-2 h-12 max-h-12">
+      <textarea
+        id="notePad"
+        name="notePad"
+        rows={4}
+        className="text-sm border border-gray-300 p-5 flex-1 bg-stone-100 rounded-lg shadow-md shadow-gray max-h-[32rem]"
+        style={{ height: '400px' }}
+        placeholder="Notes..."
+        value={note}
+        onChange={(e) => setNote(e.target.value)}
+        onBlur={handleBlur}
+      ></textarea>
     </div>
+    // </div >
   );
 }
-
-export default NotePad;

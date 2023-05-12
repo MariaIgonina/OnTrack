@@ -11,6 +11,7 @@ export default function AllUsers() {
     (s: RootState) => s.applicant.applicant
   ) as unknown as Applicant[]; //THIS IS BAD TYPESCRIPT REFACTOR THIS ROSIE
   const dispatch = useDispatch<AppDispatch>();
+  console.log("applicansts", applicants);
 
   useEffect(() => {
     dispatch(fetchAllApplicants());

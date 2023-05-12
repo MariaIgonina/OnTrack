@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Avatar from "../Components/appPageComp/Avatar";
 import CurrentLocation from "../Components/appPageComp/CurrLocation";
 import EducationComp from "../Components/appPageComp/Education";
-import Experience from "../Components/appPageComp/Experience";
+import ExperienceComp from "../Components/appPageComp/Experience";
 import Hobbies from "../Components/appPageComp/Hobbies";
 import JobPreferences from "../Components/appPageComp/JobPrefer";
 import Languages from "../Components/appPageComp/Languages";
@@ -41,29 +41,55 @@ const ApplicantPage = () => {
 
   return (
     <>
-      <div className="mt-20">
-      <Avatar 
-      applicant = {applicant}/>
-      <PersonalInfo 
-      applicant = {applicant}/>
-      <CurrentLocation 
-      applicant = {applicant}/>
-      <JobPreferences 
-      applicant = {applicant}/>
-      <Skills 
-      applicant = {applicant}/>
-      <About 
-      applicant = {applicant}/>
-      <Video 
-      applicant = {applicant}/>
-      <Experience 
-      applicant = {applicant}/>
-      <EducationComp
-      applicant = {applicant}/>
-      <Languages 
-      applicant = {applicant}/>
-      <Hobbies 
-      applicant = {applicant}/>
+      <div className="mt-20 bg-stone-100 h-full m-0">
+      
+      <div className=" flex flex-row">
+        <div className=" flex flex-col">
+          <div className=" flex flex-row">
+            <Avatar 
+            applicant = {applicant}/>
+            
+            <PersonalInfo 
+            applicant = {applicant}/>
+
+              <div 
+              className=" flex flex-col"
+              >
+                <CurrentLocation 
+                applicant = {applicant}/>
+                <JobPreferences 
+                applicant = {applicant}/>
+              </div>      
+
+              <div 
+                className="flex flex-col"
+                >
+                  <Languages 
+                  applicant = {applicant}/>
+                  <Hobbies 
+                  applicant = {applicant}/>
+                </div>
+          </div>
+
+          <About 
+          applicant = {applicant}/>
+        </div>
+        <Skills 
+        applicant = {applicant}/>
+
+      </div>
+      
+
+      <div className=" flex flex-row">
+        <EducationComp
+        applicant = {applicant}/>
+        <ExperienceComp 
+        applicant = {applicant}/>
+        
+        <Video 
+        applicant = {applicant}/>
+      </div>
+
       </div>
     </>
   );
