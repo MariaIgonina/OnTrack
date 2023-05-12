@@ -42,43 +42,51 @@ const TrackPage = () => {
 
 
   return (
-    <div id='track-container' className="flex h-screen fixed top-[70px] w-screen overflow-scroll">
-      <TrackSideBar trackId={track.track?.id} />
+    <div id='track-container' className="flex h-screen fixed top-[70px] w-screen overflow-auto">
+      <TrackSideBar trackId={track.track?.id} role={ userRole } />
       <div className="w-full mx-5">
-        <div id='Info' className="mb-10 hover:cursor-pointer">
+        <div id='Info' className="mb-10 ">
           <a onClick={() => navigate(`/vacancy/${vacancy.data?.id}`)}>
-            <h2 className="text-3xl font-extrabold my-2 hover:text-stone-100 hover:bg-gray-800 w-fit rounded-lg" >
+            <h2 className="text-3xl font-extrabold my-2 hover:text-stone-100 hover:bg-gray-800 w-fit rounded-lg hover:cursor-pointer" >
               {vacancy.data?.title}
             </h2>
           </a>
           {userRole === 'applicant'
             ?
-            <div className="w-full">
-              <a onClick={() => navigate(`/recruiter/${recruiter.recruiter?.id}`)}
-                className="flex items-center bg-white border border-gray-200 rounded-lg md:flex-row hover:bg-gray-800 hover:text-white 
+            <div id="applicantView" className="w-full hover:bg-gray-800 ">
+              <a
+                className="flex items-center bg-white border border-gray-200 rounded-lg md:flex-row  
            shadow shadow-sm shadow-gray w-full">
-                <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-                  alt="Company Logo"
-                  src={ recruiter.recruiter?.logo }/>
+                <a onClick={() => navigate(`/recruiter/${recruiter.recruiter?.id}`)}>
+                  <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg hover:cursor-pointer"
+                    alt="Company Logo"
+                    src={recruiter.recruiter?.logo}
+                  />
+                </a>
                 <div className="flex flex-col justify-between p-4 leading-normal">
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight "> at {recruiter.recruiter.name}</h5>
-                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{vacancy.data?.about}</p>
+                  <a onClick={() => navigate(`/recruiter/${recruiter.recruiter?.id}`)}><h5 className="hover:cursor-pointer mb-2 text-2xl w-fit rounded-lg font-bold tracking-tight hover:bg-gray-800 hover:text-white">
+                    at {recruiter.recruiter.name}
+                  </h5></a>
+                  <p className="mb-3 font-normal text-gray-700 hover:text-gray-600 hover:underline hover:cursor-pointer">{vacancy.data?.about}</p>
                 </div>
               </a>
             </div>
             :
-            <div className="w-full">
-              <a onClick={() => {
-                if (userRole === 'applicant') return navigate(`/vacancy/${vacancy.data?.id}`);
-                else return navigate(`/vacancy/${vacancy.data?.id}`)
-              }
-              }
-                className="flex items-center bg-white border border-gray-200 rounded-lg md:flex-row hover:bg-gray-800 hover:text-white 
+            <div id="recruiterView" className="w-full hover:bg-gray-800 ">
+              <a
+                className="flex items-center bg-white border border-gray-200 rounded-lg md:flex-row  
            shadow shadow-sm shadow-gray w-full">
-                <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" alt="company logo" />
+                <a onClick={() => navigate(`/recruiter/${recruiter.recruiter?.id}`)}>
+                  <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg hover:cursor-pointer"
+                    alt="Company Logo"
+                    src={applicant.applicant?.picture}
+                  />
+                </a>
                 <div className="flex flex-col justify-between p-4 leading-normal">
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight ">{vacancy.data?.title}</h5>
-                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{vacancy.data?.about}</p>
+                  <a onClick={() => navigate(`/applicant/${applicant.applicant?.idDB}`)}><h5 className="hover:cursor-pointer mb-2 text-2xl w-fit rounded-lg font-bold tracking-tight hover:bg-gray-800 hover:text-white">
+                    {applicant.applicant.name}
+                  </h5></a>
+                  <p className="mb-3 font-normal text-gray-700 hover:text-gray-600 hover:underline hover:cursor-pointer">{vacancy.data?.about}</p>
                 </div>
               </a>
             </div>
