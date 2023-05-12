@@ -76,15 +76,7 @@ const VacancyList: React.FC = () => {
         </div>
         {isCreatingVacancy ? (
           <div>
-            <VacancyCreate />
-            <div className="flex justify-end mt-4">
-              <button
-                onClick={handleCancelCreateVacancy}
-                className="px-4 py-2 font-medium text-red-600 border border-red-600 rounded-md focus:outline-none focus:ring"
-              >
-                Cancel
-              </button>
-            </div>
+            <VacancyCreate onCancel={handleCancelCreateVacancy} />
           </div>
         ) : (
           <button
