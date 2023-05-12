@@ -60,6 +60,7 @@ export interface Vacancy {
   experience?: number;
   location: string;
   salaryRange?: number;
+  data?: any
 }
 
 export interface Track {
@@ -127,4 +128,9 @@ export interface Education {
   degree: string;
   speciality: string;
   applicantIdDB?: number;
+}
+
+export interface ICloudImage {
+  asset_id : string
+  secure_url: string
 }

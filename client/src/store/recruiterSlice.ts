@@ -6,13 +6,11 @@ import { RootState } from "./store";
 
 const initialRecruiter: Recruiter = {
   id: 0,
-
   email: "",
   picture: "",
   idAuth: "",
   recruiterName: "",
   name: "",
-
   vacancies: [],
   logo: "",
   founded: "",
@@ -22,7 +20,7 @@ const initialRecruiter: Recruiter = {
   track: [],
 };
 
-const url: string = "http://localhost:3000";
+const url = "http://localhost:3000";
 
 const fetchRecruiter = createAsyncThunk(
   "recruiter/fetchrecruiter",
@@ -93,6 +91,7 @@ const updateRecruiter = createAsyncThunk(
   "recruiter/updateRecruiter",
   async function ({ recruiterId, recruiter }: IPutParams, { rejectWithValue }) {
     try {
+      console.log("recruiter inside upload",recruiter);
       const response = await fetch(url + `/updateRecruiter/${recruiterId}`, {
         method: "PUT",
         headers: {

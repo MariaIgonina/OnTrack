@@ -11,8 +11,8 @@ import { getAccessToken, getUserData } from "./controllersAuth/authController";
 import { educationController } from "./controllersMain/educationController";
 import { experienceController } from "./controllersMain/experienceController";
 import { populateDatabase } from "./controllersMain/populateController";
+import { cloudinaryControllers } from "./controllersMain/cloudinaryController";
 import { googleApiAuth } from "./controllersAuth/googleAuth";
-import getNotesByTrackId from "./controllersMain/getNotes";
 
 const router = Router();
 
@@ -43,8 +43,6 @@ router.delete(
   "/deleteQuestionary/:id",
   questionnaryController.deleteQuestionary
 );
-
-router.get("/getNotes/:TrackId", getNotesByTrackId)
 
 // Applicant routes
 router.get("/applicant/:id", applicantControllers.getApplicantById);
@@ -147,5 +145,9 @@ router.get(
   "/getExperience/:experienceId",
   experienceController.getExperienceById
 );
+
+// Upload Image to cloudinary
+router.post('/postToCloudinary', cloudinaryControllers.postImageToCloudinary)
+router.get('/getFromCloudinary', cloudinaryControllers.getImageFromCloudinary)
 
 export default router;
