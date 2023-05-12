@@ -3,8 +3,8 @@ import { RootState } from "./store";
 import { useDispatch } from "react-redux";
 
 interface CurrentUserState {
-  id: string;
-  role: string;
+  id: string | undefined;
+  role: string | undefined;
 }
 
 interface IInitialState {
@@ -14,8 +14,8 @@ interface IInitialState {
 }
 
 const initialState: CurrentUserState = {
-  id: "",
-  role: "",
+  id: undefined,
+  role: undefined,
 };
 
 const url: string = "http://localhost:3000";

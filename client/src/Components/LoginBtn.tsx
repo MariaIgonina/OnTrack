@@ -62,12 +62,12 @@ export default function LoginBtn({ text }: LoginBtnProps) {
             createApplicant(extractApplicantData(userInfo))
           );
           console.log(applicantCreated);
-          // dispatch(
-          //   setCurrentUser({
-          //     id: applicantCreated.payload.idDB,
-          //     role: "applicant",
-          //   })
-          // );
+          dispatch(
+            setCurrentUser({
+              id: applicantCreated.payload.idDB,
+              role: "applicant",
+            })
+          );
           navigate(`/applicant/${applicantCreated.payload.idDB}`);
         } else {
           const recruiterCreated = await dispatch(

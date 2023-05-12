@@ -27,12 +27,13 @@ import {
   setApplicant,
   updateApplicant,
 } from "../store/applicantSlice";
+import { current } from "@reduxjs/toolkit";
 
 const ApplicantPage = () => {
   const applicant = useSelector(
     (state: RootState) => state.applicant.applicant
   );
-  const currentUser = useSelector((state: RootState) => state.currentUser);
+  const currentUser = useSelector((state: RootState) => state.currentUser.id);
   const dispatch = useDispatch<AppDispatch>();
   const codeParam = window.location.pathname.split("/").reverse()[0];
 

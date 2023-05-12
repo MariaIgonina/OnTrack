@@ -15,16 +15,12 @@ const RecruiterProfilePage = () => {
   const currentUserID = useSelector((s: RootState) => s.currentUser.id);
 
   useEffect(() => {
-    console.log("IDDDDD from recruiter page!!!", currentUserID);
+    console.log("IDDDDD from recruiterProfile page!!!", currentUserID);
   }, []);
-
-  // useEffect(() => {
-  //   console.log("this is from state", currentUserID);
-  // }, [currentUserID]);
 
   useEffect(() => {
     dispatch(setRecruiter(recruiter));
-    dispatch(fetchRecruiter(currentUserID));
+    dispatch(fetchRecruiter(+currentUserID));
   }, [dispatch]);
 
   return (
