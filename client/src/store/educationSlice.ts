@@ -9,8 +9,8 @@ import { Education } from "../Interfaces";
 const initialEducation = {
   // id: 0,
   place: '',
-  startDate: new Date(),
-  endDate: new Date(),
+  startDate: '',
+  endDate: '',
   degree: '',
   speciality: '',
   // applicant: initialApplicant,
@@ -28,7 +28,7 @@ const fetchEducationByApplicant  = createAsyncThunk (
         throw new Error('Server error')
       }
       const data = await response.json()
-      // console.log("DATA FROM REDUX THUNK : ", data)
+      console.log("DATA FROM REDUX THUNK : ", data)
       return data
     } catch (err) {
       if (err instanceof Error)

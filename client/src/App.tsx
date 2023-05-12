@@ -23,7 +23,7 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      <div className="content">
+      <div className="cantainer">
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/user" element={<ApplicantPage />} />
