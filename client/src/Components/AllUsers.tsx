@@ -32,6 +32,7 @@ export default function AllUsers() {
               <button
                 type="submit"
                 onClick={() => navigate(`/applicant/${applicant.idDB}`)}
+                key={applicant.idDB}
               >
                 <UserCard
                   applicant={applicant}

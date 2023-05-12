@@ -6,6 +6,7 @@ import { AppDispatch } from "../store/store";
 import "./Login.css";
 import GithubBtn from "../Components/GithubBtn";
 import { setCurrentUser } from "../store/CurrentUserSlice";
+import LoginBtn from "../Components/LoginBtn";
 
 const LoginPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -44,7 +45,8 @@ const LoginPage = () => {
             </>
           ) : (
             <>
-              <GithubBtn text={"Login with Github"}></GithubBtn>
+              <LoginBtn text={"please"} />
+              {/* <GithubBtn text={"Login with Github"}></GithubBtn> */}
               <div className="register">
                 <button className="smallbtn" onClick={handleRegisterModal}>
                   <p>Or sign up for the first time by registering an account</p>

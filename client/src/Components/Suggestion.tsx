@@ -41,6 +41,7 @@ export default function Suggestion() {
                 <button
                   type="submit"
                   onClick={() => navigate(`/applicant/${applicant.idDB}`)}
+                  key={applicant.idAuth}
                 >
                   <UserCard
                     applicant={applicant}

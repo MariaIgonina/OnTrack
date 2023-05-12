@@ -32,11 +32,13 @@ const ApplicantPage = () => {
   const applicant = useSelector(
     (state: RootState) => state.applicant.applicant
   );
+  const currentUser = useSelector((state: RootState) => state.currentUser);
   const dispatch = useDispatch<AppDispatch>();
   const codeParam = window.location.pathname.split("/").reverse()[0];
 
   useEffect(() => {
-    dispatch(fetchApplicant(54));
+    console.log("cureent ysfter", currentUser);
+    dispatch(fetchApplicant(+currentUser.id));
     //dispatch(setApplicant(applicant));
     // console.log("App", applicant);
   }, [dispatch]);
