@@ -33,7 +33,7 @@ import 'tailwindcss/tailwind.css';
 
 
 const AddApplicantPage = () => {
-
+  const navigator = useNavigate()
   const dbApplicant = useSelector((state:RootState) => state.applicant)
   const dbEducation = useSelector((state:RootState) => state.education)
   const dbExperience = useSelector((state:RootState) => state.experience)
@@ -52,14 +52,15 @@ const AddApplicantPage = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target as HTMLInputElement;
     const updatedValue = name === 'age' ? new Date(value) : value;
+    
     setFormData({ ...formData, [name]: updatedValue });
   };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const isFormValid = Object.values(formData).every(value => value);
-    setIsFormValid(isFormValid);
-    if (isFormValid) {
+    // setIsFormValid(isFormValid);
+    // if (isFormValid) {
       const newApplicant = {
         name: formData.name,
         familyName: formData.familyName,
@@ -86,8 +87,8 @@ const AddApplicantPage = () => {
         applicant: newApplicant}
   
       dispatch(updateApplicant(dbArg));
-  
-    } else alert("Please fill in all fields.")
+      navigator('/applicant/152')
+    // } else alert("Please fill in all fields.")
   }
 
   //Buttons validation
