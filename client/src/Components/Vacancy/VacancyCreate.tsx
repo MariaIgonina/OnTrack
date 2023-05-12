@@ -1,9 +1,9 @@
 import React, { FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
-import { createVacancy } from "../store/vacancySlice";
-import type { Vacancy } from "../Interfaces";
-import type { AppDispatch } from "../store/store";
-import { initialVacancy } from "../store/vacancySlice";
+import { createVacancy } from "../../store/vacancySlice";
+import type { Vacancy } from "../../Interfaces";
+import type { AppDispatch } from "../../store/store";
+import { initialVacancy } from "../../store/vacancySlice";
 type VacancyCreateProps = {
   onCancel: () => void;
 };
@@ -41,11 +41,12 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
           : formData.requiredLanguages,
     };
     await dispatch(createVacancy(newVacancy));
+    onCancel();
   };
 
   return (
-    <div className="flex h-screen bg-gray-200 items-center justify-center  mt-32 mb-32">
-      <div className="grid bg-white rounded-lg shadow-xl w-11/12 md:w-9/12 lg:w-1/2">
+    <div className="flex h-screen  items-center justify-center  mt-[220px] mb-32">
+      <div className="grid bg-white rounded-lg shadow-xl w-11/12 md:0 lg:0">
         <div className="flex justify-center py-4">
           <div className="flex bg-purple-200 rounded-full md:p-4 p-2 border-2 border-purple-300">
             <svg
@@ -286,7 +287,7 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
             Cancel
           </button>
           <button
-            type="submit"
+            onClick={handleSubmit}
             className="w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2"
           >
             Create
