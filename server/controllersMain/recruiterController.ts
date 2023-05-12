@@ -51,6 +51,7 @@ async function deleteRecruiterbyId(req: Request, res: Response) {
 }
 
 async function updateRecruiterbyId(req: Request, res: Response) {
+  console.log("update called");
   const { id } = req.params;
   const { name, logo, founded, about, externalLinks, headOffice } = req.body;
   try {

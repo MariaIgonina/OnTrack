@@ -10,7 +10,7 @@ const Avatar = ({applicant}) => {
       <img
         src={applicant.picture}
         alt=""
-        className="h-20 w-20 rounded-full bg-gray-50"
+        className="h-20 w-20 rounded-full bg-gray-50 mt-4 m-5 "
       />
     </>
   );
