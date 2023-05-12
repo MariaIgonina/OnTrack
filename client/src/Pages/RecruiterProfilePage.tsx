@@ -12,9 +12,11 @@ const RecruiterProfilePage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const codeParam = window.location.pathname.split("/").reverse()[0];
 
-  // const currentUserID = useSelector(
-  //   (s: RootState) => s.currentUser.currentUser.id
-  // );
+  const currentUserID = useSelector((s: RootState) => s.currentUser.id);
+
+  useEffect(() => {
+    console.log("IDDDDD from recruiter page!!!", currentUserID);
+  }, []);
 
   // useEffect(() => {
   //   console.log("this is from state", currentUserID);
@@ -22,7 +24,7 @@ const RecruiterProfilePage = () => {
 
   useEffect(() => {
     dispatch(setRecruiter(recruiter));
-    dispatch(fetchRecruiter(+codeParam));
+    dispatch(fetchRecruiter(currentUserID));
   }, [dispatch]);
 
   return (

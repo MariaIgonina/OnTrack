@@ -21,9 +21,7 @@ export default function LoginBtn({ text }: LoginBtnProps) {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const currentUserID = useSelector(
-    (s: RootState) => s.currentUser.currentUser.id
-  );
+  const currentUserID = useSelector((s: RootState) => s.currentUser);
 
   // useEffect(() => {
   //   console.log("this is from state", currentUserID);
@@ -42,6 +40,11 @@ export default function LoginBtn({ text }: LoginBtnProps) {
   const urlParams = new URLSearchParams(queryString);
   const codeParam = urlParams.get("code");
 
+  useEffect(() => {
+    dispatch(findUser("U_kgDOB0L6_A"));
+    console.log("IDDDDD!!!", currentUserID);
+  }, []);
+
   async function AuthenticateUserfromGH() {
     try {
       const tokenData = await fetchTokenData(codeParam!);
@@ -50,21 +53,21 @@ export default function LoginBtn({ text }: LoginBtnProps) {
       const returnedRole = await dispatch(findUser(gitHubID));
 
       if (!returnedRole.payload) {
-        // console.log(
-        //   "if we hit here, user does not exist therefore we must create it."
-        // );
+        console.log(
+          "if we hit here, user does not exist therefore we must create it."
+        );
         const isApplicant = localStorage.getItem("currentUser") == "applicant";
         if (isApplicant) {
           const applicantCreated = await dispatch(
             createApplicant(extractApplicantData(userInfo))
           );
-          // console.log(applicantCreated);
-          dispatch(
-            setCurrentUser({
-              id: applicantCreated.payload.idDB,
-              role: "applicant",
-            })
-          );
+          console.log(applicantCreated);
+          // dispatch(
+          //   setCurrentUser({
+          //     id: applicantCreated.payload.idDB,
+          //     role: "applicant",
+          //   })
+          // );
           navigate(`/applicant/${applicantCreated.payload.idDB}`);
         } else {
           const recruiterCreated = await dispatch(
