@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store/store";
-import { fetchTrack, setTrack, updateTrack } from "../store/trackSlice";
+import { AppDispatch, RootState } from "../../store/store";
+import { fetchTrack, setTrack, updateTrack } from "../../store/trackSlice";
 
 type NotePadProps = {
   trackId: number
@@ -19,7 +19,7 @@ export default function NotePad({ trackId }: NotePadProps): JSX.Element {
   }
 
   useEffect(() => {
-    dispatch(fetchTrack({ getTrackByWhat: 'getTrackById', id: 4 }))
+    dispatch(fetchTrack({ getTrackByWhat: 'getTrackById', id: trackId }))
   }, [])
   useEffect(() => {
     if (track.track) {
@@ -29,9 +29,9 @@ export default function NotePad({ trackId }: NotePadProps): JSX.Element {
 
   const updateNotes = useCallback(() => {
     if (note.length) {
-      dispatch(updateTrack({ trackId: 4, track: { applicantNotes: note } }))
+      dispatch(updateTrack({ trackId: trackId, track: { applicantNotes: note } }))
     } else {
-      dispatch(updateTrack({ trackId: 4, track: { applicantNotes: '' } }))
+      dispatch(updateTrack({ trackId: trackId, track: { applicantNotes: '' } }))
     }
   }, [note])
 

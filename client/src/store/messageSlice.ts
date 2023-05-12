@@ -12,7 +12,7 @@ const initialMessage: Message = {
   trackId: 0,
   track: initialTrack,
   text: '',
-  date: new Date(),
+  date: '',
   files: [],
 }
 
