@@ -14,7 +14,7 @@ const RecruiterProfilePage = () => {
   console.log("recruiter", recruiter);
   useEffect(() => {
     dispatch(setRecruiter(recruiter));
-    dispatch(fetchRecruiter(1));
+    dispatch(fetchRecruiter(+codeParam!));
   }, [dispatch]);
 
   return (

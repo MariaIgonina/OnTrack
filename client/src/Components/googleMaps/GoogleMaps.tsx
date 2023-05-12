@@ -11,7 +11,7 @@ import { Applicant } from "../../Interfaces";
 import { AppDispatch, RootState } from "../../store/store";
 
 const containerStyle = {
-  width: "400px",
+  width: "100%",
   height: "400px",
   boxShadow: "0 2px 10px rgba(0, 0, 0, 0.3)",
   borderRadius: "10px",

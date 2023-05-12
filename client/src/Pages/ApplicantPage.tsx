@@ -37,7 +37,7 @@ const ApplicantPage = () => {
   const codeParam = window.location.pathname.split("/").reverse()[0];
 
   useEffect(() => {
-      dispatch(fetchApplicant(54));
+      dispatch(fetchApplicant(152));
       // dispatch(setApplicant(applicant));
       // console.log("Current user", currentUser)
   }, [dispatch]);
