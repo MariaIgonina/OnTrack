@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TrackSideBar from "../Components/tracks/TrackSidebar";
 import StepTemplate from "../Components/StepTemplate";
@@ -22,30 +22,31 @@ const TrackPage = () => {
   useEffect(() => {
     const searchQuery = new URLSearchParams(window.location.search);
     const queryObj = Object.fromEntries(searchQuery.entries());
-    console.log('PARAMS', queryObj)
     dispatch(fetchTrack({ getTrackByWhat: 'getTrackById', id: +queryObj.trackId }))
     dispatch(fetchVacancy(+queryObj.vacancyId));
     setUserRole(queryObj.userRole)
-    console.log('vacancy fetched', vacancy.data);
   }, []);
-
-  // useEffect(() => {
-  //   if (track.track.applicantID) {
-  //     dispatch(fetchApplicant(track.track.applicantID));
-  //     dispatch(fetchRecruiter(track.track.recruiterID));
-  //     console.log('aplicant fetched => ', applicant.applicant)
-  //     console.log('recruiter fetched => ', recruiter.recruiter)
-  //   }
-  // }, [track.track.applicantID])
-
-
+  
+  useEffect(() => {
+    if (track.track?.applicantID) {
+      dispatch(fetchApplicant(track.track.applicantID));
+    }
+  }, [track.track?.applicantID]);
+  
+  useEffect(() => {
+    if (track.track?.recruiterID) {
+      dispatch(fetchRecruiter(track.track.recruiterID));
+    }
+  }, [track.track?.recruiterID]);
+  
+  
 
   return (
     <div id='track-container' className="flex h-screen fixed top-[88px] w-screen">
       <TrackSideBar trackId={track.track?.id} />
       <div className="w-full mx-5">
         <div id='Info' className="mb-10 hover:cursor-pointer">
-          <h2 className="text-3xl font-extrabold my-2" >{'Company Name'}</h2>
+          <a onClick={() => navigate(`/recruiter/${recruiter.recruiter.id}`)}><h2 className="text-3xl font-extrabold my-2 hover:text-stone-100 hover:bg-gray-800 w-fit rounded-lg" >{recruiter.recruiter?.name}</h2></a>
           <div className="w-full">
             <a onClick={() => navigate(`/vacancy/${vacancy.data?.id}`)}
               className="flex items-center bg-white border border-gray-200 rounded-lg md:flex-row hover:bg-gray-800 hover:text-white 
