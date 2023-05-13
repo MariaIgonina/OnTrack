@@ -44,7 +44,7 @@ const ApplicantPage = () => {
 
   return (
     <>
-      <div className="mt-20 bg-stone-100 h-full m-4">
+      <div className=" bg-[#FFFEF5] h-full ">
       
       <div className=" flex flex-row ">
         <div className=" flex flex-col flex-wrap items-stretch">
@@ -68,9 +68,9 @@ const ApplicantPage = () => {
               <div 
                 className="flex flex-col flex-wrap items-stretch"
                 >
-                  <Languages 
-                  applicant = {applicant}/>
                   <Hobbies 
+                  applicant = {applicant}/>
+                  <Languages 
                   applicant = {applicant}/>
                 </div>
           </div>

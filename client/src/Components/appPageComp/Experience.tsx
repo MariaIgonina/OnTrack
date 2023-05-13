@@ -7,7 +7,7 @@ import { AppDispatch, RootState } from "../../store/store";
 import { fetchExperienceByApplicant } from "../../store/experienceSlice";
 import { Experience } from "../../Interfaces";
 import moment from 'moment'
-
+import LegendToggleIcon from '@mui/icons-material/LegendToggle';
 
 const ExperienceComp = ({applicant}:{applicant: Applicant}) => {
 
@@ -25,10 +25,19 @@ const ExperienceComp = ({applicant}:{applicant: Applicant}) => {
   return (
     <>
     <div 
-    className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 mt-0">
-      <h2
-      className="text-lg font-semibold leading-6 text-[#026767] sm:text-3xl"
-      >Experience</h2>
+    className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 m-1">
+      <div className="flex flex-row ">
+        <LegendToggleIcon
+          fontSize="small"
+          style={{ color: '#026767' }}
+          className="mr-2"
+        >
+        </LegendToggleIcon>
+        <h2
+        className="text-lg font-semibold leading-6 text-[#026767] text-base"
+        >Experience</h2>
+      </div>
+      
           <ul>
           {Array.isArray(experiences) && experiences.map((exp) => {
             return (

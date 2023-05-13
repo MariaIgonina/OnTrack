@@ -15,7 +15,7 @@ import LogedWithGoogle from "./Components/LogedWithGoogle";
 import SignInWithGoogle from "./Components/SignInWithGoogle";
 import RecruiterProfilePage from "./Pages/RecruiterProfilePage";
 import UserLogin from "./Pages/UserLogin";
-import Questionary from "./Components/QuestionaryPage";
+import Questionary from "./Components/Vacancy/VacancyTemplate";
 import "./index.css";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
@@ -69,7 +69,7 @@ function App() {
           {/* /recruiter/?id=${id}` */}
         </>
       </Routes>
-      {/* {/* </div> */} */}
+
     </BrowserRouter>
   );
 }

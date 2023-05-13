@@ -219,7 +219,7 @@ const AddApplicantPage = () => {
   };
   
   const handleLanguage = () => {
-      if (collLanguage !== '' && level !== '') {
+    if (collLanguage !== '' && level !== '') {
       const newLangCouple = `${collLanguage} - ${level}`
       setCollLanguages(prevLanguages => [...prevLanguages, newLangCouple]);
       setLevel("");
