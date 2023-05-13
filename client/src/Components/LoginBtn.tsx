@@ -42,7 +42,7 @@ export default function LoginBtn({ text }: LoginBtnProps) {
 
   useEffect(() => {
     dispatch(findUser("U_kgDOB0L6_A"));
-    console.log("IDDDDD!!!", currentUserID);
+    // console.log("IDDDDD!!!", currentUserID);
   }, []);
 
   async function AuthenticateUserfromGH() {
@@ -105,7 +105,7 @@ export default function LoginBtn({ text }: LoginBtnProps) {
   }
 
   async function fetchTokenData(codeParam: string) {
-    console.log("easfesgsegesgesg ==>", codeParam);
+    // console.log("easfesgsegesgesg ==>", codeParam);
     const response = await fetch(
       "http://localhost:3000/getAccessToken?code=" + codeParam,
       { method: "GET" }

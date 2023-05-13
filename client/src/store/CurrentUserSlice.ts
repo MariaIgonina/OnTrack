@@ -23,14 +23,13 @@ const url: string = "http://localhost:3000";
 const findUser = createAsyncThunk(
   "applicant/finduser",
   async function (id: string, { rejectWithValue }) {
-    console.log(id);
     try {
       const response = await fetch(`${url}/findUser/${id}`);
       if (!response.ok) {
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("!!!!!!!!! DATA FROM REDUX THUNK : ", data);
+      // console.log("!!!!!!!!! DATA FROM REDUX THUNK : ", data);
       // useDispatch(setCurrentUser({id: data.id, role: ""}))
       return data;
     } catch (err) {

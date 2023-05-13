@@ -43,7 +43,6 @@ const createRecruiter = createAsyncThunk(
   "recruiter/createRecruiter",
   async function (recruiter: Recruiter, { rejectWithValue }) {
     try {
-
       const response = await fetch(url + "/createRecruiter", {
         method: "POST",
 
@@ -56,7 +55,6 @@ const createRecruiter = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("recruiter slice", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -91,7 +89,6 @@ const updateRecruiter = createAsyncThunk(
   "recruiter/updateRecruiter",
   async function ({ recruiterId, recruiter }: IPutParams, { rejectWithValue }) {
     try {
-      console.log("recruiter inside upload",recruiter);
       const response = await fetch(url + `/updateRecruiter/${recruiterId}`, {
         method: "PUT",
         headers: {
