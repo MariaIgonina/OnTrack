@@ -16,7 +16,8 @@ async function createQuestionnary(req: Request, res: Response) {
         questions: req.body.questions,
         answer: req.body.answer,
         date: req.body.date,
-        Step: { connect: { id: parseInt(req.body.stepId) } },
+        hidden: Boolean(req.body.hidden),
+        Track: { connect: { id: parseInt(req.body.trackid) } },
       },
     });
     res.json(questionary).status(201);
@@ -36,7 +37,7 @@ async function getQuestionaryByStep(req: Request, res: Response) {
   try {
     const questionary = await prisma.questionary.findMany({
       where: {
-        stepId: parseInt(id),
+        trackId: parseInt(id),
       },
     });
 

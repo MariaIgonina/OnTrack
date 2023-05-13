@@ -12,6 +12,7 @@ export const recruiterController = {
 
 async function getRecruiterbyId(req: Request, res: Response) {
   const { id } = req.params;
+  console.log(id);
   try {
     const recruiter = await prisma.recruiter.findUnique({
       where: {
