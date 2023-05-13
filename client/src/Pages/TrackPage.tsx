@@ -5,16 +5,18 @@ import StepTemplate from "../Components/steps/StepTemplate";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from '../store/store'
 import { fetchTrack, setTrack, updateTrack } from "../store/trackSlice";
+import { findUser } from "../store/CurrentUserSlice";
 import { fetchVacancy } from "../store/vacancySlice";
 import { fetchRecruiter } from "../store/recruiterSlice";
 import { fetchApplicant } from "../store/applicantSlice";
 import Landing from "../Components/codeSandbox/Landing";
 
 
+
 const TrackPage = () => {
-  const [userRole, setUserRole] = useState('')
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>()
+  const currentUser = useSelector((state: RootState) => state.currentUser)
   const track = useSelector((state: RootState) => state.track);
   const vacancy = useSelector((state: RootState) => state.vacancy.vacancy)
   const applicant = useSelector((state: RootState) => state.applicant)
@@ -25,7 +27,7 @@ const TrackPage = () => {
     const queryObj = Object.fromEntries(searchQuery.entries());
     dispatch(fetchTrack({ getTrackByWhat: 'getTrackById', id: +queryObj.trackId }))
     dispatch(fetchVacancy(+queryObj.vacancyId));
-    setUserRole(queryObj.userRole)
+
   }, []);
 
   useEffect(() => {
@@ -43,16 +45,18 @@ const TrackPage = () => {
 
 
   return (
-    <div id='track-container' className="flex h-screen fixed top-[70px] w-screen overflow-auto">
-      <TrackSideBar trackId={track.track?.id} role={ userRole } />
-      <div className="w-full mx-5">
+    <div id='track-container' className="flex h-screen top-[70px] w-[90%] min-w-[600px] ">
+      <div className="w-[226px] min-w-[226px] h-[90%] hidden relative sm:block md:block lg:block">
+        <TrackSideBar trackId={track.track?.id} role={currentUser.currentUser?.role!} />
+      </div>
+      <div className="w-[98%] min-w-[400px] ml-3">
         <div id='Info' className="mb-10 ">
           <a onClick={() => navigate(`/vacancy/${vacancy.data?.id}`)}>
             <h2 className="text-3xl font-extrabold my-2 hover:text-stone-100 hover:bg-gray-800 w-fit rounded-lg hover:cursor-pointer" >
-              {vacancy.data?.title}
+              {vacancy.data?.title} Company Name
             </h2>
           </a>
-          {userRole === 'applicant'
+          {currentUser.currentUser?.role! === 'applicant'
             ?
             <div id="applicantView" className="w-full hover:bg-gray-800 ">
               <a
