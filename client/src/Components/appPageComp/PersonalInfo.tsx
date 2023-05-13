@@ -37,30 +37,31 @@ const PersonalInfo = ({ applicant }) => {
 
         <div className="flex-shrink-0 flex">
           <ul className="flex flex-row items-center gap-x-4 mt-2">
-            {applicant.socialMedia.map((link, index) => (
-              <li key={index}>
-                {link.includes("github.com") && (
-                  <a href={link} target="_blank" rel="noopener noreferrer">
-                    <FontAwesomeIcon className="mr-2" icon={faGithub} />
-                  </a>
-                )}
-                {link.includes("facebook.com") && (
-                  <a href={link} target="_blank" rel="noopener noreferrer">
-                    <FontAwesomeIcon className="mr-2" icon={faFacebook} />
-                  </a>
-                )}
-                {link.includes("twitter.com") && (
-                  <a href={link} target="_blank" rel="noopener noreferrer">
-                    <FontAwesomeIcon className="mr-2" icon={faTwitter} />
-                  </a>
-                )}
-                {link.includes("instagram.com") && (
-                  <a href={link} target="_blank" rel="noopener noreferrer">
-                    <FontAwesomeIcon className="mr-2" icon={faInstagram} />
-                  </a>
-                )}
-              </li>
-            ))}
+            {applicant.socialMedia?.length &&
+              applicant.socialMedia.map((link, index) => (
+                <li key={index}>
+                  {link.includes("github.com") && (
+                    <a href={link} target="_blank" rel="noopener noreferrer">
+                      <FontAwesomeIcon className="mr-2" icon={faGithub} />
+                    </a>
+                  )}
+                  {link.includes("facebook.com") && (
+                    <a href={link} target="_blank" rel="noopener noreferrer">
+                      <FontAwesomeIcon className="mr-2" icon={faFacebook} />
+                    </a>
+                  )}
+                  {link.includes("twitter.com") && (
+                    <a href={link} target="_blank" rel="noopener noreferrer">
+                      <FontAwesomeIcon className="mr-2" icon={faTwitter} />
+                    </a>
+                  )}
+                  {link.includes("instagram.com") && (
+                    <a href={link} target="_blank" rel="noopener noreferrer">
+                      <FontAwesomeIcon className="mr-2" icon={faInstagram} />
+                    </a>
+                  )}
+                </li>
+              ))}
           </ul>
         </div>
       </div>
