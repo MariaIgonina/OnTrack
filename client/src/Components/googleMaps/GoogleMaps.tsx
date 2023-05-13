@@ -7,11 +7,12 @@ import {
 } from "@react-google-maps/api";
 import { fetchAllApplicants } from "../../store/applicantSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Applicant } from "../../Interfaces";
+import { Applicant, CurrentUserType } from "../../Interfaces";
 import { AppDispatch, RootState } from "../../store/store";
 import { fetchAllVacancies } from "../../store/vacancySlice";
 import { Vacancy } from "../../Interfaces";
 import { Link } from "react-router-dom";
+import defaultAvatar from "../../assets/defaultAvatar.png";
 
 const containerStyle = {
   width: "100%",
@@ -47,10 +48,12 @@ const GoogleMaps: React.FC = () => {
   ) as unknown as Vacancy[];
 
   const dispatch = useDispatch<AppDispatch>();
-  const currentUser = useSelector((s: RootState) => s.currentUser);
+  const currentUser = useSelector(
+    (s: RootState) => s.currentUser
+  ) as unknown as CurrentUserType;
 
   useEffect(() => {
-    console.log("IDDDDD from recruiterProfile page!!!", currentUser.role);
+    console.log("IDDDDD from googlemaps page!!!", currentUser.role);
     if (currentUser.role === "recruiter") {
       dispatch(fetchAllApplicants());
     }
@@ -62,6 +65,11 @@ const GoogleMaps: React.FC = () => {
   const mapper = currentUser.role === "recruiter" ? applicants : vacancies;
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
+
+  const urlApplicant =
+    currentUser.role === "applicant" && applicants?.picture
+      ? applicants.picture
+      : defaultAvatar;
 
   const onLoad = useCallback((map: google.maps.Map) => {
     // const bounds = new window.google.maps.LatLngBounds(
@@ -97,11 +105,19 @@ const GoogleMaps: React.FC = () => {
               icon={
                 currentUser.role === "recruiter"
                   ? {
-                      url: element?.picture,
+                      url: element?.picture.length
+                        ? element?.picture
+                        : defaultAvatar,
                       scaledSize: new window.google.maps.Size(40, 40),
                       anchor: new window.google.maps.Point(20, 20),
                     }
-                  : undefined
+                  : {
+                      url: element?.recruiter.logo
+                        ? element.recruiter.logo
+                        : defaultAvatar,
+                      scaledSize: new window.google.maps.Size(40, 40),
+                      anchor: new window.google.maps.Point(20, 20),
+                    }
               }
             />
           ))}
@@ -116,7 +132,7 @@ const GoogleMaps: React.FC = () => {
             {currentUser.role === "recruiter" ? (
               <div className="text-sm">
                 <img
-                  src={(selectedElement as Applicant).picture}
+                  src={(selectedElement as Applicant).picture || defaultAvatar}
                   alt={(selectedElement as Applicant).name}
                   className="w-24 mb-2 rounded-full"
                 />
@@ -135,6 +151,14 @@ const GoogleMaps: React.FC = () => {
               </div>
             ) : (
               <div className="text-sm">
+                <img
+                  src={
+                    (selectedElement as Vacancy).recruiter?.logo ||
+                    defaultAvatar
+                  }
+                  alt={(selectedElement as Vacancy).title}
+                  className="w-24 mb-2 rounded-full"
+                />
                 <h2 className="font-semibold">
                   <Link
                     to={`/vacancy/${(selectedElement as Vacancy).id}`}

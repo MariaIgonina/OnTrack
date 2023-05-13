@@ -50,26 +50,35 @@ const ApplicantPage = () => {
 
   return (
     <>
-      <div className="mt-20 bg-stone-100 h-full m-0">
-        <div className=" flex flex-row">
-          <div className=" flex flex-col">
-            <div className=" flex flex-row">
-              <Avatar applicant={applicant} />
+      <div className=" bg-[#FFFEF5] h-full ">
+      
+      <div className=" flex flex-row ">
+        <div className=" flex flex-col flex-wrap items-stretch">
+          <div className=" flex flex-row flex-wrap items-stretch">
+            <Avatar 
+            applicant = {applicant}/>
+            
+            <PersonalInfo 
+            applicant = {applicant}/>
 
-              <PersonalInfo applicant={applicant} />
+              <div 
+              className=" flex flex-col items-stretch flex-wrap items-stretch"
+              >
+                <CurrentLocation 
+                applicant = {applicant}
+                />
+                <JobPreferences 
+                applicant = {applicant}/>
+              </div>      
 
-              <div className=" flex flex-col">
-                <CurrentLocation applicant={applicant} />
-                <JobPreferences applicant={applicant} />
-              </div>
-
-              <div className="flex flex-col">
-                <Languages applicant={applicant} />
-                <Hobbies applicant={applicant} />
-              </div>
-            </div>
-
-            <About applicant={applicant} />
+              <div 
+                className="flex flex-col flex-wrap items-stretch"
+                >
+                  <Hobbies 
+                  applicant = {applicant}/>
+                  <Languages 
+                  applicant = {applicant}/>
+                </div>
           </div>
           <Skills applicant={applicant} />
         </div>

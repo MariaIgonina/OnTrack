@@ -1,17 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import {
-  TextField,
-  Select,
-  InputLabel,
-  FormControl,
-  MenuItem,
+import { 
   Stepper,
   StepLabel,
   Step,
-  Button,
-  Avatar,
+  Button
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -265,9 +259,9 @@ const AddApplicantPage = () => {
   };
 
   const handleLanguage = () => {
-    if (collLanguage !== "" && level !== "") {
-      const newLangCouple = `${collLanguage} - ${level}`;
-      setCollLanguages((prevLanguages) => [...prevLanguages, newLangCouple]);
+    if (collLanguage !== '' && level !== '') {
+      const newLangCouple = `${collLanguage} - ${level}`
+      setCollLanguages(prevLanguages => [...prevLanguages, newLangCouple]);
       setLevel("");
       setCollLanguage("");
     }

@@ -1,12 +1,11 @@
 import express, { Express } from "express";
-import dotenv from "dotenv";
-import mainRouter from "./router/index";
 import bodyParser from "body-parser";
 import { PrismaClient } from "@prisma/client";
 import cors from "cors";
-import { populateDatabase } from "./controllersMain/populateController";
-
+import dotenv from "dotenv";
 dotenv.config();
+import mainRouter from "./router/index";
+import { populateDatabase } from "./controllersMain/populateController";
 
 const app: Express = express();
 const PORT = process.env.PORT || 3000;
@@ -21,7 +20,13 @@ app.use(mainRouter);
     await prisma.$connect();
     app.listen(PORT, () => {
       console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
-      // populateDatabase();
+      //     populateDatabase()
+      // .then((message) => {
+      //   console.log(message);
+      // })
+      // .catch((error) => {
+      //   console.error("Failed to populate the database:", error);
+      // });
     });
   } catch (error) {
     console.log("Error in connecting to database :", error);
