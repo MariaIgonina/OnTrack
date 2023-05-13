@@ -8,13 +8,13 @@ module.exports = {
         "green-100": "#568EA3",
         "yellow-100": "#FCE762",
         "orange-100": "#FFB17A",
-        "orangedark-100": '#FFA96A',
-        "darkgreen-100": '#256D85'
+        "orangedark-100": "#FFA96A",
+        "darkgreen-100": "#256D85",
       },
 
       // colors: {
-      //   blue: "#568EA3",
-      //   background: "FFFDED",
+      //
+      //
       //  lightblue: "68c3d4",
       //   yellow: "FCE762",
       //   orange: "FFB17A",

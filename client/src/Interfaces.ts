@@ -8,7 +8,7 @@ export interface Applicant {
   age?: string;
   phone?: string;
   location?: string;
-  track?: Track[];
+  Track?: Track[];
   currentLocation?: string[];
   readyToMove?: boolean;
   workingHours?: string;
@@ -42,7 +42,7 @@ export interface Recruiter {
   about?: string;
   externalLinks?: string[];
   headOffice?: string;
-  track?: Track[];
+  Track?: Track[];
 }
 
 export interface Vacancy {
