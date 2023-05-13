@@ -77,6 +77,8 @@ const ApplicantPage = () => {
                   applicant = {applicant}/>
                 </div>
           </div>
+          <About
+          applicant = {applicant}/>
           <Skills applicant={applicant} />
         </div>
 
@@ -87,7 +89,9 @@ const ApplicantPage = () => {
           <Video applicant={applicant} />
         </div>
       </div>
+    </div>
     </>
+    
   );
 };
 
