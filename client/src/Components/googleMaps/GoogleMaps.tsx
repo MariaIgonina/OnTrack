@@ -9,6 +9,9 @@ import { fetchAllApplicants } from "../../store/applicantSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Applicant } from "../../Interfaces";
 import { AppDispatch, RootState } from "../../store/store";
+import { fetchAllVacancies } from "../../store/vacancySlice";
+import { Vacancy } from "../../Interfaces";
+import { Link } from "react-router-dom";
 
 const containerStyle = {
   width: "100%",
@@ -28,9 +31,9 @@ interface ICenter {
 }
 
 const GoogleMaps: React.FC = () => {
-  const [selectedApplicant, setSelectedApplicant] = useState<Applicant | null>(
-    null
-  );
+  const [selectedElement, setSelectedElement] = useState<
+    Applicant | Vacancy | null
+  >(null);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -39,12 +42,24 @@ const GoogleMaps: React.FC = () => {
   const applicants = useSelector(
     (s: RootState) => s.applicant.applicant
   ) as unknown as Applicant[]; //THIS IS BAD TYPESCRIPT REFACTOR THIS ROSIE
+  const vacancies = useSelector(
+    (state: RootState) => state.vacancy.vacancies
+  ) as unknown as Vacancy[];
+
   const dispatch = useDispatch<AppDispatch>();
-  console.log("googlemapsapplicats", applicants);
+  const currentUser = useSelector((s: RootState) => s.currentUser);
 
   useEffect(() => {
-    dispatch(fetchAllApplicants());
+    console.log("IDDDDD from recruiterProfile page!!!", currentUser.role);
+    if (currentUser.role === "recruiter") {
+      dispatch(fetchAllApplicants());
+    }
+    if (currentUser.role === "applicant") {
+      dispatch(fetchAllVacancies());
+    }
   }, [dispatch]);
+
+  const mapper = currentUser.role === "recruiter" ? applicants : vacancies;
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
@@ -70,43 +85,69 @@ const GoogleMaps: React.FC = () => {
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
-        {applicants.length > 0 &&
-          applicants.map((applicant) => (
+        {mapper.length > 0 &&
+          mapper.map((element) => (
             <Marker
-              key={applicant.idAuth}
+              key={element.idAuth || element.id}
               position={{
-                lat: Number(applicant.currentLocation[0]),
-                lng: Number(applicant.currentLocation[1]),
+                lat: Number(element.currentLocation[0]),
+                lng: Number(element.currentLocation[1]),
               }}
-              onClick={() => setSelectedApplicant(applicant)}
-              icon={{
-                url: applicant.picture,
-                scaledSize: new window.google.maps.Size(40, 40),
-                anchor: new window.google.maps.Point(20, 20),
-              }}
+              onClick={() => setSelectedElement(element)}
+              icon={
+                currentUser.role === "recruiter"
+                  ? {
+                      url: element?.picture,
+                      scaledSize: new window.google.maps.Size(40, 40),
+                      anchor: new window.google.maps.Point(20, 20),
+                    }
+                  : undefined
+              }
             />
           ))}
-        {selectedApplicant && (
+        {selectedElement && (
           <InfoWindow
             position={{
-              lat: Number(selectedApplicant.currentLocation[0]),
-              lng: Number(selectedApplicant.currentLocation[1]),
+              lat: Number(selectedElement.currentLocation[0]),
+              lng: Number(selectedElement.currentLocation[1]),
             }}
-            onCloseClick={() => setSelectedApplicant(null)}
+            onCloseClick={() => setSelectedElement(null)}
           >
-            <div className="text-sm">
-              <img
-                src={selectedApplicant.picture}
-                alt={selectedApplicant.name}
-                className="w-24 mb-2 rounded-full"
-              />
-              <h2 className="font-semibold">
-                {selectedApplicant.name} {selectedApplicant.familyName}
-              </h2>
-              <p>Stack: {selectedApplicant.stack}</p>
-              <p>Skills: {selectedApplicant.skillsProf}</p>
-              <p>Email: {selectedApplicant.email}</p>
-            </div>
+            {currentUser.role === "recruiter" ? (
+              <div className="text-sm">
+                <img
+                  src={(selectedElement as Applicant).picture}
+                  alt={(selectedElement as Applicant).name}
+                  className="w-24 mb-2 rounded-full"
+                />
+                <h2 className="font-semibold">
+                  <Link
+                    to={`/applicant/${(selectedElement as Applicant).id}`}
+                    className="text-blue-500 hover:text-blue-700"
+                  >
+                    {(selectedElement as Applicant).name}{" "}
+                    {(selectedElement as Applicant).familyName}
+                  </Link>
+                </h2>
+                <p>Stack: {(selectedElement as Applicant).stack}</p>
+                <p>Skills: {(selectedElement as Applicant).skillsProf}</p>
+                <p>Email: {(selectedElement as Applicant).email}</p>
+              </div>
+            ) : (
+              <div className="text-sm">
+                <h2 className="font-semibold">
+                  <Link
+                    to={`/vacancy/${(selectedElement as Vacancy).id}`}
+                    className="text-blue-500 hover:text-blue-700"
+                  >
+                    {(selectedElement as Vacancy).title}
+                  </Link>
+                </h2>
+                <p>Stack: {(selectedElement as Vacancy).stack}</p>
+                <p>About: {(selectedElement as Vacancy).about}</p>
+                <p>Salary Range: {(selectedElement as Vacancy).salaryRange}</p>
+              </div>
+            )}
           </InfoWindow>
         )}
       </GoogleMap>
