@@ -34,7 +34,7 @@ export default function TrackerComponent() {
           Monitor the progress of your applicants in one place
         </h2>
         <div className="overflow-x-scroll flex flex-nowrap">
-          {tracksbyRecruiter.length &&
+          {tracksbyRecruiter.length ? (
             tracksbyRecruiter.map((x) => (
               <div
                 className="flex-shrink-0 flex-col flex rounded-2xl shadow-md bg-white p-3 m-5 "
@@ -52,7 +52,14 @@ export default function TrackerComponent() {
                   <h1>NAME's track for VACANCY {x.id}</h1>
                 </button>
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="max-w-10xl pl-8 pb-6">
+              <p className="mt-2 text-lg text-[#026767] leading-8 text-gray-600 ">
+                There are no applicants for your vacancies yet...
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </>
