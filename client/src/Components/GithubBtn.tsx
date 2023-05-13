@@ -19,7 +19,7 @@ export default function GithubBtn({ text }: GithubBtnProps) {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const currentUser = localStorage.getItem("currentUser");
+  const currentUserinStore = localStorage.getItem("currentUser");
 
   const newApplicant = useSelector(
     (state: RootState) => state.applicant.applicant
@@ -77,18 +77,31 @@ export default function GithubBtn({ text }: GithubBtnProps) {
   }
 
   async function AuthenticateUserfromGH() {
+    console.log("REGISTER");
     try {
       const tokenData = await fetchTokenData(codeParam!);
       const userInfo = await fetchUserData(tokenData.access_token);
-      if (currentUser === "applicant") {
+      if (currentUserinStore === "applicant") {
         localStorage.setItem("login", "applicant");
         const newUser: Applicant = extractApplicantData(userInfo);
         dispatch(createApplicant(newUser));
+        dispatch(
+          setCurrentUser({
+            id: newUser.idAuth,
+            role: "applicant",
+          })
+        );
       } else {
         localStorage.setItem("login", "recruiter");
         const newRecruiter: Recruiter = extractRecruiterData(userInfo);
         dispatch(createRecruiter(newRecruiter));
         console.log(newRecruiter);
+        dispatch(
+          setCurrentUser({
+            id: newRecruiter.id,
+            role: "applicant",
+          })
+        );
       }
       if (tokenData.access_token) {
         localStorage.setItem("accessToken", tokenData.access_token);
@@ -108,13 +121,14 @@ export default function GithubBtn({ text }: GithubBtnProps) {
 
   const redirectUser = () => {
     if (
-      currentUser === "applicant" ||
+      currentUserinStore === "applicant" ||
       localStorage.getItem("login") === "applicant"
     ) {
       const id = newApplicant.idDB;
+      console.log("IDDDDD => ", id);
       if (id) navigate(`/applicant/${id}`);
     } else if (
-      currentUser === "recruiter" ||
+      currentUserinStore === "recruiter" ||
       localStorage.getItem("login") === "recruiter"
     ) {
       const id = newRecruiter.id;

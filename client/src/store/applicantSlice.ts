@@ -159,13 +159,6 @@ const updateApplicant = createAsyncThunk(
   "applicant/updateApplicant",
   async function ({ applicantId, applicant }: IPutParams, { rejectWithValue }) {
     try {
-      const coordinates = await fetchCityCoordinates(applicant.location);
-      if (coordinates) {
-        applicant.currentLocation = [
-          coordinates.lat.toString(),
-          coordinates.lng.toString(),
-        ];
-      }
       const response = await fetch(url + `/updateApplicant/${applicantId}`, {
         method: "PUT",
         headers: {
@@ -309,25 +302,3 @@ export {
 export const selectapplicant = (state: RootState) => state.applicant;
 
 export default applicantSlice.reducer;
-
-const fetchCityCoordinates = async (
-  cityName: string
-): Promise<google.maps.LatLngLiteral | null> => {
-  try {
-    const response = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-        cityName
-      )}&key=AIzaSyDaIfGIGsLwAdkkp3mxtP_9AF7_YXIybBs`
-    );
-    const data = await response.json();
-
-    if (data.status === "OK") {
-      const coordinates = data.results[0].geometry.location;
-      return { lat: coordinates.lat, lng: coordinates.lng };
-    }
-  } catch (error) {
-    console.error("Error fetching city coordinates:", error);
-  }
-
-  return null;
-};

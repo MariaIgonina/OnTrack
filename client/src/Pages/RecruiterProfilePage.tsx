@@ -16,10 +16,16 @@ const RecruiterProfilePage = () => {
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
   const codeParam = window.location.pathname.split("/").reverse()[0];
-  console.log("recruiter", recruiter);
+
+  const currentUserID = useSelector((s: RootState) => s.currentUser.id);
+
+  useEffect(() => {
+    console.log("IDDDDD from recruiterProfile page!!!", currentUserID);
+  }, []);
+
   useEffect(() => {
     dispatch(setRecruiter(recruiter));
-    dispatch(fetchRecruiter(1)); //+codeParam!
+    dispatch(fetchRecruiter(+currentUserID));
   }, [dispatch]);
 
   const openModal = () => {

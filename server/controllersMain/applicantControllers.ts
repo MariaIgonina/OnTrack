@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Applicant, PrismaClient } from "@prisma/client";
 
 import dotenv from "dotenv";
+import { fetchCityCoordinates } from "./coordinatesController";
 dotenv.config();
 
 const prisma = new PrismaClient();
@@ -52,6 +53,39 @@ const getApplicantById = async (req: Request, res: Response) => {
   }
 };
 
+const getTypeofUser = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    console.log("seraching for one user with id =", id);
+    const foundApplicant = await prisma.applicant.findUnique({
+      where: {
+        idAuth: id,
+      },
+      include: {
+        education: true,
+        track: true,
+        experiences: true,
+      },
+    });
+    const foundRecruiter = await prisma.recruiter.findUnique({
+      where: {
+        idAuth: id,
+      },
+    });
+    // if (!foundApplicant) throw new Error("Applicant not found!");
+    if (foundApplicant) {
+      console.log("found applicatnt : ", foundApplicant);
+      res.status(200).json(foundApplicant);
+    } else {
+      console.log("found recuraihriehdfia : ", foundRecruiter);
+      res.status(200).json(foundRecruiter);
+    }
+  } catch (error: any) {
+    console.log("error in applicantController, ", error);
+    res.status(400).json(error);
+  }
+};
+
 const updateApplicant = async (req: Request, res: Response) => {
   let {
     email,
@@ -68,7 +102,6 @@ const updateApplicant = async (req: Request, res: Response) => {
     video,
     salaryRange,
     desiredWorkingModal,
-    currentLocation,
     socialMedia,
     skillsProf,
     stack,
@@ -79,9 +112,9 @@ const updateApplicant = async (req: Request, res: Response) => {
     notDesiredLocation,
   } = req.body;
 
+  const coordinates = await fetchCityCoordinates(location);
   const id = +req.params.id;
 
-  if (!currentLocation) currentLocation = [];
   if (!socialMedia) socialMedia = [];
   if (!skillsProf) skillsProf = [];
   if (!stack) stack = [];
@@ -106,7 +139,6 @@ const updateApplicant = async (req: Request, res: Response) => {
     video,
     salaryRange,
     desiredWorkingModal,
-    currentLocation,
     socialMedia,
     skillsProf,
     stack,
@@ -115,6 +147,10 @@ const updateApplicant = async (req: Request, res: Response) => {
     hobbies,
     desiredLocation,
     notDesiredLocation,
+    currentLocation: [
+      coordinates?.lat?.toString() ?? "",
+      coordinates?.lng?.toString() ?? "",
+    ],
   } as Applicant;
 
   try {
@@ -258,4 +294,5 @@ export const applicantControllers = {
   deleteApplicant,
   getAllApplicants,
   filterApplicants,
+  getTypeofUser,
 };

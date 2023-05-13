@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TrackSideBar from "../Components/tracks/TrackSidebar";
-import StepTemplate from "../Components/StepTemplate";
+import StepTemplate from "../Components/steps/StepTemplate";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from '../store/store'
 import { fetchTrack, setTrack, updateTrack } from "../store/trackSlice";
 import { fetchVacancy } from "../store/vacancySlice";
 import { fetchRecruiter } from "../store/recruiterSlice";
 import { fetchApplicant } from "../store/applicantSlice";
+import Landing from "../Components/codeSandbox/Landing";
 
 
 const TrackPage = () => {
@@ -95,7 +96,9 @@ const TrackPage = () => {
 
         <div id="steps-container"
           className="flex flex-col items-center">
-          <StepTemplate step='Apply' />
+          <StepTemplate title='Apply' />
+          <StepTemplate title='Intro Interiew' link="zoom.meetings/room=as2u48/sdfbjy2" />
+          <Landing />
         </div>
       </div >
     </div>

@@ -3,23 +3,24 @@ import { useState, useEffect } from "react";
 import { Applicant } from "../../Interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { fetchEducationByApplicant, setEducation } from "../../store/educationSlice";
+import {
+  fetchEducationByApplicant,
+  setEducation,
+} from "../../store/educationSlice";
 import { Education } from "../../Interfaces";
-import moment from 'moment'
+import moment from "moment";
 import SchoolIcon from '@mui/icons-material/School';
 
 const EducationComp = ({applicant}:{applicant: Applicant}) => {
 
   const educations = useSelector(
     (s: RootState) => s.education.education
-  ) as unknown as Education[]; 
+  ) as unknown as Education[];
   const dispatch = useDispatch<AppDispatch>();
-
-
 
   useEffect(() => {
     dispatch(fetchEducationByApplicant(54));
-}, []);
+  }, []);
 
   return (
     <>
