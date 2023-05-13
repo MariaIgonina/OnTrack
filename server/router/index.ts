@@ -7,7 +7,7 @@ import experienceRouter from "./experienceRouter";
 import messageRouter from "./messageRouter";
 import questionnaryRouter from "./questionaryRouter";
 import recruiterRouter from "./recruiterRouter";
-import stepRouter from "./stepRouter";
+// import stepRouter from "./stepRouter";
 import trackRouter from "./trackRouter";
 import vacancyRouter from "./vacancyRouter";
 
@@ -25,7 +25,7 @@ mainRouter.use("",experienceRouter)
 mainRouter.use("",messageRouter)
 mainRouter.use("",questionnaryRouter)
 mainRouter.use("",recruiterRouter)
-mainRouter.use("",stepRouter)
+// mainRouter.use("",stepRouter)
 mainRouter.use("",trackRouter)
 mainRouter.use("",vacancyRouter)
 

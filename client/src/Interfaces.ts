@@ -74,7 +74,7 @@ export interface Track {
   recruiterNotes: string;
   vacancyId: number;
   vacancy: Vacancy;
-  message: Message[];
+  Message: Message[];
 }
 
 export interface Step {
