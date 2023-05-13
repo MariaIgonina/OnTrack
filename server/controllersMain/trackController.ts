@@ -45,7 +45,9 @@ const getTracksByVacancy = async (req: Request, res: Response) => {
         vacancyId: +vacancyId,
       },
       include: {
-        steps: true,
+        CodeSandbox: true,
+        Videocall: true,
+        Questionaries: true,
         Message: true,
       },
     });
@@ -63,7 +65,9 @@ const getTracksByRecruiter = async (req: Request, res: Response) => {
         recruiterID: +recruiterID,
       },
       include: {
-        steps: true,
+        CodeSandbox: true,
+        Videocall: true,
+        Questionaries: true,
         Message: true,
       },
     });
@@ -82,7 +86,9 @@ const getTracksByApplicant = async (req: Request, res: Response) => {
         applicantID: +applicantID,
       },
       include: {
-        steps: true,
+        CodeSandbox: true,
+        Videocall: true,
+        Questionaries: true,
         Message: true,
       },
     });
@@ -99,7 +105,9 @@ const getTrackById = async (req: Request, res: Response) => {
         id: +trackId,
       },
       include: {
-        steps: true,
+        CodeSandbox: true,
+        Videocall: true,
+        Questionaries: true,
         Message: true,
       },
     });
@@ -117,7 +125,9 @@ async function deletetrack(req: Request, res: Response) {
         id: parseInt(id),
       },
       include: {
-        steps: true,
+        CodeSandbox: true,
+        Videocall: true,
+        Questionaries: true,
         Message: true,
       },
     });

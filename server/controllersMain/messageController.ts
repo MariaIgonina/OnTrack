@@ -17,7 +17,7 @@ const createMessage = async (req: Request, res: Response) => {
     }
     const message = await prisma.message.create({
       data: {
-        track: { connect: { id: trackId } },
+        Track: { connect: { id: trackId } },
         text,
         date,
         files: { set: files },
