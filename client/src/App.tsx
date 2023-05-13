@@ -14,6 +14,7 @@ import VacancyList from "./Components/Vacancy/VacancyList";
 import LogedWithGoogle from "./Components/LogedWithGoogle";
 import SignInWithGoogle from "./Components/SignInWithGoogle";
 import RecruiterProfilePage from "./Pages/RecruiterProfilePage";
+import VacancyCreate from "./Components/Vacancy/VacancyCreate";
 import UserLogin from "./Pages/UserLogin";
 import "./index.css";
 import { useSelector } from "react-redux";
