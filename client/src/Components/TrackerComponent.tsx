@@ -39,6 +39,7 @@ export default function TrackerComponent() {
               <div
                 className="flex-shrink-0 flex-col flex rounded-2xl shadow-md bg-white p-3 m-5 "
                 style={{ minWidth: "300px", height: "300px", width: "400px" }}
+                key={x.id}
               >
                 <button
                   type="submit"

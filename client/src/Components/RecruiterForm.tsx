@@ -19,7 +19,14 @@ import { uploadImage, loadImages } from "../api.cloudinary";
 import { preview } from "vite";
 import { useDescriptions } from "@headlessui/react/dist/components/description/description";
 
-const RecruiterForm = () => {
+type VacancyCreateProps = {
+  onCancel?: () => void;
+};
+
+const RecruiterForm: React.FC<VacancyCreateProps> = ({
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onCancel = () => {},
+}) => {
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
   const [imageIds, setImageIds] = useState<ICloudImage[]>([]);
@@ -86,7 +93,11 @@ const RecruiterForm = () => {
       return;
     }
 
-    let updatedFormData = { ...formData, logo: undefined, externalLinks:externalLinks! };
+    let updatedFormData = {
+      ...formData,
+      logo: undefined,
+      externalLinks: externalLinks!,
+    };
 
     if (previewSource) {
       const base64EncodedImage =
@@ -95,7 +106,7 @@ const RecruiterForm = () => {
           : previewSource;
       const returnedLogo = await uploadImage(base64EncodedImage);
       console.log(returnedLogo);
-      updatedFormData = { ...updatedFormData, logo: returnedLogo.secure_url};
+      updatedFormData = { ...updatedFormData, logo: returnedLogo.secure_url };
       setFormData(updatedFormData);
     }
 
@@ -106,11 +117,14 @@ const RecruiterForm = () => {
 
     console.log("objet envoyé", dbArg);
     dispatch(updateRecruiter(dbArg));
+    onCancel();
   };
 
   //ExternalLinks media collecting
   const [externalLink, setExternalLink] = useState<string>("");
-  const [externalLinks, setExternalLinks] = useState<(string | undefined)[]>([]);
+  const [externalLinks, setExternalLinks] = useState<(string | undefined)[]>(
+    []
+  );
 
   const handleExtLinkChange = (event: any) => {
     setExternalLink(event.target.value);
@@ -158,7 +172,7 @@ const RecruiterForm = () => {
               <div className="flex justify-center">
                 <div className="flex">
                   <h1 className="text-gray-600 font-bold md:text-2xl text-xl">
-                  Recruiter account
+                    Recruiter account
                   </h1>
                 </div>
               </div>
@@ -334,7 +348,10 @@ const RecruiterForm = () => {
               </div>
 
               <div className="flex items-center justify-center  md:gap-8 gap-4 pt-5 pb-5">
-                <button className="w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2">
+                <button
+                  onClick={onCancel}
+                  className="w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2"
+                >
                   Cancel
                 </button>
                 <button

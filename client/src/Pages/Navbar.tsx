@@ -11,8 +11,39 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { useEffect, useState } from "react";
+import { createSelector } from "reselect";
 
 function NavBar() {
+  const currentUser = useSelector((state: RootState) => state.currentUser);
+
+  useEffect(() => {
+    console.log("this is the state variable for current user", currentUser);
+    getProfileLink(currentUser);
+  }, [currentUser]);
+
+  const [profileLink, setProfileLink] = useState(null);
+
+  useEffect(() => {
+    if (currentUser) {
+      setProfileLink(getProfileLink(currentUser));
+    }
+  }, [currentUser]);
+
+  const getProfileLink = (currentUser) => {
+    if (currentUser.role === "recruiter") {
+      return `/recruiter/${currentUser.id}`;
+    } else if (currentUser.role === "applicant") {
+      return `/applicant/${currentUser.id}`;
+    } else {
+      return null;
+    }
+  };
+
+  // const anything = getProfileLink()
+
   return (
     <>
       <AppBar
@@ -41,9 +72,8 @@ function NavBar() {
                 </ListItemButton>
               </Link>
             </ListItem>
-
             <ListItem key={"Your Profile"} disablePadding>
-              <Link to="/recruiterProfile" className="link">
+              <Link to={profileLink} className="link">
                 <ListItemButton>
                   <ListItemIcon>
                     <HomeIcon />
@@ -52,6 +82,7 @@ function NavBar() {
                 </ListItemButton>
               </Link>
             </ListItem>
+
             <Divider />
             <ListItem key={"Settings"} disablePadding>
               <Link to="/settings" className="link">
