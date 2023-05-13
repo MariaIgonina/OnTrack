@@ -7,10 +7,8 @@ import {
 } from "../store/applicantSlice";
 import UserCard from "./UserCard";
 import { Applicant } from "../Interfaces";
-import { useNavigate } from "react-router-dom";
 
 export default function Suggestion() {
-  const navigate = useNavigate();
   //THIS WILL BE THE FILTERED RESULT FROM BackEnd!
   const applicants = useSelector(
     (s: RootState) => s.applicant.applicant
@@ -19,8 +17,8 @@ export default function Suggestion() {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchFilteredApplicants("?location=Barcelona"));
-    // dispatch(fetchAllApplicants);
+    //dispatch(fetchFilteredApplicants("?location=Barcelona"));
+    dispatch(fetchAllApplicants);
   }, []);
 
   return (
@@ -38,16 +36,10 @@ export default function Suggestion() {
           <div className="overflow-x-scroll flex flex-nowrap  my-8 ">
             {applicants.length &&
               applicants.map((applicant) => (
-                <button
-                  type="submit"
-                  onClick={() => navigate(`/applicant/${applicant.idDB}`)}
+                <UserCard
+                  applicant={applicant}
                   key={applicant.idAuth}
-                >
-                  <UserCard
-                    applicant={applicant}
-                    key={applicant.idAuth}
-                  ></UserCard>
-                </button>
+                ></UserCard>
               ))}
           </div>
         </div>
