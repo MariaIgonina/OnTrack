@@ -13,8 +13,11 @@ import { experienceController } from "./controllersMain/experienceController";
 import { populateDatabase } from "./controllersMain/populateController";
 import { cloudinaryControllers } from "./controllersMain/cloudinaryController";
 import { googleApiAuth } from "./controllersAuth/googleAuth";
+import { codeSandbox } from "./controllersMain/codeSandboxController";
 
 const router = Router();
+
+router.post('/compile', codeSandbox.sendCompile);
 
 router.get("/", (req: Request, res: Response) => {
   res.send("Hello, World! This is the main route");

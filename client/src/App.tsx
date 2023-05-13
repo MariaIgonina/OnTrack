@@ -19,6 +19,7 @@ import UserLogin from "./Pages/UserLogin";
 import "./index.css";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
+import CodeSandbox from "./Pages/CodeSandbox";
 
 function App() {
   return (
@@ -40,6 +41,8 @@ function App() {
         <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
         <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
         <Route path="/recruiter/:id" element={<RecruiterProfilePage />} />
+        <Route path="/login/:id" element={<UserLogin />} />
+        <Route path="/codeSandbox" element={<CodeSandbox />} />
       </Routes>
     </BrowserRouter>
   );

@@ -40,6 +40,7 @@ model Applicant {
   notDesiredLocation  String[]
   desiredWorkingModal String?
 }
+
 model Experience {
   id          Int       @id @default(autoincrement())
   jobTitle    String
@@ -50,6 +51,7 @@ model Experience {
   applicant   Applicant @relation(fields: [applicantId], references: [idDB])
   applicantId Int
 }
+
 model Education {
   id            Int        @id @default(autoincrement())
   place         String
@@ -60,6 +62,7 @@ model Education {
   Applicant     Applicant? @relation(fields: [applicantIdDB], references: [idDB])
   applicantIdDB Int?
 }
+
 model Recruiter {
   id            Int       @id @default(autoincrement())
   email         String
@@ -75,6 +78,7 @@ model Recruiter {
   headOffice    String?
   Track         Track[]
 }
+
 model Vacancy {
   id                Int       @id @default(autoincrement())
   recruiter         Recruiter @relation(fields: [recruiterId], references: [id])
@@ -90,48 +94,75 @@ model Vacancy {
   experience        Int?
   location          String
   salaryRange       Int?
+  currentLocation   String[]
 }
+
 model Track {
-  id             Int        @id @default(autoincrement())
-  steps          Step[]
+  id             Int           @id @default(autoincrement())
   recruiterID    Int
-  Recruiter      Recruiter  @relation(fields: [recruiterID], references: [id])
+  Recruiter      Recruiter     @relation(fields: [recruiterID], references: [id])
   applicantID    Int?
-  Applicant      Applicant? @relation(fields: [applicantID], references: [idDB])
-  reject         Boolean    @default(false)
+  Applicant      Applicant?    @relation(fields: [applicantID], references: [idDB])
+  reject         Boolean       @default(false)
   applicantNotes String?
   recruiterNotes String?
   vacancyId      Int
-  Vacancy        Vacancy    @relation(fields: [vacancyId], references: [id])
+  Vacancy        Vacancy       @relation(fields: [vacancyId], references: [id])
+  Questionaries  Questionary[]
+  Videocall      Videocall[]
+  CodeSandbox    CodeSandbox[]
   Message        Message[]
 }
-model Step {
-  id            Int           @id @default(autoincrement())
-  title         String
-  type          String //zoom call, sandbox etc..
-  about         String
-  durationInMs  Int?
-  scheduleDate  DateTime?
-  order         Int           @unique
-  hidden        Boolean       @default(false)
-  active        Boolean       @default(true)
-  questionaries Questionary[]
-  Track         Track?        @relation(fields: [trackId], references: [id])
-  trackId       Int
-}
+
 model Questionary {
   id        Int      @id @default(autoincrement())
+  type      String   @default("Questionary")
   questions String[]
   answer    String[]
   date      DateTime
-  Step      Step?    @relation(fields: [stepId], references: [id])
-  stepId    Int?
+  hiden     Boolean
+  Track     Track?   @relation(fields: [trackid], references: [id])
+  trackid   Int?
 }
+
+model Videocall {
+  id      Int      @id @default(autoincrement())
+  type    String   @default("Sandbox")
+  date    DateTime
+  hiden   Boolean
+  Track   Track    @relation(fields: [trackid], references: [id])
+  trackid Int
+}
+
+model CodeSandbox {
+  id      Int      @id @default(autoincrement())
+  type    String   @default("Sandbox")
+  date    DateTime
+  hiden   Boolean
+  Track   Track    @relation(fields: [trackid], references: [id])
+  trackid Int
+}
+
 model Message {
   id      Int      @id @default(autoincrement())
-  trackId Int
-  track   Track    @relation(fields: [trackId], references: [id])
+  type    String   @default("Message")
   text    String
   date    DateTime
   files   String[]
+  track   Track    @relation(fields: [trackId], references: [id])
+  trackId Int
 }
+
+// model Step {
+//   id            Int           @id @default(autoincrement())
+//   title         String
+//   type          String //zoom call, sandbox etc..
+//   about         String
+//   durationInMs  Int?
+//   scheduleDate  DateTime?
+//   order         Int           @unique
+//   hidden        Boolean       @default(false)
+//   active        Boolean       @default(true)
+//   Track         Track?        @relation(fields: [trackId], references: [id])
+//   trackId       Int
+// }
