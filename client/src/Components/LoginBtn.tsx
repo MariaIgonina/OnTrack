@@ -68,7 +68,9 @@ export default function LoginBtn({ text }: LoginBtnProps) {
               role: "applicant",
             })
           );
-          navigate(`/applicant/${applicantCreated.payload.idDB}`);
+          //navigate(`/applicant/${applicantCreated.payload.idDB}`);
+          navigate(`/login`);
+          ///${applicantCreated.payload.idDB}`);
         } else {
           const recruiterCreated = await dispatch(
             createRecruiter(extractRecruiterData(userInfo))
@@ -80,7 +82,9 @@ export default function LoginBtn({ text }: LoginBtnProps) {
               role: "recruiter",
             })
           );
-          navigate(`/recruiter/${recruiterCreated.payload.id}`);
+          // navigate(`/recruiter/${recruiterCreated.payload.id}`);
+          navigate(`/login`);
+          ///${recruiterCreated.payload.id}`);
         }
       }
 
@@ -88,12 +92,16 @@ export default function LoginBtn({ text }: LoginBtnProps) {
         dispatch(
           setCurrentUser({ id: returnedRole.payload.id, role: "recruiter" })
         );
-        navigate(`/recruiter/${returnedRole.payload.id}`);
+        // navigate(`/recruiter/${returnedRole.payload.id}`);
+        navigate(`/login`);
+        ///${returnedRole.payload.id}`);
       } else if (returnedRole.payload && returnedRole.payload.idDB) {
         dispatch(
           setCurrentUser({ id: returnedRole.payload.idDB, role: "applicant" })
         );
-        navigate(`/applicant/${returnedRole.payload.idDB}`);
+        // navigate(`/applicant/${returnedRole.payload.idDB}`);
+        navigate(`/login`);
+        ///${returnedRole.payload.idDB}`);
       }
 
       if (tokenData.access_token) {
