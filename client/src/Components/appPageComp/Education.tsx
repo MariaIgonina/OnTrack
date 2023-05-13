@@ -7,7 +7,7 @@ import {
   fetchEducationByApplicant,
   setEducation,
 } from "../../store/educationSlice";
-import { Education } from "../../Interfaces";
+import { Applicant, Education } from "../../Interfaces";
 import moment from "moment";
 
 const EducationComp = ({ applicant }) => {
@@ -17,7 +17,7 @@ const EducationComp = ({ applicant }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchEducationByApplicant(54));
+    dispatch(fetchEducationByApplicant(applicant.idDB));
   }, []);
 
   return (
