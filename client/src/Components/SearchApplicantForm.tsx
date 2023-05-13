@@ -85,7 +85,7 @@ export default function SearchApplicantForm() {
           <div className="">
             <div className="p-2 flex items-center justify-center">
               <h1 className="text-3xl font-bold tracking-tight text-[#026767] text-big  ">
-                Search a profil
+                Search a profile
               </h1>
             </div>
           </div>
