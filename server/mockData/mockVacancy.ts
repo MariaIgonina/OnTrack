@@ -45,3 +45,20 @@ export const vacancy3 = {
     salaryRange: 60000,
   },
 };
+
+export const vacancy4 = {
+  recruiterId: 1,
+  data: {
+    about:
+      "A nice job somewherer over the rainbow. Ñasdi alsd ninj dg, adfk fdj kdat. Baw, joaid faoer gdj f? Tlad aoiernj df aog fdna.",
+    title: "Software Developer",
+    workingHours: "part-time",
+    workingModal: "hybrid",
+    skills: ["skill1", "skill2"],
+    stack: ["stack1", "stack2"],
+    requiredLanguages: ["lang1", "lang2"],
+    experience: 2,
+    location: "Paris",
+    salaryRange: 50000,
+  },
+};

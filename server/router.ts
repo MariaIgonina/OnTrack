@@ -5,7 +5,6 @@ import { messageController } from "./controllersMain/messageController";
 // import { actionController } from "./controllersMain/actionController";
 import { recruiterController } from "./controllersMain/recruiterController";
 import { trackControllers } from "./controllersMain/trackController";
-import { stepController } from "./controllersMain/stepController";
 import { questionnaryController } from "./controllersMain/questionnaryController";
 import { getAccessToken, getUserData } from "./controllersAuth/authController";
 import { educationController } from "./controllersMain/educationController";
@@ -17,7 +16,7 @@ import { codeSandbox } from "./controllersMain/codeSandboxController";
 
 const router = Router();
 
-router.post('/compile', codeSandbox.sendCompile);
+router.post("/compile", codeSandbox.sendCompile);
 
 router.get("/", (req: Request, res: Response) => {
   res.send("Hello, World! This is the main route");
@@ -28,12 +27,6 @@ router.get("/recruiter/:id", recruiterController.getRecruiterbyId);
 router.post("/createRecruiter", recruiterController.createRecruiter);
 router.put("/updateRecruiter/:id", recruiterController.updateRecruiterbyId);
 router.delete("/deleteRecruiter/:id", recruiterController.deleteRecruiterbyId);
-
-// Routes for Step controller
-router.post("/createStep", stepController.createStep);
-router.get("/getStep/:id", stepController.getStepsbyTrack);
-router.put("/updateStep/:id", stepController.updateStepbyId);
-router.delete("/deleteStep/:id", stepController.deleteStep);
 
 //Routes for Questionnary controller
 router.post("/createQuestionary", questionnaryController.createQuestionnary);

@@ -1,5 +1,5 @@
 export const Questionnary1 = {
-  stepId: 1,
+  trackId: 1,
   data: {
     questions: [
       "Have you ever worked with express backend?",
@@ -7,11 +7,12 @@ export const Questionnary1 = {
     ],
     answer: [],
     date: "2023-05-18T15:00:00.000Z",
+    hidden: false,
   },
 };
 
 export const Questionnary2 = {
-  stepId: 1,
+  trackId: 1,
   data: {
     questions: [
       "Have you ever worked with react?",
@@ -19,14 +20,16 @@ export const Questionnary2 = {
     ],
     answer: [],
     date: "2023-05-17T09:00:00.000Z",
+    hidden: false,
   },
 };
 
 export const Questionnary3 = {
-  stepId: 1,
+  trackId: 1,
   data: {
     questions: ["How re you?", "Do you like pizza with pinapple?"],
     answer: [],
     date: "2023-05-19T16:00:00.000Z",
+    hidden: false,
   },
 };
