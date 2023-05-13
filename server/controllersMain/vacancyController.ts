@@ -2,6 +2,7 @@ import { PrismaClient, Prisma } from "@prisma/client";
 import { Request, Response } from "express";
 const prisma = new PrismaClient();
 import dotenv from "dotenv";
+import { fetchCityCoordinates } from "./coordinatesController";
 dotenv.config();
 
 const createVacancy = async (req: Request, res: Response) => {
@@ -20,7 +21,8 @@ const createVacancy = async (req: Request, res: Response) => {
       salaryRange,
     } = req.body;
 
-    console.log(req.body);
+    console.log(location);
+    const coordinates = await fetchCityCoordinates(location);
 
     if (
       recruiterId === undefined ||
@@ -50,6 +52,10 @@ const createVacancy = async (req: Request, res: Response) => {
         experience,
         location,
         salaryRange,
+        currentLocation: [
+          coordinates?.lat?.toString() ?? "",
+          coordinates?.lng?.toString() ?? "",
+        ],
       },
     });
 
@@ -104,6 +110,7 @@ const getAllVacancies = async (req: Request, res: Response) => {
     const AllVacancies = await prisma.vacancy.findMany({
       include: {
         jobTrack: true,
+        recruiter: true,
       },
     });
     res.status(200).json(AllVacancies);
@@ -117,6 +124,14 @@ const updateVacancy = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const updatedData = req.body;
+    let coordinates: any = [];
+    if (updatedData.location) {
+      coordinates = await fetchCityCoordinates(updatedData.location);
+    }
+    updatedData.currentLocation = [
+      coordinates?.lat?.toString() ?? "",
+      coordinates?.lng?.toString() ?? "",
+    ];
     const updatedVacancy = await prisma.vacancy.update({
       where: { id },
       data: updatedData,

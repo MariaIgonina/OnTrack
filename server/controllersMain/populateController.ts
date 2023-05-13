@@ -178,6 +178,7 @@ async function populateDatabase() {
       Track: { connect: { id: Questionnary3.trackId } },
     },
   });
+  return "Database population successful!";
 }
 
 export { populateDatabase };
