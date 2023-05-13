@@ -13,6 +13,7 @@ const LanguagesDropdown = ({ onSelectChange }: LanguagesDropdown) => {
       options={languageOptions}
       defaultValue={languageOptions[0]}
       onChange={(selectedOption) => onSelectChange(selectedOption)}
+      className="rounded-lg text-sm"
     />
   );
 };

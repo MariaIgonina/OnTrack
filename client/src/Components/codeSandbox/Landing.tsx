@@ -18,10 +18,8 @@ type Token = {
 
 const Landing = () => {
   const [code, setCode] = useState(javascriptDefault);
-  const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState<string>('');
   const [processing, setProcessing] = useState<boolean | null>(null);
-  const [theme, setTheme] = useState("cobalt");
   const [language, setLanguage] = useState(languageOptions[0]);
 
   const enterPress = useKeyPress("Enter");
@@ -50,8 +48,6 @@ const Landing = () => {
       }
     }
   };
-
-
 
   const handleCompile = async () => {
 
@@ -135,8 +131,6 @@ const Landing = () => {
   return (
     <>
       <div className="w-[80%] h-[500px]">
-
-
         <ToastContainer
           position="top-right"
           autoClose={2000}
@@ -148,12 +142,13 @@ const Landing = () => {
           draggable
           pauseOnHover
         />
+        <div className="border border-black rounded-lg bg-stone-100">
           <div className="flex flex-row">
             <div className="px-4 py-2">
               <LanguagesDropdown onSelectChange={onSelectChange} />
             </div>
           </div>
-        <div className="flex flex-row space-x-4 items-start px-4 py-4 border border-black rounded-lg bg-stone-100">
+          <div className="flex flex-row space-x-4 items-start px-4 py-4 ">
             <div className="flex flex-col w-full h-full justify-start items-end">
               <CodeEditorWindow
                 code={code}
@@ -184,7 +179,7 @@ const Landing = () => {
             </div>
           </div>
         </div>
-
+      </div>
     </>
   );
 }
