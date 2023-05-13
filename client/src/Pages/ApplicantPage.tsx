@@ -33,13 +33,13 @@ const ApplicantPage = () => {
   const applicant = useSelector(
     (state: RootState) => state.applicant.applicant
   );
-  const currentUser = useSelector((state: RootState) => state.currentUser.id);
+  const currentUser = useSelector((state: RootState) => state.currentUser);
   const dispatch = useDispatch<AppDispatch>();
   const codeParam = window.location.pathname.split("/").reverse()[0];
 
   useEffect(() => {
-    console.log("cureent ysfter", currentUser);
-    dispatch(fetchApplicant(+currentUser));
+    console.log("cureent ysfter", currentUser.id);
+    dispatch(fetchApplicant(+currentUser.id));
     //dispatch(fetchApplicant(+currentUser.id));
     //dispatch(setApplicant(applicant));
     // console.log("App", applicant);

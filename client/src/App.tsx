@@ -41,7 +41,7 @@ function App() {
           <Route path="/vacancyList" element={<VacancyList />} />
           <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
           <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
-          <Route path="/login/:id" element={<UserLogin />} />
+          <Route path="/login" element={<UserLogin />} />
           <Route path="/recruiter/:id" element={<RecruiterProfilePage />} />
           <Route path="/codeSandbox" element={<CodeSandbox />} />
         </>
