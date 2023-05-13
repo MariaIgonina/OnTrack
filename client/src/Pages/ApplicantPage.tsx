@@ -27,72 +27,56 @@ import {
   setApplicant,
   updateApplicant,
 } from "../store/applicantSlice";
+import { current } from "@reduxjs/toolkit";
 
 const ApplicantPage = () => {
-  const applicant = useSelector((state: RootState) => state.applicant.applicant);
-
-  // const currentUser = useSelector((state: RootState) => state.currentUser);
-
+  const applicant = useSelector(
+    (state: RootState) => state.applicant.applicant
+  );
+  const currentUser = useSelector((state: RootState) => state.currentUser.id);
   const dispatch = useDispatch<AppDispatch>();
   const codeParam = window.location.pathname.split("/").reverse()[0];
 
   useEffect(() => {
-      dispatch(fetchApplicant(152));
-      // dispatch(setApplicant(applicant));
-      // console.log("Current user", currentUser)
+    console.log("cureent ysfter", currentUser);
+    dispatch(fetchApplicant(+codeParam));
+    //dispatch(fetchApplicant(+currentUser.id));
+    //dispatch(setApplicant(applicant));
+    // console.log("App", applicant);
   }, [dispatch]);
 
   return (
     <>
-      <div className="mt-20 bg-stone-100 h-full m-4">
-      
-      <div className=" flex flex-row ">
-        <div className=" flex flex-col flex-wrap items-stretch">
-          <div className=" flex flex-row flex-wrap items-stretch">
-            <Avatar 
-            applicant = {applicant}/>
-            
-            <PersonalInfo 
-            applicant = {applicant}/>
+      <div className="mt-20 bg-stone-100 h-full m-0">
+        <div className=" flex flex-row">
+          <div className=" flex flex-col">
+            <div className=" flex flex-row">
+              <Avatar applicant={applicant} />
 
-              <div 
-              className=" flex flex-col items-stretch flex-wrap items-stretch"
-              >
-                <CurrentLocation 
-                applicant = {applicant}
-                />
-                <JobPreferences 
-                applicant = {applicant}/>
-              </div>      
+              <PersonalInfo applicant={applicant} />
 
-              <div 
-                className="flex flex-col flex-wrap items-stretch"
-                >
-                  <Languages 
-                  applicant = {applicant}/>
-                  <Hobbies 
-                  applicant = {applicant}/>
-                </div>
+              <div className=" flex flex-col">
+                <CurrentLocation applicant={applicant} />
+                <JobPreferences applicant={applicant} />
+              </div>
+
+              <div className="flex flex-col">
+                <Languages applicant={applicant} />
+                <Hobbies applicant={applicant} />
+              </div>
+            </div>
+
+            <About applicant={applicant} />
           </div>
-          <About applicant={applicant} />
+          <Skills applicant={applicant} />
         </div>
-        <Skills 
-        applicant = {applicant}/>
 
-      </div>
-      
+        <div className=" flex flex-row">
+          <EducationComp applicant={applicant} />
+          <ExperienceComp applicant={applicant} />
 
-      <div className=" flex flex-row flex-wrap items-stretch">
-        <EducationComp
-        applicant = {applicant}/>
-        <ExperienceComp 
-        applicant = {applicant}/>
-        <div className=" flex flex-col flex-wrap items-stretch">
-          <Video 
-          applicant = {applicant}/>
+          <Video applicant={applicant} />
         </div>
-      </div>
-
       </div>
     </>
   );

@@ -52,6 +52,39 @@ const getApplicantById = async (req: Request, res: Response) => {
   }
 };
 
+const getTypeofUser = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    console.log("seraching for one user with id =", id);
+    const foundApplicant = await prisma.applicant.findUnique({
+      where: {
+        idAuth: id,
+      },
+      include: {
+        education: true,
+        track: true,
+        experiences: true,
+      },
+    });
+    const foundRecruiter = await prisma.recruiter.findUnique({
+      where: {
+        idAuth: id,
+      },
+    });
+    // if (!foundApplicant) throw new Error("Applicant not found!");
+    if (foundApplicant) {
+      console.log("found applicatnt : ", foundApplicant);
+      res.status(200).json(foundApplicant);
+    } else {
+      console.log("found recuraihriehdfia : ", foundRecruiter);
+      res.status(200).json(foundRecruiter);
+    }
+  } catch (error: any) {
+    console.log("error in applicantController, ", error);
+    res.status(400).json(error);
+  }
+};
+
 const updateApplicant = async (req: Request, res: Response) => {
   let {
     email,
@@ -258,4 +291,5 @@ export const applicantControllers = {
   deleteApplicant,
   getAllApplicants,
   filterApplicants,
+  getTypeofUser,
 };

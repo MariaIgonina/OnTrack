@@ -14,6 +14,7 @@ import VacancyList from "./Components/Vacancy/VacancyList";
 import LogedWithGoogle from "./Components/LogedWithGoogle";
 import SignInWithGoogle from "./Components/SignInWithGoogle";
 import RecruiterProfilePage from "./Pages/RecruiterProfilePage";
+import VacancyCreate from "./Components/Vacancy/VacancyCreate";
 import UserLogin from "./Pages/UserLogin";
 import "./index.css";
 import { useSelector } from "react-redux";
@@ -21,55 +22,28 @@ import { RootState } from "./store/store";
 import CodeSandbox from "./Pages/CodeSandbox";
 
 function App() {
-  const currentUser = useSelector((state: RootState) => state.currentUser);
-
-  useEffect(() => {
-    console.log("i am a", currentUser.role);
-  }, [currentUser]);
-
   return (
     <BrowserRouter>
-      {/* <div className="container"> */}
       <Navbar />
       <Routes>
-        <>
-          {/* <Route
-              path="/"
-              element={
-                !currentUser.role ? (
-                  <LoginPage />
-                ) : currentUser.role === "applicant" ? (
-                  //put applicant roles here
-
-                  <Route path="/dashboard" element={<DashboardPage />} />
-                ) : currentUser.role === "recruiter" ? (
-                  //put recruiter roots here
-                  <Route path="/dashboard" element={<DashboardPage />} />
-                ) : (
-                  <LoginPage />
-                )
-              }
-            /> */}
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/user" element={<ApplicantPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/track" element={<TrackPage />} />
-          {/* <Route path="/adduser" element={<AddApplicantPage />} /> */}
-          <Route path="/recruiterProfile" element={<RecruiterProfilePage />} />
-          <Route path="/applicant/:id" element={<ApplicantPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/addapplicant" element={<AddApplicantPage />} />
-          {/* <Route path="/create-vacancy" element={<VacancyCreate />} /> */}
-          <Route path="/vacancy/:vacancyId" element={<VacancyDetails />} />
-          <Route path="/vacancyList" element={<VacancyList />} />
-          <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
-          <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
-          <Route path="/login/:id" element={<UserLogin />} />
-          <Route path="/codeSandbox" element={<CodeSandbox />} />
-          {/* /recruiter/?id=${id}` */}
-        </>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/user" element={<ApplicantPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/track" element={<TrackPage />} />
+        {/* <Route path="/adduser" element={<AddApplicantPage />} /> */}
+        <Route path="/recruiterProfile" element={<RecruiterProfilePage />} />
+        <Route path="/applicant/:id" element={<ApplicantPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/addapplicant" element={<AddApplicantPage />} />
+        <Route path="/create-vacancy" element={<VacancyCreate />} />
+        <Route path="/vacancy/:vacancyId" element={<VacancyDetails />} />
+        <Route path="/vacancyList" element={<VacancyList />} />
+        <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
+        <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
+        <Route path="/recruiter/:id" element={<RecruiterProfilePage />} />
+        <Route path="/login/:id" element={<UserLogin />} />
+        <Route path="/codeSandbox" element={<CodeSandbox />} />
       </Routes>
-      {/* </div> */}
     </BrowserRouter>
   );
 }
