@@ -39,7 +39,7 @@ const ApplicantPage = () => {
 
   useEffect(() => {
     console.log("cureent ysfter", currentUser);
-    dispatch(fetchApplicant(+codeParam));
+    dispatch(fetchApplicant(+currentUser));
     //dispatch(fetchApplicant(+currentUser.id));
     //dispatch(setApplicant(applicant));
     // console.log("App", applicant);
