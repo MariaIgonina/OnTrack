@@ -4,12 +4,16 @@ import { createVacancy } from "../../store/vacancySlice";
 import type { Vacancy } from "../../Interfaces";
 import type { AppDispatch } from "../../store/store";
 import { initialVacancy } from "../../store/vacancySlice";
+import { languages, profSkills, compLanguages, stack, workingModals, workingHours, levelLanguages } from '../../library'
+import VacancyTemplate from "./VacancyTemplate";
+
 type VacancyCreateProps = {
   onCancel: () => void;
 };
 const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [formData, setFormData] = useState<Vacancy>({ ...initialVacancy });
+  const [showVacancyTemplate, setShowVacancyTemplate] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -41,34 +45,22 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
           : formData.requiredLanguages,
     };
     await dispatch(createVacancy(newVacancy));
-    onCancel();
+    setShowVacancyTemplate(true); // Показать VacancyTemplate после отправки формы
   };
 
+  if (showVacancyTemplate) {
+    return <VacancyTemplate onCancel={onCancel} />;
+  }
+
   return (
-    <div className="flex h-screen  items-center justify-center  mt-[220px] mb-32">
-      <div className="grid bg-white rounded-lg shadow-xl w-11/12 md:0 lg:0">
-        <div className="flex justify-center py-4">
-          <div className="flex bg-purple-200 rounded-full md:p-4 p-2 border-2 border-purple-300">
-            <svg
-              className="w-8 h-8 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-              ></path>
-            </svg>
-          </div>
-        </div>
+    <div className="flex items-center justify-center mt-4 p-4">
+      <div className="flex flex-col">
+      <div className="grid bg-white rounded-lg w-11/12 md:0 lg:0">
+
 
         <div className="flex justify-center">
           <div className="flex">
-            <h1 className="text-gray-600 font-bold md:text-2xl text-xl">
+            <h1 className="text-3xl font-bold tracking-tight text-[#026767] text-big  ">
               Create a new vacancy
             </h1>
           </div>
@@ -82,7 +74,7 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
             Title:
           </label>
           <input
-            className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            className="py-2 px-3 rounded-lg border color-grey-100 mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
             id="title"
             name="title"
             type="text"
@@ -99,11 +91,10 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
           >
             About:
           </label>
-          <input
-            className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+          <textarea
+            className="py-2 px-3 rounded-lg border border-color-#F1F0EA mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
             id="about"
             name="about"
-            type="text"
             placeholder="About"
             onChange={handleChange}
             required
@@ -118,7 +109,7 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
             Working Hours:
           </label>
           <select
-            className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            className="py-2 px-3 rounded-lg border color-grey-100 mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
             id="workingHours"
             name="workingHours"
             onChange={handleChange}
@@ -136,7 +127,7 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
             Working Modal:
           </label>
           <select
-            className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            className="py-2 px-3 rounded-lg border b-grey-400 mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
             id="workingModal"
             name="workingModal"
             onChange={handleChange}
@@ -155,7 +146,7 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
             Skills (comma-separated):
           </label>
           <input
-            className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            className="py-2 px-3 rounded-lg border color-grey-100 mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
             type="text"
             id="skills"
             name="skills"
@@ -172,7 +163,7 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
             Stack (comma-separated):
           </label>
           <input
-            className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            className="py-2 px-3 rounded-lg border color-grey-100 mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
             type="text"
             id="stack"
             name="stack"
@@ -190,7 +181,7 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
             Required Languages (comma-separated):
           </label>
           <input
-            className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            className="py-2 px-3 rounded-lg border color-grey-100 mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
             type="text"
             id="requiredLanguages"
             name="requiredLanguages"
@@ -207,7 +198,7 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
             Experience:
           </label>
           <input
-            className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            className="py-2 px-3 rounded-lg border color-grey-100 mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
             type="number"
             id="experience"
             name="experience"
@@ -223,7 +214,7 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
             Location:
           </label>
           <input
-            className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            className="py-2 px-3 rounded-lg border color-grey-100 mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
             type="text"
             id="location"
             name="location"
@@ -240,7 +231,7 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
             Salary Range:
           </label>
           <input
-            className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            className="py-2 px-3 rounded-lg border color-grey-100 mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
             type="number"
             id="salaryRange"
             name="salaryRange"
@@ -254,10 +245,10 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
             Upload Photo
           </label>
           <div className="flex items-center justify-center w-full">
-            <label className="flex flex-col border-4 border-dashed w-full h-32 hover:bg-gray-100 hover:border-purple-300 group">
+            <label className="border-4 border-dashed w-32 rounded-full h-32 hover:bg-gray-100 hover:border-dark-green group">
               <div className="flex flex-col items-center justify-center pt-7">
                 <svg
-                  className="w-10 h-10 text-purple-400 group-hover:text-purple-600"
+                  className="w-10 h-10 text-orange-100 group-hover:text-orange-200"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -270,7 +261,7 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
                     d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                   ></path>
                 </svg>
-                <p className="lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider">
+                <p className="lowercase text-sm text-gray-400 group-hover:text-orange-300 pt-1 tracking-wider">
                   Select a photo
                 </p>
               </div>
@@ -281,19 +272,23 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
 
         <div className="flex items-center justify-center  md:gap-8 gap-4 pt-5 pb-5">
           <button
-            className="w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2"
+            className="w-auto bg-green-100 hover:bg-dark-green rounded-lg shadow-xl font-medium text-white px-4 py-2"
             onClick={onCancel}
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
-            className="w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2"
+            className="w-auto bg-orange-100 hover:bg-orange-dark rounded-lg shadow-xl font-medium text-white px-4 py-2"
           >
             Create
           </button>
         </div>
       </div>
+
+
+     
+    </div>
     </div>
   );
 };

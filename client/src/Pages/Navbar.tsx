@@ -14,7 +14,9 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { useEffect, useState } from "react";
-import { createSelector } from "reselect";
+import logo from "../assets/logo-on-green.png";
+import ImageListItem from "@mui/material/ImageListItem";
+import { justify } from "@cloudinary/url-gen/qualifiers/textAlignment";
 
 function NavBar() {
   const currentUser = useSelector((state: RootState) => state.currentUser);
@@ -42,8 +44,6 @@ function NavBar() {
     }
   };
 
-  // const anything = getProfileLink()
-
   return (
     <>
       <AppBar
@@ -55,6 +55,7 @@ function NavBar() {
             style={{
               display: "flex",
               flexDirection: "row",
+              justifyContent: "space-between",
             }}
             sx={{
               "@media (max-width: 400px)": {
@@ -62,48 +63,81 @@ function NavBar() {
               },
             }}
           >
-            <ListItem key={"Dashboard"} disablePadding>
-              <Link to="/dashboard" className="link">
+            <div>
+              <ListItem key={"Logo"} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    <InsightsIcon />
+                    <img
+                      src={logo}
+                      alt="logo"
+                      style={{ width: 170, height: 60 }}
+                    />
                   </ListItemIcon>
-                  <ListItemText primary={"Your Dashboard"} />
                 </ListItemButton>
-              </Link>
-            </ListItem>
-            <ListItem key={"Your Profile"} disablePadding>
-              <Link to={profileLink} className="link">
-                <ListItemButton>
-                  <ListItemIcon>
-                    <HomeIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={"Your Profile"} />
-                </ListItemButton>
-              </Link>
-            </ListItem>
-
-            <Divider />
-            <ListItem key={"Settings"} disablePadding>
-              <Link to="/settings" className="link">
-                <ListItemButton>
-                  <ListItemIcon>
-                    <SettingsIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={"Settings"} />
-                </ListItemButton>
-              </Link>
-            </ListItem>
-            <ListItem key={"Logout"} disablePadding>
-              <Link to="/" className="link">
-                <ListItemButton>
-                  <ListItemIcon>
-                    <LogoutIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={"Logout"} />
-                </ListItemButton>
-              </Link>
-            </ListItem>
+              </ListItem>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+              }}
+            >
+              <ListItem key={"Dashboard"} disablePadding>
+                <Link to="/dashboard" className="link">
+                  <ListItemButton
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <ListItemIcon>
+                      <InsightsIcon
+                        style={{
+                          color: "white",
+                          width: 35,
+                          height: 35,
+                        }}
+                      />
+                    </ListItemIcon>
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+              <ListItem key={"Your Profile"} disablePadding>
+                <Link to={profileLink} className="link">
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <HomeIcon
+                        style={{ color: "white", width: 35, height: 35 }}
+                      />
+                    </ListItemIcon>
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+              <ListItem key={"Settings"} disablePadding>
+                <Link to="/settings" className="link">
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <SettingsIcon
+                        style={{ color: "white", width: 35, height: 35 }}
+                      />
+                    </ListItemIcon>
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+              <ListItem key={"Logout"} disablePadding>
+                <Link to="/" className="link">
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <LogoutIcon
+                        style={{ color: "white", width: 35, height: 35 }}
+                      />
+                    </ListItemIcon>
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+            </div>
           </List>
         </nav>
         <Outlet />
