@@ -18,10 +18,10 @@ export default function AllUsers() {
   }, []);
 
   return (
-    <div className="bg-stone-100 py-8 sm:py-32 rounded-lg w-full m-5 mt-8">
+    <div className="bg-stone-100 py-24 sm:py-8 rounded-lg">
       <div className="mx-auto max-w-10xl lg:px-8">
-        <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-4xl mb-2">
+        <div className="mx-auto max-w-lg lg:mx-0">
+          <h2 className="text-lg font-bold tracking-tight text-[#026767] sm:text-lg mb-2">
             Search all the candidates using OnTrack
           </h2>
         </div>

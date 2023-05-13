@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
-import { Track } from "../Interfaces";
+import { CurrentUserType, Track } from "../Interfaces";
 import { fetchTracksByRecruiter } from "../store/trackSlice";
 import { useNavigate } from "react-router-dom";
 import { minHeight } from "@mui/system";
@@ -9,7 +9,9 @@ import { minHeight } from "@mui/system";
 export default function TrackerComponent() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const currentUser = useSelector((state: RootState) => state.currentUser);
+  const currentUser = useSelector(
+    (state: RootState) => state.currentUser
+  ) as unknown as CurrentUserType;
 
   useEffect(() => {
     console.log("inside the track comp", currentUser);
@@ -30,7 +32,7 @@ export default function TrackerComponent() {
   return (
     <>
       <div className=" my-8 bg-stone-100">
-        <h2 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-4xl m-8">
+        <h2 className="text-lg font-bold tracking-tight text-[#026767] sm:text-lg m-8">
           Monitor the progress of your applicants in one place
         </h2>
         <div className="overflow-x-scroll flex flex-nowrap">

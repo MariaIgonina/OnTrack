@@ -94,7 +94,11 @@ function NavBar() {
                   >
                     <ListItemIcon>
                       <InsightsIcon
-                        style={{ color: "white", width: 30, height: 30 }}
+                        style={{
+                          color: "white",
+                          width: 35,
+                          height: 35,
+                        }}
                       />
                     </ListItemIcon>
                   </ListItemButton>
@@ -105,7 +109,7 @@ function NavBar() {
                   <ListItemButton>
                     <ListItemIcon>
                       <HomeIcon
-                        style={{ color: "white", width: 30, height: 30 }}
+                        style={{ color: "white", width: 35, height: 35 }}
                       />
                     </ListItemIcon>
                   </ListItemButton>
@@ -116,7 +120,7 @@ function NavBar() {
                   <ListItemButton>
                     <ListItemIcon>
                       <SettingsIcon
-                        style={{ color: "white", width: 30, height: 30 }}
+                        style={{ color: "white", width: 35, height: 35 }}
                       />
                     </ListItemIcon>
                   </ListItemButton>
@@ -127,7 +131,7 @@ function NavBar() {
                   <ListItemButton>
                     <ListItemIcon>
                       <LogoutIcon
-                        style={{ color: "white", width: 30, height: 30 }}
+                        style={{ color: "white", width: 35, height: 35 }}
                       />
                     </ListItemIcon>
                   </ListItemButton>

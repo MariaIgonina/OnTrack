@@ -25,13 +25,13 @@ export default function Suggestion() {
 
   return (
     <>
-      <div className="bg-stone-100 py-24 sm:py-8 rounded-lg w-full">
+      <div className="bg-stone-100 py-24 sm:py-8 rounded-lg">
         <div className="mx-auto max-w-10xl lg:px-8">
-          <div className="mx-auto max-w-2xl lg:mx-0">
-            <h2 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-4xl mb-8">
+          <div className="mx-auto max-w-lg lg:mx-0">
+            <h2 className="text-lg font-bold tracking-tight text-[#026767] sm:text-lg mb-2">
               Your Personalized Suggestions
             </h2>
-            <p className="mt-2 text-lg text-[#026767] leading-8 text-gray-600 ">
+            <p className="mt-2 text-sm text-[#026767] leading-8 text-gray-600 ">
               We think these applicants will catch your eye
             </p>
           </div>

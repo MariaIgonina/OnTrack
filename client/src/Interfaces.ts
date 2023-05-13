@@ -8,7 +8,7 @@ export interface Applicant {
   age?: string;
   phone?: string;
   location?: string;
-  track?: Track[];
+  Track?: Track[];
   currentLocation?: string[];
   readyToMove?: boolean;
   workingHours?: string;
@@ -42,7 +42,7 @@ export interface Recruiter {
   about?: string;
   externalLinks?: string[];
   headOffice?: string;
-  track?: Track[];
+  Track?: Track[];
 }
 
 export interface Vacancy {
@@ -60,7 +60,7 @@ export interface Vacancy {
   experience?: number;
   location: string;
   salaryRange?: number;
-  data?: any
+  data?: any;
 }
 
 export interface Track {
@@ -131,6 +131,11 @@ export interface Education {
 }
 
 export interface ICloudImage {
-  asset_id : string
-  secure_url: string
+  asset_id: string;
+  secure_url: string;
+}
+
+export interface CurrentUserType {
+  id: number;
+  role: string;
 }

@@ -8,11 +8,12 @@ module.exports = {
         "green-100": "#568EA3",
         "yellow-100": "#FCE762",
         "orange-100": "#FFB17A",
+        "blue-100": "#68C3D4",
       },
 
       // colors: {
-      //   blue: "#568EA3",
-      //   background: "FFFDED",
+      //
+      //
       //  lightblue: "68c3d4",
       //   yellow: "FCE762",
       //   orange: "FFB17A",
