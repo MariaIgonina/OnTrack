@@ -4,10 +4,11 @@ import { AppDispatch, RootState } from "../../store/store";
 import { fetchTrack, setTrack, updateTrack } from "../../store/trackSlice";
 
 type NotePadProps = {
-  trackId: number
+  trackId: number,
+  role: string
 }
 
-export default function NotePad({ trackId }: NotePadProps): JSX.Element {
+export default function NotePad({ trackId, role }: NotePadProps): JSX.Element {
   const [note, setNote] = useState<string>("");
   const [isFocused, setIsFocused] = useState(false);
   const dispatch = useDispatch<AppDispatch>()
@@ -23,15 +24,25 @@ export default function NotePad({ trackId }: NotePadProps): JSX.Element {
   }, [])
   useEffect(() => {
     if (track.track) {
-      setNote(track.track.applicantNotes)
+      role === 'applicant'
+        ? setNote(track.track.applicantNotes)
+        : setNote(track.track.recruiterNotes)
     }
   }, [track.track])
 
   const updateNotes = useCallback(() => {
-    if (note.length) {
-      dispatch(updateTrack({ trackId: trackId, track: { applicantNotes: note } }))
+    if (role === 'applicant') {
+      if (note.length) {
+        dispatch(updateTrack({ trackId: trackId, track: { applicantNotes: note } }))
+      } else {
+        dispatch(updateTrack({ trackId: trackId, track: { applicantNotes: '' } }))
+      }
     } else {
-      dispatch(updateTrack({ trackId: trackId, track: { applicantNotes: '' } }))
+      if (note.length) {
+        dispatch(updateTrack({ trackId: trackId, track: { recruiterNotes: note } }))
+      } else {
+        dispatch(updateTrack({ trackId: trackId, track: { recruiterNotes: '' } }))
+      }
     }
   }, [note])
 

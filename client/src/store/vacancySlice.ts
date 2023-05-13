@@ -81,6 +81,7 @@ const createVacancy = createAsyncThunk(
   "vacancy/createVacancy",
   async function (vacancy: Vacancy, { rejectWithValue }) {
     try {
+      const coordinates = await fetchCityCoordinates(applicant.location);
       const response = await fetch(url + "/createVacancy", {
         method: "POST",
         headers: {
@@ -118,7 +119,7 @@ const deleteVacancy = createAsyncThunk(
 );
 
 interface IPutParams {
-  vacancyId: number;
+  vacancyId: any;
   vacancy: any;
 }
 
@@ -263,3 +264,25 @@ export {
 export const selectvacancy = (state: RootState) => state.vacancy;
 
 export default vacancySlice.reducer;
+
+const fetchCityCoordinates = async (
+  cityName: string
+): Promise<google.maps.LatLngLiteral | null> => {
+  try {
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+        cityName
+      )}&key=AIzaSyDaIfGIGsLwAdkkp3mxtP_9AF7_YXIybBs`
+    );
+    const data = await response.json();
+
+    if (data.status === "OK") {
+      const coordinates = data.results[0].geometry.location;
+      return { lat: coordinates.lat, lng: coordinates.lng };
+    }
+  } catch (error) {
+    console.error("Error fetching city coordinates:", error);
+  }
+
+  return null;
+};

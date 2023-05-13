@@ -1,23 +1,20 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import logo from "./assets/logo.png";
 import "./App.css";
 
 import Navbar from "./Pages/Navbar";
 import LoginPage from "./Pages/LoginPage";
 import ApplicantPage from "./Pages/ApplicantPage";
-import RecruiterForm from "./Components/RecruiterForm";
 import DashboardPage from "./Pages/DashboardPage";
 import TrackPage from "./Pages/TrackPage";
 import AddApplicantPage from "./Pages/AddApplicantPage";
 import SettingsPage from "./Pages/SettingsPage";
-import VacancyCreate from "./Components/VacancyCreate";
-import VacancyDetails from "./Components/VacancyDetails";
-import VacancyList from "./Components/VacancyList";
+import VacancyDetails from "./Components/Vacancy/VacancyDetails";
+import VacancyList from "./Components/Vacancy/VacancyList";
 import LogedWithGoogle from "./Components/LogedWithGoogle";
 import SignInWithGoogle from "./Components/SignInWithGoogle";
 import RecruiterProfilePage from "./Pages/RecruiterProfilePage";
-import RecruiterPage from "./Pages/RecruiterPage";
+import UserLogin from "./Pages/UserLogin";
 import "./index.css";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";

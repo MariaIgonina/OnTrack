@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TrackSideBar from "../Components/tracks/TrackSidebar";
 import StepTemplate from "../Components/StepTemplate";
@@ -22,41 +22,75 @@ const TrackPage = () => {
   useEffect(() => {
     const searchQuery = new URLSearchParams(window.location.search);
     const queryObj = Object.fromEntries(searchQuery.entries());
-    console.log('PARAMS', queryObj)
     dispatch(fetchTrack({ getTrackByWhat: 'getTrackById', id: +queryObj.trackId }))
     dispatch(fetchVacancy(+queryObj.vacancyId));
     setUserRole(queryObj.userRole)
-    console.log('vacancy fetched', vacancy.data);
   }, []);
 
-  // useEffect(() => {
-  //   if (track.track.applicantID) {
-  //     dispatch(fetchApplicant(track.track.applicantID));
-  //     dispatch(fetchRecruiter(track.track.recruiterID));
-  //     console.log('aplicant fetched => ', applicant.applicant)
-  //     console.log('recruiter fetched => ', recruiter.recruiter)
-  //   }
-  // }, [track.track.applicantID])
+  useEffect(() => {
+    if (track.track?.applicantID) {
+      dispatch(fetchApplicant(track.track.applicantID));
+    }
+  }, [track.track?.applicantID]);
+
+  useEffect(() => {
+    if (track.track?.recruiterID) {
+      dispatch(fetchRecruiter(track.track.recruiterID));
+    }
+  }, [track.track?.recruiterID]);
 
 
 
   return (
-    <div id='track-container' className="flex h-screen fixed top-[88px] w-screen">
-      <TrackSideBar trackId={track.track?.id} />
+    <div id='track-container' className="flex h-screen fixed top-[70px] w-screen overflow-auto">
+      <TrackSideBar trackId={track.track?.id} role={ userRole } />
       <div className="w-full mx-5">
-        <div id='Info' className="mb-10 hover:cursor-pointer">
-          <h2 className="text-3xl font-extrabold my-2" >{'Company Name'}</h2>
-          <div className="w-full">
-            <a onClick={() => navigate(`/vacancy/${vacancy.data?.id}`)}
-              className="flex items-center bg-white border border-gray-200 rounded-lg md:flex-row hover:bg-gray-800 hover:text-white 
+        <div id='Info' className="mb-10 ">
+          <a onClick={() => navigate(`/vacancy/${vacancy.data?.id}`)}>
+            <h2 className="text-3xl font-extrabold my-2 hover:text-stone-100 hover:bg-gray-800 w-fit rounded-lg hover:cursor-pointer" >
+              {vacancy.data?.title}
+            </h2>
+          </a>
+          {userRole === 'applicant'
+            ?
+            <div id="applicantView" className="w-full hover:bg-gray-800 ">
+              <a
+                className="flex items-center bg-white border border-gray-200 rounded-lg md:flex-row  
            shadow shadow-sm shadow-gray w-full">
-              <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" alt="company logo" />
-              <div className="flex flex-col justify-between p-4 leading-normal">
-                <h5 className="mb-2 text-2xl font-bold tracking-tight ">{vacancy.data?.title}</h5>
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{vacancy.data?.about}</p>
-              </div>
-            </a>
-          </div>
+                <a onClick={() => navigate(`/recruiter/${recruiter.recruiter?.id}`)}>
+                  <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg hover:cursor-pointer"
+                    alt="Company Logo"
+                    src={recruiter.recruiter?.logo}
+                  />
+                </a>
+                <div className="flex flex-col justify-between p-4 leading-normal">
+                  <a onClick={() => navigate(`/recruiter/${recruiter.recruiter?.id}`)}><h5 className="hover:cursor-pointer mb-2 text-2xl w-fit rounded-lg font-bold tracking-tight hover:bg-gray-800 hover:text-white">
+                    at {recruiter.recruiter.name}
+                  </h5></a>
+                  <p className="mb-3 font-normal text-gray-700 hover:text-gray-600 hover:underline hover:cursor-pointer">{vacancy.data?.about}</p>
+                </div>
+              </a>
+            </div>
+            :
+            <div id="recruiterView" className="w-full hover:bg-gray-800 ">
+              <a
+                className="flex items-center bg-white border border-gray-200 rounded-lg md:flex-row  
+           shadow shadow-sm shadow-gray w-full">
+                <a onClick={() => navigate(`/recruiter/${recruiter.recruiter?.id}`)}>
+                  <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg hover:cursor-pointer"
+                    alt="Company Logo"
+                    src={applicant.applicant?.picture}
+                  />
+                </a>
+                <div className="flex flex-col justify-between p-4 leading-normal">
+                  <a onClick={() => navigate(`/applicant/${applicant.applicant?.idDB}`)}><h5 className="hover:cursor-pointer mb-2 text-2xl w-fit rounded-lg font-bold tracking-tight hover:bg-gray-800 hover:text-white">
+                    {applicant.applicant.name}
+                  </h5></a>
+                  <p className="mb-3 font-normal text-gray-700 hover:text-gray-600 hover:underline hover:cursor-pointer">{vacancy.data?.about}</p>
+                </div>
+              </a>
+            </div>
+          }
         </div>
 
         <div id="steps-container"
