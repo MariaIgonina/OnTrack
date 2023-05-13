@@ -7,7 +7,7 @@ import {
   fetchEducationByApplicant,
   setEducation,
 } from "../../store/educationSlice";
-import { Education } from "../../Interfaces";
+import { Applicant, Education } from "../../Interfaces";
 import moment from "moment";
 import SchoolIcon from '@mui/icons-material/School';
 
@@ -19,7 +19,7 @@ const EducationComp = ({applicant}:{applicant: Applicant}) => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchEducationByApplicant(54));
+    dispatch(fetchEducationByApplicant(applicant.idDB));
   }, []);
 
   return (
