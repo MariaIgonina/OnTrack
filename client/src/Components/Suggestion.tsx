@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import {
@@ -6,20 +8,37 @@ import {
   fetchFilteredApplicants,
 } from "../store/applicantSlice";
 import UserCard from "./UserCard";
+import { CurrentUserType, Vacancy } from "../Interfaces";
 import { Applicant } from "../Interfaces";
+import { fetchAllVacancies } from "../store/vacancySlice";
+import VacancyCard from "./Vacancy/VacancyCard";
 
 export default function Suggestion() {
+  const dispatch = useDispatch<AppDispatch>();
+  const currentUser = useSelector(
+    (state: RootState) => state.currentUser
+  ) as unknown as CurrentUserType;
+
   //THIS WILL BE THE FILTERED RESULT FROM BackEnd!
   const applicants = useSelector(
     (s: RootState) => s.applicant.applicant
   ) as unknown as Applicant[];
-
-  const dispatch = useDispatch<AppDispatch>();
+  const vacancy = useSelector(
+    (state: RootState) => state.vacancy.vacancies
+  ) as unknown as Vacancy[];
 
   useEffect(() => {
-    //dispatch(fetchFilteredApplicants("?location=Barcelona"));
-    dispatch(fetchAllApplicants);
+    if (currentUser.role === "recruiter") {
+      //dispatch(fetchFilteredApplicants("?location=Barcelona"));
+      dispatch(fetchAllApplicants);
+    } else {
+      dispatch(fetchAllVacancies);
+    }
   }, []);
+
+  useEffect(() => {
+    console.log("this should be an array of vacancies", vacancy);
+  }, [dispatch]);
 
   return (
     <>
@@ -41,6 +60,16 @@ export default function Suggestion() {
                   key={applicant.idAuth}
                 ></UserCard>
               ))}
+
+            {vacancy.length ? (
+              vacancy.map((vacancy) => (
+                <VacancyCard vacancy={vacancy} key={vacancy.id} />
+              ))
+            ) : (
+              <li>
+                <p className="p-4 text-gray-500">No vacancies found.</p>
+              </li>
+            )}
           </div>
         </div>
       </div>

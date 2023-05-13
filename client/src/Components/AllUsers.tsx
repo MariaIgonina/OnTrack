@@ -4,15 +4,28 @@ import { AppDispatch, RootState } from "../store/store";
 import { fetchAllApplicants } from "../store/applicantSlice";
 import { Applicant } from "../Interfaces";
 import UserCard from "./UserCard";
+import { CurrentUserType, Vacancy } from "../Interfaces";
+import { fetchAllVacancies } from "../store/vacancySlice";
+import VacancyCard from "./Vacancy/VacancyCard";
 
 export default function AllUsers() {
   const applicants = useSelector(
     (s: RootState) => s.applicant.applicant
   ) as unknown as Applicant[];
+  const vacancy = useSelector(
+    (state: RootState) => state.vacancy.vacancies
+  ) as unknown as Vacancy[];
+  const currentUser = useSelector(
+    (state: RootState) => state.currentUser
+  ) as unknown as CurrentUserType;
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchAllApplicants());
+    if (currentUser.role === "recruiter") {
+      dispatch(fetchAllApplicants());
+    } else {
+      dispatch(fetchAllVacancies);
+    }
   }, []);
 
   return (
@@ -28,6 +41,16 @@ export default function AllUsers() {
             applicants.map((applicant) => (
               <UserCard applicant={applicant} key={applicant.idAuth}></UserCard>
             ))}
+
+          {vacancy.length ? (
+            vacancy.map((vacancy) => (
+              <VacancyCard vacancy={vacancy} key={vacancy.id} />
+            ))
+          ) : (
+            <li>
+              <p className="p-4 text-gray-500">No vacancies found.</p>
+            </li>
+          )}
         </div>
       </div>
     </div>

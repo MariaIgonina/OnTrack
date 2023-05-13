@@ -58,7 +58,7 @@ export default function SideBar() {
             </text>
           ) : (
             <text style={{ margin: "auto" }}>
-              You have {applicant.applicant.Track?.length} tracks open
+              You have {applicant.applicant.track?.length} tracks open
             </text>
           )}
         </div>
