@@ -20,6 +20,7 @@ import "./index.css";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import CodeSandbox from "./Pages/CodeSandbox";
+import SearchApplicantForm from "./Components/SearchApplicantForm";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route path="/login" element={<UserLogin />} />
           <Route path="/recruiter/:id" element={<RecruiterProfilePage />} />
           <Route path="/codeSandbox" element={<CodeSandbox />} />
+          <Route path="/searchApplicant" element={<SearchApplicantForm />} />
         </>
       </Routes>
     </BrowserRouter>
