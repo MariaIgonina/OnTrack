@@ -26,23 +26,24 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/user" element={<ApplicantPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/track" element={<TrackPage />} />
-        {/* <Route path="/adduser" element={<AddApplicantPage />} /> */}
-        <Route path="/recruiterProfile" element={<RecruiterProfilePage />} />
-        <Route path="/applicant/:id" element={<ApplicantPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/addapplicant" element={<AddApplicantPage />} />
-        <Route path="/create-vacancy" element={<VacancyCreate />} />
-        <Route path="/vacancy/:vacancyId" element={<VacancyDetails />} />
-        <Route path="/vacancyList" element={<VacancyList />} />
-        <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
-        <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
-        <Route path="/recruiter/:id" element={<RecruiterProfilePage />} />
-        <Route path="/login/:id" element={<UserLogin />} />
-        <Route path="/codeSandbox" element={<CodeSandbox />} />
+        <>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/user" element={<ApplicantPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/track" element={<TrackPage />} />
+          {/* <Route path="/adduser" element={<AddApplicantPage />} /> */}
+          <Route path="/recruiterProfile" element={<RecruiterProfilePage />} />
+          <Route path="/applicant/:id" element={<ApplicantPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/addapplicant" element={<AddApplicantPage />} />
+          <Route path="/vacancy/:vacancyId" element={<VacancyDetails />} />
+          <Route path="/vacancyList" element={<VacancyList />} />
+          <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
+          <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
+          <Route path="/login" element={<UserLogin />} />
+          <Route path="/recruiter/:id" element={<RecruiterProfilePage />} />
+          <Route path="/codeSandbox" element={<CodeSandbox />} />
+        </>
       </Routes>
     </BrowserRouter>
   );

@@ -1,6 +1,6 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
-import router from "./router";
+import mainRouter from "./router/index";
 import bodyParser from "body-parser";
 import { PrismaClient } from "@prisma/client";
 import cors from "cors";
@@ -14,7 +14,7 @@ const prisma = new PrismaClient();
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(router);
+app.use(mainRouter);
 
 (async () => {
   try {

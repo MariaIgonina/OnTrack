@@ -120,27 +120,27 @@ model Questionary {
   questions String[]
   answer    String[]
   date      DateTime
-  hiden     Boolean
-  Track     Track?   @relation(fields: [trackid], references: [id])
-  trackid   Int?
+  hidden    Boolean // spelling mistake?
+  Track     Track?   @relation(fields: [trackId], references: [id])
+  trackId   Int?
 }
 
 model Videocall {
   id      Int      @id @default(autoincrement())
   type    String   @default("Sandbox")
   date    DateTime
-  hiden   Boolean
-  Track   Track    @relation(fields: [trackid], references: [id])
-  trackid Int
+  hidden  Boolean
+  Track   Track    @relation(fields: [trackId], references: [id])
+  trackId Int
 }
 
 model CodeSandbox {
   id      Int      @id @default(autoincrement())
   type    String   @default("Sandbox")
   date    DateTime
-  hiden   Boolean
-  Track   Track    @relation(fields: [trackid], references: [id])
-  trackid Int
+  hidden  Boolean
+  Track   Track    @relation(fields: [trackId], references: [id])
+  trackId Int
 }
 
 model Message {
@@ -149,7 +149,7 @@ model Message {
   text    String
   date    DateTime
   files   String[]
-  track   Track    @relation(fields: [trackId], references: [id])
+  Track   Track    @relation(fields: [trackId], references: [id])
   trackId Int
 }
 

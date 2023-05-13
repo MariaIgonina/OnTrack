@@ -86,6 +86,7 @@ CREATE TABLE "Vacancy" (
     "experience" INTEGER,
     "location" TEXT NOT NULL,
     "salaryRange" INTEGER,
+    "currentLocation" TEXT[],
 
     CONSTRAINT "Vacancy_pkey" PRIMARY KEY ("id")
 );
@@ -104,39 +105,48 @@ CREATE TABLE "Track" (
 );
 
 -- CreateTable
-CREATE TABLE "Step" (
-    "id" SERIAL NOT NULL,
-    "title" TEXT NOT NULL,
-    "type" TEXT NOT NULL,
-    "about" TEXT NOT NULL,
-    "durationInMs" INTEGER,
-    "scheduleDate" TIMESTAMP(3),
-    "order" INTEGER NOT NULL,
-    "hidden" BOOLEAN NOT NULL DEFAULT false,
-    "active" BOOLEAN NOT NULL DEFAULT true,
-    "trackId" INTEGER NOT NULL,
-
-    CONSTRAINT "Step_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "Questionary" (
     "id" SERIAL NOT NULL,
+    "type" TEXT NOT NULL DEFAULT 'Questionary',
     "questions" TEXT[],
     "answer" TEXT[],
     "date" TIMESTAMP(3) NOT NULL,
-    "stepId" INTEGER,
+    "hidden" BOOLEAN NOT NULL,
+    "trackId" INTEGER,
 
     CONSTRAINT "Questionary_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
+CREATE TABLE "Videocall" (
+    "id" SERIAL NOT NULL,
+    "type" TEXT NOT NULL DEFAULT 'Sandbox',
+    "date" TIMESTAMP(3) NOT NULL,
+    "hidden" BOOLEAN NOT NULL,
+    "trackId" INTEGER NOT NULL,
+
+    CONSTRAINT "Videocall_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "CodeSandbox" (
+    "id" SERIAL NOT NULL,
+    "type" TEXT NOT NULL DEFAULT 'Sandbox',
+    "date" TIMESTAMP(3) NOT NULL,
+    "hidden" BOOLEAN NOT NULL,
+    "trackId" INTEGER NOT NULL,
+
+    CONSTRAINT "CodeSandbox_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Message" (
     "id" SERIAL NOT NULL,
-    "trackId" INTEGER NOT NULL,
+    "type" TEXT NOT NULL DEFAULT 'Message',
     "text" TEXT NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "files" TEXT[],
+    "trackId" INTEGER NOT NULL,
 
     CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
 );
@@ -149,9 +159,6 @@ CREATE UNIQUE INDEX "Applicant_email_key" ON "Applicant"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Recruiter_idAuth_key" ON "Recruiter"("idAuth");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Step_order_key" ON "Step"("order");
 
 -- AddForeignKey
 ALTER TABLE "Experience" ADD CONSTRAINT "Experience_applicantId_fkey" FOREIGN KEY ("applicantId") REFERENCES "Applicant"("idDB") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -172,10 +179,13 @@ ALTER TABLE "Track" ADD CONSTRAINT "Track_applicantID_fkey" FOREIGN KEY ("applic
 ALTER TABLE "Track" ADD CONSTRAINT "Track_vacancyId_fkey" FOREIGN KEY ("vacancyId") REFERENCES "Vacancy"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Step" ADD CONSTRAINT "Step_trackId_fkey" FOREIGN KEY ("trackId") REFERENCES "Track"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Questionary" ADD CONSTRAINT "Questionary_trackId_fkey" FOREIGN KEY ("trackId") REFERENCES "Track"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Questionary" ADD CONSTRAINT "Questionary_stepId_fkey" FOREIGN KEY ("stepId") REFERENCES "Step"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Videocall" ADD CONSTRAINT "Videocall_trackId_fkey" FOREIGN KEY ("trackId") REFERENCES "Track"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CodeSandbox" ADD CONSTRAINT "CodeSandbox_trackId_fkey" FOREIGN KEY ("trackId") REFERENCES "Track"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Message" ADD CONSTRAINT "Message_trackId_fkey" FOREIGN KEY ("trackId") REFERENCES "Track"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

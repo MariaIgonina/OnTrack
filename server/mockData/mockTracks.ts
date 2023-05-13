@@ -41,3 +41,11 @@ export const track4 = {
     recruiterNotes: "she seems impresed",
   },
 };
+
+// Message: [
+//   {
+//     text: "This is populate 1 test message",
+//     date: "2023-05-10T08:44:46.735Z",
+//     files: ["file1.png", "file2.pdf"],
+//   },
+// ],
