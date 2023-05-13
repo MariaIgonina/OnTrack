@@ -77,7 +77,7 @@ export default function LoginBtn({ text }: LoginBtnProps) {
           dispatch(
             setCurrentUser({
               id: recruiterCreated.payload.id,
-              role: "applicant",
+              role: "recruiter",
             })
           );
           navigate(`/recruiter/${recruiterCreated.payload.id}`);
