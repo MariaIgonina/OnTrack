@@ -1,12 +1,12 @@
 import React from "react";
 import YouTube from 'react-youtube';
+import { Applicant } from "../../Interfaces";
 
-
-const Video = ({applicant}) => {
+const Video = ({applicant}:{applicant: Applicant}) => {
 
   const opts = {
     height: '190',
-    width: '340',
+    width: '320',
     playerVars: {
       autoplay: 0,
     },
@@ -16,13 +16,14 @@ const Video = ({applicant}) => {
 
   return (
     <>
-    <div className="flex-shrink-0 flex-grow flex-col flex r p-3 m-4 mt-0 ">
+    <div className="flex-shrink-0 flex-grow flex-col flex r p-3 m-1 ml-2 mr-2">
       <h2
-      className=" text-lg font-semibold leading-6 text-[#026767] sm:text-3xl mb-2"
+      className=" text-lg font-semibold leading-6 text-[#026767] text-base mb-2"
       >Video presentation of my best project</h2>
-
-      <YouTube videoId={videoId} opts={opts} 
-      className="shadow-md"/>
+      <div className="shadow-md ">
+        <YouTube videoId={videoId} opts={opts} 
+          className="shadow-md"/>
+      </div>
       {/* <YouTubePlayer /> */}
     
     </div>
