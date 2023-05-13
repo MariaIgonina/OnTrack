@@ -18,6 +18,7 @@ import UserLogin from "./Pages/UserLogin";
 import "./index.css";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
+import CodeSandbox from "./Pages/CodeSandbox";
 
 function App() {
   const currentUser = useSelector((state: RootState) => state.currentUser);
@@ -64,6 +65,7 @@ function App() {
           <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
           <Route path="/signInWithGoogle" element={<SignInWithGoogle />} />
           <Route path="/login/:id" element={<UserLogin />} />
+          <Route path="/codeSandbox" element={<CodeSandbox />} />
           {/* /recruiter/?id=${id}` */}
         </>
       </Routes>
