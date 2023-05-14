@@ -46,8 +46,8 @@ export default function RecruiterLogin() {
       return <DashboardPage />;
     }
   } else {
-    if (applicant.familyName === "") {
-      // console.log(applicant);
+    if (applicant.applicant.familyName === "" || applicant.applicant.familyName === null) {
+      console.log(applicant);
       console.log("i am hitting the correct block in uerlogin");
       return <AddApplicantPage />;
     } else {
