@@ -9,6 +9,7 @@ import Modal from "react-modal";
 
 const VacancyList: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const currentUserID = useSelector((s: RootState) => s.currentUser.id);
 
   const dispatch = useDispatch<AppDispatch>();
   const vacancies = useSelector(
@@ -18,7 +19,7 @@ const VacancyList: React.FC = () => {
     (state: RootState) => state.vacancy.vacancy
   );
   useEffect(() => {
-    dispatch(fetchvacanciesByRecruiter(1));
+    dispatch(fetchvacanciesByRecruiter(+currentUserID));
   }, [dispatch, vacancy]);
 
   const openModal = () => {

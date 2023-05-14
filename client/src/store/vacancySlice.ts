@@ -63,13 +63,13 @@ const fetchvacanciesByRecruiter = createAsyncThunk(
   async function (recruiterId: number, { rejectWithValue }) {
     try {
       const response = await fetch(
-        url + "/vacanciesByRecruiter/" + recruiterId
+        url + `/vacanciesByRecruiter/${recruiterId}`
       );
       if (!response.ok) {
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("DATA FROM REDUX by recruiter : ", data);
+      // console.log("DATA FROM REDUX by recruiter : ", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -126,12 +126,13 @@ const updateVacancy = createAsyncThunk(
   "vacancy/updateVacancy",
   async function ({ vacancyId, vacancy }: IPutParams, { rejectWithValue }) {
     try {
+      const { jobTrack, ...updatedVacancy } = vacancy;
       const response = await fetch(url + `/updateVacancy/${vacancyId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(vacancy),
+        body: JSON.stringify(updatedVacancy),
       });
       if (!response.ok) {
         throw new Error("Server error");
