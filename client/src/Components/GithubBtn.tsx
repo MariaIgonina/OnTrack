@@ -95,7 +95,7 @@ export default function GithubBtn({ text }: GithubBtnProps) {
         localStorage.setItem("login", "recruiter");
         const newRecruiter: Recruiter = extractRecruiterData(userInfo);
         dispatch(createRecruiter(newRecruiter));
-        console.log(newRecruiter);
+        // console.log(newRecruiter);
         dispatch(
           setCurrentUser({
             id: newRecruiter.id,

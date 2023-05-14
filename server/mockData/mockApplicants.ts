@@ -7,7 +7,6 @@ export const xavi = {
   age: "1994-01-01T00:00:00.000Z",
   phone: "6578412",
   location: "barcelona",
-  currentLocation: ["37.7749", "-122.4194"],
   readyMove: true,
   workingHours: "full-time",
   workingModal: "office",
@@ -21,8 +20,9 @@ export const xavi = {
   hobbies: ["sport"],
   salaryRange: 40000,
   desiredLocation: ["londres", "amsterdam"],
-  notDesiredLocation: ["terrassa"],
+  notDesiredLocation: ["Tarragona"],
   desiredWorkingModal: "office",
+  currentLocation: ["41.1188827", "1.2444909"],
 };
 
 export const guillaume = {
@@ -34,7 +34,6 @@ export const guillaume = {
   age: "1993-01-01T00:00:00.000Z",
   phone: "6578412",
   location: "barcelona",
-  currentLocation: [],
   readyMove: true,
   workingHours: "internship",
   workingModal: "hybrid",
@@ -50,6 +49,7 @@ export const guillaume = {
   desiredLocation: ["madrid", "san sebastian"],
   notDesiredLocation: ["terrassa"],
   desiredWorkingModal: "hybrid",
+  currentLocation: ["41.56314820000001", "2.0054917"],
 };
 
 export const paola = {
@@ -60,8 +60,7 @@ export const paola = {
   familyName: "Patiño",
   age: "1993-01-01T00:00:00.000Z",
   phone: "6578412",
-  location: "barcelona",
-  currentLocation: [],
+  location: "Badalona",
   readyMove: true,
   workingHours: "part-time",
   workingModal: "remote",
@@ -75,8 +74,9 @@ export const paola = {
   hobbies: ["guitarra"],
   salaryRange: 35000,
   desiredLocation: ["bogota", "amsterdam", "berlin"],
-  notDesiredLocation: ["terrassa"],
+  notDesiredLocation: ["Badalona"],
   desiredWorkingModal: "remote",
+  currentLocation: ["41.4469883", "2.2450325"],
 };
 export const rosie = {
   idAuth: "U_kgDOB0L623_A",
@@ -86,8 +86,7 @@ export const rosie = {
   familyName: "MANGOS",
   age: "2023-05-11T00:00:00.000Z",
   phone: "",
-  location: "",
-  currentLocation: [],
+  location: "Manresa",
   readyMove: null,
   workingHours: "",
   workingModal: "",
@@ -103,6 +102,7 @@ export const rosie = {
   desiredLocation: [],
   notDesiredLocation: [],
   desiredWorkingModal: null,
+  currentLocation: ["41.7211121", "1.8164413"],
 };
 
 export const maria = {
@@ -114,7 +114,6 @@ export const maria = {
   age: "2023-05-04T00:00:00.000Z",
   phone: "",
   location: "",
-  currentLocation: [],
   readyMove: true,
   workingHours: "",
   workingModal: "",
@@ -130,4 +129,5 @@ export const maria = {
   desiredLocation: [],
   notDesiredLocation: [],
   desiredWorkingModal: null,
+  currentLocation: ["41.3873974", "2.168568"],
 };
