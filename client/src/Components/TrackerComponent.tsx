@@ -32,7 +32,7 @@ export default function TrackerComponent() {
   return (
     <>
       <div className=" my-8 bg-stone-100">
-        <h2 className="text-lg font-bold tracking-tight text-[#026767] sm:text-lg m-8">
+        <h2 className="text-2xl font-bold tracking-tight text-[#026767] m-8 mb-2">
           Monitor the progress of your applicants in one place
         </h2>
         <div className="overflow-x-scroll flex flex-nowrap">

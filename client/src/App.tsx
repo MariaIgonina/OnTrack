@@ -35,7 +35,9 @@ function App() {
           {/* <Route path="/adduser" element={<AddApplicantPage />} /> */}
           <Route path="/recruiterProfile" element={<RecruiterProfilePage />} />
           <Route path="/applicant/:id" element={<ApplicantPage />} />
+          
           <Route path="/settings" element={<SettingsPage />} />
+          
           <Route path="/addapplicant" element={<AddApplicantPage />} />
           <Route path="/vacancy/:vacancyId" element={<VacancyDetails />} />
           <Route path="/vacancyList" element={<VacancyList />} />
