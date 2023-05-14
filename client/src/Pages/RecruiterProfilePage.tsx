@@ -25,12 +25,11 @@ const RecruiterProfilePage = () => {
 
   useEffect(() => {
     console.log("IDDDDD from recruiterProfile page!!!", currentUserID);
-  }, []);
-
-  useEffect(() => {
     dispatch(setRecruiter(recruiter));
-    dispatch(fetchRecruiter(+currentUserID));
-  }, [dispatch]);
+    if (currentUserID) {
+      dispatch(fetchRecruiter(+currentUserID));
+    }
+  }, [dispatch, currentUserID]);
 
   const openModal = () => {
     setIsModalOpen(true);

@@ -53,35 +53,26 @@ const ApplicantPage = () => {
   return (
     <>
       <div className=" bg-[#FFFEF5] h-full ">
-      
-      <div className=" flex flex-row ">
-        <div className=" flex flex-col flex-wrap items-stretch">
-          <div className=" flex flex-row flex-wrap items-stretch">
-            <Avatar 
-            applicant = {applicant}/>
-            
-            <PersonalInfo 
-            applicant = {applicant}/>
+        <div className=" flex flex-row ">
+          <div className=" flex flex-col flex-wrap items-stretch">
+            <div className=" flex flex-row flex-wrap items-stretch">
+              <Avatar applicant={applicant} />
 
-              <div 
-              className=" flex flex-col items-stretch flex-wrap items-stretch"
-              >
-                <CurrentLocation 
-                applicant = {applicant}
-                />
-                <JobPreferences 
-                applicant = {applicant}/>
-              </div>      
+              <PersonalInfo applicant={applicant} />
 
-              <div 
-                className="flex flex-col flex-wrap items-stretch"
-                >
-                  <Hobbies 
-                  applicant = {applicant}/>
-                  <Languages 
-                  applicant = {applicant}/>
-                </div>
+              <div className=" flex flex-col items-stretch flex-wrap items-stretch">
+                <CurrentLocation applicant={applicant} />
+                <JobPreferences applicant={applicant} />
+              </div>
+
+              <div className="flex flex-col flex-wrap items-stretch">
+                <Hobbies applicant={applicant} />
+                <Languages applicant={applicant} />
+              </div>
+            </div>
+            <Skills applicant={applicant} />
           </div>
+<<<<<<< HEAD
           <About applicant={applicant} />
         </div>
         <Skills 
@@ -98,6 +89,15 @@ const ApplicantPage = () => {
         <div className=" flex flex-col flex-wrap items-stretch">
           <Video 
           applicant = {applicant}/>
+=======
+
+          <div className=" flex flex-row">
+            <EducationComp applicant={applicant} />
+            <ExperienceComp applicant={applicant} />
+
+            <Video applicant={applicant} />
+          </div>
+>>>>>>> Development
         </div>
       </div>
 

@@ -13,9 +13,9 @@ const VacancyUpdate: React.FC<VacancyUpdateProps> = ({ onCancel }) => {
   const vacancy: Vacancy = useSelector(
     (state: RootState) => state.vacancy.vacancy
   );
-
+  //   console.log("vacancy", vacancy);
   const [formData, setFormData] = useState<Vacancy>(vacancy.data);
-  console.log(formData);
+  //   console.log(formData);
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -29,7 +29,7 @@ const VacancyUpdate: React.FC<VacancyUpdateProps> = ({ onCancel }) => {
     e.preventDefault();
     const updatedVacancy: Vacancy = {
       ...formData,
-      recruiterId: vacancy.recruiterId, // Keep the original recruiterId
+      recruiterId: vacancy.data.recruiterId, // Keep the original recruiterId
       experience: parseInt(formData.experience as any, 10),
       salaryRange: parseInt(formData.salaryRange as any, 10),
       skills:
@@ -46,8 +46,9 @@ const VacancyUpdate: React.FC<VacancyUpdateProps> = ({ onCancel }) => {
           : formData.requiredLanguages,
     };
     await dispatch(
-      updateVacancy({ vacancyId: vacancy.id, vacancy: updatedVacancy })
+      updateVacancy({ vacancyId: vacancy.data.id, vacancy: updatedVacancy })
     );
+    onCancel();
   };
   return (
     <div className="flex h-screen  items-center justify-center  mt-[220px] mb-32">

@@ -11,6 +11,7 @@ export const vacancy1 = {
     experience: 2,
     location: "Paris",
     salaryRange: 50000,
+    currentLocation: ["48.856614", "2.3522219"],
   },
 };
 
@@ -27,6 +28,7 @@ export const vacancy2 = {
     experience: 1,
     location: "Barcelona",
     salaryRange: 30000,
+    currentLocation: ["41.3873974", "2.168568"],
   },
 };
 
@@ -43,6 +45,7 @@ export const vacancy3 = {
     experience: 1,
     location: "Berlin",
     salaryRange: 60000,
+    currentLocation: ["52.52000659999999", "13.404954"],
   },
 };
 
@@ -58,7 +61,8 @@ export const vacancy4 = {
     stack: ["stack1", "stack2"],
     requiredLanguages: ["lang1", "lang2"],
     experience: 2,
-    location: "Paris",
+    location: "Madrid",
     salaryRange: 50000,
+    currentLocation: ["40.4167754", "-3.7037902"],
   },
 };

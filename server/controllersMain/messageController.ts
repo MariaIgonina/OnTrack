@@ -7,9 +7,9 @@ dotenv.config();
 
 const createMessage = async (req: Request, res: Response) => {
   try {
-    const { trackId, text, date, files, stepId } = req.body;
+    const { trackId, text, date, files, author } = req.body;
     console.log(req.body);
-    if (!trackId || !text || !date || !files) {
+    if (!trackId || !text || !date || !files || !author) {
       res
         .status(400)
         .json({ success: false, message: "Missing required fields" });
@@ -21,6 +21,7 @@ const createMessage = async (req: Request, res: Response) => {
         text,
         date,
         files: { set: files },
+        author,
       },
     });
     res.status(201).json({ success: true, data: message });

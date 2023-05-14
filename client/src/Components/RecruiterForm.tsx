@@ -115,7 +115,7 @@ const RecruiterForm: React.FC<VacancyCreateProps> = ({
       recruiter: updatedFormData,
     };
 
-    console.log("objet envoyé", dbArg);
+    // console.log("objet envoyé", dbArg);
     dispatch(updateRecruiter(dbArg));
     onCancel();
   };

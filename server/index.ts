@@ -20,13 +20,13 @@ app.use(mainRouter);
     await prisma.$connect();
     app.listen(PORT, () => {
       console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
-      //     populateDatabase()
-      // .then((message) => {
-      //   console.log(message);
-      // })
-      // .catch((error) => {
-      //   console.error("Failed to populate the database:", error);
-      // });
+      // populateDatabase()
+      //   .then((message) => {
+      //     console.log(message);
+      //   })
+      //   .catch((error) => {
+      //     console.error("Failed to populate the database:", error);
+      //   });
     });
   } catch (error) {
     console.log("Error in connecting to database :", error);

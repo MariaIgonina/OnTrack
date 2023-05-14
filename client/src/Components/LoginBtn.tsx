@@ -61,7 +61,7 @@ export default function LoginBtn({ text }: LoginBtnProps) {
           const applicantCreated = await dispatch(
             createApplicant(extractApplicantData(userInfo))
           );
-          console.log(applicantCreated);
+          // console.log(applicantCreated);
           dispatch(
             setCurrentUser({
               id: applicantCreated.payload.idDB,
