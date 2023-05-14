@@ -35,19 +35,31 @@ const initialApplicant: Applicant = {
   desiredWorkingModal: "",
 };
 
-const url: string = "http://localhost:3000";
+const url = "http://localhost:3000";
+
+const fetchCities = createAsyncThunk(
+  "applicant/fetchcities",
+  async function(){
+    try {
+      const response = await fetch(`${url}/findLocation`)
+      const data = await response.json();
+      return data
+    } catch (error) {
+      console.log(error);
+    }
+  }
+)
 
 const fetchApplicant = createAsyncThunk(
   "applicant/fetchapplicant",
   async function (applicantId: number, { rejectWithValue }) {
-    console.log(applicantId);
+    // console.log(applicantId);
     try {
       const response = await fetch(`${url}/applicant/${applicantId}`);
       if (!response.ok) {
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("DATA FROM REDUX THUNK : ", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -75,9 +87,9 @@ const fetchAllApplicants = createAsyncThunk(
 const fetchFilteredApplicants = createAsyncThunk(
   "applicant/fetchFilteredApplicants",
 
-  async function (query: string, { rejectWithValue }) {
+  async function (url2: URL, { rejectWithValue }) {
     try {
-      const response = await fetch(url + `/filterApplicants/${query}`);
+      const response = await fetch(url2);
       if (!response.ok) {
         throw new Error("Server error");
       }
@@ -92,7 +104,7 @@ const fetchFilteredApplicants = createAsyncThunk(
 const createApplicant = createAsyncThunk(
   "applicant/createApplicant",
   async function (applicant: Applicant, { rejectWithValue }) {
-    console.log(applicant);
+    // console.log(applicant);
     try {
       const response = await fetch(url + "/createApplicant", {
         method: "POST",
@@ -105,7 +117,7 @@ const createApplicant = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("inside create Applicant");
+      // console.log("inside create Applicant");
       const filteredData = {
         ...data,
         message: {
@@ -113,7 +125,7 @@ const createApplicant = createAsyncThunk(
           date: undefined, // Exclude the non-serializable date value
         },
       };
-      console.log(filteredData);
+      // console.log(filteredData);
       return filteredData;
       //return data;
     } catch (err) {
@@ -304,6 +316,7 @@ export {
   createApplicant,
   deleteApplicant,
   updateApplicant,
+  fetchCities,
 };
 
 export const selectapplicant = (state: RootState) => state.applicant;
@@ -328,6 +341,5 @@ const fetchCityCoordinates = async (
   } catch (error) {
     console.error("Error fetching city coordinates:", error);
   }
-
   return null;
 };

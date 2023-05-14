@@ -7,17 +7,17 @@ export const compLanguages = [  "oracle",  "java",  "javascript",  "linux",  "ht
 export const stack = [  "Symfony",  "Flask",  "Android SDK",  "Graph QL",  "MUI",  "bootstrap",  "tailwind",  "react testing library",  "supertest",  "jest",  "cypress",  "django",  "spring",  "node",  "express",  "koa",  "superbase",  "react",  "next.js",  "vue",  "angular",  "react native",  "vite",  "prysma",  "sequelize",  "mongoose",  "mongodb",  "ruby on rails",  "fastapi",  "jquery"]
 
 export const workingModals = [
+    "On-site",
+    "Remote",
+    "Hybrid",
+  ];
+
+export const workingHours = [
     "Full-time",
     "Part-time",
     "Contract/Freelance",
     "Internship",
     "Flextime"
-  ];
-
-export const workingHours = [
-    "On-site",
-    "Remote",
-    "Hybrid",
 ];
 
 export const levelLanguages = [
