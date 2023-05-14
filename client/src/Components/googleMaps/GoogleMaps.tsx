@@ -108,7 +108,10 @@ const GoogleMaps: React.FC = () => {
               icon={
                 currentUser.role === "recruiter"
                   ? {
-                      url: element?.picture ? element?.picture : defaultAvatar,
+                      url:
+                        element?.picture && isValidURL(element?.picture)
+                          ? element?.picture
+                          : defaultAvatar,
                       scaledSize: new window.google.maps.Size(40, 40),
                       anchor: new window.google.maps.Point(20, 20),
                     }
