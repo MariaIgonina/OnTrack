@@ -1,9 +1,9 @@
 import React from "react";
-
+import { Applicant } from "../../Interfaces";
 import UserCard from "../UserCard";
 
 
-const Avatar = ({applicant}) => {
+const Avatar = ({applicant}:{applicant: Applicant}) => {
 
   return (
     <>
@@ -11,7 +11,7 @@ const Avatar = ({applicant}) => {
       <img
         src={applicant.picture}
         alt=""
-        className="shadow-md rounded-full bg-gray-50 mt-8 m-4 "
+        className="shadow-md rounded-full bg-gray-50 m-1 ml-3 mt-3"
         style={{ height: '220px', width: '220px' }}
       />
     </>
