@@ -8,7 +8,10 @@ import { fetchRecruiter, setRecruiter } from "../store/recruiterSlice";
 import VacancyList from "../Components/Vacancy/VacancyList";
 import RecruiterForm from "../Components/RecruiterForm";
 import Modal from "react-modal";
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
+import ChatBox from "../Components/liveChat/Chat";
+import Chat from "../Components/liveChat/Chat";
+import ChatWindow from "../Components/liveChat/ChatWindow";
 
 const RecruiterProfilePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,24 +47,22 @@ const RecruiterProfilePage = () => {
             className="w-32 h-32 "
           />
           <div className="rounded-2xl shadow-md bg-[#FFE8D1] p-4">
-          <div className=" flex flex-row ">
-            <AlternateEmailIcon
-              fontSize="small"
-              style={{ color: '#475569' }}
-              className="mr-2"
-            ></AlternateEmailIcon>
-            <p>{recruiter.recruiter.email}</p>
-          </div>
-            
-            
-      
+            <div className=" flex flex-row ">
+              <AlternateEmailIcon
+                fontSize="small"
+                style={{ color: "#475569" }}
+                className="mr-2"
+              ></AlternateEmailIcon>
+              <p>{recruiter.recruiter.email}</p>
+            </div>
+
             <p>{recruiter.recruiter.externalLinks}</p>
           </div>
         </div>
         <div className="ml-20 mr-20 shadow-md rounded-2xl bg-white p-4">
-          <h1 
-          className="text-3xl font-bold tracking-tight text-[#026767] sm:text-3xl m-2"
-          >{recruiter.recruiter.name}</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-3xl m-2">
+            {recruiter.recruiter.name}
+          </h1>
           <div className="grid grid-cols-2 gap-x-4 mt-2">
             <div>
               <p>Founded:</p>
@@ -109,6 +110,7 @@ const RecruiterProfilePage = () => {
       </div>
       <div className="mt-20 ml-10 mr-10">
         <VacancyList />
+        <ChatWindow trackId={1} />
       </div>
     </div>
   );
