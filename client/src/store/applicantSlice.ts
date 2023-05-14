@@ -11,7 +11,7 @@ const initialApplicant: Applicant = {
   picture: "",
   name: "",
   familyName: "",
-  age: "",
+  age: new Date(),
   phone: "",
   location: "",
   track: [],

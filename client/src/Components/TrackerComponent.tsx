@@ -11,10 +11,12 @@ export default function TrackerComponent() {
   const dispatch = useDispatch<AppDispatch>();
   const currentUser = useSelector(
     (state: RootState) => state.currentUser
-  ) as unknown as CurrentUserType;
+  );
+  const track = useSelector(
+    (state: RootState) => state.track.track);
 
   useEffect(() => {
-    console.log("inside the track comp", currentUser.currentUser);
+    // console.log("inside the track comp", currentUser.currentUser);
   }, [currentUser.currentUser]);
 
   //getTracksByRecruiter

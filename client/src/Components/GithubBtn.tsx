@@ -99,7 +99,7 @@ export default function GithubBtn({ text }: GithubBtnProps) {
         dispatch(
           setCurrentUser({
             id: newRecruiter.id,
-            role: "applicant",
+            role: "recruiter",
           })
         );
       }

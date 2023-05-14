@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./RegisterModal.css";
 import { Recruiter, Applicant } from "../Interfaces";
 import GithubBtn from "./GithubBtn";
+import SignInWithGoogle from "./SignInWithGoogle";
 
 type RegisterModalProps = {
   isOpen: boolean;
@@ -11,11 +12,16 @@ type RegisterModalProps = {
 export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
   const [isApplicant, setisApplicant] = useState(true);
   const [isRecruiter, setisRecruiter] = useState(false);
-
+  const buttonRef = useRef<any>()
   const handleToggle = () => {
     setisApplicant(!isApplicant);
     setisRecruiter(isApplicant);
   };
+
+  useEffect(() => {
+    if (buttonRef.current!.checked) localStorage.setItem('currentUser', 'applicant')
+  }, []);
+
 
   useEffect(() => {
     console.log("state of applicant", isApplicant);
@@ -30,7 +36,6 @@ export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
     about: "",
     externalLinks: [],
     headOffice: "",
-    track: [],
     email: "",
     picture: "",
     idAuth: "",
@@ -47,9 +52,7 @@ export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
     age: "",
     phone: "",
     location: "",
-    // inProgressApplications: [],
-    coordinateX: "",
-    coordinateY: "",
+    currentLocation: [],
     readyToMove: false,
     workingHours: "",
     workingModal: "",
@@ -67,6 +70,7 @@ export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
     desiredLocation: [],
     nonDesiredLocation: [],
     desiredWorkingModal: "",
+    track: []
   };
 
   return (
@@ -74,6 +78,7 @@ export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
       <div className="modal-content">
         <div className="checkbox">
           <input
+            ref={buttonRef}
             type="checkbox"
             id="applicant"
             name="role"
@@ -99,6 +104,7 @@ export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
           <label htmlFor="recruiter">Recruiter</label>
         </div>
         <GithubBtn text={"Sign-up with Github"}></GithubBtn>
+        <SignInWithGoogle/>
       </div>
     </div>
   );

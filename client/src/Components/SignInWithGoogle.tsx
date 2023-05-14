@@ -4,6 +4,7 @@ import GoogleBtn from '../Components/GoogleBtn';
 const signInWithGoogle = () => {
   const [isApplicant, setIsApplicant] = useState(false);
   const [isRecruiter, setisRecruiter] = useState(true);
+  localStorage.setItem('currentUser', 'recruiter')
 
   const handleToggle = () => {
     setIsApplicant(!isApplicant);
@@ -11,9 +12,7 @@ const signInWithGoogle = () => {
   };
 
   return (
-    <div style={{ width: "600px" }}>
-      <GoogleBtn />
-    </div>
+    <GoogleBtn />
   );
 }
 
