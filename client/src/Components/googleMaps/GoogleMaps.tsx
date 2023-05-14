@@ -63,6 +63,7 @@ const GoogleMaps: React.FC = () => {
   }, [dispatch, currentUser]);
 
   const mapper = currentUser.role === "recruiter" ? applicants : vacancies;
+  console.log("MAPPER:", mapper);
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const onLoad = useCallback((map: google.maps.Map) => {
@@ -107,10 +108,7 @@ const GoogleMaps: React.FC = () => {
               icon={
                 currentUser.role === "recruiter"
                   ? {
-                      url:
-                        element?.picture && isValidURL(element?.picture)
-                          ? element?.picture
-                          : defaultAvatar,
+                      url: element?.picture ? element?.picture : defaultAvatar,
                       scaledSize: new window.google.maps.Size(40, 40),
                       anchor: new window.google.maps.Point(20, 20),
                     }

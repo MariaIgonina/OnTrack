@@ -20,7 +20,8 @@ const VacancyList: React.FC = () => {
   );
   useEffect(() => {
     dispatch(fetchvacanciesByRecruiter(+currentUserID));
-  }, [dispatch, vacancy]);
+    console.log(currentUserID);
+  }, [dispatch, vacancy, currentUserID]);
 
   const openModal = () => {
     setIsModalOpen(true);
