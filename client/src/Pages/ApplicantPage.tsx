@@ -33,6 +33,7 @@ const ApplicantPage = () => {
   const applicant = useSelector(
     (state: RootState) => state.applicant.applicant
   );
+
   const currentUser = useSelector(
     (state: RootState) => state.currentUser
   ) as unknown as CurrentUserType;
@@ -43,10 +44,11 @@ const ApplicantPage = () => {
     if (currentUser.id === +codeParam) {
       console.log("cureent ysfter", currentUser.id);
       dispatch(fetchApplicant(+currentUser.id));
+      console.log("WE CALLED AN APPLICANT", applicant)
     } else {
       dispatch(fetchApplicant(+codeParam));
     }
-  }, [dispatch]);
+  }, [dispatch, currentUser]);
 
   return (
     <>
@@ -80,19 +82,26 @@ const ApplicantPage = () => {
                   applicant = {applicant}/>
                 </div>
           </div>
-          <About
-          applicant = {applicant}/>
-          <Skills applicant={applicant} />
+          <About applicant={applicant} />
         </div>
+        <Skills 
+        applicant = {applicant}/>
 
-        <div className=" flex flex-row">
-          <EducationComp applicant={applicant} />
-          <ExperienceComp applicant={applicant} />
+      </div>
+      
 
-          <Video applicant={applicant} />
+      <div className=" flex flex-row flex-wrap items-stretch">
+        <EducationComp
+        applicant = {applicant}/>
+        <ExperienceComp 
+        applicant = {applicant}/>
+        <div className=" flex flex-col flex-wrap items-stretch">
+          <Video 
+          applicant = {applicant}/>
         </div>
       </div>
-    </div>
+
+      </div>
     </>
     
   );

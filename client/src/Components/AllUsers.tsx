@@ -32,7 +32,7 @@ export default function AllUsers() {
     <div className="bg-stone-100 py-24 sm:py-8 rounded-lg">
       <div className="mx-auto max-w-10xl lg:px-8">
         <div className="mx-auto max-w-lg lg:mx-0">
-          <h2 className="text-lg font-bold tracking-tight text-[#026767] sm:text-lg mb-2">
+          <h2 className="text-2xl font-bold tracking-tight text-[#026767] mb-2">
             Search all the candidates using OnTrack
           </h2>
         </div>

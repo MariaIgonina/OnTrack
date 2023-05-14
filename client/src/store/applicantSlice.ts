@@ -1,4 +1,4 @@
-import { createAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createSlice, createAsyncThunk, isAsyncThunkAction } from "@reduxjs/toolkit";
 
 import { Applicant, Track } from "../Interfaces";
 
@@ -64,7 +64,7 @@ const fetchAllApplicants = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      //console.log("ALL APPLICANTS : ", data);
+      console.log("ALL APPLICANTS : ", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -82,6 +82,7 @@ const fetchFilteredApplicants = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
+      console.log("data we need", data)
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
