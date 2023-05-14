@@ -92,7 +92,7 @@ const GoogleMaps: React.FC = () => {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center as google.maps.LatLngLiteral}
-        zoom={8}
+        zoom={4}
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
