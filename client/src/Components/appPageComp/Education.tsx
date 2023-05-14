@@ -1,9 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-<<<<<<< HEAD
 
-=======
->>>>>>> Development
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import {

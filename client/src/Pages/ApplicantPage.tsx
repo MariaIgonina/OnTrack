@@ -70,17 +70,12 @@ const ApplicantPage = () => {
                 <Languages applicant={applicant} />
               </div>
             </div>
-            <Skills applicant={applicant} />
+            <About applicant={applicant} />
+            
           </div>
-<<<<<<< HEAD
-          <About applicant={applicant} />
+          <Skills applicant={applicant} />
         </div>
-        <Skills 
-        applicant = {applicant}/>
-
-      </div>
-      
-
+       
       <div className=" flex flex-row flex-wrap items-stretch">
         <EducationComp
         applicant = {applicant}/>
@@ -89,19 +84,13 @@ const ApplicantPage = () => {
         <div className=" flex flex-col flex-wrap items-stretch">
           <Video 
           applicant = {applicant}/>
-=======
-
-          <div className=" flex flex-row">
-            <EducationComp applicant={applicant} />
-            <ExperienceComp applicant={applicant} />
-
-            <Video applicant={applicant} />
-          </div>
->>>>>>> Development
         </div>
       </div>
-
       </div>
+      
+
+
+
     </>
     
   );
