@@ -49,36 +49,23 @@ const ApplicantPage = () => {
   }, [dispatch]);
 
   return (
-    <>
-      <div className=" bg-[#FFFEF5] h-full ">
-      
+    <div className=" bg-[#FFFEF5] h-full ">
       <div className=" flex flex-row ">
         <div className=" flex flex-col flex-wrap items-stretch">
           <div className=" flex flex-row flex-wrap items-stretch">
-            <Avatar 
-            applicant = {applicant}/>
-            
-            <PersonalInfo 
-            applicant = {applicant}/>
+            <Avatar applicant={applicant} />
 
-              <div 
-              className=" flex flex-col items-stretch flex-wrap items-stretch"
-              >
-                <CurrentLocation 
-                applicant = {applicant}
-                />
-                <JobPreferences 
-                applicant = {applicant}/>
-              </div>      
+            <PersonalInfo applicant={applicant} />
 
-              <div 
-                className="flex flex-col flex-wrap items-stretch"
-                >
-                  <Hobbies 
-                  applicant = {applicant}/>
-                  <Languages 
-                  applicant = {applicant}/>
-                </div>
+            <div className=" flex flex-col items-stretch flex-wrap items-stretch">
+              <CurrentLocation applicant={applicant} />
+              <JobPreferences applicant={applicant} />
+            </div>
+
+            <div className="flex flex-col flex-wrap items-stretch">
+              <Hobbies applicant={applicant} />
+              <Languages applicant={applicant} />
+            </div>
           </div>
           <Skills applicant={applicant} />
         </div>
@@ -90,7 +77,7 @@ const ApplicantPage = () => {
           <Video applicant={applicant} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
