@@ -1,20 +1,18 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 const prisma = new PrismaClient();
-import dotenv from "dotenv";
 import { start } from "repl";
-dotenv.config();
 
 const createMessage = async (req: Request, res: Response) => {
   try {
     const { trackId, text, date, files, author } = req.body;
     console.log(req.body);
-    if (!trackId || !text || !date || !files || !author) {
-      res
-        .status(400)
-        .json({ success: false, message: "Missing required fields" });
-      return;
-    }
+    // if (!trackId || !text || !date || !files || !author) {
+    //   res
+    //     .status(400)
+    //     .json({ success: false, message: "Missing required fields" });
+    //   return;
+    // }
     const message = await prisma.message.create({
       data: {
         Track: { connect: { id: trackId } },
@@ -24,10 +22,10 @@ const createMessage = async (req: Request, res: Response) => {
         author,
       },
     });
-    res.status(201).json({ success: true, data: message });
+    res.status(201).json(message);
   } catch (error: any) {
     console.error(error);
-    res.status(400).json({ success: false, error: error.message });
+    res.status(400).json(error);
   }
 };
 
@@ -49,10 +47,10 @@ const getAllMsgsByTrack = async (req: Request, res: Response) => {
       where: { trackId },
       orderBy: { date: "asc" },
     });
-    res.status(200).json({ success: true, data: messages });
+    res.status(200).json(messages);
   } catch (error: any) {
     console.error(error);
-    res.status(400).json({ success: false, error: error.message });
+    res.status(400).json(error);
   }
 };
 
