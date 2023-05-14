@@ -112,10 +112,14 @@ export default function GithubBtn({ text }: GithubBtnProps) {
   }
 
   useEffect(() => {
-    if (newApplicant.idDB)
+    if (newApplicant.idDB) {
+      localStorage.setItem('id', newApplicant.idDB + '')
       dispatch(setCurrentUser({ id: newApplicant.idDB, role: "applicant" }));
-    else if (newRecruiter.id)
+    }
+    else if (newRecruiter.id) {
+      localStorage.setItem('id', newRecruiter.id + '')
       dispatch(setCurrentUser({ id: newRecruiter.id, role: "recruiter" }));
+    }
     redirectUser();
   }, [newRecruiter, newApplicant]);
 

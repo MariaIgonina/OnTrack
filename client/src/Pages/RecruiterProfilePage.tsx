@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useInsertionEffect } from "react";
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,8 +25,12 @@ const RecruiterProfilePage = () => {
 
   useEffect(() => {
     dispatch(setRecruiter(recruiter));
-    dispatch(fetchRecruiter(+currentUserID));
   }, [dispatch]);
+
+  useInsertionEffect(() => {
+    dispatch(fetchRecruiter(+currentUserID));
+  }, [recruiter, currentUserID])
+
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -45,23 +49,23 @@ const RecruiterProfilePage = () => {
             className="w-32 h-32 "
           />
           <div className="rounded-2xl shadow-md bg-[#FFE8D1] p-4">
-          <div className=" flex flex-row ">
-            <AlternateEmailIcon
-              fontSize="small"
-              style={{ color: '#475569' }}
-              className="mr-2"
-            ></AlternateEmailIcon>
-            <p>{recruiter.recruiter.email}</p>
-          </div>
-            
-            
-      
+            <div className=" flex flex-row ">
+              <AlternateEmailIcon
+                fontSize="small"
+                style={{ color: '#475569' }}
+                className="mr-2"
+              ></AlternateEmailIcon>
+              <p>{recruiter.recruiter.email}</p>
+            </div>
+
+
+
             <p>{recruiter.recruiter.externalLinks}</p>
           </div>
         </div>
         <div className="ml-20 mr-20 shadow-md rounded-2xl bg-white p-4">
-          <h1 
-          className="text-3xl font-bold tracking-tight text-[#026767] sm:text-3xl m-2"
+          <h1
+            className="text-3xl font-bold tracking-tight text-[#026767] sm:text-3xl m-2"
           >{recruiter.recruiter.name}</h1>
           <div className="grid grid-cols-2 gap-x-4 mt-2">
             <div>

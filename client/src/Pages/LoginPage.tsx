@@ -27,6 +27,7 @@ const LoginPage = () => {
     }
     localStorage.removeItem("currentUser");
     localStorage.removeItem("login");
+    localStorage.removeItem("id");
     dispatch(setCurrentUser({ id: "", role: "" }));
     setReRender(!render);
   }

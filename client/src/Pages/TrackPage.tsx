@@ -50,7 +50,7 @@ const TrackPage = () => {
       let num = gotInfo + 1;
       setGotInfo(num)
       console.log(error.message, num)
-      console.log(track.track)
+      console.log('track', track.track)
     }
   }, [gotInfo])
 
@@ -61,7 +61,7 @@ const TrackPage = () => {
         <DeleteTrackModal isOpen={true} setOpen={setDeleteModal} trackId={track.track?.id} />
       }
       <div className="w-[226px] min-w-[226px] h-[90%] hidden relative sm:block md:block lg:block">
-        <TrackSideBar trackId={track.track?.id} role={currentUser.currentUser?.role!} setDeleteModal={setDeleteModal} />
+        <TrackSideBar trackId={track.track?.id} role={currentUser.role!} setDeleteModal={setDeleteModal} />
       </div>
       <div className="w-[98%] min-w-[400px] ml-3">
         <div id='Info' className="mb-10 ">
@@ -70,7 +70,7 @@ const TrackPage = () => {
               {vacancy.data?.title}
             </h2>
           </a>
-          {currentUser.currentUser?.role! === 'applicant'
+          {currentUser.role! === 'applicant'
             ?
             <div id="applicantView" className="w-full hover:bg-gray-800 ">
               <a
@@ -115,7 +115,7 @@ const TrackPage = () => {
         <div id="steps-container"
           className="flex flex-col items-center">
           <StepTemplate title='Intro Interiew' link="zoom.meetings/room=as2u48/sdfbjy2" />
-          <Landing />
+          {/* <Landing /> */}
         </div>
       </div >
     </div >

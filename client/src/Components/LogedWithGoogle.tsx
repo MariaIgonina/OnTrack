@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, store } from "../store/store";
@@ -37,7 +37,7 @@ const loggedWithGoogle = () => {
   let info = JSON.parse(localStorage.getItem('authInfo')!)
   let token: string = info['access_token']
   localStorage.setItem('gt', token);
-  
+
 
   const goToUserLogin = useCallback(() => {
     if (userEmail.length) {
@@ -95,18 +95,22 @@ const loggedWithGoogle = () => {
     } catch (e) {
       console.log("error", e);
     }
-  }  
+  }
 
   useEffect(() => {
-    if (newApplicant.idDB)
+    if (newApplicant.idDB) {
+      localStorage.setItem('id', newApplicant.idDB + '')
       dispatch(setCurrentUser({ id: newApplicant.idDB, role: "applicant" }));
-    else if (newRecruiter.id)
+    }
+    else if (newRecruiter.id) {
+      localStorage.setItem('id', newRecruiter.id + '')
       dispatch(setCurrentUser({ id: newRecruiter.id, role: "recruiter" }));
+    }
     goToUserLogin()
   }, [newRecruiter, newApplicant]);
 
   useEffect(() => {
-    userInfoRequest({token, applicant: false})
+    userInfoRequest({ token, applicant: false })
   }, [])
 
 

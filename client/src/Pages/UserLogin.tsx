@@ -23,7 +23,7 @@ export default function RecruiterLogin() {
 
   useEffect(() => {
     console.log("inside the user login page", currentUser);
-    currentUser.role === undefined && setTimeout(() => navigate('/'), 2000);
+    currentUser.role === undefined && navigate('/');
   }, []);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function RecruiterLogin() {
         :
         currentUser.role === undefined &&
         <div className="w-screen h-screen
-        flex justify-center items-center text-lg text-green-800 bg-stone-100">Please login</div>
+        flex justify-center items-center text-lg text-green-800 bg-stone-100">Redirecting to login</div>
       }
     </>
   )
