@@ -142,7 +142,7 @@ const Landing = () => {
           draggable
           pauseOnHover
         />
-        <div className="border border-black rounded-lg bg-stone-100 flex flex-col max-w-905 min-w-731">
+        <div className="border border-black rounded-lg bg-stone-100 flex flex-col max-w-905 min-w-731 shadow shadow-lg">
           <div className="flex flex-row">
             <div className="px-4 py-2">
               <LanguagesDropdown onSelectChange={onSelectChange} />

@@ -66,6 +66,7 @@ const TrackPage = () => {
       <div className="w-[226px] min-w-[226px] h-[90%] hidden relative sm:block md:block lg:block">
         <TrackSideBar trackId={track.track?.id} role={currentUser.role!} setDeleteModal={setDeleteModal} />
       </div>
+
       <div className="w-[98%] min-w-[400px] ml-3">
         <div id='Info' className="mb-10 ">
           <a onClick={() => navigate(`/vacancy/${vacancy.data?.id}`)}>
@@ -78,7 +79,7 @@ const TrackPage = () => {
             <div id="applicantView" className="w-full hover:bg-gray-800 ">
               <a
                 className="flex items-center bg-white border border-gray-200 rounded-lg md:flex-row  
-           shadow shadow-sm shadow-gray w-full"
+           shadow shadow-md w-full"
               >
                 <a
                   onClick={() =>
@@ -101,9 +102,11 @@ const TrackPage = () => {
                       at {recruiter.recruiter.name}
                     </h5>
                   </a>
-                  <p className="mb-3 font-normal text-gray-700 hover:text-gray-600 hover:underline hover:cursor-pointer">
-                    {vacancy.data?.about}
-                  </p>
+                  <a onClick={()=> navigate(`/vacancy/${vacancy.data?.id}`)}>
+                    <p className="mb-3 font-normal text-gray-700 hover:text-gray-600 hover:underline hover:cursor-pointer">
+                      {vacancy.data?.about}
+                    </p>
+                  </a>
                 </div>
               </a>
             </div>
@@ -111,7 +114,7 @@ const TrackPage = () => {
             <div id="recruiterView" className="w-full ">
               <a onClick={() => navigate(`/recruiter/${applicant.applicant?.idDB}`)}
                 className="flex items-center bg-white border border-gray-200 rounded-lg md:flex-row  
-           shadow shadow-sm shadow-gray w-full hover:cursor-pointer hover:borderd-double hover:border-white hover:bg-gray-800 hover:text-white ">
+           shadow shadow-md w-full hover:cursor-pointer hover:borderd-double hover:border-white hover:bg-gray-800 hover:text-white ">
 
                 <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg "
                   alt="Company Logo"

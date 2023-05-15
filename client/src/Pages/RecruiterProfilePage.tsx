@@ -52,7 +52,7 @@ const RecruiterProfilePage = () => {
         <div className="flex flex-row">
           <div>
             <img
-              src={recruiter.recruiter.logo}
+              src={recruiter.recruiter?.logo}
               alt="Logo picture not found"
               className="shadow-md rounded-full bg-gray-50 m-3"
               style={{ height: "220px", width: "220px" }}
@@ -60,7 +60,7 @@ const RecruiterProfilePage = () => {
           </div>
           <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 m-2 mt-3 mr-2">
             <h1 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-3xl m-2">
-              {recruiter.recruiter.name}
+              {recruiter.recruiter?.name}
             </h1>
 
             <div className="flex flex-row ">
@@ -72,7 +72,7 @@ const RecruiterProfilePage = () => {
               <h3 className="text-lg font-semibold leading-6 text-[#026767] text-base mt-2">
                 Founded
               </h3>
-              <h4>{recruiter.recruiter.founded}</h4>
+              <h4>{recruiter.recruiter?.founded}</h4>
             </div>
 
             <div className="flex flex-row ">
@@ -86,14 +86,14 @@ const RecruiterProfilePage = () => {
               </h3>
             </div>
 
-            <p>{recruiter.recruiter.headOffice}</p>
+            <p>{recruiter.recruiter?.headOffice}</p>
           </div>
 
           <div className=" flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md p-3 m-2 mt-2 mr-4 bg-[#FFE8D1]">
             <h2 className="text-lg font-semibold leading-6 text-[#026767] text-base">
               Recruiter's card
             </h2>
-            <p className="mt-4">{recruiter.recruiter.recruiterName}</p>
+            <p className="mt-4">{recruiter.recruiter?.recruiterName}</p>
 
             <div className=" flex flex-row ">
               <AlternateEmailIcon
@@ -102,7 +102,7 @@ const RecruiterProfilePage = () => {
                 className="mr-2"
               ></AlternateEmailIcon>
 
-              <p>{recruiter.recruiter.email}</p>
+              <p>{recruiter.recruiter?.email}</p>
             </div>
             <div className="flex flex-row mt-2">
               <InsertLinkIcon
@@ -110,7 +110,7 @@ const RecruiterProfilePage = () => {
                 style={{ color: "#475569" }}
                 className="mr-2"
               ></InsertLinkIcon>
-              <p>{recruiter.recruiter.externalLinks}</p>
+              <p>{recruiter.recruiter?.externalLinks}</p>
             </div>
           </div>
         </div>
@@ -127,7 +127,7 @@ const RecruiterProfilePage = () => {
                 About
               </p>
             </div>
-            <p className="">{recruiter.recruiter.about}</p>
+            <p className="">{recruiter.recruiter?.about}</p>
           </div>
 
           <div className="flex-shrink-0 w-36 flex-col flex rounded-2xl shadow-md bg-green-100 p-3 m-2 mr-4 ml-2 items-center justify-center">
@@ -140,7 +140,7 @@ const RecruiterProfilePage = () => {
             <p className="text-lg font-semibold leading-6 text-white text-base">
               vacancies
             </p>
-            <p className="">{recruiter.recruiter.about}</p>
+            <p className="">{recruiter.recruiter?.about}</p>
           </div>
         </div>
 
