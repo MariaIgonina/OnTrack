@@ -172,37 +172,37 @@ const getVacanciesByFilter = async (req: Request, res: Response) => {
       };
     }
 
-    if (filter.title.length > 1) {
+    if (filter.title.length > 0) {
       filters.title = {
         contains: filter.title,
         mode: "insensitive",
       };
     }
 
-    if (filter.skills.length > 1) {
+    if (filter.skills[0]) {
       filters.skills = {
         hasSome: filter.skills,
       };
     }
 
-    if (filter.stack.length > 1) {
+    if (filter.stack[0]) {
       filters.stack = {
         hasSome: filter.stack,
       };
     }
 
-    if (filter.requiredLanguages.length > 1) {
+    if (filter.requiredLanguages[0]) {
       filters.requiredLanguages = {
         hasSome: filter.requiredLanguages,
       };
     }
 
     if (filter.experience !== null) {
-      filters.experience = filter.experience;
+      filters.experience = { gte: filter.experience };
     }
 
     if (filter.salaryRange !== null) {
-      filters.salaryRange = filter.salaryRange;
+      filters.salaryRange = { gte: filter.salaryRange };
     }
     const filteredVacancies = await prisma.vacancy.findMany({
       where: filters,
