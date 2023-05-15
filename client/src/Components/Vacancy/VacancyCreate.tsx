@@ -79,7 +79,7 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
     };
     console.log(newVacancy, "newVacancy");
     await dispatch(createVacancy(newVacancy));
-    setShowVacancyTemplate(true); // Показать VacancyTemplate после отправки формы
+    // setShowVacancyTemplate(true); // Показать VacancyTemplate после отправки формы
   };
   if (showVacancyTemplate) {
     return <VacancyTemplate onCancel={onCancel} />;
