@@ -117,9 +117,9 @@ const GoogleMaps: React.FC = () => {
                     }
                   : {
                       url:
-                        element?.recruiter.logo &&
-                        isValidURL(element.recruiter.logo)
-                          ? element.recruiter.logo
+                        element?.recruiter?.logo &&
+                        isValidURL(element?.recruiter?.logo)
+                          ? element?.recruiter?.logo
                           : defaultAvatar,
                       scaledSize: new window.google.maps.Size(40, 40),
                       anchor: new window.google.maps.Point(20, 20),

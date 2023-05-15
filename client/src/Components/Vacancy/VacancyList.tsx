@@ -7,6 +7,7 @@ import { fetchvacanciesByRecruiter } from "../../store/vacancySlice";
 import { Vacancy } from "../../Interfaces";
 import Modal from "react-modal";
 import FilteredVacancies from "./FilteredVacancies";
+import VacancyCard from "./VacancyCard";
 
 const VacancyList: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,6 +15,10 @@ const VacancyList: React.FC = () => {
   const vacancy: Vacancy = useSelector(
     (state: RootState) => state.vacancy.vacancy
   );
+  const vacancies = useSelector(
+    (state: RootState) => state.vacancy.vacancies
+  ) as unknown as Vacancy[];
+
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     if (currentUserID) {
@@ -66,7 +71,17 @@ const VacancyList: React.FC = () => {
           </div>
         </div>
         <div>
-          <FilteredVacancies />
+          <div className="overflow-x-scroll flex flex-nowrap my-2">
+            {vacancies.length ? (
+              vacancies.map((vacancy) => (
+                <VacancyCard vacancy={vacancy} key={vacancy.id} />
+              ))
+            ) : (
+              <li>
+                <p className="p-4 text-gray-500">No vacancies found.</p>
+              </li>
+            )}
+          </div>
         </div>
       </div>
     </div>
