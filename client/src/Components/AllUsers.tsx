@@ -36,7 +36,7 @@ export default function AllUsers() {
             Search all the candidates using OnTrack
           </h2>
         </div>
-        <div className="overflow-x-scroll flex   my-8 ">
+        <div className="overflow-x-scroll list-none flex   my-8 ">
           {applicants.length &&
             applicants.map((applicant) => (
               <UserCard applicant={applicant} key={applicant.idAuth}></UserCard>

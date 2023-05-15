@@ -22,7 +22,9 @@ const PersonalInfo = ({applicant}:{applicant: Applicant}) => {
         <h1
         className="text-3xl font-bold tracking-tight text-[#026767] sm:text-3xl m-2"
         >{`${applicant.name} ${applicant.familyName}`}</h1>
-        <p>{`${applicantAge()} years old`}</p>
+        <p
+        className="text-base mb-2 text-[#475569] text-base "
+        >{`${applicantAge()} years old`}</p>
 
         <div className="flex flex-row ">
           <PhoneIcon
@@ -31,7 +33,9 @@ const PersonalInfo = ({applicant}:{applicant: Applicant}) => {
             className="mr-2"
           >
           </PhoneIcon>
-          <p>{applicant.phone}</p>
+          <p
+          className="text-base mb-2 text-[#475569] text-base "
+          >{applicant.phone}</p>
         </div>
 
         <div className=" flex flex-row ">
@@ -40,7 +44,9 @@ const PersonalInfo = ({applicant}:{applicant: Applicant}) => {
             style={{ color: '#475569' }}
             className="mr-2"
           ></AlternateEmailIcon>
-          <p>{applicant.email}</p>
+          <p
+          className="text-base mb-2 undetline text-[#475569] text-base "
+          >{applicant.email}</p>
         </div>
 
         <div className="flex-shrink-0 flex">
@@ -50,22 +56,30 @@ const PersonalInfo = ({applicant}:{applicant: Applicant}) => {
                 <li key={index}>
                   {link.includes("github.com") && (
                     <a href={link} target="_blank" rel="noopener noreferrer">
-                      <FontAwesomeIcon className="mr-2" icon={faGithub} />
+                      <FontAwesomeIcon 
+                      className="mr-2 text-[#475569]" 
+                      icon={faGithub} />
                     </a>
                   )}
                   {link.includes("facebook.com") && (
                     <a href={link} target="_blank" rel="noopener noreferrer">
-                      <FontAwesomeIcon className="mr-2" icon={faFacebook} />
+                      <FontAwesomeIcon 
+                      className="mr-2 text-[#475569]" 
+                      icon={faFacebook} />
                     </a>
                   )}
                   {link.includes("twitter.com") && (
                     <a href={link} target="_blank" rel="noopener noreferrer">
-                      <FontAwesomeIcon className="mr-2" icon={faTwitter} />
+                      <FontAwesomeIcon 
+                      className="mr-2 text-[#475569]" 
+                      icon={faTwitter} />
                     </a>
                   )}
                   {link.includes("instagram.com") && (
                     <a href={link} target="_blank" rel="noopener noreferrer">
-                      <FontAwesomeIcon className="mr-2" icon={faInstagram} />
+                      <FontAwesomeIcon 
+                      className="mr-2 text-[#475569]" 
+                      icon={faInstagram} />
                     </a>
                   )}
                 </li>

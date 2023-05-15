@@ -7,7 +7,7 @@ import PopupQuestionary from "./PopUpQuestionary";
 export default function VacancyTemplate({ onCancel }:any) {
 
   const [stepsArray, setStepsArray] = useState<{}[]>([]);
-  const [isPopupQuestionaryOpen, setIsPopupQuestionaryOpen] = useState(false);
+  const [isPopupQuestionaryOpen, setIsPopupQuestionaryOpen] = useState<Boolean>(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleAddStep = () => {
@@ -24,13 +24,13 @@ export default function VacancyTemplate({ onCancel }:any) {
   };
 
   //Hidden toggle
-  const handleHiddenChange = (index) => {
+  const handleHiddenChange = (index: number) => {
     const updatedSteps = [...stepsArray];
     updatedSteps[index].hidden = !updatedSteps[index].hidden;
     setStepsArray(updatedSteps);
   };
   
-  const handleChange = (e, index) => {
+  const handleChange = (e:any, index:number) => {
     const { name, value } = e.target;
 
     const updatedSteps = [...stepsArray];

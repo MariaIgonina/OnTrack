@@ -12,6 +12,7 @@ import { CurrentUserType, Vacancy } from "../Interfaces";
 import { Applicant } from "../Interfaces";
 import { fetchAllVacancies } from "../store/vacancySlice";
 import VacancyCard from "./Vacancy/VacancyCard";
+import FilteredVacancies from "./Vacancy/FilteredVacancies";
 
 export default function Suggestion() {
   const dispatch = useDispatch<AppDispatch>();
@@ -52,7 +53,7 @@ export default function Suggestion() {
               We think these applicants will catch your eye
             </p>
           </div>
-          <div className="overflow-x-scroll flex flex-nowrap  my-8 ">
+          <div className="overflow-x-scroll list-none flex flex-nowrap  my-8 ">
             {applicants.length &&
               applicants.map((applicant) => (
                 <UserCard
@@ -61,15 +62,7 @@ export default function Suggestion() {
                 ></UserCard>
               ))}
 
-            {vacancy.length ? (
-              vacancy.map((vacancy) => (
-                <VacancyCard vacancy={vacancy} key={vacancy.id} />
-              ))
-            ) : (
-              <li>
-                <p className="p-4 text-gray-500">No vacancies found.</p>
-              </li>
-            )}
+            <FilteredVacancies />
           </div>
         </div>
       </div>
