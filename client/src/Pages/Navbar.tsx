@@ -16,7 +16,7 @@ import { RootState } from "../store/store";
 import { useEffect, useState } from "react";
 import logo from "../assets/logo-on-green.png";
 import ImageListItem from "@mui/material/ImageListItem";
-import { justify } from "@cloudinary/url-gen/qualifiers/textAlignment";
+import SearchIcon from "@mui/icons-material/Search";
 
 function NavBar() {
   const currentUser = useSelector((state: RootState) => state.currentUser);
@@ -42,6 +42,13 @@ function NavBar() {
     } else {
       return null;
     }
+  };
+
+  const scrollToSection = (elementref) => {
+    window.scrollTo({
+      top: elementref.current.offsetTop,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -82,6 +89,34 @@ function NavBar() {
                 flexDirection: "row",
               }}
             >
+              {/* <ListItem key={"search"} disablePadding>
+                <Link
+                  to="/dashboard"
+                  className="link"
+                  onClick={() => scrollToSection(searchRef.current)}
+                >
+              
+                  <ListItemButton
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <ListItemIcon>
+                      <SearchIcon
+                        style={{
+                          color: "white",
+                          width: 35,
+                          height: 35,
+                        }}
+                      />
+                    </ListItemIcon>
+                  </ListItemButton>
+          
+                </Link>
+              </ListItem> */}
               <ListItem key={"Dashboard"} disablePadding>
                 <Link to="/dashboard" className="link">
                   <ListItemButton

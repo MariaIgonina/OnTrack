@@ -37,9 +37,9 @@ export default function TrackerComponent() {
       );
     }
     console.log("tracks ==> ", gettracks);
-    gettracks.forEach((x) =>
-      console.log(`for track with ID ${x.id} there are ${countSteps(x)} steps`)
-    );
+    // gettracks.forEach((x) =>
+    //   console.log(`for track with ID ${x.id} there are ${countSteps(x)} steps`)
+    // );
   }, []);
 
   function countSteps(track: Track) {
