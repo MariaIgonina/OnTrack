@@ -50,26 +50,6 @@ export default function SearchApplicantForm() {
     console.log(levelArray);
   };
 
-  // const handleAddLevel = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const selectedLevel = event.target.value;
-  //   setLevelArray((preLevel) => [...preLevel, selectedLevel]);
-  // };
-
-  // const handleDeletelanguage = (
-  //   event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  //   index: number
-  // ) => {
-  //   event.preventDefault();
-  //   const updateLang = [...languageArray];
-  //   updateLang.splice(index, 1);
-  //   setLanguageArray(updateLang);
-  //   console.log(languageArray);
-  // };
-
-  // const handleAddLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const selectedLanguage = event.target.value;
-  //   setLanguageArray((preLanguage) => [...preLanguage, selectedLanguage]);
-  // };
 
   function handleDeleteLangAfterSubmit (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, language: string) {
     e.preventDefault();
@@ -157,28 +137,12 @@ export default function SearchApplicantForm() {
     url.searchParams.set("skillsProf", profSkillsArray.join(","));
 
   const handleSearchApplicants = async (
-    e: React.ChangeEvent<HTMLSelectElement>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     const response = await dispatch(fetchFilteredApplicants(url));
     console.log(response);
   };
-
-  function handleAddLanguageBlock(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) {
-    e.preventDefault();
-    setNumLanguages(numLanguages + 1);
-  }
-
-  function handleDeleteLanguageBlock(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) {
-    e.preventDefault();
-    setNumLanguages(numLanguages - 1);
-  }
-
-  
 
   return (
     <>
@@ -198,25 +162,9 @@ export default function SearchApplicantForm() {
             />
           ))}
 
-          <div className="flex items-center justify-center  md:gap-8 gap-4 pt-5">
-            <button
-              onClick={(e) => handleAddLanguageBlock(e)}
-              className="w-auto bg-orange-100 hover:bg-orange-dark rounded-lg shadow-xl font-medium text-white px-4 py-2"
-            >
-              Add a language
-            </button>
-            {numLanguages > 1 && (
-              <button
-                onClick={(e) => handleDeleteLanguageBlock(e)}
-                className="w-auto bg-orange-100 hover:bg-orange-dark rounded-lg shadow-xl font-medium text-white px-4 py-2"
-              >
-                Delete language
-              </button>
-            )}
-          </div>
           {languageArray.map((language, i) => {
             return (
-              <>
+                <div className="flex items-center justify-center  md:gap-8 gap-4 pt-1">
                 <div>{language}</div>
                 <button
                   onClick={(e) => handleDeleteLangAfterSubmit(e, language!)}
@@ -234,7 +182,7 @@ export default function SearchApplicantForm() {
                   <path d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
               </button>
-              </>
+              </div>
             )
           })}
 
