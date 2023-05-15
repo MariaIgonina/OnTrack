@@ -10,6 +10,7 @@ import Suggestion from "../Components/Suggestion";
 import GoogleMaps from "../Components/googleMaps/GoogleMaps";
 import TrackerComponent from "../Components/TrackerComponent";
 
+
 const DashboardPage = () => {
   const currentUser = useSelector(
     (s: RootState) => s.currentUser
@@ -17,6 +18,7 @@ const DashboardPage = () => {
 
   useEffect(() => {
     console.log("this is from state in dashboard", currentUser);
+    console.log("info about type of user arrives correctly here, add logic to display the correct dashboard when user is an applicant")
   }, [currentUser]);
 
   return (

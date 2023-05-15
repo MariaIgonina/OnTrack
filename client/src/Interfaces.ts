@@ -5,10 +5,10 @@ export interface Applicant {
   picture: string;
   name?: string;
   familyName?: string;
-  age?: string;
+  age?: Date | string;
   phone?: string;
   location?: string;
-  Track?: Track[];
+  track?: Track[];
   currentLocation?: string[];
   readyToMove?: boolean;
   workingHours?: string;
@@ -74,7 +74,7 @@ export interface Track {
   recruiterNotes: string;
   vacancyId: number;
   vacancy: Vacancy;
-  message: Message[];
+  Message: Message[];
 }
 
 export interface Step {

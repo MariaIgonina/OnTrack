@@ -19,7 +19,7 @@ const initialTrack: Track = {
   recruiterNotes: "",
   vacancyId: 0,
   vacancy: initialVacancy,
-  message: [],
+  Message: [],
 };
 
 const url: string = "http://localhost:3000";
