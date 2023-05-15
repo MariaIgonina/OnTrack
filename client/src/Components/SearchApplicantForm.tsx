@@ -13,6 +13,7 @@ import {
   workingHours,
   levelLanguages,
 } from "../library";
+import { LanguageBlock } from "./LanguageBlock";
 
 export default function SearchApplicantForm() {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,9 +21,7 @@ export default function SearchApplicantForm() {
   const [languageArray, setLanguageArray] = useState<(string | undefined)[]>(
     []
   );
-  const [levelArray, setLevelArray] = useState<(string | undefined)[]>(
-    []
-  );
+  const [levelArray, setLevelArray] = useState<(string | undefined)[]>([]);
   const [stackArray, setStackArray] = useState<(string | undefined)[]>([]);
   const [profSkillsArray, setProfSkillsArray] = useState<
     (string | undefined)[]
@@ -30,6 +29,7 @@ export default function SearchApplicantForm() {
   const [workModal, setWorkModal] = useState<string | undefined>("");
   const [workHour, setWorkHour] = useState<string | undefined>("");
   const [loc, setLoc] = useState<string | undefined>("");
+  const [numLanguages, setNumLanguages] = useState(1);
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -39,7 +39,10 @@ export default function SearchApplicantForm() {
     fetchLocations();
   }, []);
 
-  const handleDeletelevel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>,index: number) => {
+  const handleDeletelevel = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    index: number
+  ) => {
     event.preventDefault();
     const updateLevel = [...levelArray];
     updateLevel.splice(index, 1);
@@ -47,25 +50,43 @@ export default function SearchApplicantForm() {
     console.log(levelArray);
   };
 
-  const handleAddLevel = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedLevel = event.target.value;
-    setLevelArray((preLevel) => [...preLevel, selectedLevel]);
-  };
+  // const handleAddLevel = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const selectedLevel = event.target.value;
+  //   setLevelArray((preLevel) => [...preLevel, selectedLevel]);
+  // };
 
-  const handleDeletelanguage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number) => {
-    event.preventDefault();
-    const updateLang = [...languageArray];
-    updateLang.splice(index, 1);
-    setLanguageArray(updateLang);
-    console.log(languageArray);
-  };
+  // const handleDeletelanguage = (
+  //   event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  //   index: number
+  // ) => {
+  //   event.preventDefault();
+  //   const updateLang = [...languageArray];
+  //   updateLang.splice(index, 1);
+  //   setLanguageArray(updateLang);
+  //   console.log(languageArray);
+  // };
 
-  const handleAddLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedLanguage = event.target.value;
-    setLanguageArray((preLanguage) => [...preLanguage, selectedLanguage]);
-  };
+  // const handleAddLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const selectedLanguage = event.target.value;
+  //   setLanguageArray((preLanguage) => [...preLanguage, selectedLanguage]);
+  // };
 
-  const handleDeleteStack = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number) => {
+  function handleDeleteLangAfterSubmit (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, language: string) {
+    e.preventDefault();
+    setLanguageArray(prevState => {
+      console.log(prevState[0] == language)
+      return prevState.filter(lang => lang !== language)
+    })
+  }
+
+  useEffect(() => {
+    console.log("MIRAR AQUI ==> ", languageArray)
+  }, [languageArray])
+
+  const handleDeleteStack = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    index: number
+  ) => {
     event.preventDefault();
     const updateStack = [...stackArray];
     updateStack.splice(index, 1);
@@ -77,7 +98,10 @@ export default function SearchApplicantForm() {
     setStackArray((preStack) => [...preStack, selectedStack]);
   };
 
-  const handleDeleteProfSkills = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number) => {
+  const handleDeleteProfSkills = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    index: number
+  ) => {
     event.preventDefault();
     const updateSkills = [...profSkillsArray];
     updateSkills.splice(index, 1);
@@ -140,6 +164,22 @@ export default function SearchApplicantForm() {
     console.log(response);
   };
 
+  function handleAddLanguageBlock(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    e.preventDefault();
+    setNumLanguages(numLanguages + 1);
+  }
+
+  function handleDeleteLanguageBlock(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    e.preventDefault();
+    setNumLanguages(numLanguages - 1);
+  }
+
+  
+
   return (
     <>
       <div className="p-2 flex items-center justify-center w-full">
@@ -151,102 +191,52 @@ export default function SearchApplicantForm() {
               </h1>
             </div>
           </div>
+          {[...Array(numLanguages)].map((_, index) => (
+            <LanguageBlock
+              key={index}
+              setLanguageArray={setLanguageArray}
+            />
+          ))}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
-            <div className="grid grid-cols-1 mt-5 ">
-              <label className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                Language
-              </label>
-              <select
-                className="py-2 px-3 rounded-lg border-2 bordercolor-#F1F0EA mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
-                onChange={handleAddLanguage}
-                defaultValue={'DEFAULT'}
-                >
-                <option
-                  disabled
-                  value="DEFAULT"
-                  style={{ color: "gray", fontStyle: "italic" }}
-                >
-                  Choose languages
-                </option>
-                {languages.map((language) => (
-                  <option key={language}>{language}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="grid grid-cols-1 mt-5">
-              <label className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                Level
-              </label>
-              <select
-                className="py-2 px-3 rounded-lg border-2 bordercolor-#F1F0EA mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
-                onChange={handleAddLevel}
-                defaultValue={'DEFAULT'}
+          <div className="flex items-center justify-center  md:gap-8 gap-4 pt-5">
+            <button
+              onClick={(e) => handleAddLanguageBlock(e)}
+              className="w-auto bg-orange-100 hover:bg-orange-dark rounded-lg shadow-xl font-medium text-white px-4 py-2"
+            >
+              Add a language
+            </button>
+            {numLanguages > 1 && (
+              <button
+                onClick={(e) => handleDeleteLanguageBlock(e)}
+                className="w-auto bg-orange-100 hover:bg-orange-dark rounded-lg shadow-xl font-medium text-white px-4 py-2"
               >
-                <option
-                  disabled
-                  value="DEFAULT"
-                  style={{ color: "gray", fontStyle: "italic" }}
-                >
-                  Choose level
-                </option>
-                {levelLanguages.map((level, index) => (
-                  <option key={index}>{level}</option>
-                ))}
-              </select>
-            </div>
+                Delete language
+              </button>
+            )}
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8">
-          <div className="grid grid-cols-1 ml-9">
-            {languageArray.map((language, index) => (
-              <li key={index} style={{ listStyleType: "none" }}>
-                {language}
+          {languageArray.map((language, i) => {
+            return (
+              <>
+                <div>{language}</div>
                 <button
-                  onClick={(event) => handleDeletelanguage(event, index)}
+                  onClick={(e) => handleDeleteLangAfterSubmit(e, language!)}
                   className="ml-2 mt-1.5 inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-500 hover:bg-red-600 focus:outline-none"
                 >
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    className="w-4 h-4 text-white"
-                  >
-                    <path d="M6 18L18 6M6 6l12 12"></path>
-                  </svg>
-                </button>
-              </li>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 ml-2">
-            {levelArray.map((level, index) => (
-              <li key={index} style={{ listStyleType: "none" }}>
-                {level}
-                <button
-                  onClick={(event) => handleDeletelevel(event, index)}
-                  className="ml-2 mt-1.5 inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-500 hover:bg-red-600 focus:outline-none"
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  className="w-4 h-4 text-white"
                 >
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    className="w-4 h-4 text-white"
-                  >
-                    <path d="M6 18L18 6M6 6l12 12"></path>
-                  </svg>
-                </button>
-              </li>
-            ))}
-          </div>
-          </div>
+                  <path d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+              </>
+            )
+          })}
 
           <div className="grid grid-cols-1 mt-5 mx-7">
             <label className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
@@ -255,7 +245,7 @@ export default function SearchApplicantForm() {
             <select
               className="py-2 px-3 rounded-lg border-2 bordercolor-#F1F0EA mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
               onChange={handleAddWorkingModals}
-              defaultValue={'DEFAULT'}
+              defaultValue={"DEFAULT"}
             >
               <option
                 disabled
@@ -303,7 +293,7 @@ export default function SearchApplicantForm() {
             <select
               className="py-2 px-3 rounded-lg border-2 bordercolor-#F1F0EA mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
               onChange={handleAddWorkingHours}
-              defaultValue={'DEFAULT'}
+              defaultValue={"DEFAULT"}
             >
               <option
                 disabled
@@ -351,7 +341,7 @@ export default function SearchApplicantForm() {
             <select
               className="py-2 px-3 rounded-lg border-2 bordercolor-#F1F0EA mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
               onChange={handleAddStack}
-              defaultValue={'DEFAULT'}
+              defaultValue={"DEFAULT"}
             >
               <option
                 disabled
@@ -397,7 +387,7 @@ export default function SearchApplicantForm() {
             <select
               className="py-2 px-3 rounded-lg border-2 bordercolor-#F1F0EA mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
               onChange={handleAddProfSkills}
-              defaultValue={'DEFAULT'}
+              defaultValue={"DEFAULT"}
             >
               <option
                 disabled
@@ -443,7 +433,7 @@ export default function SearchApplicantForm() {
             <select
               className="py-2 px-3 rounded-lg border-2 bordercolor-#F1F0EA mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
               onChange={handleAddLocation}
-              defaultValue={'DEFAULT'}
+              defaultValue={"DEFAULT"}
             >
               <option
                 disabled
