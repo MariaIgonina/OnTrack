@@ -20,12 +20,18 @@ const CurrentLocation = ({applicant}:{applicant: Applicant}) => {
         className="text-lg font-semibold leading-6 text-[#026767] text-base"
         >Current Location</h2>
       </div>
-      <p>{applicant.location}</p>
+      <p
+      className="text-base text-[#475569] text-base "
+      >{applicant.location}</p>
 
       {applicant.readyToMove === true ? (
-        <p>Ready to move</p>
+        <p
+        className="text-base text-[#475569] text-base "
+        >Ready to move</p>
       ) : (
-        <p>Not ready to move</p>
+        <p
+        className="text-base text-[#475569] text-base "
+        >Not ready to move</p>
       )}
     </div>
     </>

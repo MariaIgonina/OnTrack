@@ -16,6 +16,7 @@ import RecruiterProfilePage from "./Pages/RecruiterProfilePage";
 import UserLogin from "./Pages/UserLogin";
 import "./index.css";
 import CodeSandbox from "./Pages/CodeSandbox";
+import SearchApplicantForm from "./Components/SearchApplicantForm/SearchApplicantForm";
 import { currentUserSlice, setCurrentUser } from "./store/CurrentUserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./store/store";
@@ -47,11 +48,11 @@ function App() {
 
 
 
-  const handleBeforeUnload = (event: any) => {
-    dispatch(setCurrentUser(currentUser))
-    event.preventDefault();
-    return event.returnValue = '';
-  }
+  // const handleBeforeUnload = (event: any) => {
+  //   dispatch(setCurrentUser(currentUser))
+  //   event.preventDefault();
+  //   return event.returnValue = '';
+  // }
 
   return (
     <BrowserRouter>
@@ -123,6 +124,7 @@ function App() {
           } />
 
           <Route path="/codeSandbox" element={<CodeSandbox />} />
+          <Route path="/searchApplicant" element={<SearchApplicantForm />} />
         </>
       </Routes>
     </BrowserRouter>

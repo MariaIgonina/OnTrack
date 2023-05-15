@@ -9,6 +9,7 @@ import { CurrentUserType } from "../Interfaces";
 import Suggestion from "../Components/Suggestion";
 import GoogleMaps from "../Components/googleMaps/GoogleMaps";
 import TrackerComponent from "../Components/TrackerComponent";
+import FilteredVacancies from "../Components/Vacancy/FilteredVacancies";
 
 const DashboardPage = () => {
   const searchRef = useRef(null);

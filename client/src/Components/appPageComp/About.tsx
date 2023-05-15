@@ -9,7 +9,7 @@ const About = ({applicant}:{applicant: Applicant}) => {
   return (
     <>
       <div
-      className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-[#D7E7E8] p-3 m-1 ml-3">
+      className="flex wrap stretch flex-grow flex-col rounded-2xl shadow-md bg-[#D7E7E8] p-3 m-1 ml-3">
         
         <div className="flex flex-row ">
           <InfoIcon
@@ -22,8 +22,10 @@ const About = ({applicant}:{applicant: Applicant}) => {
             className="text-lg font-semibold leading-6 text-[#026767] text-base"
           >About</h2>
         </div>
-
-        {applicant.about}
+        <p
+        className="text-base break-words text-[#475569] text-base "
+        >{applicant.about}</p>
+        
       </div>
     </>
   );

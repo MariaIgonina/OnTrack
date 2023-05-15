@@ -16,6 +16,8 @@ import InfoIcon from "@mui/icons-material/Info";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Vacancy } from "../Interfaces";
 
 const RecruiterProfilePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,6 +25,10 @@ const RecruiterProfilePage = () => {
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
   const codeParam = window.location.pathname.split("/").reverse()[0];
+  const [vacanciesLength, setVacanciesLength] = useState(0);
+  const vacancies = useSelector(
+    (state: RootState) => state.vacancy.vacancies
+  ) as unknown as Vacancy[];
 
   const currentUserID = useSelector((s: RootState) => s.currentUser.id);
 
@@ -38,7 +44,6 @@ const RecruiterProfilePage = () => {
   //   dispatch(fetchRecruiter(+currentUserID));
   // }, [recruiter, currentUserID])
 
-
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -47,7 +52,7 @@ const RecruiterProfilePage = () => {
     setIsModalOpen(false);
   };
   return (
-    <div className=" bg-stone-100 h-full p-4 ">
+    <div className="mb-0 bg-stone-100 h-full p-4 ">
       <div className="flex flex-col">
         <div className="flex flex-row">
           <div>
@@ -55,7 +60,7 @@ const RecruiterProfilePage = () => {
               src={recruiter.recruiter.logo}
               alt="Logo picture not found"
               className="shadow-md rounded-full bg-gray-50 m-3"
-              style={{ height: "220px", width: "220px" }}
+              style={{ height: "200px", width: "200px" }}
             />
           </div>
           <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 m-2 mt-3 mr-2">
@@ -72,8 +77,10 @@ const RecruiterProfilePage = () => {
               <h3 className="text-lg font-semibold leading-6 text-[#026767] text-base mt-2">
                 Founded
               </h3>
-              <h4>{recruiter.recruiter.founded}</h4>
             </div>
+            <h4 className="text-base font-semibold text-[#475569] text-base ">
+              {recruiter.recruiter.founded}
+            </h4>
 
             <div className="flex flex-row ">
               <ApartmentIcon
@@ -86,14 +93,26 @@ const RecruiterProfilePage = () => {
               </h3>
             </div>
 
-            <p>{recruiter.recruiter.headOffice}</p>
+            <p className="text-base font-semibold text-[#475569] text-base ">
+              {recruiter.recruiter.headOffice}
+            </p>
           </div>
 
-          <div className=" flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md p-3 m-2 mt-2 mr-4 bg-[#FFE8D1]">
-            <h2 className="text-lg font-semibold leading-6 text-[#026767] text-base">
-              Recruiter's card
-            </h2>
-            <p className="mt-4">{recruiter.recruiter.recruiterName}</p>
+          <div className=" flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md p-3 m-2 mt-3 mr-4 bg-[#FFE8D1]">
+            <div className="flex flex-row mt-2">
+              <AccountCircleIcon
+                fontSize="small"
+                style={{ color: "#026767" }}
+                className="mr-2"
+              ></AccountCircleIcon>
+              <h2 className="text-lg font-semibold leading-6 text-[#026767] text-base">
+                Recruiter
+              </h2>
+            </div>
+
+            <p className="text-[#475569] text-lg mt-2 mb-2 font-semibold">
+              {recruiter.recruiter.recruiterName}
+            </p>
 
             <div className=" flex flex-row ">
               <AlternateEmailIcon
@@ -102,7 +121,9 @@ const RecruiterProfilePage = () => {
                 className="mr-2"
               ></AlternateEmailIcon>
 
-              <p>{recruiter.recruiter.email}</p>
+              <p className="text-base underline font-semibold text-[#475569] text-base ">
+                {recruiter.recruiter.email}
+              </p>
             </div>
             <div className="flex flex-row mt-2">
               <InsertLinkIcon
@@ -110,7 +131,9 @@ const RecruiterProfilePage = () => {
                 style={{ color: "#475569" }}
                 className="mr-2"
               ></InsertLinkIcon>
-              <p>{recruiter.recruiter.externalLinks}</p>
+              <p className="text-base underline font-semibold text-[#475569] text-base ">
+                {recruiter.recruiter.externalLinks}
+              </p>
             </div>
           </div>
         </div>
@@ -127,12 +150,14 @@ const RecruiterProfilePage = () => {
                 About
               </p>
             </div>
-            <p className="">{recruiter.recruiter.about}</p>
+            <p className="text-base font-semibold text-[#475569] text-base ">
+              {recruiter.recruiter.about}
+            </p>
           </div>
 
-          <div className="flex-shrink-0 w-36 flex-col flex rounded-2xl shadow-md bg-green-100 p-3 m-2 mr-4 ml-2 items-center justify-center">
+          <div className="flex-shrink-0 w-36 flex-col flex rounded-2xl shadow-md bg-green-100 p-3 m-2 mr-4 ml-0 items-center justify-center">
             <h1 className="text-3xl font-bold tracking-tight text-white sm:text-3xl m-2">
-              {7}
+              {vacanciesLength}
             </h1>
             <p className="ext-1xl font-bold tracking-tight text-white sm:text-3xl ">
               active
@@ -140,7 +165,6 @@ const RecruiterProfilePage = () => {
             <p className="text-lg font-semibold leading-6 text-white text-base">
               vacancies
             </p>
-            <p className="">{recruiter.recruiter.about}</p>
           </div>
         </div>
 
@@ -174,7 +198,7 @@ const RecruiterProfilePage = () => {
         </button> */}
       </div>
       <div className="mt-20 ml-10 mr-10">
-        <VacancyList />
+        <VacancyList setVacanciesLength={setVacanciesLength} />
         <ChatWindow trackId={1} />
       </div>
     </div>

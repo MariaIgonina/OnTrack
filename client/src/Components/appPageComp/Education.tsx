@@ -22,7 +22,8 @@ const EducationComp = ({ applicant }: { applicant: Applicant }) => {
 
   return (
     <>
-      <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 m-1 ml-3">
+      <div 
+      className="flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 m-1 ml-3">
         <div className="flex flex-row ">
           <SchoolIcon
             fontSize="small"
@@ -39,10 +40,18 @@ const EducationComp = ({ applicant }: { applicant: Applicant }) => {
             educations.map((edu) => {
               return (
                 <li key={edu.id}>
-                  <h3 className=" font-semibold leading-2 ">{edu.place}</h3>
-                  <h4>{edu.degree}</h4>
-                  <h4>{edu.speciality}</h4>
-                  <p>{`${moment(edu.startDate).format("MMM YYYY")} - ${moment(
+                  <h3 
+                   className="text-base mt-2 text-[#DF6831] text-base font-bold"
+                   >{edu.place}</h3>
+                  <h4
+                   className="text-base font-bold text-[#475569] text-base "
+                  >{edu.speciality}</h4>
+                  <h4
+                   className="text-base text-[#475569] text-base "
+                  >{edu.degree}</h4>
+                  <p
+                   className="text-sm text-[#475569] text-base "
+                  >{`${moment(edu.startDate).format("MMM YYYY")} - ${moment(
                     edu.endDate
                   ).format("MMM YYYY")}`}</p>
                 </li>

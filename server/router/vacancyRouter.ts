@@ -7,9 +7,15 @@ const vacancyRouter = Router();
 vacancyRouter.post("/createVacancy", vacancyController.createVacancy);
 vacancyRouter.get("/vacancy/:id", vacancyController.getVacancyById);
 vacancyRouter.get("/vacanciesAll", vacancyController.getAllVacancies);
-vacancyRouter.get("/vacanciesByRecruiter/:recruiterId", vacancyController.getVacancyByRecruiter);
-vacancyRouter.get("/vacanciesByFilter", vacancyController.getVacanciesByFilter);
+vacancyRouter.get(
+  "/vacanciesByRecruiter/:recruiterId",
+  vacancyController.getVacancyByRecruiter
+);
+vacancyRouter.post(
+  "/vacanciesByFilter",
+  vacancyController.getVacanciesByFilter
+);
 vacancyRouter.put("/updateVacancy/:id", vacancyController.updateVacancy);
 vacancyRouter.delete("/deleteVacancy/:id", vacancyController.deleteVacancy);
 
-export default vacancyRouter
+export default vacancyRouter;

@@ -7,6 +7,7 @@ import UserCard from "./UserCard";
 import { CurrentUserType, Vacancy } from "../Interfaces";
 import { fetchAllVacancies } from "../store/vacancySlice";
 import VacancyCard from "./Vacancy/VacancyCard";
+import SearchApplicantForm from "./SearchApplicantForm/SearchApplicantForm";
 
 export default function AllUsers({ searchRef }) {
   const applicants = useSelector(
@@ -36,7 +37,8 @@ export default function AllUsers({ searchRef }) {
             Search all the candidates using OnTrack
           </h2>
         </div>
-        <div className="overflow-x-scroll flex   my-8 ">
+        <div className="overflow-x-scroll list-none flex   my-8 ">
+          <SearchApplicantForm/>
           {applicants.length &&
             applicants.map((applicant) => (
               <UserCard applicant={applicant} key={applicant.idAuth}></UserCard>

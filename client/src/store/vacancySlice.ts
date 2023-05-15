@@ -143,7 +143,28 @@ const updateVacancy = createAsyncThunk(
     }
   }
 );
-
+const filteredVacancies = createAsyncThunk(
+  "vacancy/vacanciesByFilter",
+  async function (filters, { rejectWithValue }) {
+    try {
+      console.log(filters, "filters slice");
+      const response = await fetch(url + `/vacanciesByFilter`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(filters),
+      });
+      if (!response.ok) {
+        throw new Error("Server error");
+      }
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      if (err instanceof Error) return rejectWithValue(err.message);
+    }
+  }
+);
 interface IInitialState {
   vacancy: Vacancy;
   vacancies: Vacancy[];
@@ -244,6 +265,11 @@ export const vacancySlice = createSlice<
         state.status = "resolved";
         state.vacancy = action.payload;
         state.error = null;
+      })
+      .addCase(filteredVacancies.fulfilled, (state, action) => {
+        state.status = "resolved";
+        state.vacancies = action.payload;
+        state.error = null;
       });
   },
 });
@@ -258,6 +284,7 @@ export {
   deleteVacancy,
   updateVacancy,
   fetchvacanciesByRecruiter,
+  filteredVacancies,
 };
 
 export const selectvacancy = (state: RootState) => state.vacancy;

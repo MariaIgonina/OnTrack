@@ -40,10 +40,18 @@ const ExperienceComp = ({ applicant }: { applicant: Applicant }) => {
             experiences.map((exp) => {
               return (
                 <li key={exp.id}>
-                  <h3 className=" font-semibold leading-2 ">{exp.jobTitle}</h3>
-                  <h4>{exp.company}</h4>
-                  <h4>{exp.description}</h4>
-                  <p>{`${moment(exp.startDate).format("MMM YYYY")} - ${moment(
+                  <h3 
+                  className="text-base mt-2 text-[#DF6831] text-base font-bold"
+                  >{exp.jobTitle}</h3>
+                  <h4
+                  className="text-base font-bold text-[#475569] text-base "
+                  >{exp.company}</h4>
+                  <h4
+                  className="text-base text-[#475569] text-base "
+                  >{exp.description}</h4>
+                  <p
+                  className="text-sm text-[#475569] text-base "
+                  >{`${moment(exp.startDate).format("MMM YYYY")} - ${moment(
                     exp.endDate
                   ).format("MMM YYYY")}`}</p>
                 </li>
