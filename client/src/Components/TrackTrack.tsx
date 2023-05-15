@@ -21,7 +21,7 @@ export default function TrackTrack({ track }) {
     getRecruiter(track.recruiterID, null).then((res) => {
       setRecruiter(res);
     });
-    getApplicant(track.applicantID, null).then((res) => setApplicant(res.data));
+    getApplicant(track.applicantID, null).then((res) => setApplicant(res));
   }, []);
 
   useEffect(() => {

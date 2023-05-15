@@ -33,7 +33,7 @@ export default function TrackerComponent() {
         })
       );
     }
-    console.log("tracks ==> ", gettracks);
+    // console.log("tracks ==> ", gettracks);
   }, [dispatch]);
 
   return (
@@ -58,7 +58,7 @@ export default function TrackerComponent() {
                     )
                   }
                 >
-                  <TrackTrack track={track}></TrackTrack>
+                  <TrackTrack track={track} key={track.id}></TrackTrack>
                 </button>
               </div>
             ))
