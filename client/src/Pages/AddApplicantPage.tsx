@@ -62,7 +62,7 @@ const AddApplicantPage = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect (() => {
-   console.log(currentUser);
+   console.log('CAAAAALLL', currentUser.id);
   }, [dispatch])
 
   //For the applicant
@@ -144,11 +144,10 @@ const AddApplicantPage = () => {
       setEducations([...educations, newEducation]);
 
       const dbArg = {
-        applicantId: 54,
+        applicantId: currentUser.id,
         education: newEducation,
       };
 
-      console.log(dbArg);
       dispatch(createEducation(dbArg));
     }
   };
@@ -195,7 +194,7 @@ const AddApplicantPage = () => {
       setExperiences([...experiences, newExperience]);
 
       const dbArg = {
-        applicantId: 54,
+        applicantId: currentUser.id,
         experience: newExperience,
       };
 
@@ -546,7 +545,7 @@ const AddApplicantPage = () => {
                       className="bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white w-20 ml-4 h-8 mt-1 whitespace-nowrap"
                       onClick={handleAddLink}>Add this</button>
 
-                    <ul className="flex flex-row" >
+                    <ul >
                       {links.map((link, index) => (
                         <li key={index}>
                           {link.includes("github.com") && (

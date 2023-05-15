@@ -15,7 +15,7 @@ const Languages = ({applicant}:{applicant: Applicant}) => {
           className="mr-2"
         ></TranslateIcon>
         <h2
-        className="text-lg font-semibold leading-6 text-[#026767] text-base"
+                className="text-base text-[#475569] text-base "
         >Languages</h2>
       </div>
           <ul>

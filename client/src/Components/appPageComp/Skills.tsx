@@ -21,13 +21,15 @@ const Skills = ({applicant}:{applicant: Applicant}) => {
 
         <div>
           <h2
-          className=" text-lg font-semibold leading-8 text-[#374151] text-sm "
+          className="text-base mt-2 text-[#DF6831] text-base font-bold"
           >Computer Languages</h2>
           <ul>
           {Array.isArray(applicant.compLanguages) && applicant.compLanguages.map((cl) => {
             return (
               <li >
-                <p>{cl}</p>
+                <p
+                className="text-base text-[#475569] text-base "
+                >{cl}</p>
               </li>
             )
           })}
@@ -36,13 +38,15 @@ const Skills = ({applicant}:{applicant: Applicant}) => {
 
         <div>
           <h2
-          className="mt-3 text-lg font-semibold leading-6 text-[#374151] text-sm"
+          className="text-base mt-2 text-[#DF6831] text-base font-bold"
           >Professional skills</h2>
           <ul>
           {Array.isArray(applicant.skillsProf) && applicant.skillsProf.map((pr) => {
             return (
               <li >
-                <p>{pr}</p>
+                <p
+                className="text-base text-[#475569] text-base "
+                >{pr}</p>
               </li>
             )
           })}
@@ -51,13 +55,15 @@ const Skills = ({applicant}:{applicant: Applicant}) => {
 
         <div>
           <h2
-          className="mt-3 text-lg font-semibold leading-6 text-[#374151] text-sm"
+          className="text-base mt-2 text-[#DF6831] text-base font-bold"
           >Stack</h2>
           <ul>
             {Array.isArray(applicant.stack) && applicant.stack.map((st) => {
               return (
                 <li >
-                  <p>{st}</p>
+                  <p
+                  className="text-base text-[#475569] text-base "
+                  >{st}</p>
                 </li>
               )
             })}

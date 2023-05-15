@@ -5,8 +5,8 @@ import { Applicant } from "../../Interfaces";
 const Video = ({applicant}:{applicant: Applicant}) => {
 
   const opts = {
-    height: '190',
-    width: '320',
+    height: '150',
+    width: '230',
     playerVars: {
       autoplay: 0,
     },
@@ -15,11 +15,11 @@ const Video = ({applicant}:{applicant: Applicant}) => {
   const videoId = '2YJTCcjwqLg&t=4s';
 
   return (
-    <>
-    <div className="flex-shrink-0 flex-grow flex-col flex r p-3 m-1 ml-2 mr-2">
+
+    <div className="flex-shrink-0 flex-grow flex-col flex r p-3  ml-2 mr-2">
       <h2
       className=" text-lg font-semibold leading-6 text-[#026767] text-base mb-2"
-      >Video presentation of my best project</h2>
+      >My best project</h2>
       <div className="shadow-md ">
         <YouTube videoId={videoId} opts={opts} 
           className="shadow-md"/>
@@ -27,7 +27,7 @@ const Video = ({applicant}:{applicant: Applicant}) => {
       {/* <YouTubePlayer /> */}
     
     </div>
-  </>
+
   )
 }
 

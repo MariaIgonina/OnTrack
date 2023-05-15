@@ -52,7 +52,7 @@ export default function Suggestion() {
               We think these applicants will catch your eye
             </p>
           </div>
-          <div className="overflow-x-scroll flex flex-nowrap  my-8 ">
+          <div className="overflow-x-scroll list-none flex flex-nowrap  my-8 ">
             {applicants.length &&
               applicants.map((applicant) => (
                 <UserCard

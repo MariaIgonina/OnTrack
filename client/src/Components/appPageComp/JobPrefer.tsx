@@ -7,7 +7,7 @@ const JobPreferences = ({applicant}:{applicant: Applicant}) => {
   return (
     <>
     <div
-    className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 m-1">
+    className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-[#FFE8D1] p-3 m-1">
       <div className="flex flex-row ">
         <WorkIcon
           fontSize="small"
@@ -19,8 +19,12 @@ const JobPreferences = ({applicant}:{applicant: Applicant}) => {
         >Job Preferences</h2>
       </div>
 
-      <p>{applicant.workingHours}</p>
-      <p>{applicant.workingModal}</p>
+      <p
+      className="text-base text-[#475569] text-base "
+      >{applicant.workingHours}</p>
+      <p
+      className="text-base text-[#475569] text-base "
+      >{applicant.workingModal}</p>
       
     </div>
     </>

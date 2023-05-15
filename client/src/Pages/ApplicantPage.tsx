@@ -53,39 +53,42 @@ const ApplicantPage = () => {
   return (
     <>
       <div className=" bg-[#FFFEF5] h-full ">
-        <div className=" flex flex-row ">
-          <div className=" flex flex-col flex-wrap items-stretch">
-            <div className=" flex flex-row flex-wrap items-stretch">
+        <div className=" flex flex-row wrap ">
+          <div className=" flex flex-col wrap  items-stretch">
+            <div className=" flex flex-row wrap  items-stretch">
               <Avatar applicant={applicant} />
 
               <PersonalInfo applicant={applicant} />
 
-              <div className=" flex flex-col items-stretch flex-wrap items-stretch">
+              <div className=" flex flex-col wrap items-stretch ">
                 <CurrentLocation applicant={applicant} />
                 <JobPreferences applicant={applicant} />
               </div>
 
-              <div className="flex flex-col flex-wrap items-stretch">
+              <div className="flex flex-col wrap  items-stretch">
                 <Hobbies applicant={applicant} />
                 <Languages applicant={applicant} />
               </div>
             </div>
-            <About applicant={applicant} />
-            
+
+          <div className=" flex flex-row wrap items-stretch">
+            <EducationComp
+            applicant = {applicant}/>
+            <ExperienceComp 
+            applicant = {applicant}/>
+          </div>
           </div>
           <Skills applicant={applicant} />
         </div>
        
-      <div className=" flex flex-row flex-wrap items-stretch">
-        <EducationComp
+      <div className=" flex flex-row  wrap items-stretch">
+        <About applicant={applicant} />
+      
+        <Video 
         applicant = {applicant}/>
-        <ExperienceComp 
-        applicant = {applicant}/>
-        <div className=" flex flex-col flex-wrap items-stretch">
-          <Video 
-          applicant = {applicant}/>
-        </div>
       </div>
+      
+      
       </div>
       
 
