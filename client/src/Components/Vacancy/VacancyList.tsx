@@ -3,22 +3,27 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import VacancyCreate from "./VacancyCreate";
-import { fetchvacanciesByRecruiter } from "../../store/vacancySlice";
+import {
+  fetchvacanciesByRecruiter,
+  filteredVacancies,
+} from "../../store/vacancySlice";
 import { Vacancy } from "../../Interfaces";
 import Modal from "react-modal";
 import VacancyCard from "./VacancyCard";
+import FilterForm from "./FilterForm";
 
 const VacancyList: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filters, setFilters] = useState<any>({});
   const currentUserID = useSelector((s: RootState) => s.currentUser.id);
 
-  const dispatch = useDispatch<AppDispatch>();
-  const vacancies = useSelector(
-    (state: RootState) => state.vacancy.vacancies
-  ) as unknown as Vacancy[];
   const vacancy: Vacancy = useSelector(
     (state: RootState) => state.vacancy.vacancy
   );
+  const vacancies = useSelector(
+    (state: RootState) => state.vacancy.vacancies
+  ) as unknown as Vacancy[];
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     if (currentUserID) {
       dispatch(fetchvacanciesByRecruiter(+currentUserID));
@@ -26,12 +31,19 @@ const VacancyList: React.FC = () => {
     console.log(currentUserID);
   }, [dispatch, vacancy, currentUserID]);
 
+  useEffect(() => {
+    dispatch(filteredVacancies(filters));
+  }, [dispatch, filters]);
   const openModal = () => {
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleFilterSubmit = (newFilters: any) => {
+    setFilters(newFilters);
   };
 
   return (
@@ -69,17 +81,19 @@ const VacancyList: React.FC = () => {
             </button>
           </div>
         </div>
-
-        <div className="overflow-x-scroll flex flex-nowrap my-2">
-          {vacancies.length ? (
-            vacancies.map((vacancy) => (
-              <VacancyCard vacancy={vacancy} key={vacancy.id} />
-            ))
-          ) : (
-            <li>
-              <p className="p-4 text-gray-500">No vacancies found.</p>
-            </li>
-          )}
+        <div>
+          <FilterForm onFilterSubmit={handleFilterSubmit} />
+          <div className="overflow-x-scroll flex flex-nowrap my-2">
+            {vacancies.length ? (
+              vacancies.map((vacancy) => (
+                <VacancyCard vacancy={vacancy} key={vacancy.id} />
+              ))
+            ) : (
+              <li>
+                <p className="p-4 text-gray-500">No vacancies found.</p>
+              </li>
+            )}
+          </div>
         </div>
       </div>
     </div>

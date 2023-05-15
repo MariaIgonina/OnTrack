@@ -158,67 +158,15 @@ const deleteVacancy = async (req: Request, res: Response) => {
     res.status(400).json(error);
   }
 };
-
 const getVacanciesByFilter = async (req: Request, res: Response) => {
   try {
-    const {
-      location,
-      experience,
-      workingHours,
-      workingModal,
-      skills,
-      stack,
-      requiredLanguages,
-      salaryRange,
-      title,
-      notDesiredLocation,
-    } = req.query as {
-      location?: string;
-      experience?: string;
-      workingHours?: string;
-      workingModal?: string;
-      skills?: string;
-      stack?: string;
-      requiredLanguages?: string;
-      salaryRange?: string;
-      title?: string;
-      notDesiredLocation?: string;
-    };
-    console.log(req.query);
-    const filter: any = {};
-    if (location) {
-      filter.location = location;
-    }
-    if (experience) {
-      filter.experience = { gte: parseInt(experience) };
-    }
-    if (workingModal) {
-      filter.workingModal = workingModal;
-    }
-    if (workingHours) {
-      filter.workingHours = workingHours;
-    }
-    if (skills) {
-      filter.skills = { hasSome: skills.split(",") };
-    }
-    if (stack) {
-      filter.stack = { hasSome: stack.split(",") };
-    }
-    if (requiredLanguages) {
-      filter.requiredLanguages = {
-        hasSome: requiredLanguages.split(","),
-      };
-    }
-    if (salaryRange) {
-      filter.salaryRange = { gte: parseInt(salaryRange) };
-    }
-    if (title) {
-      filter.title = title;
-    }
-    if (notDesiredLocation) {
-      filter.location = {
-        not: notDesiredLocation,
-      };
+    const filter = req.body;
+    console.log(filter, "filters body");
+
+    const filters: any = {};
+
+    if (filter.location) {
+      filters.location = filter.location;
     }
 
     const filteredVacancies = await prisma.vacancy.findMany({
@@ -233,6 +181,80 @@ const getVacanciesByFilter = async (req: Request, res: Response) => {
     res.status(400).json(error);
   }
 };
+// const getVacanciesByFilter = async (req: Request, res: Response) => {
+//   try {
+//     const {
+//       location,
+//       experience,
+//       workingHours,
+//       workingModal,
+//       skills,
+//       stack,
+//       requiredLanguages,
+//       salaryRange,
+//       title,
+//       notDesiredLocation,
+//     } = req.query as {
+//       location?: string;
+//       experience?: string;
+//       workingHours?: string;
+//       workingModal?: string;
+//       skills?: string;
+//       stack?: string;
+//       requiredLanguages?: string;
+//       salaryRange?: string;
+//       title?: string;
+//       notDesiredLocation?: string;
+//     };
+//     console.log(req.query);
+//     const filter: any = {};
+//     if (location) {
+//       filter.location = location;
+//     }
+//     if (experience) {
+//       filter.experience = { gte: parseInt(experience) };
+//     }
+//     if (workingModal) {
+//       filter.workingModal = workingModal;
+//     }
+//     if (workingHours) {
+//       filter.workingHours = workingHours;
+//     }
+//     if (skills) {
+//       filter.skills = { hasSome: skills.split(",") };
+//     }
+//     if (stack) {
+//       filter.stack = { hasSome: stack.split(",") };
+//     }
+//     if (requiredLanguages) {
+//       filter.requiredLanguages = {
+//         hasSome: requiredLanguages.split(","),
+//       };
+//     }
+//     if (salaryRange) {
+//       filter.salaryRange = { gte: parseInt(salaryRange) };
+//     }
+//     if (title) {
+//       filter.title = title;
+//     }
+//     if (notDesiredLocation) {
+//       filter.location = {
+//         not: notDesiredLocation,
+//       };
+//     }
+
+//     const filteredVacancies = await prisma.vacancy.findMany({
+//       where: filter,
+//       include: {
+//         jobTrack: true,
+//       },
+//     });
+//     res.status(200).json(filteredVacancies);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(400).json(error);
+//   }
+// };
 
 export const vacancyController = {
   createVacancy,
