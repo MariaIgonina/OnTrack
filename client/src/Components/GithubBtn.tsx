@@ -91,20 +91,27 @@ export default function GithubBtn({ text }: GithubBtnProps) {
             role: "applicant",
           })
         );
+        localStorage.setItem('id', newApplicant.idDB + '')
+  
+
       } else {
         localStorage.setItem("login", "recruiter");
         const newRecruiter: Recruiter = extractRecruiterData(userInfo);
         dispatch(createRecruiter(newRecruiter));
-        console.log(newRecruiter);
+        // console.log(newRecruiter);
         dispatch(
           setCurrentUser({
             id: newRecruiter.id,
-            role: "applicant",
+            role: "recruiter",
           })
         );
+        localStorage.setItem('id', newRecruiter.id + '')
+        
+
       }
       if (tokenData.access_token) {
         localStorage.setItem("accessToken", tokenData.access_token);
+        
       }
     } catch (e) {
       console.log("error", e);
@@ -112,10 +119,16 @@ export default function GithubBtn({ text }: GithubBtnProps) {
   }
 
   useEffect(() => {
-    if (newApplicant.idDB)
+    if (newApplicant.idDB) {
       dispatch(setCurrentUser({ id: newApplicant.idDB, role: "applicant" }));
-    else if (newRecruiter.id)
+      localStorage.setItem('id', newApplicant.idDB + '')
+    }
+    else if (newRecruiter.id) {
       dispatch(setCurrentUser({ id: newRecruiter.id, role: "recruiter" }));
+      localStorage.setItem('id', newRecruiter.id + '')
+
+
+    }
     redirectUser();
   }, [newRecruiter, newApplicant]);
 
@@ -126,6 +139,7 @@ export default function GithubBtn({ text }: GithubBtnProps) {
     ) {
       const id = newApplicant.idDB;
       console.log("IDDDDD => ", id);
+
       if (id) navigate(`/applicant/${id}`);
     } else if (
       currentUserinStore === "recruiter" ||

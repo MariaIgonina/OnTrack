@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import GoogleIcon from "@mui/icons-material/Google";
 import Button from "@mui/material/Button";
 
 // Reminder: store this in an .env file also in the client later
@@ -16,11 +17,9 @@ export default function LoginGoogle() {
       const tokenType = searchParams.get('token_type');
 
       if (accessToken) {
-        // User is signed in
         setIsSignedIn(true);
       }
     };
-
     checkSignedIn()
   }, [])
 
@@ -63,7 +62,8 @@ export default function LoginGoogle() {
             className="btn"
             type="submit"
           >
-            Login with Google
+            <GoogleIcon sx={{ marginRight: "15px" }}/>
+            Sign-up with Google
           </Button>
       }
     </div>

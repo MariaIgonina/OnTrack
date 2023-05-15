@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store/store";
-import { fetchCities, fetchFilteredApplicants } from "../store/applicantSlice";
+import { AppDispatch, RootState } from "../../store/store";
+import { fetchCities, fetchFilteredApplicants } from "../../store/applicantSlice";
 // import { URLSearchParams } from 'url';
 import React, { useEffect, useState } from "react";
 // import 'url-search-params-polyfill';
@@ -12,7 +12,7 @@ import {
   workingModals,
   workingHours,
   levelLanguages,
-} from "../library";
+} from "../../library";
 import { LanguageBlock } from "./LanguageBlock";
 
 export default function SearchApplicantForm() {
@@ -147,7 +147,7 @@ export default function SearchApplicantForm() {
 
   return (
     <>
-      <div className="p-2 flex items-center justify-center w-full">
+      <div className="p-2 flex items-center justify-center w-full "style={{minWidth: "500px"}}>
         <form>
           <div className="">
             <div className="p-2 flex items-center justify-center">

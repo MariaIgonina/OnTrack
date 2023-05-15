@@ -16,15 +16,15 @@ mainRouter.get("/", (req: Request, res: Response) => {
   res.send("Hello, World! This is the main route");
 });
 
-mainRouter.use("",applicantRouter)
-mainRouter.use("",authRouter)
-mainRouter.use("",cloudinaryRouter)
-mainRouter.use("",educationRouter)
-mainRouter.use("",experienceRouter)
-mainRouter.use("",messageRouter)
-mainRouter.use("",questionnaryRouter)
-mainRouter.use("",recruiterRouter)
-mainRouter.use("",trackRouter)
-mainRouter.use("",vacancyRouter)
+mainRouter.use("", applicantRouter);
+mainRouter.use("", authRouter);
+mainRouter.use("", cloudinaryRouter);
+mainRouter.use("", educationRouter);
+mainRouter.use("", experienceRouter);
+mainRouter.use("", messageRouter);
+mainRouter.use("", questionnaryRouter);
+mainRouter.use("", recruiterRouter);
+mainRouter.use("", trackRouter);
+mainRouter.use("", vacancyRouter);
 
 export default mainRouter;

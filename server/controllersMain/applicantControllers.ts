@@ -2,10 +2,10 @@ import { Request, Response } from "express";
 import { Applicant, PrismaClient } from "@prisma/client";
 
 import dotenv from "dotenv";
+import { fetchCityCoordinates } from "./coordinatesController";
 dotenv.config();
 
 const prisma = new PrismaClient();
-
 
 
 const createApplicant = async (req: Request, res: Response) => {
@@ -103,7 +103,6 @@ const updateApplicant = async (req: Request, res: Response) => {
     video,
     salaryRange,
     desiredWorkingModal,
-    currentLocation,
     socialMedia,
     skillsProf,
     stack,
@@ -114,9 +113,9 @@ const updateApplicant = async (req: Request, res: Response) => {
     notDesiredLocation,
   } = req.body;
 
+  const coordinates = await fetchCityCoordinates(location);
   const id = +req.params.id;
 
-  if (!currentLocation) currentLocation = [];
   if (!socialMedia) socialMedia = [];
   if (!skillsProf) skillsProf = [];
   if (!stack) stack = [];
@@ -141,7 +140,6 @@ const updateApplicant = async (req: Request, res: Response) => {
     video,
     salaryRange,
     desiredWorkingModal,
-    currentLocation,
     socialMedia,
     skillsProf,
     stack,
@@ -150,6 +148,10 @@ const updateApplicant = async (req: Request, res: Response) => {
     hobbies,
     desiredLocation,
     notDesiredLocation,
+    currentLocation: [
+      coordinates?.lat?.toString() ?? "",
+      coordinates?.lng?.toString() ?? "",
+    ],
   } as Applicant;
 
   try {
@@ -234,8 +236,11 @@ const filterApplicants = async (req: Request, res: Response) => {
 
   console.log(req.query);
 
+  let newLanguages:string[]=[]
 
-  const newLanguages = languages!.split(",").map(lang=>lang.split(" - ")[0])
+if (languages){
+  newLanguages = languages!.split(",").map(lang=>lang.split(" - ")[0])
+}
 
   if (desiredLocation) {
     queryObj.OR = [

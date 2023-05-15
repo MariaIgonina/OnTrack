@@ -115,7 +115,7 @@ const RecruiterForm: React.FC<VacancyCreateProps> = ({
       recruiter: updatedFormData,
     };
 
-    console.log("objet envoyé", dbArg);
+    // console.log("objet envoyé", dbArg);
     dispatch(updateRecruiter(dbArg));
     onCancel();
   };
@@ -146,38 +146,17 @@ const RecruiterForm: React.FC<VacancyCreateProps> = ({
 
   return (
     <>
-      <div>
-        <form className="formStyle">
-          <div className="flex h-screen bg-gray-200 items-center justify-center  mt-32 mb-32">
-            <div className="grid bg-white rounded-lg shadow-xl w-11/12 md:w-9/12 lg:w-1/2">
-              <div className="flex justify-center py-4">
-                <div className="flex bg-purple-200 rounded-full md:p-4 p-2 border-2 border-purple-300">
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-
-              <div className="flex justify-center">
-                <div className="flex">
-                  <h1 className="text-gray-600 font-bold md:text-2xl text-xl">
-                    Recruiter account
+      <div className="p-2 flex items-center justify-center w-full">
+        <form >
+              <div className="">
+                <div className="p-2 flex items-center justify-center">
+                  <h1 className="text-3xl font-bold tracking-tight text-[#026767] text-big  ">
+                    Create the recruiter account
                   </h1>
                 </div>
               </div>
-
-              <div className="grid grid-cols-1 mt-5 mx-7">
+            
+              <div className="grid grid-cols-1 mt-5 mx-7 flex ">
                 <label
                   htmlFor="name"
                   className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
@@ -185,7 +164,7 @@ const RecruiterForm: React.FC<VacancyCreateProps> = ({
                   Company Name
                 </label>
                 <input
-                  className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  className="py-2 px-3 rounded-lg border border-color-#F1F0EA mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
                   type="text"
                   id="name"
                   name="name"
@@ -204,7 +183,7 @@ const RecruiterForm: React.FC<VacancyCreateProps> = ({
                     Founded
                   </label>
                   <input
-                    className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    className="py-2 px-3 rounded-lg border-1 border-#F1F0EA mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
                     type="text"
                     id="founded"
                     name="founded"
@@ -221,7 +200,7 @@ const RecruiterForm: React.FC<VacancyCreateProps> = ({
                     Head office
                   </label>
                   <input
-                    className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    className="py-2 px-3 rounded-lg border border-#F1F0EA mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
                     type="text"
                     id="headOffice"
                     name="headOffice"
@@ -238,8 +217,8 @@ const RecruiterForm: React.FC<VacancyCreateProps> = ({
                 >
                   About
                 </label>
-                <input
-                  className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                <textarea
+                  className="py-2 px-3 rounded-lg border border-color-#F1F0EA mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
                   type="text"
                   id="about"
                   name="about"
@@ -253,24 +232,26 @@ const RecruiterForm: React.FC<VacancyCreateProps> = ({
                   htmlFor="externalLinks"
                   className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
                 >
-                  Add your external Links
+                Add your external Links
                 </label>
-                <input
-                  className="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                  type="text"
-                  id="externalLinks"
-                  name="externalLinks"
-                  value={externalLink}
-                  onChange={handleExtLinkChange}
-                />
 
-                <button
-                  onClick={handleAddLink}
-                  className="mt-3 w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2"
-                >
-                  Add more
-                </button>
+                <div className="flex flex-row items-center">
+                  <input
+                    className="py-2 px-3 w-full rounded-lg border border-#F1F0EA mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
+                    type="text"
+                    id="externalLinks"
+                    name="externalLinks"
+                    value={externalLink}
+                    onChange={handleExtLinkChange}
+                  />
 
+                  <button
+                    onClick={handleAddLink}
+                    className="bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white py-2 px-6 ml-4 h-10 mt-1 whitespace-nowrap"
+                  >
+                    Add more
+                  </button>
+                  </div>
                 <ul>
                   {externalLinks.map((link, index) => (
                     <li key={index}>
@@ -304,7 +285,7 @@ const RecruiterForm: React.FC<VacancyCreateProps> = ({
                   Upload Logo
                 </label>
                 <div className="flex items-center justify-center w-full">
-                  <label className="flex flex-col border-4 border-dashed w-full h-32 hover:bg-gray-100 hover:border-purple-300 group">
+                  <label className="border-4 border-dashed w-32 rounded-full h-32 hover:bg-gray-100 hover:border-dark-green group">
                     {previewSource && (
                       <img
                         src={previewSource}
@@ -316,7 +297,7 @@ const RecruiterForm: React.FC<VacancyCreateProps> = ({
                       {!previewSource && (
                         <>
                           <svg
-                            className="w-10 h-10 text-purple-400 group-hover:text-purple-600"
+                            className="w-10 h-10 text-orange-100 group-hover:text-orange-200"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -329,7 +310,7 @@ const RecruiterForm: React.FC<VacancyCreateProps> = ({
                               d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                             ></path>
                           </svg>
-                          <p className="lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider">
+                          <p className="lowercase text-sm text-gray-400 group-hover:text-orange-300 pt-1 tracking-wider">
                             Select a photo
                           </p>
                         </>
@@ -350,19 +331,18 @@ const RecruiterForm: React.FC<VacancyCreateProps> = ({
               <div className="flex items-center justify-center  md:gap-8 gap-4 pt-5 pb-5">
                 <button
                   onClick={onCancel}
-                  className="w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2"
+                  className="w-auto bg-green-100 hover:bg-dark-green rounded-lg shadow-xl font-medium text-white px-4 py-2"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={(e) => handleCreateRecruiter(e)}
-                  className="w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2"
+                  className="w-auto bg-orange-100 hover:bg-orange-dark rounded-lg shadow-xl font-medium text-white px-4 py-2"
                 >
                   Save
                 </button>
               </div>
-            </div>
-          </div>
+           
         </form>
       </div>
     </>

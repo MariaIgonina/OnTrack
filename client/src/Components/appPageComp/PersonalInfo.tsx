@@ -1,18 +1,15 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTwitter,
-  faInstagram,
-  faFacebook,
-  faGithub,
-  faYoutube,
-} from "@fortawesome/free-brands-svg-icons";
-import moment from "moment";
-import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
-import PhoneIcon from "@mui/icons-material/Phone";
+import { faTwitter, faInstagram, faFacebook, faGithub, faYoutube } from "@fortawesome/free-brands-svg-icons";
+import moment from 'moment'
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import PhoneIcon from '@mui/icons-material/Phone';
+import { Applicant } from "../../Interfaces";
 
-const PersonalInfo = ({ applicant }) => {
-  const applicantAge = function () {
+
+const PersonalInfo = ({applicant}:{applicant: Applicant}) => {
+
+  const applicantAge = function() {
     const birthDate = moment(applicant.age);
     const currentYear = moment();
 
@@ -21,18 +18,35 @@ const PersonalInfo = ({ applicant }) => {
 
   return (
     <>
-      <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 m-2 mt-8 ">
-        <h1 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-3xl mb-4">{`${applicant.name} ${applicant.familyName}`}</h1>
-        <p>{`${applicantAge()} years old`}</p>
+     <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 m-1 mt-3">
+        <h1
+        className="text-3xl font-bold tracking-tight text-[#026767] sm:text-3xl m-2"
+        >{`${applicant.name} ${applicant.familyName}`}</h1>
+        <p
+        className="text-base mb-2 text-[#475569] text-base "
+        >{`${applicantAge()} years old`}</p>
 
         <div className="flex flex-row ">
-          <PhoneIcon></PhoneIcon>
-          <p>{applicant.phone}</p>
+          <PhoneIcon
+            fontSize="small"
+            style={{ color: '#475569' }}
+            className="mr-2"
+          >
+          </PhoneIcon>
+          <p
+          className="text-base mb-2 text-[#475569] text-base "
+          >{applicant.phone}</p>
         </div>
 
         <div className=" flex flex-row ">
-          <AlternateEmailIcon></AlternateEmailIcon>
-          <p>{applicant.email}</p>
+          <AlternateEmailIcon
+            fontSize="small"
+            style={{ color: '#475569' }}
+            className="mr-2"
+          ></AlternateEmailIcon>
+          <p
+          className="text-base mb-2 undetline text-[#475569] text-base "
+          >{applicant.email}</p>
         </div>
 
         <div className="flex-shrink-0 flex">
@@ -42,22 +56,30 @@ const PersonalInfo = ({ applicant }) => {
                 <li key={index}>
                   {link.includes("github.com") && (
                     <a href={link} target="_blank" rel="noopener noreferrer">
-                      <FontAwesomeIcon className="mr-2" icon={faGithub} />
+                      <FontAwesomeIcon 
+                      className="mr-2 text-[#475569]" 
+                      icon={faGithub} />
                     </a>
                   )}
                   {link.includes("facebook.com") && (
                     <a href={link} target="_blank" rel="noopener noreferrer">
-                      <FontAwesomeIcon className="mr-2" icon={faFacebook} />
+                      <FontAwesomeIcon 
+                      className="mr-2 text-[#475569]" 
+                      icon={faFacebook} />
                     </a>
                   )}
                   {link.includes("twitter.com") && (
                     <a href={link} target="_blank" rel="noopener noreferrer">
-                      <FontAwesomeIcon className="mr-2" icon={faTwitter} />
+                      <FontAwesomeIcon 
+                      className="mr-2 text-[#475569]" 
+                      icon={faTwitter} />
                     </a>
                   )}
                   {link.includes("instagram.com") && (
                     <a href={link} target="_blank" rel="noopener noreferrer">
-                      <FontAwesomeIcon className="mr-2" icon={faInstagram} />
+                      <FontAwesomeIcon 
+                      className="mr-2 text-[#475569]" 
+                      icon={faInstagram} />
                     </a>
                   )}
                 </li>

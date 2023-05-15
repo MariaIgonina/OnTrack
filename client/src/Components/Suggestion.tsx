@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import {
@@ -6,49 +8,61 @@ import {
   fetchFilteredApplicants,
 } from "../store/applicantSlice";
 import UserCard from "./UserCard";
+import { CurrentUserType, Vacancy } from "../Interfaces";
 import { Applicant } from "../Interfaces";
-import { useNavigate } from "react-router-dom";
+import { fetchAllVacancies } from "../store/vacancySlice";
+import VacancyCard from "./Vacancy/VacancyCard";
+import FilteredVacancies from "./Vacancy/FilteredVacancies";
 
 export default function Suggestion() {
-  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const currentUser = useSelector(
+    (state: RootState) => state.currentUser
+  ) as unknown as CurrentUserType;
+
   //THIS WILL BE THE FILTERED RESULT FROM BackEnd!
   const applicants = useSelector(
     (s: RootState) => s.applicant.applicant
   ) as unknown as Applicant[];
-
-  const dispatch = useDispatch<AppDispatch>();
+  const vacancy = useSelector(
+    (state: RootState) => state.vacancy.vacancies
+  ) as unknown as Vacancy[];
 
   useEffect(() => {
-    dispatch(fetchFilteredApplicants("?location=Barcelona"));
-    // dispatch(fetchAllApplicants);
+    if (currentUser.role === "recruiter") {
+      //dispatch(fetchFilteredApplicants("?location=Barcelona"));
+      dispatch(fetchAllApplicants);
+    } else {
+      dispatch(fetchAllVacancies);
+    }
   }, []);
+
+  useEffect(() => {
+    console.log("this should be an array of vacancies", vacancy);
+  }, [dispatch]);
 
   return (
     <>
-      <div className="bg-stone-100 py-24 sm:py-32 rounded-lg w-full">
+      <div className="bg-stone-100 py-24 sm:py-8 rounded-lg">
         <div className="mx-auto max-w-10xl lg:px-8">
-          <div className="mx-auto max-w-2xl lg:mx-0">
-            <h2 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-4xl mb-8">
+          <div className="mx-auto max-w-lg lg:mx-0">
+            <h2 className="text-2xl font-bold tracking-tight text-[#026767] mb-2">
               Your Personalized Suggestions
             </h2>
-            <p className="mt-2 text-lg text-[#026767] leading-8 text-gray-600 ">
+            <p className="mt-2 text-base text-[#026767] leading-8 text-gray-600 ">
               We think these applicants will catch your eye
             </p>
           </div>
-          <div className="overflow-x-scroll flex flex-nowrap  my-8 ">
+          <div className="overflow-x-scroll list-none flex flex-nowrap  my-8 ">
             {applicants.length &&
               applicants.map((applicant) => (
-                <button
-                  type="submit"
-                  onClick={() => navigate(`/applicant/${applicant.idDB}`)}
+                <UserCard
+                  applicant={applicant}
                   key={applicant.idAuth}
-                >
-                  <UserCard
-                    applicant={applicant}
-                    key={applicant.idAuth}
-                  ></UserCard>
-                </button>
+                ></UserCard>
               ))}
+
+            <FilteredVacancies />
           </div>
         </div>
       </div>

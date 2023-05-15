@@ -26,6 +26,7 @@ const fetchRecruiter = createAsyncThunk(
   "recruiter/fetchrecruiter",
   async function (recruiterId: number, { rejectWithValue }) {
     try {
+      console.log("recruiterSlice by ID", recruiterId);
       const response = await fetch(`${url}/recruiter/${recruiterId}`);
       if (!response.ok) {
         throw new Error("Server error");

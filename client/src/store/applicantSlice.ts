@@ -1,4 +1,4 @@
-import { createAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createSlice, createAsyncThunk, isAsyncThunkAction } from "@reduxjs/toolkit";
 
 import { Applicant, Track } from "../Interfaces";
 
@@ -11,7 +11,7 @@ const initialApplicant: Applicant = {
   picture: "",
   name: "",
   familyName: "",
-  age: "",
+  age: new Date(),
   phone: "",
   location: "",
   track: [],
@@ -76,7 +76,7 @@ const fetchAllApplicants = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      //console.log("ALL APPLICANTS : ", data);
+      console.log("ALL APPLICANTS : ", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -94,6 +94,7 @@ const fetchFilteredApplicants = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
+      console.log("data we need", data)
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -167,17 +168,32 @@ interface IPutParams {
 // }
 // updateApplicant(testPut)
 
+const fetchCityCoordinates = async (
+  cityName: string
+): Promise<google.maps.LatLngLiteral | null> => {
+  try {
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+        cityName
+      )}&key=AIzaSyDaIfGIGsLwAdkkp3mxtP_9AF7_YXIybBs`
+    );
+    const data = await response.json();
+
+    if (data.status === "OK") {
+      const coordinates = data.results[0].geometry.location;
+      return { lat: coordinates.lat, lng: coordinates.lng };
+    }
+  } catch (error) {
+    console.error("Error fetching city coordinates:", error);
+  }
+  return null;
+};
+
+
 const updateApplicant = createAsyncThunk(
   "applicant/updateApplicant",
   async function ({ applicantId, applicant }: IPutParams, { rejectWithValue }) {
     try {
-      const coordinates = await fetchCityCoordinates(applicant.location);
-      if (coordinates) {
-        applicant.currentLocation = [
-          coordinates.lat.toString(),
-          coordinates.lng.toString(),
-        ];
-      }
       const response = await fetch(url + `/updateApplicant/${applicantId}`, {
         method: "PUT",
         headers: {
@@ -322,24 +338,3 @@ export {
 export const selectapplicant = (state: RootState) => state.applicant;
 
 export default applicantSlice.reducer;
-
-const fetchCityCoordinates = async (
-  cityName: string
-): Promise<google.maps.LatLngLiteral | null> => {
-  try {
-    const response = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-        cityName
-      )}&key=AIzaSyDaIfGIGsLwAdkkp3mxtP_9AF7_YXIybBs`
-    );
-    const data = await response.json();
-
-    if (data.status === "OK") {
-      const coordinates = data.results[0].geometry.location;
-      return { lat: coordinates.lat, lng: coordinates.lng };
-    }
-  } catch (error) {
-    console.error("Error fetching city coordinates:", error);
-  }
-  return null;
-};

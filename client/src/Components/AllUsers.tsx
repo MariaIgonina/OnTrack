@@ -4,43 +4,55 @@ import { AppDispatch, RootState } from "../store/store";
 import { fetchAllApplicants } from "../store/applicantSlice";
 import { Applicant } from "../Interfaces";
 import UserCard from "./UserCard";
-import { Link, useNavigate } from "react-router-dom";
+import { CurrentUserType, Vacancy } from "../Interfaces";
+import { fetchAllVacancies } from "../store/vacancySlice";
+import VacancyCard from "./Vacancy/VacancyCard";
+import SearchApplicantForm from "./SearchApplicantForm/SearchApplicantForm";
 
 export default function AllUsers() {
-  const navigate = useNavigate();
   const applicants = useSelector(
     (s: RootState) => s.applicant.applicant
-  ) as unknown as Applicant[]; //THIS IS BAD TYPESCRIPT REFACTOR THIS ROSIE
+  ) as unknown as Applicant[];
+  const vacancy = useSelector(
+    (state: RootState) => state.vacancy.vacancies
+  ) as unknown as Vacancy[];
+  const currentUser = useSelector(
+    (state: RootState) => state.currentUser
+  ) as unknown as CurrentUserType;
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchAllApplicants());
+    if (currentUser.role === "recruiter") {
+      dispatch(fetchAllApplicants());
+    } else {
+      dispatch(fetchAllVacancies);
+    }
   }, []);
 
   return (
-    <div className="bg-stone-100 py-8 sm:py-32 rounded-lg w-full m-5 mt-8">
+    <div className="bg-stone-100 py-24 sm:py-8 rounded-lg">
       <div className="mx-auto max-w-10xl lg:px-8">
-        <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-4xl mb-2">
+        <div className="mx-auto max-w-lg lg:mx-0">
+          <h2 className="text-2xl font-bold tracking-tight text-[#026767] mb-2">
             Search all the candidates using OnTrack
           </h2>
         </div>
-        <div className="overflow-x-scroll flex   my-8 ">
+        <div className="overflow-x-scroll list-none flex   my-8 ">
+          <SearchApplicantForm/>
           {applicants.length &&
             applicants.map((applicant) => (
-              // <Link to="/applicant/">
-              <button
-                type="submit"
-                onClick={() => navigate(`/applicant/${applicant.idDB}`)}
-                key={applicant.idDB}
-              >
-                <UserCard
-                  applicant={applicant}
-                  key={applicant.idAuth}
-                ></UserCard>
-              </button>
-              // </Link>
+              <UserCard applicant={applicant} key={applicant.idAuth}></UserCard>
             ))}
+
+          {vacancy.length ? (
+            vacancy.map((vacancy) => (
+              <VacancyCard vacancy={vacancy} key={vacancy.id} />
+            ))
+          ) : (
+            <li>
+              <p className="p-4 text-gray-500">No vacancies found.</p>
+            </li>
+          )}
         </div>
       </div>
     </div>

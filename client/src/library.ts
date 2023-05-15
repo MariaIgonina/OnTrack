@@ -27,3 +27,8 @@ export const levelLanguages = [
     "Native"
 ]
   
+export const typeForStep = [
+    "Questionary",
+    "Zoom call",
+    "SandBox",
+];

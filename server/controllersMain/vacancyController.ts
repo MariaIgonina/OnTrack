@@ -2,6 +2,7 @@ import { PrismaClient, Prisma } from "@prisma/client";
 import { Request, Response } from "express";
 const prisma = new PrismaClient();
 import dotenv from "dotenv";
+import { fetchCityCoordinates } from "./coordinatesController";
 dotenv.config();
 
 const createVacancy = async (req: Request, res: Response) => {
@@ -20,7 +21,8 @@ const createVacancy = async (req: Request, res: Response) => {
       salaryRange,
     } = req.body;
 
-    console.log(req.body);
+    console.log(location);
+    const coordinates = await fetchCityCoordinates(location);
 
     if (
       recruiterId === undefined ||
@@ -39,7 +41,7 @@ const createVacancy = async (req: Request, res: Response) => {
 
     const vacancy = await prisma.vacancy.create({
       data: {
-        recruiter: { connect: { id: recruiterId } },
+        recruiter: { connect: { id: +recruiterId } },
         about,
         title,
         workingHours,
@@ -50,6 +52,10 @@ const createVacancy = async (req: Request, res: Response) => {
         experience,
         location,
         salaryRange,
+        currentLocation: [
+          coordinates?.lat?.toString() ?? "",
+          coordinates?.lng?.toString() ?? "",
+        ],
       },
     });
 
@@ -104,6 +110,7 @@ const getAllVacancies = async (req: Request, res: Response) => {
     const AllVacancies = await prisma.vacancy.findMany({
       include: {
         jobTrack: true,
+        recruiter: true,
       },
     });
     res.status(200).json(AllVacancies);
@@ -117,6 +124,14 @@ const updateVacancy = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const updatedData = req.body;
+    let coordinates: any = [];
+    if (updatedData.location) {
+      coordinates = await fetchCityCoordinates(updatedData.location);
+    }
+    updatedData.currentLocation = [
+      coordinates?.lat?.toString() ?? "",
+      coordinates?.lng?.toString() ?? "",
+    ];
     const updatedVacancy = await prisma.vacancy.update({
       where: { id },
       data: updatedData,
@@ -143,71 +158,54 @@ const deleteVacancy = async (req: Request, res: Response) => {
     res.status(400).json(error);
   }
 };
-
 const getVacanciesByFilter = async (req: Request, res: Response) => {
   try {
-    const {
-      location,
-      experience,
-      workingHours,
-      workingModal,
-      skills,
-      stack,
-      requiredLanguages,
-      salaryRange,
-      title,
-      notDesiredLocation,
-    } = req.query as {
-      location?: string;
-      experience?: string;
-      workingHours?: string;
-      workingModal?: string;
-      skills?: string;
-      stack?: string;
-      requiredLanguages?: string;
-      salaryRange?: string;
-      title?: string;
-      notDesiredLocation?: string;
-    };
-    console.log(req.query);
-    const filter: any = {};
-    if (location) {
-      filter.location = location;
-    }
-    if (experience) {
-      filter.experience = { gte: parseInt(experience) };
-    }
-    if (workingModal) {
-      filter.workingModal = workingModal;
-    }
-    if (workingHours) {
-      filter.workingHours = workingHours;
-    }
-    if (skills) {
-      filter.skills = { hasSome: skills.split(",") };
-    }
-    if (stack) {
-      filter.stack = { hasSome: stack.split(",") };
-    }
-    if (requiredLanguages) {
-      filter.requiredLanguages = {
-        hasSome: requiredLanguages.split(","),
-      };
-    }
-    if (salaryRange) {
-      filter.salaryRange = { gte: parseInt(salaryRange) };
-    }
-    if (title) {
-      filter.title = title;
-    }
-    if (notDesiredLocation) {
-      filter.location = {
-        not: notDesiredLocation,
+    const filter = req.body;
+    console.log(filter, "filters body");
+
+    const filters: any = {};
+
+    if (filter.location?.length > 0) {
+      filters.location = {
+        contains: filter.location,
+        mode: "insensitive",
       };
     }
 
+    if (filter.title?.length > 0) {
+      filters.title = {
+        contains: filter.title,
+        mode: "insensitive",
+      };
+    }
+
+    if (filter.skills[0]) {
+      filters.skills = {
+        hasSome: filter.skills,
+      };
+    }
+
+    if (filter.stack[0]) {
+      filters.stack = {
+        hasSome: filter.stack,
+      };
+    }
+
+    if (filter.requiredLanguages[0]) {
+      filters.requiredLanguages = {
+        hasSome: filter.requiredLanguages,
+      };
+    }
+
+    if (filter.experience !== null) {
+      filters.experience = { gte: filter.experience };
+    }
+
+    if (filter.salaryRange !== null) {
+      filters.salaryRange = { gte: filter.salaryRange };
+    }
     const filteredVacancies = await prisma.vacancy.findMany({
-      where: filter,
+      where: filters,
       include: {
         jobTrack: true,
       },
@@ -218,6 +216,80 @@ const getVacanciesByFilter = async (req: Request, res: Response) => {
     res.status(400).json(error);
   }
 };
+// const getVacanciesByFilter = async (req: Request, res: Response) => {
+//   try {
+//     const {
+//       location,
+//       experience,
+//       workingHours,
+//       workingModal,
+//       skills,
+//       stack,
+//       requiredLanguages,
+//       salaryRange,
+//       title,
+//       notDesiredLocation,
+//     } = req.query as {
+//       location?: string;
+//       experience?: string;
+//       workingHours?: string;
+//       workingModal?: string;
+//       skills?: string;
+//       stack?: string;
+//       requiredLanguages?: string;
+//       salaryRange?: string;
+//       title?: string;
+//       notDesiredLocation?: string;
+//     };
+//     console.log(req.query);
+//     const filter: any = {};
+//     if (location) {
+//       filter.location = location;
+//     }
+//     if (experience) {
+//       filter.experience = { gte: parseInt(experience) };
+//     }
+//     if (workingModal) {
+//       filter.workingModal = workingModal;
+//     }
+//     if (workingHours) {
+//       filter.workingHours = workingHours;
+//     }
+//     if (skills) {
+//       filter.skills = { hasSome: skills.split(",") };
+//     }
+//     if (stack) {
+//       filter.stack = { hasSome: stack.split(",") };
+//     }
+//     if (requiredLanguages) {
+//       filter.requiredLanguages = {
+//         hasSome: requiredLanguages.split(","),
+//       };
+//     }
+//     if (salaryRange) {
+//       filter.salaryRange = { gte: parseInt(salaryRange) };
+//     }
+//     if (title) {
+//       filter.title = title;
+//     }
+//     if (notDesiredLocation) {
+//       filter.location = {
+//         not: notDesiredLocation,
+//       };
+//     }
+
+//     const filteredVacancies = await prisma.vacancy.findMany({
+//       where: filter,
+//       include: {
+//         jobTrack: true,
+//       },
+//     });
+//     res.status(200).json(filteredVacancies);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(400).json(error);
+//   }
+// };
 
 export const vacancyController = {
   createVacancy,

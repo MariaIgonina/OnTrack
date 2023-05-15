@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +14,7 @@ import Skills from "../Components/appPageComp/Skills";
 import Video from "../Components/appPageComp/Video";
 import About from "../Components/appPageComp/About";
 
-import { Applicant } from "../Interfaces";
+import { Applicant, CurrentUserType } from "../Interfaces";
 
 import { useState, useEffect } from "react";
 
@@ -33,52 +32,69 @@ const ApplicantPage = () => {
   const applicant = useSelector(
     (state: RootState) => state.applicant.applicant
   );
-  const currentUser = useSelector((state: RootState) => state.currentUser);
+
+  const currentUser = useSelector(
+    (state: RootState) => state.currentUser
+  ) as unknown as CurrentUserType;
   const dispatch = useDispatch<AppDispatch>();
   const codeParam = window.location.pathname.split("/").reverse()[0];
 
   useEffect(() => {
-    console.log("cureent ysfter", currentUser.id);
-    dispatch(fetchApplicant(+currentUser.id));
-    //dispatch(fetchApplicant(+currentUser.id));
-    //dispatch(setApplicant(applicant));
-    // console.log("App", applicant);
-  }, [dispatch]);
+    if (currentUser.id === +codeParam) {
+      console.log("cureent ysfter", currentUser.id);
+      dispatch(fetchApplicant(+currentUser.id));
+      console.log("WE CALLED AN APPLICANT", applicant)
+    } else {
+      dispatch(fetchApplicant(+codeParam));
+    }
+  }, [dispatch, currentUser]);
 
   return (
     <>
-      <div className="mt-20 bg-stone-100 h-full m-0">
-        <div className=" flex flex-row">
-          <div className=" flex flex-col">
-            <div className=" flex flex-row">
+      <div className=" bg-[#FFFEF5] h-full ">
+        <div className=" flex flex-row wrap ">
+          <div className=" flex flex-col wrap  items-stretch">
+            <div className=" flex flex-row wrap  items-stretch">
               <Avatar applicant={applicant} />
 
               <PersonalInfo applicant={applicant} />
 
-              <div className=" flex flex-col">
+              <div className=" flex flex-col wrap items-stretch ">
                 <CurrentLocation applicant={applicant} />
                 <JobPreferences applicant={applicant} />
               </div>
 
-              <div className="flex flex-col">
-                <Languages applicant={applicant} />
+              <div className="flex flex-col wrap  items-stretch">
                 <Hobbies applicant={applicant} />
+                <Languages applicant={applicant} />
               </div>
             </div>
 
-            <About applicant={applicant} />
+          <div className=" flex flex-row wrap items-stretch">
+            <EducationComp
+            applicant = {applicant}/>
+            <ExperienceComp 
+            applicant = {applicant}/>
+          </div>
           </div>
           <Skills applicant={applicant} />
         </div>
-
-        <div className=" flex flex-row">
-          <EducationComp applicant={applicant} />
-          <ExperienceComp applicant={applicant} />
-
-          <Video applicant={applicant} />
-        </div>
+       
+      <div className=" flex flex-row  wrap items-stretch">
+        <About applicant={applicant} />
+      
+        <Video 
+        applicant = {applicant}/>
       </div>
+      
+      
+      </div>
+      
+
+
+
     </>
+    
   );
 };
 

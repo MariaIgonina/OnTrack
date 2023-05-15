@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { languages, levelLanguages } from "../library";
+import { languages, levelLanguages } from "../../library";
 
 export function LanguageBlock({
   setLanguageArray,
@@ -109,8 +109,7 @@ export function LanguageBlock({
         
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8">
-        <div className="grid grid-cols-1 ml-9">
+      <div className="grid grid-cols-1 ml-8">
           {language !== " - " && (
             <li style={{ listStyleType: "none" }}>
               {language}
@@ -148,7 +147,6 @@ export function LanguageBlock({
               </button>
             </li>
           )}
-        </div>
       </div>
     </>
   );
