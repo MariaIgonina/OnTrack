@@ -154,9 +154,9 @@ async function updatetrackbyId(req: Request, res: Response) {
     res.json(track).status(200);
   } catch (error: any) {
     console.log(error);
-    if (error.meta.cause === "Record to update does not exist")
-      res.status(404).json(error.meta.cause);
-    else res.status(409).json(error.meta.cause);
+    if (error.meta?.cause === "Record to update does not exist")
+      res.status(404).json(error.meta?.cause);
+    else res.status(409).json(error);
   }
 }
 

@@ -26,25 +26,25 @@ const io = new Server(server, {
   },
 });
 
-io.on("connection", (socket) => {
-  console.log("a user connected:", socket.id);
+// io.on("connection", (socket) => {
+//   console.log("a user connected:", socket.id);
 
-  socket.on("joinRoom", (trackId) => {
-    socket.join(trackId);
-    console.log(`User with ID: ${socket.id} joined room: ${trackId}`);
-  });
-  socket.on("sendMessage", async (message) => {
-    try {
-      // const savedMessage = await prisma.message.create({ data: message });
-      socket.to(message.trackId).emit("receive_message", message);
-    } catch (error) {
-      console.error("Error while saving the message:", error);
-    }
-  });
-  socket.on("disconnect", () => {
-    console.log("User Disconnected", socket.id);
-  });
-});
+//   socket.on("joinRoom", (trackId) => {
+//     socket.join(trackId);
+//     console.log(`User with ID: ${socket.id} joined room: ${trackId}`);
+//   });
+//   socket.on("sendMessage", async (message) => {
+//     try {
+//       // const savedMessage = await prisma.message.create({ data: message });
+//       socket.to(message.trackId).emit("receive_message", message);
+//     } catch (error) {
+//       console.error("Error while saving the message:", error);
+//     }
+//   });
+//   socket.on("disconnect", () => {
+//     console.log("User Disconnected", socket.id);
+//   });
+// });
 
 (async () => {
   try {

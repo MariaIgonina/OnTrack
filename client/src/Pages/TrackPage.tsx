@@ -10,6 +10,7 @@ import { fetchRecruiter } from "../store/recruiterSlice";
 import { fetchApplicant } from "../store/applicantSlice";
 import Landing from "../Components/codeSandbox/Landing";
 import DeleteTrackModal from "../Components/tracks/DeleteTrackModal";
+import ChatWindow from "../Components/liveChat/ChatWindow";
 
 const TrackPage = () => {
   const [gotInfo, setGotInfo] = useState(0)
@@ -131,7 +132,10 @@ const TrackPage = () => {
         <div id="steps-container"
           className="flex flex-col items-center">
           <StepTemplate title='Intro Interiew' link="zoom.meetings/room=as2u48/sdfbjy2" />
-          {/* <Landing /> */}
+          <Landing />
+          <div id="chat-wraper" className="z-40">
+            <ChatWindow trackId={track.track?.id} />
+          </div>
         </div>
       </div >
     </div >

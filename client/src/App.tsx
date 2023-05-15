@@ -113,7 +113,7 @@ function App() {
             </Protected>
           } />
 
-          <Route path="/loggedWithGoogle" element={<LogedWithGoogle />} />
+          <Route path="/logedWithGoogle" element={<LogedWithGoogle />} />
           <Route path="/login" element={<UserLogin />} />
           <Route path="/recruiter/:id" element={
             <Protected isLoggedIn={userIsLogedIn?.length! > 0}>
