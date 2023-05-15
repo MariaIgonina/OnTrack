@@ -11,5 +11,6 @@ applicantRouter.put("/updateApplicant/:id", applicantControllers.updateApplicant
 applicantRouter.delete("/deleteApplicant/:id", applicantControllers.deleteApplicant);
 applicantRouter.get("/filterApplicants/", applicantControllers.filterApplicants)
 applicantRouter.get("/findUser/:id", applicantControllers.getTypeofUser);
+applicantRouter.get("/findLocation", applicantControllers.getAllLocations);
 
 export default applicantRouter
