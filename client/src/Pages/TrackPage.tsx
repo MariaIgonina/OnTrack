@@ -11,10 +11,19 @@ import { fetchApplicant } from "../store/applicantSlice";
 import Landing from "../Components/codeSandbox/Landing";
 import DeleteTrackModal from "../Components/tracks/DeleteTrackModal";
 import ChatWindow from "../Components/liveChat/ChatWindow";
+import Videocall from "../Components/steps/Videocall";
+
+type Step = {
+  type: string,
+  id: number | string,
+  title?: string,
+  order?: number | string
+}
 
 const TrackPage = () => {
   const [gotInfo, setGotInfo] = useState(0)
-  const [deleteModal, setDeleteModal] = useState<boolean>(false)
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [steps, setSteps] = useState<any>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>()
   const currentUser = useSelector((state: RootState) => state.currentUser)
@@ -22,6 +31,7 @@ const TrackPage = () => {
   const vacancy = useSelector((state: RootState) => state.vacancy.vacancy);
   const applicant = useSelector((state: RootState) => state.applicant);
   const recruiter = useSelector((state: RootState) => state.recruiter);
+
 
   useEffect(() => {
     const searchQuery = new URLSearchParams(window.location.search);
@@ -55,7 +65,24 @@ const TrackPage = () => {
       console.log(error.message, num)
       console.log('track', track.track)
     }
+    checkForSteps()
   }, [gotInfo])
+
+  const checkForSteps = useCallback(() => {
+    let fetchedSteps: any = [];
+    if (track.track?.CodeSandbox) {
+      track.track?.CodeSandbox.forEach(element => {
+        fetchedSteps.push(element)
+      });
+    }
+    if (track.track?.Videocall) {
+      track.track?.Videocall.forEach(element => {
+        fetchedSteps.push(element)
+      });
+    }
+    setSteps([...fetchedSteps])
+  }, [])
+
 
 
   return (
@@ -102,7 +129,7 @@ const TrackPage = () => {
                       at {recruiter.recruiter.name}
                     </h5>
                   </a>
-                  <a onClick={()=> navigate(`/vacancy/${vacancy.data?.id}`)}>
+                  <a onClick={() => navigate(`/vacancy/${vacancy.data?.id}`)}>
                     <p className="mb-3 font-normal text-gray-700 hover:text-gray-600 hover:underline hover:cursor-pointer">
                       {vacancy.data?.about}
                     </p>
@@ -134,11 +161,23 @@ const TrackPage = () => {
 
         <div id="steps-container"
           className="flex flex-col items-center">
-          <StepTemplate title='Intro Interiew' link="zoom.meetings/room=as2u48/sdfbjy2" />
-          <Landing />
-          <div id="chat-wraper" className="z-40">
-            <ChatWindow trackId={track.track?.id} />
-          </div>
+          {/* <StepTemplate title='Intro Interiew' link="zoom.meetings/room=as2u48/sdfbjy2" /> */}
+          {/* <Landing /> */}
+          {/* </div> */}
+          {/* <div id="test-contianer"> */}
+          {steps.length &&
+            steps.map((step: Step) => {
+              if (step.type.toLowerCase() === "sandbox") {
+                return <StepTemplate title={step.title?.length ? step.title : "Next step: Code!"} type="sandbox" content={<Landing />} />
+              } else if (step.type.toLowerCase() === "videocall") {
+                return <StepTemplate title={step.title?.length ? step.title : "Next step: Videocall"} type="videocall" content={<Videocall />} />
+              }
+              
+            })
+          }
+        </div>
+        <div id="chat-wraper" className="z-40">
+          <ChatWindow trackId={track.track?.id} />
         </div>
       </div >
     </div >

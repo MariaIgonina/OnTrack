@@ -74,7 +74,9 @@ export interface Track {
   recruiterNotes: string;
   vacancyId: number;
   vacancy: Vacancy;
+  CodeSandbox: any[];
   Message: Message[];
+  Videocall: any[]
 }
 
 export interface Step {
@@ -140,3 +142,4 @@ export interface CurrentUserType {
   id: number;
   role: string;
 }
+
