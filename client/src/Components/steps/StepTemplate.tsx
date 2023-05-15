@@ -12,9 +12,17 @@ type StepProps = {
 }
 const StepTemplate = ({ title, link, content, type, checkIsAble }: StepProps) => {
   const [showInfo, setShowInfo] = useState(false);
+  const [check, setCheck] = useState(false)
 
   const info = 'Mark this step as checked';
 
+  const handleCheck = () => {
+    if (checkIsAble) {
+      setCheck(true)
+    } else {
+      
+    }
+  }
 
   return (<>
     {type === 'sandbox'
@@ -27,6 +35,7 @@ const StepTemplate = ({ title, link, content, type, checkIsAble }: StepProps) =>
         <button
           onMouseEnter={() => setShowInfo(true)}
           onMouseLeave={() => setShowInfo(false)}
+          onClick={handleCheck}
           className={`${checkIsAble ? 'text-green-800' : 'text-gray-200'} hover:text-green-500 hover:cursor-pointer relative`}
         ><CheckCircleIcon />
           {showInfo && (
