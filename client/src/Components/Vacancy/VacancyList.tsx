@@ -8,7 +8,7 @@ import { Vacancy } from "../../Interfaces";
 import Modal from "react-modal";
 import FilteredVacancies from "./FilteredVacancies";
 
-const VacancyList: React.FC = ({setVacanciesLength}) => {
+const VacancyList: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const currentUserID = useSelector((s: RootState) => s.currentUser.id);
   const vacancy: Vacancy = useSelector(
@@ -22,7 +22,6 @@ const VacancyList: React.FC = ({setVacanciesLength}) => {
     console.log(currentUserID);
   }, [dispatch, vacancy, currentUserID]);
 
-  setVacanciesLength(vacancies.length)
 
   const openModal = () => {
     setIsModalOpen(true);

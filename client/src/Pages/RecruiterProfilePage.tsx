@@ -17,6 +17,7 @@ import ApartmentIcon from "@mui/icons-material/Apartment";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Vacancy } from "../Interfaces";
 
 const RecruiterProfilePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,14 +25,17 @@ const RecruiterProfilePage = () => {
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
   const codeParam = window.location.pathname.split("/").reverse()[0];
-  const [vacanciesLength, setVacanciesLength] = useState(0)
+  // const [vacanciesLength, setVacanciesLength] = useState(0)
+  const vacancies = useSelector(
+    (state: RootState) => state.vacancy.vacancies
+  ) as unknown as Vacancy[];
 
   const currentUserID = useSelector((s: RootState) => s.currentUser.id);
 
   useEffect(() => {
     console.log("IDDDDD from recruiterProfile page!!!", currentUserID);
     dispatch(setRecruiter(recruiter));
-    if (currentUserID.length) {
+    if (currentUserID) {
       dispatch(fetchRecruiter(+currentUserID));
     }
   }, [dispatch, currentUserID]);
@@ -40,6 +44,7 @@ const RecruiterProfilePage = () => {
   //   dispatch(fetchRecruiter(+currentUserID));
   // }, [recruiter, currentUserID])
 
+  // setVacanciesLength(vacancies.length)
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -165,9 +170,9 @@ const RecruiterProfilePage = () => {
 
           <div
             className="flex-shrink-0 w-36 flex-col flex rounded-2xl shadow-md bg-green-100 p-3 m-2 mr-4 ml-0 items-center justify-center">
-            <h1
+            {/* <h1
             className="text-3xl font-bold tracking-tight text-white sm:text-3xl m-2"
-            >{vacanciesLength}</h1>
+            >{vacanciesLength}</h1> */}
             <p className="ext-1xl font-bold tracking-tight text-white sm:text-3xl ">
               active
             </p>
@@ -208,7 +213,8 @@ const RecruiterProfilePage = () => {
       </div>
       <div className="mt-20 ml-10 mr-10">
         <VacancyList 
-        setVacanciesLength={setVacanciesLength}/>
+        // setVacanciesLength={setVacanciesLength}
+        />
         <ChatWindow trackId={1} />
       </div>
     </div>
