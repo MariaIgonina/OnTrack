@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useInsertionEffect } from "react";
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,6 +35,11 @@ const RecruiterProfilePage = () => {
       dispatch(fetchRecruiter(+currentUserID));
     }
   }, [dispatch, currentUserID]);
+
+  // useInsertionEffect(() => {
+  //   dispatch(fetchRecruiter(+currentUserID));
+  // }, [recruiter, currentUserID])
+
 
   const openModal = () => {
     setIsModalOpen(true);

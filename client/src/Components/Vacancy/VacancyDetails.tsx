@@ -66,11 +66,11 @@ const VacancyDetails: React.FC = () => {
                   </button>
                 </>
               )}
-              {currentUserRole === "applicant" && (
-                <button className="absolute top-4 right-4 w-[70px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring">
-                  Apply
-                </button>
-              )}
+              {/* {currentUserRole === "applicant" && ( */}
+              <button className="absolute top-4 right-12 w-[70px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring">
+                Apply
+              </button>
+              {/* )} */}
               <div className="p-4 border-b">
                 <h2 className="text-2xl ">Vacancy Information</h2>
                 <p className="text-sm text-gray-500">Details and everything.</p>
