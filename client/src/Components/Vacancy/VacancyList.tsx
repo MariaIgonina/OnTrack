@@ -9,7 +9,7 @@ import Modal from "react-modal";
 import FilteredVacancies from "./FilteredVacancies";
 import VacancyCard from "./VacancyCard";
 
-const VacancyList: React.FC = () => {
+const VacancyList: React.FC = ({ setVacanciesLength }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const currentUserID = useSelector((s: RootState) => s.currentUser.id);
   const vacancy: Vacancy = useSelector(
@@ -18,6 +18,7 @@ const VacancyList: React.FC = () => {
   const vacancies = useSelector(
     (state: RootState) => state.vacancy.vacancies
   ) as unknown as Vacancy[];
+  setVacanciesLength(vacancies.length);
 
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
@@ -26,7 +27,6 @@ const VacancyList: React.FC = () => {
     }
     console.log(currentUserID);
   }, [dispatch, vacancy, currentUserID]);
-
 
   const openModal = () => {
     setIsModalOpen(true);
