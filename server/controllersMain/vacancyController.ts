@@ -165,14 +165,14 @@ const getVacanciesByFilter = async (req: Request, res: Response) => {
 
     const filters: any = {};
 
-    if (filter.location.length > 1) {
+    if (filter.location?.length > 0) {
       filters.location = {
         contains: filter.location,
         mode: "insensitive",
       };
     }
 
-    if (filter.title.length > 0) {
+    if (filter.title?.length > 0) {
       filters.title = {
         contains: filter.title,
         mode: "insensitive",

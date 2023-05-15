@@ -43,7 +43,6 @@ const DashboardPage = () => {
           <TrackerComponent />
           <Suggestion></Suggestion>
           <GoogleMaps />
-          <FilteredVacancies />
           <AllUsers />
         </div>
       </div>
