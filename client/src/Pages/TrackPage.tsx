@@ -13,14 +13,14 @@ import DeleteTrackModal from "../Components/tracks/DeleteTrackModal";
 import ChatWindow from "../Components/liveChat/ChatWindow";
 import Videocall from "../Components/steps/Videocall";
 import moment from "moment"
-import { render } from "@headlessui/react/dist/utils/render";
 
 type Step = {
   type: string,
   id: number | string,
   title?: string,
   order?: number | string,
-  step: string
+  date: string,
+  checkIsAble: boolean
 }
 
 const TrackPage = () => {
@@ -34,7 +34,6 @@ const TrackPage = () => {
   const vacancy = useSelector((state: RootState) => state.vacancy.vacancy);
   const applicant = useSelector((state: RootState) => state.applicant);
   const recruiter = useSelector((state: RootState) => state.recruiter);
-
 
   useEffect(() => {
     const searchQuery = new URLSearchParams(window.location.search);
@@ -76,7 +75,12 @@ const TrackPage = () => {
     // checkForSteps();
   }, [gotInfo])
 
-
+  // useEffect(() => {
+  //   if (date) {
+  //     console.log('date => ', date)
+  //     new Date(date).getTime() < new Date().getTime() && setCheckIsAble(false);
+  //   }
+  // }, [])
 
   const checkForSteps = () => {
     let fetchedSteps: any = [];
@@ -177,10 +181,12 @@ const TrackPage = () => {
           {steps.length &&
             steps.map((step: Step) => {
               if (step.type.toLowerCase() === "sandbox") {
-                return <><StepTemplate title={step.title?.length ? step.title : "Next step: Code!"} type="sandbox" content={<Landing />} /><div id="line" className="-mt-10 w-1 bg-gray-500 rounded-xl h-[100px] block relative"></div></>
+                return <><StepTemplate title={step.title?.length ? step.title : "Next step: Code!"} type="sandbox" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                  content={<Landing />} /><div id="line" className="-mt-10 w-1 bg-gray-500 rounded-xl h-[100px] block relative"></div></>
               } else if (step.type.toLowerCase() === "videocall") {
                 return <><span>{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
-                  <StepTemplate title={step.title?.length ? step.title : "Next step: Videocall"} type="videocall" content={<Videocall step={step} />} /><div id="line" className="-mt-4 w-1 bg-gray-500 rounded-xl h-[100px] block relative"></div></>
+                  <StepTemplate title={step.title?.length ? step.title : "Next step: Videocall"} type="videocall" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                    content={<Videocall step={step} />} /><div id="line" className="-mt-4 w-1 bg-gray-500 rounded-xl h-[100px] block relative"></div></>
               }
 
             })

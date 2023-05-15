@@ -10,7 +10,7 @@ type Step = {
   link?: string
 }
 type VideocallStepProps = {
-  step: Step
+  step: Step,
 }
 
 const Videocall = ({ step }: VideocallStepProps) => {

@@ -120,6 +120,9 @@ model Questionary {
   questions String[]
   answer    String[]
   date      DateTime
+  //order   int
+  //status  Boolean
+  //title   string
   hidden    Boolean // spelling mistake?
   Track     Track?   @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId   Int?
@@ -129,6 +132,10 @@ model Videocall {
   id      Int      @id @default(autoincrement())
   type    String   @default("Sandbox")
   date    DateTime
+  //order Int
+  //link  String
+  // title String
+  // status Boolean
   hidden  Boolean
   Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
@@ -139,8 +146,11 @@ model CodeSandbox {
   type    String   @default("Sandbox")
   date    DateTime
   hidden  Boolean
+  // title String
+  // data String?
   Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
+  //status Boolean
 }
 
 model Message {
