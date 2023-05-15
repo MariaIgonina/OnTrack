@@ -16,6 +16,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const RecruiterProfilePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,7 +31,7 @@ const RecruiterProfilePage = () => {
   useEffect(() => {
     console.log("IDDDDD from recruiterProfile page!!!", currentUserID);
     dispatch(setRecruiter(recruiter));
-    if (currentUserID) {
+    if (currentUserID.length) {
       dispatch(fetchRecruiter(+currentUserID));
     }
   }, [dispatch, currentUserID]);
@@ -43,7 +44,7 @@ const RecruiterProfilePage = () => {
     setIsModalOpen(false);
   };
   return (
-    <div className=" bg-stone-100 h-full p-4 ">
+    <div className="mb-0 bg-stone-100 h-full p-4 ">
       <div className="flex flex-col">
       
       <div className="flex flex-row">
@@ -168,7 +169,6 @@ const RecruiterProfilePage = () => {
             <p className="text-lg font-semibold leading-6 text-white text-base">
               vacancies
             </p>
-            <p className="">{recruiter.recruiter.about}</p>
           </div>
         </div>
 
@@ -202,7 +202,8 @@ const RecruiterProfilePage = () => {
         </button> */}
       </div>
       <div className="mt-20 ml-10 mr-10">
-        <VacancyList />
+        <VacancyList 
+        setVacanciesLength={setVacanciesLength}/>
         <ChatWindow trackId={1} />
       </div>
     </div>

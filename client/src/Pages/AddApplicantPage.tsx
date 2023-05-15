@@ -81,29 +81,29 @@ const AddApplicantPage = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    const isFormValid = Object.values(formData).every((value) => value);
+    const isFormValid = Object.values(formData).every((value) => value !== "")
     // setIsFormValid(isFormValid);
     // if (isFormValid) {
     const newApplicant = {
-      name: formData.name,
-      familyName: formData.familyName,
-      age: formData.age,
-      phone: formData.phone,
-      location: formData.location,
-      readyToMove: moveChecked,
-      workingHours: formData.workingHours,
-      workingModal: formData.workingModal,
-      socialMedia: links,
-      skillsProf: skills,
-      stack: collStacks,
-      compLanguages: collCompLanguages,
-      about: formData.about,
-      video: formData.video,
-      languages: collLanguages,
-      hobbies: hobbies,
-      salaryRange: Number(formData.salaryRange),
-      desiredLocation: desiredLocations,
-      nonDesiredLocation: nonDesiredLocations,
+      name: formData.name || undefined,
+      familyName: formData.familyName || undefined,
+      age: formData.age || undefined,
+      phone: formData.phone || undefined,
+      location: formData.location || undefined,
+      readyToMove: moveChecked || undefined,
+      workingHours: formData.workingHours || undefined,
+      workingModal: formData.workingModal || undefined,
+      socialMedia: links || undefined,
+      skillsProf: skills || undefined,
+      stack: collStacks || undefined,
+      compLanguages: collCompLanguages || undefined,
+      about: formData.about || undefined,
+      video: formData.video || undefined,
+      languages: collLanguages || undefined,
+      hobbies: hobbies || undefined,
+      salaryRange: Number(formData.salaryRange) || undefined,
+      desiredLocation: desiredLocations || undefined,
+      nonDesiredLocation: nonDesiredLocations || undefined,
     };
     const dbArg = {
       applicantId: currentUser.id,

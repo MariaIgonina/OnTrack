@@ -18,7 +18,6 @@ const EducationComp = ({ applicant }: { applicant: Applicant }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    console.log(applicant)
     dispatch(fetchEducationByApplicant(applicant.idDB));
   }, []);
 
