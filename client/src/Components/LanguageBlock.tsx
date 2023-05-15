@@ -5,7 +5,7 @@ export function LanguageBlock({
   setLanguageArray,
 }: {
   setLanguageArray: React.Dispatch<
-    React.SetStateAction<(string | undefined)[]>
+    React.SetStateAction<(string)[]>
   >;
 }) {
   const [language, setLanguage] = useState(" - ");

@@ -6,6 +6,8 @@ dotenv.config();
 
 const prisma = new PrismaClient();
 
+
+
 const createApplicant = async (req: Request, res: Response) => {
   try {
     const response = await prisma.applicant.create({
@@ -232,6 +234,9 @@ const filterApplicants = async (req: Request, res: Response) => {
 
   console.log(req.query);
 
+
+  const newLanguages = languages!.split(",").map(lang=>lang.split(" - ")[0])
+
   if (desiredLocation) {
     queryObj.OR = [
       { desiredLocation: { hasSome: String(desiredLocation).split(",") } },
@@ -242,7 +247,7 @@ const filterApplicants = async (req: Request, res: Response) => {
     queryObj.salaryRange = { lte: +salaryRange! };
   }
   if (languages) {
-    queryObj.languages = { hasSome: String(languages).split(",") };
+    queryObj.languages = { hasSome: newLanguages };
   }
   if (workingModal) {
     queryObj.workingModal = workingModal;

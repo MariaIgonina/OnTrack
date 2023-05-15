@@ -18,7 +18,7 @@ import { LanguageBlock } from "./LanguageBlock";
 export default function SearchApplicantForm() {
   const dispatch = useDispatch<AppDispatch>();
   const [locations, setLocations] = useState<Array<string>>([]);
-  const [languageArray, setLanguageArray] = useState<(string | undefined)[]>(
+  const [languageArray, setLanguageArray] = useState<(string)[]>(
     []
   );
   const [levelArray, setLevelArray] = useState<(string | undefined)[]>([]);
@@ -124,6 +124,7 @@ export default function SearchApplicantForm() {
   const handleDeleteWorkingHours = () => {
     setWorkHour("");
   };
+
 
   const url = new URL("http://localhost:3000/filterApplicants");
 
@@ -298,7 +299,7 @@ export default function SearchApplicantForm() {
               >
                 Choose stack skills
               </option>
-              {stack.map((element, index) => (
+              {stack.sort().map((element, index) => (
                 <option key={index}>{element}</option>
               ))}
             </select>
@@ -344,7 +345,7 @@ export default function SearchApplicantForm() {
               >
                 Choose professional skills
               </option>
-              {profSkills.map((skill, index) => (
+              {profSkills.sort().map((skill, index) => (
                 <option key={index}>{skill}</option>
               ))}
             </select>
