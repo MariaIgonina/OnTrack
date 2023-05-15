@@ -46,6 +46,28 @@ const getAllMsgsByTrack = async (req: Request, res: Response) => {
     const messages = await prisma.message.findMany({
       where: { trackId },
       orderBy: { date: "asc" },
+      include: {
+        Track: {
+          include: {
+            Vacancy: {
+              include: {
+                recruiter: {
+                  select: {
+                    logo: true,
+                    name: true,
+                  },
+                },
+              },
+            },
+            Applicant: {
+              select: {
+                picture: true,
+                name: true,
+              },
+            },
+          },
+        },
+      },
     });
     res.status(200).json(messages);
   } catch (error: any) {
