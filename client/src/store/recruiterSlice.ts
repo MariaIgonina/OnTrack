@@ -1,4 +1,5 @@
 import { createAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getRecruiter } from "../api.fetch";
 
 import { Recruiter } from "../Interfaces";
 
@@ -24,20 +25,7 @@ const url = "http://localhost:3000";
 
 const fetchRecruiter = createAsyncThunk(
   "recruiter/fetchrecruiter",
-  async function (recruiterId: number, { rejectWithValue }) {
-    try {
-      console.log("recruiterSlice by ID", recruiterId);
-      const response = await fetch(`${url}/recruiter/${recruiterId}`);
-      if (!response.ok) {
-        throw new Error("Server error");
-      }
-      const data = await response.json();
-      console.log("RECRUTER FROM REDUX THUNK : ", data);
-      return data;
-    } catch (err) {
-      if (err instanceof Error) return rejectWithValue(err.message);
-    }
-  }
+  getRecruiter
 );
 
 const createRecruiter = createAsyncThunk(
