@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createMessage,
@@ -9,6 +9,7 @@ import {
 import { Message } from "../../Interfaces";
 import { RootState } from "../../store/store";
 import { socket } from "../../store/socket";
+import moment from "moment";
 
 interface ChatBoxProps {
   trackId: number; // Add a trackId prop for the specific chat room
@@ -19,11 +20,13 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
   const dispatch = useDispatch();
   const messages = useSelector((state: RootState) => state.message.messages);
   //   const messageNew = useSelector((state: RootState) => state.message.message);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const currentUserRole = useSelector((s: RootState) => s.currentUser.role);
 
   console.log("messages chatbox", messages);
   useEffect(() => {
-    dispatch(fetchMessagesByTrack(1)); //! to add current trackID as room
-    socket.emit("joinRoom", 1);
+    dispatch(fetchMessagesByTrack(trackId)); //! to add current trackID as room
+    socket.emit("joinRoom", trackId);
   }, []);
   useEffect(() => {
     socket.on("receive_message", (newMessage: any) => {
@@ -34,6 +37,16 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
       socket.off("newMessage");
     };
   }, [socket]); // socket also?
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
+  };
 
   const sendMessage = () => {
     if (messageText.trim() === "") {
@@ -60,13 +73,24 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
             messages.map((message, index) => (
               <li
                 key={index}
-                // className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-[#D7E7E8]p-3 m-2 mr-4 ml-2"
-                className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md p-3 m-2 mt-2 mr-4 bg-[#FFE8D1]"
+                className={`flex-shrink-0 flex-grow flex items-start rounded-2xl shadow-md p-3 m-2 mt-2 ${
+                  currentUserRole === message.author
+                    ? "mr-4 bg-[#FFE8D1]"
+                    : "ml-4 bg-[#D7E7E8]"
+                }`}
               >
-                <p>
-                  <strong>{message.author}:</strong> {message.text}
-                </p>
-                <p>{JSON.stringify(message.date)}</p>
+                <img
+                  src={message.Track?.Vacancy?.recruiter?.logo}
+                  alt="logo"
+                  className="w-12 h-12 rounded-full mr-4" // Added margin-right (mr-4) for spacing between the logo and text
+                />
+                <div className="flex flex-col">
+                  <p>
+                    <strong>{message.Track?.Vacancy?.recruiter?.name}:</strong>{" "}
+                    {message.text}
+                  </p>
+                  <p>{moment(message.date).format("MMMM Do, h:mm a")}</p>
+                </div>
               </li>
             ))}
         </ul>
@@ -84,6 +108,7 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
       >
         Send
       </button>
+      <div ref={messagesEndRef} />
     </div>
   );
 };
