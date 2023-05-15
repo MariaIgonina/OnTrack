@@ -34,6 +34,7 @@ model Applicant {
   education           Education[]
   experiences         Experience[]
   languages           String[]
+  languageArr         Language[]
   hobbies             String[]
   salaryRange         Int?
   desiredLocation     String[]
@@ -97,6 +98,14 @@ model Vacancy {
   currentLocation   String[]
 }
 
+model Language {
+  id                Int       @id @default(autoincrement())
+  language          String
+  level             Int
+  applicant         Applicant @relation(fields: [applicantId], references: [idDB], onDelete: Cascade)
+  applicantId       Int
+}
+
 model Track {
   id             Int           @id @default(autoincrement())
   recruiterID    Int
@@ -118,6 +127,7 @@ model Questionary {
   id        Int      @id @default(autoincrement())
   type      String   @default("Questionary")
   questions String[]
+  order     Int
   answer    String[]
   date      DateTime
   hidden    Boolean // spelling mistake?
@@ -127,11 +137,13 @@ model Questionary {
 
 model Videocall {
   id      Int      @id @default(autoincrement())
-  type    String   @default("Sandbox")
+  type    String   @default("Videocall")
   date    DateTime
   hidden  Boolean
   Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
+  order   Int
+  link    String?
 }
 
 model CodeSandbox {
@@ -141,6 +153,7 @@ model CodeSandbox {
   hidden  Boolean
   Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
+  order   Int
 }
 
 model Message {
@@ -152,6 +165,7 @@ model Message {
   author  String
   Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
+  
 }
 
 // model Step {

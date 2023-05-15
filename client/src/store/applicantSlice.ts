@@ -1,4 +1,10 @@
-import { createAction, createSlice, createAsyncThunk, isAsyncThunkAction } from "@reduxjs/toolkit";
+import {
+  createAction,
+  createSlice,
+  createAsyncThunk,
+  isAsyncThunkAction,
+} from "@reduxjs/toolkit";
+import { getApplicant } from "../api.fetch";
 
 import { Applicant, Track } from "../Interfaces";
 
@@ -39,32 +45,20 @@ const url = "http://localhost:3000";
 
 const fetchCities = createAsyncThunk(
   "applicant/fetchcities",
-  async function(){
+  async function () {
     try {
-      const response = await fetch(`${url}/findLocation`)
+      const response = await fetch(`${url}/findLocation`);
       const data = await response.json();
-      return data
+      return data;
     } catch (error) {
       console.log(error);
     }
   }
-)
+);
 
 const fetchApplicant = createAsyncThunk(
   "applicant/fetchapplicant",
-  async function (applicantId: number, { rejectWithValue }) {
-    // console.log(applicantId);
-    try {
-      const response = await fetch(`${url}/applicant/${applicantId}`);
-      if (!response.ok) {
-        throw new Error("Server error");
-      }
-      const data = await response.json();
-      return data;
-    } catch (err) {
-      if (err instanceof Error) return rejectWithValue(err.message);
-    }
-  }
+  getApplicant
 );
 
 const fetchAllApplicants = createAsyncThunk(
@@ -94,7 +88,7 @@ const fetchFilteredApplicants = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("data we need", data)
+      console.log("data we need", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -188,7 +182,6 @@ const fetchCityCoordinates = async (
   }
   return null;
 };
-
 
 const updateApplicant = createAsyncThunk(
   "applicant/updateApplicant",

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../Components/SideBar";
@@ -12,6 +12,8 @@ import TrackerComponent from "../Components/TrackerComponent";
 import FilteredVacancies from "../Components/Vacancy/FilteredVacancies";
 
 const DashboardPage = () => {
+  const searchRef = useRef(null);
+
   const currentUser = useSelector(
     (s: RootState) => s.currentUser
   ) as unknown as CurrentUserType;
@@ -43,7 +45,7 @@ const DashboardPage = () => {
           <TrackerComponent />
           <Suggestion></Suggestion>
           <GoogleMaps />
-          <AllUsers />
+          <AllUsers searchRef={searchRef} />
         </div>
       </div>
     </>
