@@ -16,10 +16,11 @@ const VacancyDetails: React.FC = () => {
     (state: RootState) => state.vacancy.vacancy
   );
   const { vacancyId } = useParams<{ vacancyId: any }>();
+  const currentUserRole = useSelector((s: RootState) => s.currentUser.role);
 
   useEffect(() => {
     dispatch(fetchVacancy(parseInt(vacancyId, 10)));
-  }, [dispatch, vacancyId]);
+  }, [dispatch, vacancyId, vacancy, currentUserRole]);
 
   const deleteVac = async () => {
     if (window.confirm("Are you sure you want to delete this vacancy?")) {
@@ -49,18 +50,27 @@ const VacancyDetails: React.FC = () => {
             <div className="max-w-4xl bg-white w-full rounded-lg shadow-xl relative">
               {" "}
               {/* Add relative class here */}
-              <button
-                onClick={deleteVac}
-                className="absolute top-4 right-4 w-[70px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring"
-              >
-                Delete
-              </button>
-              <button
-                onClick={openModal}
-                className="absolute top-4 right-16 mr-10 w-[50px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring"
-              >
-                Edit
-              </button>
+              {currentUserRole === "recruiter" && (
+                <>
+                  <button
+                    onClick={deleteVac}
+                    className="absolute top-4 right-4 w-[70px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring"
+                  >
+                    Delete
+                  </button>
+                  <button
+                    onClick={openModal}
+                    className="absolute top-4 right-16 mr-10 w-[50px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring"
+                  >
+                    Edit
+                  </button>
+                </>
+              )}
+              {currentUserRole === "applicant" && (
+                <button className="absolute top-4 right-4 w-[70px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring">
+                  Apply
+                </button>
+              )}
               <div className="p-4 border-b">
                 <h2 className="text-2xl ">Vacancy Information</h2>
                 <p className="text-sm text-gray-500">Details and everything.</p>

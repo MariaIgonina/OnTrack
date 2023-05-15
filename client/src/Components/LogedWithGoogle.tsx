@@ -9,9 +9,9 @@ import { setCurrentUser } from "../store/CurrentUserSlice";
 import { createRecruiter, setRecruiter } from "../store/recruiterSlice";
 
 type InfoRequestData = {
-  token: string
-  applicant: boolean
-}
+  token: string;
+  applicant: boolean;
+};
 
 const loggedWithGoogle = () => {
   const [userEmail, setUserEmail] = useState('');
@@ -29,10 +29,10 @@ const loggedWithGoogle = () => {
     params[decodeURIComponent(m[1])] = decodeURIComponent(m[2])
   }
   if (Object.keys(params).length > 0) {
-    localStorage.setItem('authInfo', JSON.stringify(params))
+    localStorage.setItem("authInfo", JSON.stringify(params));
   }
   // hide the access token
-  window.history.pushState({}, document.title, "/" + "logedWithGoogle")
+  window.history.pushState({}, document.title, "/" + "logedWithGoogle");
 
   let info = JSON.parse(localStorage.getItem('authInfo')!)
   let token: string = info['access_token']
@@ -52,7 +52,7 @@ const loggedWithGoogle = () => {
       const response = await fetch("http://localhost:3000/getGoogleUserInfo", {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data)
       })
@@ -114,6 +114,7 @@ const loggedWithGoogle = () => {
   }, [])
 
 
+<<<<<<< HEAD
 
   return (
     <div className="w-screen h-[70vh] flex flex-col justify-center items-center">
@@ -130,5 +131,31 @@ const loggedWithGoogle = () => {
     </div>
   );
 }
+=======
+  function logout() {
+    fetch(
+      `https://oauth2.googleapis.com/revoke?token=${info["access_token"]}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    ).then((data) => {
+      localStorage.removeItem("authInfo");
+      navigate("/");
+    });
+  }
+
+  return (
+    <div>
+      <h1> You've been loged with google, ain't it fun?!</h1>
+      <h2>Your full name: {userName}</h2>
+      <img id="profilePicture" src={userImg} />
+      <button onClick={logout}>Logout</button>
+    </div>
+  );
+};
+>>>>>>> Development
 
 export default loggedWithGoogle;
