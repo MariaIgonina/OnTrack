@@ -33,6 +33,39 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
     setFormData({ ...formData, [name]: value });
   };
 
+  //CompLanguages collecting
+  const [collCompLanguage, setCollCompLanguage] = useState("");
+  const [collCompLanguages, setCollCompLanguages] = useState<string[]>([]);
+
+  const handleCompLanguageChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newCompLanguage = event.target.value;
+    setCollCompLanguages((prev) => [...prev, newCompLanguage]);
+    setCollCompLanguage("");
+  };
+
+  //Skills collecting
+  const [skill, setSkill] = useState("");
+  const [skills, setSkills] = useState<string[]>([]);
+
+  const handleSkillsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newSkill = event.target.value;
+    setSkills((prev: string[]) => [...prev, newSkill]);
+    setSkill("");
+  };
+
+  //Stack collecting
+  const [collStack, setCollStack] = useState("");
+  const [collStacks, setcollStacks] = useState<string[]>([]);
+
+  const handleCollStackChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newStack = event.target.value;
+    setcollStacks((prev) => [...prev, newStack]);
+    setCollStack("");
+  };
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const newVacancy: Vacancy = {
@@ -40,32 +73,22 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
       recruiterId: +currentUserID, // !important!
       experience: parseInt(formData.experience as any, 10),
       salaryRange: parseInt(formData.salaryRange as any, 10),
-      skills:
-        typeof formData.skills === "string"
-          ? (formData.skills as string).split(",")
-          : formData.skills,
-      stack:
-        typeof formData.stack === "string"
-          ? (formData.stack as string).split(",")
-          : formData.stack,
-      requiredLanguages:
-        typeof formData.requiredLanguages === "string"
-          ? (formData.requiredLanguages as string).split(",")
-          : formData.requiredLanguages,
+      skills: skills,
+      stack: collStacks,
+      requiredLanguages: collCompLanguages,
     };
     console.log(newVacancy, "newVacancy");
     await dispatch(createVacancy(newVacancy));
     setShowVacancyTemplate(true); // Показать VacancyTemplate после отправки формы
   };
-
   if (showVacancyTemplate) {
     return <VacancyTemplate onCancel={onCancel} />;
   }
 
   return (
-    <div className="flex items-center justify-center mt-4 p-4">
+    <div className="flex items-center justify-center mt-5 ">
       <div className="flex flex-col">
-        <div className="grid bg-white rounded-lg w-11/12 md:0 lg:0">
+        <div className="grid bg-white rounded-lg w-[500px] md:0 lg:0">
           <div className="flex justify-center">
             <div className="flex">
               <h1 className="text-3xl font-bold tracking-tight text-[#026767] text-big  ">
@@ -151,52 +174,82 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
               htmlFor="skills"
               className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
             >
-              Skills (comma-separated):
+              Professional skills
             </label>
             <input
               className="py-2 px-3 rounded-lg border color-grey-100 mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
               type="text"
-              id="skills"
               name="skills"
-              onChange={handleChange}
-              placeholder="skills"
-              required
+              value={skill}
+              onChange={handleSkillsChange}
+              list="profSkills"
             />
+            <datalist id="profSkills">
+              {profSkills.map((skill) => (
+                <option key={skill} value={skill} />
+              ))}
+            </datalist>
+
+            <ul>
+              {skills.map((skill, index) => (
+                <li key={index}>{skill}</li>
+              ))}
+            </ul>
           </div>
           <div className="grid grid-cols-1 mt-5 mx-7">
             <label
-              htmlFor="stack"
+              htmlFor="collStack"
               className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
             >
-              Stack (comma-separated):
+              Stack
             </label>
             <input
               className="py-2 px-3 rounded-lg border color-grey-100 mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
               type="text"
-              id="stack"
-              name="stack"
-              onChange={handleChange}
-              placeholder="stacks"
-              required
+              name="collStack"
+              value={collStack}
+              onChange={handleCollStackChange}
+              list="stack"
             />
+            <datalist id="stack">
+              {stack.map((st) => (
+                <option key={st} value={st} />
+              ))}
+            </datalist>
+
+            <ul>
+              {collStacks.map((st, index) => (
+                <li key={index}>{st}</li>
+              ))}
+            </ul>
           </div>
 
           <div className="grid grid-cols-1 mt-5 mx-7">
             <label
-              htmlFor="requiredLanguages"
+              htmlFor="collCompLanguages"
               className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
             >
-              Required Languages (comma-separated):
+              Computer Languages
             </label>
             <input
               className="py-2 px-3 rounded-lg border color-grey-100 mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
               type="text"
-              id="requiredLanguages"
-              name="requiredLanguages"
-              onChange={handleChange}
-              placeholder="languages"
-              required
+              name="collCompLanguages"
+              value={collCompLanguage}
+              onChange={handleCompLanguageChange}
+              list="compLanguages"
             />
+            <datalist id="compLanguages">
+              {compLanguages.map((language) => (
+                <option key={language} value={language} />
+              ))}
+            </datalist>
+
+            <ul>
+              {collCompLanguages.map((language, index) => (
+                <li key={index}>{language}</li>
+              ))}
+            </ul>
           </div>
           <div className="grid grid-cols-1 mt-5 mx-7">
             <label

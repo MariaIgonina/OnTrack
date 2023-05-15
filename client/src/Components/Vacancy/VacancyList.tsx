@@ -20,7 +20,9 @@ const VacancyList: React.FC = ({setVacanciesLength}) => {
     (state: RootState) => state.vacancy.vacancy
   );
   useEffect(() => {
-    dispatch(fetchvacanciesByRecruiter(+currentUserID));
+    if (currentUserID) {
+      dispatch(fetchvacanciesByRecruiter(+currentUserID));
+    }
     console.log(currentUserID);
   }, [dispatch, vacancy, currentUserID]);
 

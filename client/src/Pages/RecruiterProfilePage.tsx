@@ -8,12 +8,14 @@ import { fetchRecruiter, setRecruiter } from "../store/recruiterSlice";
 import VacancyList from "../Components/Vacancy/VacancyList";
 import RecruiterForm from "../Components/RecruiterForm";
 import Modal from "react-modal";
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import InfoIcon from '@mui/icons-material/Info';
-import ApartmentIcon from '@mui/icons-material/Apartment';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
-import EditCalendarIcon from '@mui/icons-material/EditCalendar';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ChatBox from "../Components/liveChat/Chat";
+import Chat from "../Components/liveChat/Chat";
+import ChatWindow from "../Components/liveChat/ChatWindow";
+import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
+import InfoIcon from "@mui/icons-material/Info";
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import InsertLinkIcon from "@mui/icons-material/InsertLink";
+import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 
 const RecruiterProfilePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -115,7 +117,7 @@ const RecruiterProfilePage = () => {
             <div className=" flex flex-row ">
               <AlternateEmailIcon
                 fontSize="small"
-                style={{ color: '#475569' }}
+                style={{ color: "#475569" }}
                 className="mr-2"
               ></AlternateEmailIcon>
               
@@ -126,7 +128,7 @@ const RecruiterProfilePage = () => {
             <div className="flex flex-row mt-2">
               <InsertLinkIcon
                 fontSize="small"
-                style={{ color: '#475569' }}
+                style={{ color: "#475569" }}
                 className="mr-2"
               >
               </InsertLinkIcon>
@@ -135,16 +137,14 @@ const RecruiterProfilePage = () => {
             >{recruiter.recruiter.externalLinks}</p>
             </div>
           </div>
-          </div>
-         
+        </div>
 
-          <div className="flex flex-row">
-            <div
-              className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-[#D7E7E8] p-3 m-2 mr-4 ml-2">
+        <div className="flex flex-row">
+          <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-[#D7E7E8] p-3 m-2 mr-4 ml-2">
             <div className="flex flex-row ">
               <InfoIcon
                 fontSize="small"
-                style={{ color: '#026767' }}
+                style={{ color: "#026767" }}
                 className="mr-2"
               >
               </InfoIcon>
@@ -163,13 +163,15 @@ const RecruiterProfilePage = () => {
             className="text-3xl font-bold tracking-tight text-white sm:text-3xl m-2"
             >{vacanciesLength}</h1>
             <p className="ext-1xl font-bold tracking-tight text-white sm:text-3xl ">
-            active</p>
+              active
+            </p>
             <p className="text-lg font-semibold leading-6 text-white text-base">
-            vacancies</p>
+              vacancies
+            </p>
+            <p className="">{recruiter.recruiter.about}</p>
           </div>
         </div>
-          
-        
+
         <Modal
           isOpen={isModalOpen}
           onRequestClose={closeModal}
@@ -200,9 +202,8 @@ const RecruiterProfilePage = () => {
         </button> */}
       </div>
       <div className="mt-20 ml-10 mr-10">
-        <VacancyList 
-        setVacanciesLength = {setVacanciesLength}
-        />
+        <VacancyList />
+        <ChatWindow trackId={1} />
       </div>
     </div>
   );
