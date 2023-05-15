@@ -11,9 +11,7 @@ const signInWithGoogle = () => {
   };
 
   return (
-    <div style={{ width: "600px" }}>
-      <GoogleBtn />
-    </div>
+    <GoogleBtn />
   );
 }
 
