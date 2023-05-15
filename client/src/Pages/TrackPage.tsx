@@ -10,10 +10,23 @@ import { fetchRecruiter } from "../store/recruiterSlice";
 import { fetchApplicant } from "../store/applicantSlice";
 import Landing from "../Components/codeSandbox/Landing";
 import DeleteTrackModal from "../Components/tracks/DeleteTrackModal";
+import ChatWindow from "../Components/liveChat/ChatWindow";
+import Videocall from "../Components/steps/Videocall";
+import moment from "moment"
+
+type Step = {
+  type: string,
+  id: number | string,
+  title?: string,
+  order?: number | string,
+  date: string,
+  checkIsAble: boolean
+}
 
 const TrackPage = () => {
   const [gotInfo, setGotInfo] = useState(0)
-  const [deleteModal, setDeleteModal] = useState<boolean>(false)
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [steps, setSteps] = useState<any>([{ type: "", id: "", title: "", order: 0, step: "" }]);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>()
   const currentUser = useSelector((state: RootState) => state.currentUser)
@@ -29,12 +42,14 @@ const TrackPage = () => {
       fetchTrack({ getTrackByWhat: "getTrackById", id: +queryObj.trackId })
     );
     dispatch(fetchVacancy(+queryObj.vacancyId));
-  }, []);
+    checkForSteps();
+  }, [gotInfo, dispatch]);
 
   useEffect(() => {
     if (track.track?.applicantID) {
       dispatch(fetchApplicant(track.track.applicantID));
     }
+    checkForSteps();
   }, [track.track?.applicantID]);
 
   useEffect(() => {
@@ -42,7 +57,10 @@ const TrackPage = () => {
       dispatch(fetchRecruiter(track.track.recruiterID));
     }
     getInfo()
+    // checkForSteps();
   }, [track.track?.recruiterID]);
+
+
 
   const getInfo = useCallback(() => {
     try {
@@ -54,7 +72,30 @@ const TrackPage = () => {
       console.log(error.message, num)
       console.log('track', track.track)
     }
+    // checkForSteps();
   }, [gotInfo])
+
+  // useEffect(() => {
+  //   if (date) {
+  //     console.log('date => ', date)
+  //     new Date(date).getTime() < new Date().getTime() && setCheckIsAble(false);
+  //   }
+  // }, [])
+
+  const checkForSteps = () => {
+    let fetchedSteps: any = [];
+    if (track.track?.CodeSandbox) {
+      track.track?.CodeSandbox.forEach(element => {
+        fetchedSteps.push(element)
+      });
+    }
+    if (track.track?.Videocall) {
+      track.track?.Videocall.forEach(element => {
+        fetchedSteps.push(element)
+      });
+    }
+    setSteps([...fetchedSteps])
+  }
 
 
   return (
@@ -65,6 +106,7 @@ const TrackPage = () => {
       <div className="w-[226px] min-w-[226px] h-[90%] hidden relative sm:block md:block lg:block">
         <TrackSideBar trackId={track.track?.id} role={currentUser.role!} setDeleteModal={setDeleteModal} />
       </div>
+
       <div className="w-[98%] min-w-[400px] ml-3">
         <div id='Info' className="mb-10 ">
           <a onClick={() => navigate(`/vacancy/${vacancy.data?.id}`)}>
@@ -77,7 +119,7 @@ const TrackPage = () => {
             <div id="applicantView" className="w-full hover:bg-gray-800 ">
               <a
                 className="flex items-center bg-white border border-gray-200 rounded-lg md:flex-row  
-           shadow shadow-sm shadow-gray w-full"
+           shadow shadow-md w-full"
               >
                 <a
                   onClick={() =>
@@ -100,9 +142,11 @@ const TrackPage = () => {
                       at {recruiter.recruiter.name}
                     </h5>
                   </a>
-                  <p className="mb-3 font-normal text-gray-700 hover:text-gray-600 hover:underline hover:cursor-pointer">
-                    {vacancy.data?.about}
-                  </p>
+                  <a onClick={() => navigate(`/vacancy/${vacancy.data?.id}`)}>
+                    <p className="mb-3 font-normal text-gray-700 hover:text-gray-600 hover:underline hover:cursor-pointer">
+                      {vacancy.data?.about}
+                    </p>
+                  </a>
                 </div>
               </a>
             </div>
@@ -110,7 +154,7 @@ const TrackPage = () => {
             <div id="recruiterView" className="w-full ">
               <a onClick={() => navigate(`/recruiter/${applicant.applicant?.idDB}`)}
                 className="flex items-center bg-white border border-gray-200 rounded-lg md:flex-row  
-           shadow shadow-sm shadow-gray w-full hover:cursor-pointer hover:borderd-double hover:border-white hover:bg-gray-800 hover:text-white ">
+           shadow shadow-md w-full hover:cursor-pointer hover:borderd-double hover:border-white hover:bg-gray-800 hover:text-white ">
 
                 <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg "
                   alt="Company Logo"
@@ -130,8 +174,26 @@ const TrackPage = () => {
 
         <div id="steps-container"
           className="flex flex-col items-center">
-          <StepTemplate title='Intro Interiew' link="zoom.meetings/room=as2u48/sdfbjy2" />
+          {/* <StepTemplate title='Intro Interiew' link="zoom.meetings/room=as2u48/sdfbjy2" /> */}
           {/* <Landing /> */}
+          {/* </div> */}
+          {/* <div id="test-contianer"> */}
+          {steps.length &&
+            steps.map((step: Step) => {
+              if (step.type.toLowerCase() === "sandbox") {
+                return <><StepTemplate title={step.title?.length ? step.title : "Next step: Code!"} type="sandbox" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                  content={<Landing />} /><div id="line" className="-mt-10 w-1 bg-gray-500 rounded-xl h-[100px] block relative"></div></>
+              } else if (step.type.toLowerCase() === "videocall") {
+                return <><span>{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
+                  <StepTemplate title={step.title?.length ? step.title : "Next step: Videocall"} type="videocall" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                    content={<Videocall step={step} />} /><div id="line" className="-mt-4 w-1 bg-gray-500 rounded-xl h-[100px] block relative"></div></>
+              }
+
+            })
+          }
+        </div>
+        <div id="chat-wraper" className="z-40">
+          <ChatWindow trackId={track.track?.id} />
         </div>
       </div >
     </div >

@@ -99,11 +99,11 @@ model Vacancy {
 }
 
 model Language {
-  id                Int       @id @default(autoincrement())
-  language          String
-  level             Int
-  applicant         Applicant @relation(fields: [applicantId], references: [idDB], onDelete: Cascade)
-  applicantId       Int
+  id          Int       @id @default(autoincrement())
+  language    String
+  level       Int
+  applicant   Applicant @relation(fields: [applicantId], references: [idDB], onDelete: Cascade)
+  applicantId Int
 }
 
 model Track {
@@ -130,6 +130,8 @@ model Questionary {
   order     Int
   answer    String[]
   date      DateTime
+  status    Boolean
+  title     String?
   hidden    Boolean // spelling mistake?
   Track     Track?   @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId   Int?
@@ -139,10 +141,12 @@ model Videocall {
   id      Int      @id @default(autoincrement())
   type    String   @default("Videocall")
   date    DateTime
+  order   Int
+  title   String
+  status  Boolean
   hidden  Boolean
   Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
-  order   Int
   link    String?
 }
 
@@ -151,6 +155,9 @@ model CodeSandbox {
   type    String   @default("Sandbox")
   date    DateTime
   hidden  Boolean
+  title   String?
+  code    String?
+  status  Boolean?
   Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
   order   Int
@@ -165,19 +172,5 @@ model Message {
   author  String
   Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
-  
 }
 
-// model Step {
-//   id            Int           @id @default(autoincrement())
-//   title         String
-//   type          String //zoom call, sandbox etc..
-//   about         String
-//   durationInMs  Int?
-//   scheduleDate  DateTime?
-//   order         Int           @unique
-//   hidden        Boolean       @default(false)
-//   active        Boolean       @default(true)
-//   Track         Track?        @relation(fields: [trackId], references: [id])
-//   trackId       Int
-// }

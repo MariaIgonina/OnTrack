@@ -32,7 +32,7 @@ const loggedWithGoogle = () => {
     localStorage.setItem("authInfo", JSON.stringify(params));
   }
   // hide the access token
-  window.history.pushState({}, document.title, "/" + "logedWithGoogle");
+  window.history.pushState({}, document.title, "/" + "loggedWithGoogle");
 
   let info = JSON.parse(localStorage.getItem('authInfo')!)
   let token: string = info['access_token']

@@ -57,7 +57,7 @@ const RecruiterProfilePage = () => {
         <div className="flex flex-row">
           <div>
             <img
-              src={recruiter.recruiter.logo}
+              src={recruiter.recruiter?.logo}
               alt="Logo picture not found"
               className="shadow-md rounded-full bg-gray-50 m-3"
               style={{ height: "200px", width: "200px" }}
@@ -65,7 +65,7 @@ const RecruiterProfilePage = () => {
           </div>
           <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 m-2 mt-3 mr-2">
             <h1 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-3xl m-2">
-              {recruiter.recruiter.name}
+              {recruiter.recruiter?.name}
             </h1>
 
             <div className="flex flex-row ">
