@@ -1,3 +1,5 @@
+import { Interface } from "readline";
+
 export interface Applicant {
   idDB?: number;
   idAuth?: string;
@@ -65,7 +67,6 @@ export interface Vacancy {
 
 export interface Track {
   id: number;
-  steps: Step[];
   recruiterID: number;
   recruiter: Recruiter;
   applicantID: number;
@@ -74,10 +75,28 @@ export interface Track {
   recruiterNotes: string;
   vacancyId: number;
   vacancy: Vacancy;
-  CodeSandbox: any[];
-  Message: Message[];
-  Videocall: any[],
-  Questionary: any[]
+  message: Message[];
+  Questionaries: Questionary[];
+  Videocall: Videocall[];
+  CodeSandbox: CodeSandbox[];
+}
+
+export interface Videocall {
+  id: number;
+  type: string;
+  date: string;
+  hidden: Boolean;
+  Track: Track;
+  trackId: number;
+}
+
+export interface CodeSandbox {
+  id: number;
+  type: string;
+  date: string;
+  hidden: boolean;
+  Track: Track;
+  trackId: number;
 }
 
 export interface Step {
