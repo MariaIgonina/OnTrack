@@ -32,14 +32,15 @@ function App() {
   // if (localStorage.getItem('id')) dispatch(setCurrentUser({id: localStorage.getItem('id'), role: localStorage.getItem('currentUser')}))
   
   useEffect(() => {
+    console.log('app re-check', localStorage.getItem('accessToken') || localStorage.getItem('gt'))
     setUserIsLogedIn(localStorage.getItem('accessToken')
       || localStorage.getItem('gt'))
-  }, [localStorage])
+  }, [localStorage, currentUser])
 
 
   useEffect(() => {
     const id = localStorage.getItem('id');
-    if (id && id !== currentUser.id) {
+    if (id) {
       dispatch(setCurrentUser({ id, role: localStorage.getItem('currentUser') }));
     }
   }, [dispatch, currentUser.id]);

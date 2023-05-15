@@ -75,6 +75,7 @@ const loggedWithGoogle = () => {
             role: "applicant",
           })
         );
+        if (!localStorage.getItem('currentUser')) localStorage.setItem('currentUser', 'applicant')
       } else {
         localStorage.setItem("login", "recruiter");
         const newRec: Recruiter = {
@@ -91,6 +92,7 @@ const loggedWithGoogle = () => {
             role: "recruiter",
           })
         );
+        if (!localStorage.getItem('currentUser')) localStorage.setItem('currentUser', 'recruiter')
       }
     } catch (e) {
       console.log("error", e);
@@ -114,7 +116,6 @@ const loggedWithGoogle = () => {
   }, [])
 
 
-<<<<<<< HEAD
 
   return (
     <div className="w-screen h-[70vh] flex flex-col justify-center items-center">
@@ -131,31 +132,5 @@ const loggedWithGoogle = () => {
     </div>
   );
 }
-=======
-  function logout() {
-    fetch(
-      `https://oauth2.googleapis.com/revoke?token=${info["access_token"]}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    ).then((data) => {
-      localStorage.removeItem("authInfo");
-      navigate("/");
-    });
-  }
-
-  return (
-    <div>
-      <h1> You've been loged with google, ain't it fun?!</h1>
-      <h2>Your full name: {userName}</h2>
-      <img id="profilePicture" src={userImg} />
-      <button onClick={logout}>Logout</button>
-    </div>
-  );
-};
->>>>>>> Development
 
 export default loggedWithGoogle;

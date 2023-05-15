@@ -29,7 +29,7 @@ const RecruiterProfilePage = () => {
   useEffect(() => {
     console.log("IDDDDD from recruiterProfile page!!!", currentUserID);
     dispatch(setRecruiter(recruiter));
-    if (currentUserID.length) {
+    if (currentUserID) {
       dispatch(fetchRecruiter(+currentUserID));
     }
   }, [dispatch, currentUserID]);
