@@ -58,19 +58,7 @@ const fetchCities = createAsyncThunk(
 
 const fetchApplicant = createAsyncThunk(
   "applicant/fetchapplicant",
-  async function (applicantId: number, { rejectWithValue }) {
-    // console.log(applicantId);
-    try {
-      const response = await fetch(`${url}/applicant/${applicantId}`);
-      if (!response.ok) {
-        throw new Error("Server error");
-      }
-      const data = await response.json();
-      return data;
-    } catch (err) {
-      if (err instanceof Error) return rejectWithValue(err.message);
-    }
-  }
+  getApplicant
 );
 
 const fetchAllApplicants = createAsyncThunk(
