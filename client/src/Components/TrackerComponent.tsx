@@ -10,13 +10,12 @@ import { minHeight } from "@mui/system";
 export default function TrackerComponent() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const currentUser = useSelector(
-    (state: RootState) => state.currentUser
-  ) as unknown as CurrentUserType;
+  const currentUser = useSelector((state: RootState) => state.currentUser);
+  const track = useSelector((state: RootState) => state.track.track);
 
   useEffect(() => {
-    console.log("inside the track comp", currentUser);
-  }, [currentUser]);
+    // console.log("inside the track comp", currentUser.currentUser);
+  }, [currentUser.currentUser]);
 
   const gettracks = useSelector(
     (s: RootState) => s.track.track
@@ -59,13 +58,13 @@ export default function TrackerComponent() {
               <div
                 className="flex-shrink-0 flex-col flex rounded-2xl shadow-md bg-white p-3 m-5 "
                 style={{ minWidth: "300px", height: "300px", width: "400px" }}
-                key={x.id}
+                key={track.id}
               >
                 <button
                   type="submit"
                   onClick={() =>
                     navigate(
-                      `/track/?vacancyId=${x.vacancyId}&trackId=${x.id}&userRole=${currentUser.role}`
+                      `/track/?trackId=${track.id}&vacancyId=${track.vacancyId}`
                     )
                   }
                 >

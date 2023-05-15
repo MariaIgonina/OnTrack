@@ -68,6 +68,7 @@ export default function LoginBtn({ text }: LoginBtnProps) {
               role: "applicant",
             })
           );
+          localStorage.setItem('id', applicantCreated.payload.idDB + '')
           //navigate(`/applicant/${applicantCreated.payload.idDB}`);
           navigate(`/login`);
           ///${applicantCreated.payload.idDB}`);
@@ -82,6 +83,8 @@ export default function LoginBtn({ text }: LoginBtnProps) {
               role: "recruiter",
             })
           );
+          localStorage.setItem('id', recruiterCreated.payload.id + '')
+
           // navigate(`/recruiter/${recruiterCreated.payload.id}`);
           navigate(`/login`);
           ///${recruiterCreated.payload.id}`);
@@ -89,13 +92,19 @@ export default function LoginBtn({ text }: LoginBtnProps) {
       }
 
       if (returnedRole.payload && returnedRole.payload.recruiterName) {
+        console.log('local storate???')
+        localStorage.setItem('id', returnedRole.payload.id + '')
+        localStorage.setItem('currentUser', 'recruiter')
         dispatch(
           setCurrentUser({ id: returnedRole.payload.id, role: "recruiter" })
         );
+
         // navigate(`/recruiter/${returnedRole.payload.id}`);
         navigate(`/login`);
         ///${returnedRole.payload.id}`);
       } else if (returnedRole.payload && returnedRole.payload.idDB) {
+        localStorage.setItem('id', returnedRole.payload.idDB + '')
+        localStorage.setItem('currentUser', 'applicant')
         dispatch(
           setCurrentUser({ id: returnedRole.payload.idDB, role: "applicant" })
         );

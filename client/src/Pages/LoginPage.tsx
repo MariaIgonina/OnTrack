@@ -7,6 +7,7 @@ import "./Login.css";
 import { setCurrentUser } from "../store/CurrentUserSlice";
 import LoginBtn from "../Components/LoginBtn";
 import { useNavigate } from "react-router-dom";
+import SignInWithGoogle from "../Components/SignInWithGoogle";
 
 const LoginPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -18,12 +19,30 @@ const LoginPage = () => {
     setOpen(!isOpen);
   }
 
-  function logoutFromGithub() {
-    localStorage.removeItem("accessToken");
+  async function logoutFromGithub() {
+    if (localStorage.getItem('authInfo')) {
+      await logoutFromGoogle(localStorage.getItem('gt'));
+    } else {
+      localStorage.removeItem("accessToken");
+    }
     localStorage.removeItem("currentUser");
     localStorage.removeItem("login");
+    localStorage.removeItem("id");
     dispatch(setCurrentUser({ id: "", role: "" }));
     setReRender(!render);
+  }
+
+  async function logoutFromGoogle(token: string | null) {
+    console.log('log-out google');
+    await fetch(`https://oauth2.googleapis.com/revoke?token=${token}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }).then(data => {
+      localStorage.removeItem('authInfo');
+      localStorage.removeItem('gt');
+    })
   }
 
   return (
@@ -31,7 +50,7 @@ const LoginPage = () => {
       <div className="wholepage">
         <div className="container">
           <h1 className="title">Login</h1>
-          {localStorage.getItem("accessToken") ? (
+          {localStorage.getItem("accessToken") || localStorage.getItem('gt') ? (
             <>
               <h3 className="loggedin">You are logged in!</h3>
               <Button
@@ -46,7 +65,8 @@ const LoginPage = () => {
             </>
           ) : (
             <>
-              <LoginBtn text={"Login with Github"} />
+                <LoginBtn text={"Login with Github"} />
+                <SignInWithGoogle />
               <div className="register">
                 <button className="smallbtn" onClick={handleRegisterModal}>
                   <p>Or sign up for the first time by registering an account</p>

@@ -142,7 +142,7 @@ const Landing = () => {
           draggable
           pauseOnHover
         />
-        <div className="border border-black rounded-lg bg-stone-100">
+        <div className="border border-black rounded-lg bg-stone-100 flex flex-col max-w-905 min-w-731">
           <div className="flex flex-row">
             <div className="px-4 py-2">
               <LanguagesDropdown onSelectChange={onSelectChange} />
@@ -157,13 +157,9 @@ const Landing = () => {
               />
             </div>
 
-            <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
+            <div id='outputs-panel' className="right-container flex flex-shrink-0 w-[30%] flex-col">
               <OutputWindow outputDetails={outputDetails} />
               <div className="flex flex-col items-end">
-                {/* <CustomInput
-              customInput={customInput}
-              setCustomInput={setCustomInput}
-            /> */}
                 <button
                   onClick={handleCompile}
                   disabled={!code}
