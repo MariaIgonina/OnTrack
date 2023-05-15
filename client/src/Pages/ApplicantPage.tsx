@@ -38,6 +38,7 @@ const ApplicantPage = () => {
   ) as unknown as CurrentUserType;
   const dispatch = useDispatch<AppDispatch>();
   const codeParam = window.location.pathname.split("/").reverse()[0];
+  console.log("codeparam", codeParam);
 
   useEffect(() => {
     if (currentUser.id === +codeParam) {
@@ -47,7 +48,7 @@ const ApplicantPage = () => {
     } else {
       dispatch(fetchApplicant(+codeParam));
     }
-  }, [dispatch, currentUser]);
+  }, [dispatch, currentUser, codeParam]);
 
   return (
     <>
