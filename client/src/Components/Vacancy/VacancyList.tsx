@@ -10,6 +10,7 @@ import VacancyCard from "./VacancyCard";
 
 const VacancyList: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const currentUserID = useSelector((s: RootState) => s.currentUser.id);
 
   const dispatch = useDispatch<AppDispatch>();
   const vacancies = useSelector(
@@ -19,8 +20,11 @@ const VacancyList: React.FC = () => {
     (state: RootState) => state.vacancy.vacancy
   );
   useEffect(() => {
-    dispatch(fetchvacanciesByRecruiter(1));
-  }, [dispatch, vacancy]);
+    if (currentUserID) {
+      dispatch(fetchvacanciesByRecruiter(+currentUserID));
+    }
+    console.log(currentUserID);
+  }, [dispatch, vacancy, currentUserID]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -33,9 +37,9 @@ const VacancyList: React.FC = () => {
   return (
     <div className="bg-stone-100 py-1 sm:py-2 rounded-lg ">
       <div className="mx-auto max-w-7xl lg:px-2">
-        <div className="mx-auto max-w-2xl lg:mx-0 flex-nowrap my-2 flex justify-between items-center">
-          <h2 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-4xl mb-2">
-            Active job offers:
+        <div className="mx-auto max-w-2xl lg:mx-0 flex-nowrap my-2 flex items-center">
+          <h2 className="text-2xl font-bold tracking-tight text-[#026767] mr-10">
+            Active job offers
           </h2>
           <div>
             <Modal
@@ -59,7 +63,7 @@ const VacancyList: React.FC = () => {
 
             <button
               onClick={openModal}
-              className="mt-4 px-4 py-2 font-medium text-black border-2 border-black rounded-md focus:outline-none focus:ring"
+              className="w-auto bg-orange-100 hover:bg-orange-400 rounded-lg shadow-xl font-medium text-white px-4 py-2"
             >
               +
             </button>

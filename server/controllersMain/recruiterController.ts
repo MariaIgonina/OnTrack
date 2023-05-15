@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 
 const prisma = new PrismaClient();
@@ -41,6 +41,7 @@ async function deleteRecruiterbyId(req: Request, res: Response) {
         vacancies: true,
         Track: true,
       },
+      // cascade: true,
     });
     res.json(recruiter).status(204);
   } catch (error: any) {

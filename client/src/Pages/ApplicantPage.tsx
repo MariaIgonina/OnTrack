@@ -33,6 +33,7 @@ const ApplicantPage = () => {
   const applicant = useSelector(
     (state: RootState) => state.applicant.applicant
   );
+
   const currentUser = useSelector(
     (state: RootState) => state.currentUser
   ) as unknown as CurrentUserType;
@@ -43,41 +44,46 @@ const ApplicantPage = () => {
     if (currentUser.id === +codeParam) {
       console.log("cureent ysfter", currentUser.id);
       dispatch(fetchApplicant(+currentUser.id));
+      console.log("WE CALLED AN APPLICANT", applicant);
     } else {
       dispatch(fetchApplicant(+codeParam));
     }
-  }, [dispatch]);
+  }, [dispatch, currentUser]);
 
   return (
-    <div className=" bg-[#FFFEF5] h-full ">
-      <div className=" flex flex-row ">
-        <div className=" flex flex-col flex-wrap items-stretch">
-          <div className=" flex flex-row flex-wrap items-stretch">
-            <Avatar applicant={applicant} />
+    <>
+      <div className=" bg-[#FFFEF5] h-full ">
+        <div className=" flex flex-row ">
+          <div className=" flex flex-col flex-wrap items-stretch">
+            <div className=" flex flex-row flex-wrap items-stretch">
+              <Avatar applicant={applicant} />
 
-            <PersonalInfo applicant={applicant} />
+              <PersonalInfo applicant={applicant} />
 
-            <div className=" flex flex-col items-stretch flex-wrap items-stretch">
-              <CurrentLocation applicant={applicant} />
-              <JobPreferences applicant={applicant} />
+              <div className=" flex flex-col items-stretch flex-wrap items-stretch">
+                <CurrentLocation applicant={applicant} />
+                <JobPreferences applicant={applicant} />
+              </div>
+
+              <div className="flex flex-col flex-wrap items-stretch">
+                <Hobbies applicant={applicant} />
+                <Languages applicant={applicant} />
+              </div>
             </div>
-
-            <div className="flex flex-col flex-wrap items-stretch">
-              <Hobbies applicant={applicant} />
-              <Languages applicant={applicant} />
-            </div>
+            <About applicant={applicant} />
           </div>
           <Skills applicant={applicant} />
         </div>
 
-        <div className=" flex flex-row">
+        <div className=" flex flex-row flex-wrap items-stretch">
           <EducationComp applicant={applicant} />
           <ExperienceComp applicant={applicant} />
-
-          <Video applicant={applicant} />
+          <div className=" flex flex-col flex-wrap items-stretch">
+            <Video applicant={applicant} />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

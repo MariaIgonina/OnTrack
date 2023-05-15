@@ -55,7 +55,11 @@ function NavBar() {
     <>
       <AppBar
         position="sticky"
-        sx={{ width: "100%", backgroundColor: "#568ea3" }}
+        sx={{ width: "100%", 
+              backgroundColor: "#568ea3", 
+              height: "70px",
+              margin: "0px",
+              padding: "0px"}}
       >
         <nav>
           <List
@@ -77,7 +81,7 @@ function NavBar() {
                     <img
                       src={logo}
                       alt="logo"
-                      style={{ width: 170, height: 60 }}
+                      style={{ width: 150, height: 45 }}
                     />
                   </ListItemIcon>
                 </ListItemButton>
@@ -131,8 +135,8 @@ function NavBar() {
                       <InsightsIcon
                         style={{
                           color: "white",
-                          width: 35,
-                          height: 35,
+                          width: 28,
+                          height: 28,
                         }}
                       />
                     </ListItemIcon>
@@ -144,7 +148,7 @@ function NavBar() {
                   <ListItemButton>
                     <ListItemIcon>
                       <HomeIcon
-                        style={{ color: "white", width: 35, height: 35 }}
+                        style={{ color: "white", width: 28, height: 28 }}
                       />
                     </ListItemIcon>
                   </ListItemButton>
@@ -155,7 +159,7 @@ function NavBar() {
                   <ListItemButton>
                     <ListItemIcon>
                       <SettingsIcon
-                        style={{ color: "white", width: 35, height: 35 }}
+                        style={{ color: "white", width: 28, height: 28 }}
                       />
                     </ListItemIcon>
                   </ListItemButton>
@@ -166,7 +170,7 @@ function NavBar() {
                   <ListItemButton>
                     <ListItemIcon>
                       <LogoutIcon
-                        style={{ color: "white", width: 35, height: 35 }}
+                        style={{ color: "white", width: 28, height: 28 }}
                       />
                     </ListItemIcon>
                   </ListItemButton>

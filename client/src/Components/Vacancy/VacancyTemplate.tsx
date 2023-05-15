@@ -1,12 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { 
-  Stepper,
-  StepLabel,
-  Step,
-  Button
-} from "@mui/material";
-
-import { Link, useNavigate } from "react-router-dom";
 
 import { typeForStep } from "../../library";
 
@@ -16,6 +8,7 @@ export default function VacancyTemplate({ onCancel }:any) {
 
   const [stepsArray, setStepsArray] = useState<{}[]>([]);
   const [isPopupQuestionaryOpen, setIsPopupQuestionaryOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleAddStep = () => {
     const newStep = {
@@ -29,15 +22,12 @@ export default function VacancyTemplate({ onCancel }:any) {
     setStepsArray([...stepsArray, newStep]);
     console.log(stepsArray)
   };
- 
 
   //Hidden toggle
   const handleHiddenChange = (index) => {
     const updatedSteps = [...stepsArray];
     updatedSteps[index].hidden = !updatedSteps[index].hidden;
     setStepsArray(updatedSteps);
-
-    
   };
   
   const handleChange = (e, index) => {
@@ -69,7 +59,7 @@ export default function VacancyTemplate({ onCancel }:any) {
         </h3>
       </div>
       <div className="h-80">
-          {stepsArray.length > 0 && (
+        {stepsArray.length > 0 && (
 
         <ul className="flex flex-row flex-start h-50">
           {stepsArray.map((step, index) => (
@@ -96,22 +86,29 @@ export default function VacancyTemplate({ onCancel }:any) {
                 />
 
                 <label 
-                className="mt-2 uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
-                htmlFor={`type-${index}`}>Type</label>
-                <input
+                  className="mt-2 uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
+                  htmlFor={`type-${index}`}>
+                  Type
+                </label>
+                <select
                   className="bg-orange-50 py-2 px-3 rounded-lg border color-grey-100 mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
-                  type="text"
                   name="type"
                   id={`type-${index}`}
                   value={step.type}
                   onChange={(e) => handleChange(e, index)}
-                  list="typeForStep"
-                />
-                <datalist id="typeForStep">
-                  {typeForStep.map((step) => (
-                    <option key={step} value={step} />
+                  required
+                >
+                  <option value="">Select type</option>
+                  {typeForStep.map((stepOption) => (
+                    <option
+                      key={stepOption}
+                      value={stepOption}
+                    >
+                      {stepOption}
+                    </option>
                   ))}
-                </datalist>
+                </select>
+                
 
                 <label 
                 className="mt-4 uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
@@ -141,13 +138,13 @@ export default function VacancyTemplate({ onCancel }:any) {
             type="submit">
               Remove step
           </button>
+
           <button
             onClick={handleAddStep}
             className="mt-4 bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white py-2 px-6 ml-4 h-10 whitespace-nowrap"
               
             type="submit"
           >Add step</button>
-    
 
           <button
             onClick={saveTrack}

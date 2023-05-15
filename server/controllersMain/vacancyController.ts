@@ -41,7 +41,7 @@ const createVacancy = async (req: Request, res: Response) => {
 
     const vacancy = await prisma.vacancy.create({
       data: {
-        recruiter: { connect: { id: recruiterId } },
+        recruiter: { connect: { id: +recruiterId } },
         about,
         title,
         workingHours,

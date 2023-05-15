@@ -29,7 +29,7 @@ const findUser = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      // console.log("!!!!!!!!! DATA FROM REDUX THUNK : ", data);
+      console.log("!!!!!!!!! DATA FROM REDUX THUNK : ", data);
       // useDispatch(setCurrentUser({id: data.id, role: ""}))
       return data;
     } catch (err) {
@@ -46,7 +46,7 @@ interface IInitialState {
 export const currentUserSlice = createSlice<
   IInitialState,
   { setCurrentUser: (_state: IInitialState, action: { payload: any }) => void }
->({
+  >({
   name: "currentUser",
   initialState: {
     currentUser: initialState,

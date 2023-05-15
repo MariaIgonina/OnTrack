@@ -7,7 +7,7 @@ export default function VacancyCard({ vacancy }: any) {
   return (
     <article
       key={vacancy.id}
-      className="flex-shrink-0 flex-col flex rounded-2xl shadow-md bg-white p-3 m-5"
+      className="flex-shrink-0 flex-col h-60 w-60 flex rounded-2xl shadow-md bg-white p-3 mt-2 ml-6"
       style={{ minWidth: "300px" }}
     >
       <Link to={`/vacancy/${vacancy.id}`}>

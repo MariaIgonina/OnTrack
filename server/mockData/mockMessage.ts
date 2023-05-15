@@ -3,6 +3,7 @@ export const msg1 = {
   text: "This is populate 1 test message",
   date: new Date(),
   files: ["file1.png", "file2.pdf"],
+  author: "recruiter",
 };
 
 export const msg2 = {
@@ -10,6 +11,7 @@ export const msg2 = {
   text: "This is populate 2 test message",
   date: new Date(),
   files: ["file1.png", "file2.pdf"],
+  author: "applicant",
 };
 
 export const msg3 = {
@@ -17,4 +19,5 @@ export const msg3 = {
   text: "This is populate 3 test message",
   date: new Date(),
   files: ["file1.png", "file2.pdf"],
+  author: "recruiter",
 };

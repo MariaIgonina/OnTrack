@@ -62,7 +62,7 @@ export interface Vacancy {
   experience?: number;
   location: string;
   salaryRange?: number;
-  data?: any;
+  currentLocation?: string[];
 }
 
 export interface Track {
@@ -115,12 +115,13 @@ export interface Step {
 }
 
 export interface Message {
-  id: number;
+  id?: number;
   trackId: number;
-  track: Track;
+  // track: Track;
   text: string;
   date: Date | string;
   files: string[];
+  author: string;
 }
 
 export interface Questionary {
