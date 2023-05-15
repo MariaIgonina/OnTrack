@@ -165,12 +165,47 @@ const getVacanciesByFilter = async (req: Request, res: Response) => {
 
     const filters: any = {};
 
-    if (filter.location) {
-      filters.location = filter.location;
+    if (filter.location.length > 1) {
+      filters.location = {
+        contains: filter.location,
+        mode: "insensitive",
+      };
     }
 
+    if (filter.title.length > 1) {
+      filters.title = {
+        contains: filter.title,
+        mode: "insensitive",
+      };
+    }
+
+    if (filter.skills.length > 1) {
+      filters.skills = {
+        hasSome: filter.skills,
+      };
+    }
+
+    if (filter.stack.length > 1) {
+      filters.stack = {
+        hasSome: filter.stack,
+      };
+    }
+
+    if (filter.requiredLanguages.length > 1) {
+      filters.requiredLanguages = {
+        hasSome: filter.requiredLanguages,
+      };
+    }
+
+    if (filter.experience !== null) {
+      filters.experience = filter.experience;
+    }
+
+    if (filter.salaryRange !== null) {
+      filters.salaryRange = filter.salaryRange;
+    }
     const filteredVacancies = await prisma.vacancy.findMany({
-      where: filter,
+      where: filters,
       include: {
         jobTrack: true,
       },
