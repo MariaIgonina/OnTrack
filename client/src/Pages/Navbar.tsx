@@ -1,47 +1,188 @@
-import React from "react";
-import { Outlet, Link } from 'react-router-dom';
-import SettingsIcon from '@mui/icons-material/Settings';
-import HomeIcon from '@mui/icons-material/Home';
-import InsightsIcon from '@mui/icons-material/Insights';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import { Outlet, Link } from "react-router-dom";
+import SettingsIcon from "@mui/icons-material/Settings";
+import HomeIcon from "@mui/icons-material/Home";
+import InsightsIcon from "@mui/icons-material/Insights";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { useEffect, useState } from "react";
+import logo from "../assets/logo-on-green.png";
+import ImageListItem from "@mui/material/ImageListItem";
+import SearchIcon from "@mui/icons-material/Search";
 
-const Navbar = () => {
-    return (
-      <div className="navbar">
-        <nav>
+function NavBar() {
+  const currentUser = useSelector((state: RootState) => state.currentUser);
 
-          <Link to="/" className="link">
-            Login
-          </Link>
-        
-          <Link to="/adduser" className="link">
-            Add user
-          </Link>
+  useEffect(() => {
+    console.log("this is the state variable for current user", currentUser);
+    getProfileLink(currentUser);
+  }, [currentUser]);
 
-          <Link to="/company" className="link">
-            Company Page
-          </Link>
+  const [profileLink, setProfileLink] = useState(null);
 
-          <Link to="/user" className="link">
-            <HomeIcon className="icon" />
-          </Link>
-        
-          <Link to="/dashboard" className="link">
-            <DashboardIcon className="icon" />
-          </Link>
-        
-          <Link to="/track" className="link">
-            <InsightsIcon className="icon" />
-          </Link>
+  useEffect(() => {
+    if (currentUser) {
+      setProfileLink(getProfileLink(currentUser));
+    }
+  }, [currentUser]);
 
-          <Link to="/settings" className="link">
-            <SettingsIcon className="icon" />
-          </Link>
-
-        </nav>
-      <Outlet />
-    </div>
-    );
+  const getProfileLink = (currentUser) => {
+    if (currentUser.role === "recruiter") {
+      return `/recruiter/${currentUser.id}`;
+    } else if (currentUser.role === "applicant") {
+      return `/applicant/${currentUser.id}`;
+    } else {
+      return null;
+    }
   };
 
-export default Navbar;
+  const scrollToSection = (elementref) => {
+    window.scrollTo({
+      top: elementref.current.offsetTop,
+      behavior: "smooth",
+    });
+  };
+
+  return (
+    <>
+      <AppBar
+        position="sticky"
+        sx={{ width: "100%", 
+              backgroundColor: "#568ea3", 
+              height: "70px",
+              margin: "0px",
+              padding: "0px"}}
+      >
+        <nav>
+          <List
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+            sx={{
+              "@media (max-width: 400px)": {
+                flexDirection: "column",
+              },
+            }}
+          >
+            <div>
+              <ListItem key={"Logo"} disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <img
+                      src={logo}
+                      alt="logo"
+                      style={{ width: 150, height: 45 }}
+                    />
+                  </ListItemIcon>
+                </ListItemButton>
+              </ListItem>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+              }}
+            >
+              {/* <ListItem key={"search"} disablePadding>
+                <Link
+                  to="/dashboard"
+                  className="link"
+                  onClick={() => scrollToSection(searchRef.current)}
+                >
+              
+                  <ListItemButton
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <ListItemIcon>
+                      <SearchIcon
+                        style={{
+                          color: "white",
+                          width: 35,
+                          height: 35,
+                        }}
+                      />
+                    </ListItemIcon>
+                  </ListItemButton>
+          
+                </Link>
+              </ListItem> */}
+              <ListItem key={"Dashboard"} disablePadding>
+                <Link to="/dashboard" className="link">
+                  <ListItemButton
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <ListItemIcon>
+                      <InsightsIcon
+                        style={{
+                          color: "white",
+                          width: 28,
+                          height: 28,
+                        }}
+                      />
+                    </ListItemIcon>
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+              <ListItem key={"Your Profile"} disablePadding>
+                <Link to={profileLink} className="link">
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <HomeIcon
+                        style={{ color: "white", width: 28, height: 28 }}
+                      />
+                    </ListItemIcon>
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+              <ListItem key={"Settings"} disablePadding>
+                <Link to="/settings" className="link">
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <SettingsIcon
+                        style={{ color: "white", width: 28, height: 28 }}
+                      />
+                    </ListItemIcon>
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+              <ListItem key={"Logout"} disablePadding>
+                <Link to="/" className="link">
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <LogoutIcon
+                        style={{ color: "white", width: 28, height: 28 }}
+                      />
+                    </ListItemIcon>
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+            </div>
+          </List>
+        </nav>
+        <Outlet />
+      </AppBar>
+    </>
+  );
+}
+
+export default NavBar;

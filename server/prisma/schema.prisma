@@ -1,0 +1,176 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Applicant {
+  idDB                Int          @id @default(autoincrement())
+  idAuth              String       @unique
+  email               String       @unique
+  picture             String
+  name                String
+  familyName          String?
+  age                 DateTime?
+  phone               String?
+  location            String?
+  track               Track[]
+  currentLocation     String[] //google maps
+  readyMove           Boolean?
+  workingHours        String?
+  workingModal        String?
+  socialMedia         String[]
+  skillsProf          String[]
+  stack               String[]
+  compLanguages       String[]
+  about               String?
+  video               String?
+  education           Education[]
+  experiences         Experience[]
+  languages           String[]
+  languageArr         Language[]
+  hobbies             String[]
+  salaryRange         Int?
+  desiredLocation     String[]
+  notDesiredLocation  String[]
+  desiredWorkingModal String?
+}
+
+model Experience {
+  id          Int       @id @default(autoincrement())
+  jobTitle    String
+  company     String
+  startDate   DateTime
+  endDate     DateTime
+  description String
+  applicant   Applicant @relation(fields: [applicantId], references: [idDB], onDelete: Cascade)
+  applicantId Int
+}
+
+model Education {
+  id            Int        @id @default(autoincrement())
+  place         String
+  startDate     DateTime
+  endDate       DateTime
+  degree        String
+  speciality    String
+  Applicant     Applicant? @relation(fields: [applicantIdDB], references: [idDB], onDelete: Cascade)
+  applicantIdDB Int?
+}
+
+model Recruiter {
+  id            Int       @id @default(autoincrement())
+  email         String
+  picture       String
+  idAuth        String    @unique
+  recruiterName String
+  name          String?
+  vacancies     Vacancy[]
+  logo          String?
+  founded       String?
+  about         String?
+  externalLinks String[]
+  headOffice    String?
+  Track         Track[]
+}
+
+model Vacancy {
+  id                Int       @id @default(autoincrement())
+  recruiter         Recruiter @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+  recruiterId       Int
+  about             String
+  title             String
+  jobTrack          Track[]
+  workingHours      String?
+  workingModal      String?
+  skills            String[]
+  stack             String[]
+  requiredLanguages String[]
+  experience        Int?
+  location          String
+  salaryRange       Int?
+  currentLocation   String[]
+}
+
+model Language {
+  id          Int       @id @default(autoincrement())
+  language    String
+  level       Int
+  applicant   Applicant @relation(fields: [applicantId], references: [idDB], onDelete: Cascade)
+  applicantId Int
+}
+
+model Track {
+  id             Int           @id @default(autoincrement())
+  recruiterID    Int
+  Recruiter      Recruiter     @relation(fields: [recruiterID], references: [id], onDelete: Cascade)
+  applicantID    Int?
+  Applicant      Applicant?    @relation(fields: [applicantID], references: [idDB], onDelete: Cascade)
+  reject         Boolean       @default(false)
+  applicantNotes String?
+  recruiterNotes String?
+  vacancyId      Int
+  Vacancy        Vacancy       @relation(fields: [vacancyId], references: [id], onDelete: Cascade)
+  Questionaries  Questionary[]
+  Videocall      Videocall[]
+  CodeSandbox    CodeSandbox[]
+  Message        Message[]
+}
+
+model Questionary {
+  id        Int      @id @default(autoincrement())
+  type      String   @default("Questionary")
+  questions String[]
+  order     Int
+  answer    String[]
+  date      DateTime
+  status    Boolean
+  title     String?
+  hidden    Boolean // spelling mistake?
+  Track     Track?   @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  trackId   Int?
+}
+
+model Videocall {
+  id      Int      @id @default(autoincrement())
+  type    String   @default("Videocall")
+  date    DateTime
+  order   Int
+  title   String
+  status  Boolean
+  hidden  Boolean
+  Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  trackId Int
+  link    String?
+}
+
+model CodeSandbox {
+  id      Int      @id @default(autoincrement())
+  type    String   @default("Sandbox")
+  date    DateTime
+  hidden  Boolean
+  title   String?
+  code    String?
+  status  Boolean?
+  Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  trackId Int
+  order   Int
+}
+
+model Message {
+  id      Int      @id @default(autoincrement())
+  type    String   @default("Message")
+  text    String
+  date    DateTime
+  files   String[]
+  author  String
+  Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  trackId Int
+}
+

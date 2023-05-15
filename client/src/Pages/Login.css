@@ -1,0 +1,74 @@
+input {
+  border: 1px solid grey;
+}
+
+.title {
+  font-size: large;
+  font-weight: 900;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  margin: 40px;
+}
+
+.wholepage {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #fffded;
+}
+
+.container {
+  width: max-content;
+  height: max-content;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.btn {
+  padding: 5px;
+  background-color: #568ea3;
+  color: white;
+  margin: 10px;
+  align-items: center;
+}
+
+.dividerText {
+  padding: 5px;
+  align-self: center;
+}
+
+.loggedin {
+  padding-bottom: 100px;
+  align-self: center;
+  justify-content: center;
+}
+
+.textinput {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+}
+
+.register {
+  margin-top: 100px;
+  font-size: small;
+  font-weight: 500;
+}
+
+.smallbtn:hover p {
+  color: rgb(247, 118, 5);
+}
+
+#bottominput {
+  padding-bottom: 10px;
+}
