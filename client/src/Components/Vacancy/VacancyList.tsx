@@ -27,6 +27,7 @@ const VacancyList: React.FC = () => {
     console.log(currentUserID);
   }, [dispatch, vacancy, currentUserID]);
 
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -40,7 +41,7 @@ const VacancyList: React.FC = () => {
       <div className="mx-auto max-w-7xl lg:px-2">
         <div className="mx-auto max-w-2xl lg:mx-0 flex-nowrap my-2 flex items-center">
           <h2 className="text-2xl font-bold tracking-tight text-[#026767] mr-10">
-            Active job offers
+            Active vacancies
           </h2>
           <div>
             <Modal
