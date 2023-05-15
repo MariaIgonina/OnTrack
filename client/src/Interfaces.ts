@@ -76,7 +76,8 @@ export interface Track {
   vacancy: Vacancy;
   CodeSandbox: any[];
   Message: Message[];
-  Videocall: any[]
+  Videocall: any[],
+  Questionary: any[]
 }
 
 export interface Step {

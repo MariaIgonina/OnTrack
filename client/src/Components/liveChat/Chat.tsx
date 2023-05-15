@@ -22,8 +22,8 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
 
   console.log("messages chatbox", messages);
   useEffect(() => {
-    dispatch(fetchMessagesByTrack(1)); //! to add current trackID as room
-    socket.emit("joinRoom", 1);
+    dispatch(fetchMessagesByTrack(2)); //! to add current trackID as room
+    socket.emit("joinRoom", 2);
   }, []);
   useEffect(() => {
     socket.on("receive_message", (newMessage: any) => {

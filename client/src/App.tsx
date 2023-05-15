@@ -47,11 +47,11 @@ function App() {
 
 
 
-  const handleBeforeUnload = (event: any) => {
-    dispatch(setCurrentUser(currentUser))
-    event.preventDefault();
-    return event.returnValue = '';
-  }
+  // const handleBeforeUnload = (event: any) => {
+  //   dispatch(setCurrentUser(currentUser))
+  //   event.preventDefault();
+  //   return event.returnValue = '';
+  // }
 
   return (
     <BrowserRouter>

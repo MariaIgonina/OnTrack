@@ -12,18 +12,21 @@ import Landing from "../Components/codeSandbox/Landing";
 import DeleteTrackModal from "../Components/tracks/DeleteTrackModal";
 import ChatWindow from "../Components/liveChat/ChatWindow";
 import Videocall from "../Components/steps/Videocall";
+import moment from "moment"
+import { render } from "@headlessui/react/dist/utils/render";
 
 type Step = {
   type: string,
   id: number | string,
   title?: string,
-  order?: number | string
+  order?: number | string,
+  step: string
 }
 
 const TrackPage = () => {
   const [gotInfo, setGotInfo] = useState(0)
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
-  const [steps, setSteps] = useState<any>([]);
+  const [steps, setSteps] = useState<any>([{ type: "", id: "", title: "", order: 0, step: "" }]);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>()
   const currentUser = useSelector((state: RootState) => state.currentUser)
@@ -40,12 +43,14 @@ const TrackPage = () => {
       fetchTrack({ getTrackByWhat: "getTrackById", id: +queryObj.trackId })
     );
     dispatch(fetchVacancy(+queryObj.vacancyId));
-  }, []);
+    checkForSteps();
+  }, [gotInfo, dispatch]);
 
   useEffect(() => {
     if (track.track?.applicantID) {
       dispatch(fetchApplicant(track.track.applicantID));
     }
+    checkForSteps();
   }, [track.track?.applicantID]);
 
   useEffect(() => {
@@ -53,7 +58,10 @@ const TrackPage = () => {
       dispatch(fetchRecruiter(track.track.recruiterID));
     }
     getInfo()
+    // checkForSteps();
   }, [track.track?.recruiterID]);
+
+
 
   const getInfo = useCallback(() => {
     try {
@@ -65,10 +73,12 @@ const TrackPage = () => {
       console.log(error.message, num)
       console.log('track', track.track)
     }
-    checkForSteps()
+    // checkForSteps();
   }, [gotInfo])
 
-  const checkForSteps = useCallback(() => {
+
+
+  const checkForSteps = () => {
     let fetchedSteps: any = [];
     if (track.track?.CodeSandbox) {
       track.track?.CodeSandbox.forEach(element => {
@@ -81,8 +91,7 @@ const TrackPage = () => {
       });
     }
     setSteps([...fetchedSteps])
-  }, [])
-
+  }
 
 
   return (
@@ -168,11 +177,12 @@ const TrackPage = () => {
           {steps.length &&
             steps.map((step: Step) => {
               if (step.type.toLowerCase() === "sandbox") {
-                return <StepTemplate title={step.title?.length ? step.title : "Next step: Code!"} type="sandbox" content={<Landing />} />
+                return <><StepTemplate title={step.title?.length ? step.title : "Next step: Code!"} type="sandbox" content={<Landing />} /><div id="line" className="-mt-10 w-1 bg-gray-500 rounded-xl h-[100px] block relative"></div></>
               } else if (step.type.toLowerCase() === "videocall") {
-                return <StepTemplate title={step.title?.length ? step.title : "Next step: Videocall"} type="videocall" content={<Videocall />} />
+                return <><span>{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
+                  <StepTemplate title={step.title?.length ? step.title : "Next step: Videocall"} type="videocall" content={<Videocall step={step} />} /><div id="line" className="-mt-4 w-1 bg-gray-500 rounded-xl h-[100px] block relative"></div></>
               }
-              
+
             })
           }
         </div>
