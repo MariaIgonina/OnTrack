@@ -1004,8 +1004,8 @@ const AddApplicantPage = () => {
                 className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"
                 htmlFor="video"
               >
-                Here you can share the link to the video of your project you
-                proud of
+                If you have a video on youtube that is public - please add it to
+                showcase your skills!
               </label>
 
               <input
