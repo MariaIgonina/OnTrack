@@ -46,10 +46,8 @@ const DashboardPage = () => {
           <TrackerComponent />
           <Suggestion></Suggestion>
           <GoogleMaps />
-          <FilteredVacancies />
-
-          <DateCalendarViews></DateCalendarViews>
           <AllUsers searchRef={searchRef} />
+          <DateCalendarViews></DateCalendarViews>
         </div>
       </div>
     </>
