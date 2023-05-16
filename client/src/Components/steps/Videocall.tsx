@@ -20,7 +20,8 @@ const Videocall = ({ step }: VideocallStepProps) => {
   useEffect(() => {
     console.log('stepId videocall =>', step)
     if (step.link) {
-      setLink(step.link)
+      setLink(step.link);
+      setEdit(true)
     }
   }, [])
 
@@ -35,14 +36,10 @@ const Videocall = ({ step }: VideocallStepProps) => {
     setEdit(true)
   }
 
-  // const redirectToLink = () => {
-  //   window.location.href = link;
-  // }
-
   return (
     <div className="text-black w-[250px] flex justify-between items-center">
       {edit && <button
-        className="hover:text-yellow-200 hover:-translate-y-1 text-yellow-100"
+        className="hover:text-yellow-200 hover:-translate-y-1 text-yellow-100 text-xs"
         onClick={() => setEdit(false)}> <EditIcon /></button>
        }
       {edit

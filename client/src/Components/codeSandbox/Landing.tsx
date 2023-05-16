@@ -11,13 +11,16 @@ import OutputWindow from "./OutputWindow";
 import OutputDetails from "./OutputDetail";
 import LanguagesDropdown from "./LanguagesDropdown";
 
-const javascriptDefault = `// some comment`;
 type Token = {
   token: string
 }
 
-const Landing = () => {
-  const [code, setCode] = useState(javascriptDefault);
+type LandingProps = {
+  savedCode: string
+}
+
+const Landing = ({savedCode}: LandingProps) => {
+  const [code, setCode] = useState(savedCode);
   const [outputDetails, setOutputDetails] = useState<string>('');
   const [processing, setProcessing] = useState<boolean | null>(null);
   const [language, setLanguage] = useState(languageOptions[0]);
