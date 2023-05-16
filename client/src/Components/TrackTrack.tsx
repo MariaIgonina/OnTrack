@@ -6,6 +6,7 @@ import { getVacancy, getRecruiter, getApplicant } from "../api.fetch";
 import { deleteTrack } from "../store/trackSlice";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { useNavigate } from "react-router-dom";
+import { extractItemsByOrder } from "../library";
 
 export default function TrackTrack({ track }) {
   const dispatch = useDispatch();
@@ -40,32 +41,6 @@ export default function TrackTrack({ track }) {
       });
     }
   }, [stepArr]);
-
-  function extractItemsByOrder(track: Track) {
-    const orderedItems: any[] = [];
-    if (track.hasOwnProperty("CodeSandbox")) {
-      const codeSandBoxItems = track.CodeSandbox;
-      codeSandBoxItems.forEach((item) => {
-        orderedItems.push(item);
-      });
-    }
-    if (track.hasOwnProperty("Videocall")) {
-      const videoCallItems = track.Videocall;
-      videoCallItems.forEach((item) => {
-        orderedItems.push(item);
-      });
-    }
-    if (track.hasOwnProperty("Questionaries")) {
-      const questionariesItems = track.Questionaries;
-      questionariesItems.forEach((item) => {
-        orderedItems.push(item);
-      });
-    }
-
-    return orderedItems
-      .sort((a, b) => a.order - b.order)
-      .filter((item) => item.hidden !== true);
-  }
 
   function handleDeleteTrack() {
     if (window.confirm("Are you sure you want to delete this track?")) {
