@@ -8,7 +8,7 @@ interface CurrentUserState {
 }
 
 interface IInitialState {
-  currentUser: CurrentUserState;
+  currentUser: { id: string | undefined; role: string | undefined };
   status: "loading" | "resolved" | "rejected" | null;
   error: null | Error;
 }
@@ -46,7 +46,7 @@ interface IInitialState {
 export const currentUserSlice = createSlice<
   IInitialState,
   { setCurrentUser: (_state: IInitialState, action: { payload: any }) => void }
-  >({
+>({
   name: "currentUser",
   initialState: {
     currentUser: initialState,

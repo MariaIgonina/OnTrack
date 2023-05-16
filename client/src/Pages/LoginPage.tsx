@@ -8,6 +8,7 @@ import { setCurrentUser } from "../store/CurrentUserSlice";
 import LoginBtn from "../Components/LoginBtn";
 import { useNavigate } from "react-router-dom";
 import SignInWithGoogle from "../Components/SignInWithGoogle";
+import stock2 from "../assets/stock-2.png";
 
 const LoginPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,8 +21,8 @@ const LoginPage = () => {
   }
 
   async function logoutFromGithub() {
-    if (localStorage.getItem('authInfo')) {
-      await logoutFromGoogle(localStorage.getItem('gt'));
+    if (localStorage.getItem("authInfo")) {
+      await logoutFromGoogle(localStorage.getItem("gt"));
     } else {
       localStorage.removeItem("accessToken");
     }
@@ -33,26 +34,31 @@ const LoginPage = () => {
   }
 
   async function logoutFromGoogle(token: string | null) {
-    console.log('log-out google');
+    console.log("log-out google");
     await fetch(`https://oauth2.googleapis.com/revoke?token=${token}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    }).then(data => {
-      localStorage.removeItem('authInfo');
-      localStorage.removeItem('gt');
-    })
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }).then((data) => {
+      localStorage.removeItem("authInfo");
+      localStorage.removeItem("gt");
+    });
   }
 
   return (
     <>
-      <div className="wholepage">
-        <div className="container">
-          <h1 className="title">Login</h1>
-          {localStorage.getItem("accessToken") || localStorage.getItem('gt') ? (
+      <div className="h-screen w-screen flex items-center justify-center bg-stone-100">
+        <div className="shadow-md flex flex-col items-center justify-center p-10 bg-white rounded-lg">
+          <h1 className="text-lg font-bold pb-2">Login</h1>
+          <img
+            src={stock2}
+            alt="stockphoto"
+            style={{ width: "max", height: 350, marginTop: "5px" }}
+          />
+          {localStorage.getItem("accessToken") || localStorage.getItem("gt") ? (
             <>
-              <h3 className="loggedin">You are logged in!</h3>
+              <h3 className="pb-8">You are logged in!</h3>
               <Button
                 sx={{ backgroundColor: "#568EA3" }}
                 variant="contained"
@@ -65,8 +71,8 @@ const LoginPage = () => {
             </>
           ) : (
             <>
-                <LoginBtn text={"Login with Github"} />
-                <SignInWithGoogle />
+              <LoginBtn text={"Login with Github"} />
+              <SignInWithGoogle />
               <div className="register">
                 <button className="smallbtn" onClick={handleRegisterModal}>
                   <p>Or sign up for the first time by registering an account</p>

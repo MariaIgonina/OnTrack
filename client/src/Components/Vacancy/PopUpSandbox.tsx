@@ -4,8 +4,8 @@ import CodeEditorWindow from "../codeSandbox/Editor";
 
 const javascriptDefault = `// some comment`;
 
-export default function PopUpSandbox() {
-  const [code, setCode] = useState(javascriptDefault);
+export default function PopUpSandbox({code, setCode, setIsPopupSandbox}) {
+  // const [code, setCode] = useState(javascriptDefault);
 
   const onChange = (action: string, data: any) => {
     switch (action) {
@@ -21,7 +21,7 @@ export default function PopUpSandbox() {
   };
 
   const submitSandBox = () => {
-
+    setIsPopupSandbox(false)
   };
 
   return (

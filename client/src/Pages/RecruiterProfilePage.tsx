@@ -199,7 +199,7 @@ const RecruiterProfilePage = () => {
       </div>
       <div className="mt-20 ml-10 mr-10">
         <VacancyList setVacanciesLength={setVacanciesLength} />
-        <ChatWindow trackId={2} />
+        {/* <ChatWindow trackId={2} /> */}
       </div>
     </div>
   );

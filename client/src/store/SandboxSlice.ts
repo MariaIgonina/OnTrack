@@ -1,56 +1,54 @@
 import { createAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { socket } from "./socket"; // Change this import to get the socket from the store
-import { Questionary, Track } from "../Interfaces";
+import { Sandbox, Track } from "../Interfaces";
 
 import { RootState } from "./store";
 
 import { initialTrack } from "./trackSlice";
 
-const initialQuestionary: Questionary = {
-  id: 0,
+const initialSandbox: Sandbox = {
   type: '',
-  questions: [],
-  order: 0,
-  answer: [],
   date: '',
-  checked: false,
-  title: '',
   hidden: false,
+  title: '',
+  code: '',
+  checked: false,
   Track: initialTrack,
   trackId: 0,
+  status: false
 };
 
 
-const url = "http://localhost:3000";
+const url: string = "http://localhost:3000";
 
-const fetchQuestionaryTrack = createAsyncThunk(
-  "questionary/fetchQuestionaryTrack",
+const fetchSandboxesByTrack = createAsyncThunk(
+  "sandbox/fetchSandboxesByTrack",
   async function (trackId: number, { rejectWithValue }) {
     try {
-      const response = await fetch(`${url}/getQuestionaryByStep/${trackId}`);
+      const response = await fetch(`${url}/getcode/${trackId}`);
       if (!response.ok) {
-        throw new Error("Server error")
+        throw new Error('Server error')
       }
       const data = await response.json()
       console.log("DATA FROM REDUX THUNK : ", data)
-      return data[0]
+      return data
     } catch (err) {
       if (err instanceof Error)
       return rejectWithValue(err.message)
-    }
+    }    
   }
 )
 
-const createQuestionary = createAsyncThunk(
-  "questionary/createQuestionary",
-  async function (questionary: Questionary, { rejectWithValue }) {
+const createSandbox = createAsyncThunk(
+  "sandbox/createSandbox",
+  async function (sandbox: Sandbox, { rejectWithValue }) {
     try {
-      const response = await fetch(url + "/createQuestionary", {
+      const response = await fetch(url + "/createcode", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(questionary),
+        body: JSON.stringify(sandbox),
       });
       if (!response.ok) {
         throw new Error("Server error");
@@ -63,11 +61,11 @@ const createQuestionary = createAsyncThunk(
   }
 );
 
-const deleteQuestionary = createAsyncThunk(
-  "questionary/deleteQuestionary",
-  async function (questionaryId: number, { rejectWithValue }) {
+const deleteSandbox = createAsyncThunk(
+  "sandbox/deleteSandbox",
+  async function (sandboxId: number, { rejectWithValue }) {
     try {
-      const response = await fetch(`${url}/deleteQuestionary/${questionaryId}`, {
+      const response = await fetch(`${url}/deletecode/${sandboxId}`, {
         method: "DELETE",
       });
       if (!response.ok) {
@@ -82,20 +80,20 @@ const deleteQuestionary = createAsyncThunk(
 );
 
 interface IPutParams {
-  questionaryId: number;
-  questionary: any;
+  sandboxId: number;
+  sandbox: any;
 }
 
-const updateQuestionary = createAsyncThunk(
-  "questionary/updateQuestionary",
-  async function ({ questionaryId, questionary }: IPutParams, { rejectWithValue }) {
+const updateSandbox = createAsyncThunk(
+  "sandbox/updateSandbox",
+  async function ({ sandboxId, sandbox }: IPutParams, { rejectWithValue }) {
     try {
-      const response = await fetch(url + `/updateQuestionary/${questionaryId}`, {
+      const response = await fetch(url + `/updatecode/${sandboxId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(questionary),
+        body: JSON.stringify(sandbox),
       });
       if (!response.ok) {
         throw new Error("Server error");
@@ -110,89 +108,89 @@ const updateQuestionary = createAsyncThunk(
 
 
 interface IInitialState {
-  questionary: Questionary,
+  sandbox: Sandbox,
     status: 'loading' | 'resolved' | 'rejected' | null,
     error: null | Error
 }
 
-export const questionarySlice = createSlice<IInitialState, { setQuestionary: (_state: IInitialState, action: {payload:any})=> void }>({
-  name: 'questionary',
+export const sandboxSlice = createSlice<IInitialState, { setSandbox: (_state: IInitialState, action: {payload:any})=> void }>({
+  name: 'sandbox',
   initialState: {
-    questionary: initialQuestionary,
+    sandbox: initialSandbox,
     status: null,
     error: null
   },
   reducers: {
-    setQuestionary: (_state, action) => {
+    setSandbox: (_state, action) => {
       return action.payload;
     }
   },
   extraReducers: (builder) => {
     builder
       //get by track id
-      .addCase(fetchQuestionaryTrack.pending, (state, action) => {
+      .addCase(fetchSandboxesByTrack.pending, (state, action) => {
         state.status = "loading";
         state.error = null;
       })
-      .addCase(fetchQuestionaryTrack.rejected, (state, action) => {
+      .addCase(fetchSandboxesByTrack.rejected, (state, action) => {
         state.status = "rejected";
         state.error = action.payload as Error;
       })
-      .addCase(fetchQuestionaryTrack.fulfilled, (state, action) => {
+      .addCase(fetchSandboxesByTrack.fulfilled, (state, action) => {
         state.status = "resolved";
-        state.questionary = action.payload;
+        state.sandbox = action.payload;
         state.error = null;
       })
       // post
-      .addCase(createQuestionary.pending, (state, action) => {
+      .addCase(createSandbox.pending, (state, action) => {
         state.status = "loading";
         state.error = null;
       })
-      .addCase(createQuestionary.rejected, (state, action) => {
+      .addCase(createSandbox.rejected, (state, action) => {
         state.status = "rejected";
         state.error = action.payload as Error;
       })
-      .addCase(createQuestionary.fulfilled, (state, action) => {
+      .addCase(createSandbox.fulfilled, (state, action) => {
         state.status = "resolved";
-        state.questionary = action.payload;
+        state.sandbox = action.payload;
         state.error = null;
       })
       // delete
-      .addCase(deleteQuestionary.pending, (state, action) => {
+      .addCase(deleteSandbox.pending, (state, action) => {
         state.status = "loading";
         state.error = null;
       })
-      .addCase(deleteQuestionary.rejected, (state, action) => {
+      .addCase(deleteSandbox.rejected, (state, action) => {
         state.status = "rejected";
         state.error = action.payload as Error;
       })
-      .addCase(deleteQuestionary.fulfilled, (state, action) => {
+      .addCase(deleteSandbox.fulfilled, (state, action) => {
         state.status = "resolved";
-        state.questionary = action.payload;
+        state.sandbox = action.payload;
         state.error = null;
       })
       // update
-      .addCase(updateQuestionary.pending, (state, action) => {
+      .addCase(updateSandbox.pending, (state, action) => {
         state.status = "loading";
         state.error = null;
       })
-      .addCase(updateQuestionary.rejected, (state, action) => {
+      .addCase(updateSandbox.rejected, (state, action) => {
         state.status = "rejected";
         state.error = action.payload as Error;
       })
-      .addCase(updateQuestionary.fulfilled, (state, action) => {
+      .addCase(updateSandbox.fulfilled, (state, action) => {
         state.status = "resolved";
-        state.questionary = action.payload;
+        state.sandbox = action.payload;
         state.error = null;
       });
     },
   }
 );
 
-export const { setQuestionary } = questionarySlice.actions;
+export const { setSandbox } = sandboxSlice.actions;
 
-export { fetchQuestionaryTrack, createQuestionary, deleteQuestionary, updateQuestionary };
+export { fetchSandboxesByTrack, createSandbox, deleteSandbox, updateSandbox };
 
-export const selectquestionary = (state: RootState) => state.questionary;
+export const selectsandbox = (state: RootState) => state.sandbox;
 
-export default questionarySlice.reducer;
+export default sandboxSlice.reducer;

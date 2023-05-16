@@ -1,11 +1,11 @@
 export const education1 = {
-  id: 4,
+  id: 1,
   place: "Novosibirsk State University",
   startDate: "2009-06-01T00:00:00.000Z",
   endDate: "2013-06-01T00:00:00.000Z",
   degree: "Bachelor",
   speciality: "Structural Geology",
-  applicantIdDB: 54,
+  applicantIdDB: 5,
 };
 export const education2 = {
   id: 5,
@@ -14,7 +14,7 @@ export const education2 = {
   endDate: "2015-06-01T00:00:00.000Z",
   degree: "Master",
   speciality: "Petrileum Geology",
-  applicantIdDB: 54,
+  applicantIdDB: 5,
 };
 
 export const education3 = {
@@ -24,7 +24,7 @@ export const education3 = {
   endDate: "2023-07-01T00:00:00.000Z",
   degree: "añldskj",
   speciality: "ñlkhdf",
-  applicantIdDB: 54,
+  applicantIdDB: 5,
 };
 export const education4 = {
   id: 7,

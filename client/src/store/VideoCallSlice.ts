@@ -1,56 +1,54 @@
 import { createAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { socket } from "./socket"; // Change this import to get the socket from the store
-import { Questionary, Track } from "../Interfaces";
+import { Videocall, Track } from "../Interfaces";
 
 import { RootState } from "./store";
 
 import { initialTrack } from "./trackSlice";
 
-const initialQuestionary: Questionary = {
-  id: 0,
+const initialVideocall: Videocall = {
   type: '',
-  questions: [],
-  order: 0,
-  answer: [],
   date: '',
-  checked: false,
+  order: 0,
   title: '',
+  checked: false,
   hidden: false,
   Track: initialTrack,
   trackId: 0,
+  link: '',
 };
 
 
-const url = "http://localhost:3000";
+const url: string = "http://localhost:3000";
 
-const fetchQuestionaryTrack = createAsyncThunk(
-  "questionary/fetchQuestionaryTrack",
+const fetchVideocallsByTrack = createAsyncThunk(
+  "videocall/fetchVideocallByTrack",
   async function (trackId: number, { rejectWithValue }) {
     try {
-      const response = await fetch(`${url}/getQuestionaryByStep/${trackId}`);
+      const response = await fetch(`${url}/getVideocallById/${trackId}`);
       if (!response.ok) {
-        throw new Error("Server error")
+        throw new Error('Server error')
       }
       const data = await response.json()
       console.log("DATA FROM REDUX THUNK : ", data)
-      return data[0]
+      return data
     } catch (err) {
       if (err instanceof Error)
       return rejectWithValue(err.message)
-    }
+    }    
   }
 )
 
-const createQuestionary = createAsyncThunk(
-  "questionary/createQuestionary",
-  async function (questionary: Questionary, { rejectWithValue }) {
+const createVideocall = createAsyncThunk(
+  "videocall/createVideocall",
+  async function (videocall: Videocall, { rejectWithValue }) {
     try {
-      const response = await fetch(url + "/createQuestionary", {
+      const response = await fetch(url + "/createVideocall", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(questionary),
+        body: JSON.stringify(videocall),
       });
       if (!response.ok) {
         throw new Error("Server error");
@@ -63,11 +61,11 @@ const createQuestionary = createAsyncThunk(
   }
 );
 
-const deleteQuestionary = createAsyncThunk(
-  "questionary/deleteQuestionary",
-  async function (questionaryId: number, { rejectWithValue }) {
+const deleteVideocall = createAsyncThunk(
+  "videocall/deleteVideocall",
+  async function (videocallId: number, { rejectWithValue }) {
     try {
-      const response = await fetch(`${url}/deleteQuestionary/${questionaryId}`, {
+      const response = await fetch(`${url}/deleteVideocall/${videocallId}`, {
         method: "DELETE",
       });
       if (!response.ok) {
@@ -82,20 +80,20 @@ const deleteQuestionary = createAsyncThunk(
 );
 
 interface IPutParams {
-  questionaryId: number;
-  questionary: any;
+  videocallId: number;
+  videocall: any;
 }
 
-const updateQuestionary = createAsyncThunk(
-  "questionary/updateQuestionary",
-  async function ({ questionaryId, questionary }: IPutParams, { rejectWithValue }) {
+const updateVideocall = createAsyncThunk(
+  "videocall/updateVideocall",
+  async function ({ videocallId, videocall }: IPutParams, { rejectWithValue }) {
     try {
-      const response = await fetch(url + `/updateQuestionary/${questionaryId}`, {
+      const response = await fetch(url + `/updateVideocall/${videocallId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(questionary),
+        body: JSON.stringify(videocall),
       });
       if (!response.ok) {
         throw new Error("Server error");
@@ -110,89 +108,89 @@ const updateQuestionary = createAsyncThunk(
 
 
 interface IInitialState {
-  questionary: Questionary,
+  videocall: Videocall,
     status: 'loading' | 'resolved' | 'rejected' | null,
     error: null | Error
 }
 
-export const questionarySlice = createSlice<IInitialState, { setQuestionary: (_state: IInitialState, action: {payload:any})=> void }>({
-  name: 'questionary',
+export const videocallSlice = createSlice<IInitialState, { setVideocall: (_state: IInitialState, action: {payload:any})=> void }>({
+  name: 'videocall',
   initialState: {
-    questionary: initialQuestionary,
+    videocall: initialVideocall,
     status: null,
     error: null
   },
   reducers: {
-    setQuestionary: (_state, action) => {
+    setVideocall: (_state, action) => {
       return action.payload;
     }
   },
   extraReducers: (builder) => {
     builder
       //get by track id
-      .addCase(fetchQuestionaryTrack.pending, (state, action) => {
+      .addCase(fetchVideocallsByTrack.pending, (state, action) => {
         state.status = "loading";
         state.error = null;
       })
-      .addCase(fetchQuestionaryTrack.rejected, (state, action) => {
+      .addCase(fetchVideocallsByTrack.rejected, (state, action) => {
         state.status = "rejected";
         state.error = action.payload as Error;
       })
-      .addCase(fetchQuestionaryTrack.fulfilled, (state, action) => {
+      .addCase(fetchVideocallsByTrack.fulfilled, (state, action) => {
         state.status = "resolved";
-        state.questionary = action.payload;
+        state.videocall = action.payload;
         state.error = null;
       })
       // post
-      .addCase(createQuestionary.pending, (state, action) => {
+      .addCase(createVideocall.pending, (state, action) => {
         state.status = "loading";
         state.error = null;
       })
-      .addCase(createQuestionary.rejected, (state, action) => {
+      .addCase(createVideocall.rejected, (state, action) => {
         state.status = "rejected";
         state.error = action.payload as Error;
       })
-      .addCase(createQuestionary.fulfilled, (state, action) => {
+      .addCase(createVideocall.fulfilled, (state, action) => {
         state.status = "resolved";
-        state.questionary = action.payload;
+        state.videocall = action.payload;
         state.error = null;
       })
       // delete
-      .addCase(deleteQuestionary.pending, (state, action) => {
+      .addCase(deleteVideocall.pending, (state, action) => {
         state.status = "loading";
         state.error = null;
       })
-      .addCase(deleteQuestionary.rejected, (state, action) => {
+      .addCase(deleteVideocall.rejected, (state, action) => {
         state.status = "rejected";
         state.error = action.payload as Error;
       })
-      .addCase(deleteQuestionary.fulfilled, (state, action) => {
+      .addCase(deleteVideocall.fulfilled, (state, action) => {
         state.status = "resolved";
-        state.questionary = action.payload;
+        state.videocall = action.payload;
         state.error = null;
       })
       // update
-      .addCase(updateQuestionary.pending, (state, action) => {
+      .addCase(updateVideocall.pending, (state, action) => {
         state.status = "loading";
         state.error = null;
       })
-      .addCase(updateQuestionary.rejected, (state, action) => {
+      .addCase(updateVideocall.rejected, (state, action) => {
         state.status = "rejected";
         state.error = action.payload as Error;
       })
-      .addCase(updateQuestionary.fulfilled, (state, action) => {
+      .addCase(updateVideocall.fulfilled, (state, action) => {
         state.status = "resolved";
-        state.questionary = action.payload;
+        state.videocall = action.payload;
         state.error = null;
       });
     },
   }
 );
 
-export const { setQuestionary } = questionarySlice.actions;
+export const { setVideocall } = videocallSlice.actions;
 
-export { fetchQuestionaryTrack, createQuestionary, deleteQuestionary, updateQuestionary };
+export { fetchVideocallsByTrack, createVideocall, deleteVideocall, updateVideocall };
 
-export const selectquestionary = (state: RootState) => state.questionary;
+export const selectvideocall = (state: RootState) => state.videocall;
 
-export default questionarySlice.reducer;
+export default videocallSlice.reducer;
