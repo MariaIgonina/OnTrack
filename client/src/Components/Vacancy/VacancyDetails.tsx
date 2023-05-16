@@ -34,6 +34,11 @@ const VacancyDetails: React.FC = () => {
         });
     }
   };
+  const applySubmit = async () => {
+    if (window.confirm("Are you sure you want to apply to this vacancy?")) {
+      dispatch();
+    }
+  };
   const { data } = vacancy;
   const openModal = () => {
     setIsModalOpen(true);
@@ -67,7 +72,10 @@ const VacancyDetails: React.FC = () => {
                 </>
               )}
               {/* {currentUserRole === "applicant" && ( */}
-              <button className="absolute top-4 right-12 w-[70px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring">
+              <button
+                className="absolute top-4 right-12 w-[70px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring"
+                onClick={applySubmit}
+              >
                 Apply
               </button>
               {/* )} */}
