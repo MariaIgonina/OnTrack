@@ -16,6 +16,13 @@ export default function TrackerComponent() {
     (s: RootState) => s.track.track
   ) as unknown as Track[];
 
+  const sortTracksByRejected = (tracks: Track[]) => {
+    const sortedtracks = tracks.filter((track) => !track.reject);
+    const rejectedtracks = tracks.filter((track) => track.reject);
+    const finalArray = sortedtracks.concat(rejectedtracks);
+    return finalArray;
+  };
+
   useEffect(() => {
     const id = +currentUser.id;
     console.log("please don't be undefined", id);
@@ -35,11 +42,7 @@ export default function TrackerComponent() {
       );
     }
   }, [dispatch]);
-
-  useEffect(() => {
-    console.log("gettracks ==> ", gettracks);
-    // console.log("track ==> ", track);
-  }, [dispatch]);
+  ("");
 
   return (
     <>
@@ -49,7 +52,7 @@ export default function TrackerComponent() {
         </h2>
         <div className="overflow-x-scroll flex flex-nowrap mt-4">
           {gettracks.length ? (
-            gettracks.map((track) => (
+            sortTracksByRejected(gettracks).map((track) => (
               <>
                 <div className="flex flex-col">
                   <div className="flex-shrink-0 flex-col flex rounded-t-2xl shadow-md bg-white p-3 mx-5 text-center">
@@ -64,16 +67,7 @@ export default function TrackerComponent() {
                     }}
                     key={track.id}
                   >
-                    <button
-                      type="submit"
-                      onClick={() =>
-                        navigate(
-                          `/track/?trackId=${track.id}&vacancyId=${track.vacancyId}`
-                        )
-                      }
-                    >
-                      <TrackTrack track={track} key={track.id}></TrackTrack>
-                    </button>
+                    <TrackTrack track={track} key={track.id}></TrackTrack>
                   </div>
                 </div>
               </>

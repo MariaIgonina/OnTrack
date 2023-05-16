@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { CurrentUserType } from "../Interfaces";
+import { CurrentUserType, Track } from "../Interfaces";
 import { getVacancy, getRecruiter, getApplicant } from "../api.fetch";
+import { deleteTrack } from "../store/trackSlice";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import { useNavigate } from "react-router-dom";
 
 export default function TrackTrack({ track }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [stepArr, setStepArr] = useState([]);
   const [vacancy, setVacancy] = useState({});
   const [recruiter, setRecruiter] = useState({});
@@ -37,7 +41,7 @@ export default function TrackTrack({ track }) {
     }
   }, [stepArr]);
 
-  function extractItemsByOrder(track) {
+  function extractItemsByOrder(track: Track) {
     const orderedItems: any[] = [];
     if (track.hasOwnProperty("CodeSandbox")) {
       const codeSandBoxItems = track.CodeSandbox;
@@ -57,9 +61,23 @@ export default function TrackTrack({ track }) {
         orderedItems.push(item);
       });
     }
+
     return orderedItems
       .sort((a, b) => a.order - b.order)
       .filter((item) => item.hidden !== true);
+  }
+
+  function handleDeleteTrack() {
+    if (window.confirm("Are you sure you want to delete this track?")) {
+      dispatch(deleteTrack(track.id))
+        .unwrap()
+        .then(() => {
+          navigate("/dashboard");
+        })
+        .catch((error: Error) => {
+          console.error("Error deleting vacancy:", error);
+        });
+    }
   }
 
   return (
@@ -67,37 +85,57 @@ export default function TrackTrack({ track }) {
       {track.reject === false ? (
         <>
           {stepArr.map((step, index) => (
-            <div key={index}>
-              {/* ref={step.checked === true ? scrollRef : null}> */}
-              <div className="bg-yellow-100 rounded-lg py-5 h-200">
-                <p className="text-xl text-[#026767] font-semibold pb-2 tracking-widest">
-                  Step {index + 1}
-                </p>
-                <p> {step.type}</p>
+            <button
+              type="submit"
+              onClick={() =>
+                navigate(
+                  `/track/?trackId=${track.id}&vacancyId=${track.vacancyId}`
+                )
+              }
+            >
+              <div key={index}>
+                {/* ref={step.checked === true ? scrollRef : null}> */}
+                <div className="bg-yellow-100 rounded-lg py-5 h-200 ">
+                  <p className="text-xl text-[#026767] font-semibold pb-2 tracking-widest">
+                    Step {index + 1}
+                  </p>
+                  <p> {step.type}</p>
+                </div>
+                <div
+                  style={{
+                    width: "5px",
+                    backgroundColor: "#026767",
+                    height: "100px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignSelf: "center",
+                    marginLeft: "130px",
+                  }}
+                ></div>
               </div>
-              <div
-                style={{
-                  width: "5px",
-                  backgroundColor: "#026767",
-                  height: "100px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignSelf: "center",
-                  marginLeft: "130px",
-                }}
-              ></div>
-            </div>
+            </button>
           ))}
-          <div className="bg-yellow-100 rounded-lg py-5 mb-8">
-            <p>all steps completed</p>
-          </div>
+          <button
+            type="submit"
+            onClick={() =>
+              navigate(
+                `/track/?trackId=${track.id}&vacancyId=${track.vacancyId}`
+              )
+            }
+          >
+            <div className="bg-yellow-100 rounded-lg py-5 mb-8 text-center">
+              <p>all steps completed</p>
+            </div>
+          </button>
         </>
       ) : (
         <>
-          <div className="bg-blue-100 rounded-lg py-5 mb-8">
+          <div className="bg-blue-100 rounded-lg py-5 mb-8 text-center">
             <p>Track closed for {vacancy.title}</p>
             {currentUser.role === "applicant" ? (
-              <DeleteOutlineOutlinedIcon></DeleteOutlineOutlinedIcon>
+              <DeleteOutlineOutlinedIcon
+                onClick={handleDeleteTrack}
+              ></DeleteOutlineOutlinedIcon>
             ) : null}
           </div>
         </>
