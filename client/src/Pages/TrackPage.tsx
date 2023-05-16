@@ -98,6 +98,11 @@ const TrackPage = () => {
         fetchedSteps.push(element)
       });
     }
+    if (track.track?.Questionaries) {
+      track.track?.Questionaries.forEach(element => {
+        fetchedSteps.push(element)
+      });
+    }
     fetchedSteps.sort((a: any, b: any) => new Date(a.date) - new Date(b.date))
 
     console.log('all steps => ', fetchedSteps)
