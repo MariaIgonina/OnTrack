@@ -117,16 +117,16 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
     stepsArray.forEach((step, index) => {
       if (step.type == "Questionary") {
         step.questions = questions;
-        step.order = index;
+        step.order = index+1;
         step.trackId = Number(trackId); 
         dispatch(createQuestionary(step)); 
       } else if (step.type == "SandBox") {
-        step.order = index;
+        step.order = index+1;
         step.trackId = Number(trackId);
         step.code = code
         dispatch(createSandbox(step));
       } else {
-        step.order = index;
+        step.order = index+1;
         step.trackId = Number(trackId);
         dispatch(createVideocall(step));
       }
