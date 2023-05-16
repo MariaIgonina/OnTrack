@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from '../../store/store'
-import { deleteTrack } from "../../store/trackSlice";
+import { updateTrack } from "../../store/trackSlice";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +11,7 @@ type RegisterModalProps = {
   trackId: number
 };
 
-const DeleteTrackModal = ({ isOpen, setOpen, trackId }: RegisterModalProps) => {
+const StopTrackingModal = ({ isOpen, setOpen, trackId }: RegisterModalProps) => {
   const [message, setMessage] = useState('')
   const dispatch: AppDispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.currentUser)
@@ -19,8 +19,8 @@ const DeleteTrackModal = ({ isOpen, setOpen, trackId }: RegisterModalProps) => {
 
   const stopTracking = () => {
     try {
-      dispatch(deleteTrack(trackId)).unwrap()
-      setMessage('This track has been erased. You\'re being redirected to your Dashboard')
+      dispatch(updateTrack({trackId: trackId, track: {reject: true}}))
+      setMessage('The tracking for this process has stopped. You\'re being redirected to your Dashboard.')
       setTimeout(() => {
         setOpen(false);
         navigate('/dashboard')
@@ -88,7 +88,7 @@ const DeleteTrackModal = ({ isOpen, setOpen, trackId }: RegisterModalProps) => {
             <div>
               <p className="text-center mb-5">Are you sure you want to stop tracking your progress for this vacancy?
                 <br></br>
-                This action cannot be undone.
+                <strong className="underline">This action cannot be undone.</strong>
               </p>
 
               <Button
@@ -104,7 +104,7 @@ const DeleteTrackModal = ({ isOpen, setOpen, trackId }: RegisterModalProps) => {
                 className="btn"
                 type="submit"
 
-              >DELETE TRACK PERMANENTLY</Button>
+              >STOP TRACKING</Button>
             </div>
           }
         </div>
@@ -113,4 +113,4 @@ const DeleteTrackModal = ({ isOpen, setOpen, trackId }: RegisterModalProps) => {
   );
 }
 
-export default DeleteTrackModal;
+export default StopTrackingModal;
