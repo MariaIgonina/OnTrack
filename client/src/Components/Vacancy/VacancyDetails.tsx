@@ -7,6 +7,7 @@ import type { RootState, AppDispatch } from "../../store/store";
 import { Vacancy } from "../../Interfaces";
 import VacancyUpdate from "./VacancyUpdate";
 import Modal from "react-modal";
+import { duplicateTrack } from "../../store/trackSlice";
 
 const VacancyDetails: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,6 +18,7 @@ const VacancyDetails: React.FC = () => {
   );
   const { vacancyId } = useParams<{ vacancyId: any }>();
   const currentUserRole = useSelector((s: RootState) => s.currentUser.role);
+  const currentUserId = useSelector((s: RootState) => s.currentUser.id);
 
   useEffect(() => {
     dispatch(fetchVacancy(parseInt(vacancyId, 10)));
@@ -36,8 +38,20 @@ const VacancyDetails: React.FC = () => {
   };
   const applySubmit = async () => {
     if (window.confirm("Are you sure you want to apply to this vacancy?")) {
-      dispatch();
+      const { id, recruiterId, jobTrack } = vacancy.data;
+      const newTrack = {
+        recruiterID: recruiterId,
+        vacancyId: id,
+        applicantID: currentUserId,
+      };
+
+      const TRACKID = await dispatch(duplicateTrack(newTrack));
+      console.log("trackID", TRACKID);
+      navigate(`/track/?trackId=${TRACKID.payload}&vacancyId=${vacancyId}`);
     }
+    //post track (form 1)
+    // fetch del
+    //post questionnary (form 2)
   };
   const { data } = vacancy;
   const openModal = () => {

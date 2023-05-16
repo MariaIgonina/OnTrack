@@ -50,6 +50,57 @@ const createTrack = async (req: Request, res: Response) => {
       .json("unknown error in createTrack controller: " + error);
   }
 };
+const duplicateTrack = async (req: Request, res: Response) => {
+  const { vacancyId, recruiterID, applicantID } = req.body;
+  try {
+    const vacancy = await prisma.vacancy.findUnique({
+      where: { id: +vacancyId },
+      include: { jobTrack: { include: { Questionaries: true } } },
+    });
+    const templateTrack = vacancy?.jobTrack[0];
+    console.log("from dulpicate", templateTrack);
+
+    const newTrack = JSON.parse(JSON.stringify(templateTrack));
+    delete newTrack.id;
+    delete newTrack.applicantID;
+    delete newTrack.recruiterID;
+    delete newTrack.vacancyId;
+    // newTrack.recruiterID = recruiterID;
+    // newTrack.applicantID = parseInt(applicantID, 10);
+    newTrack.Questionaries.forEach((q: any) => {
+      delete q.trackId;
+      delete q.id;
+    });
+
+    const createdTrack = await prisma.track.create({
+      data: {
+        ...newTrack,
+        Vacancy: { connect: { id: +vacancyId } },
+        Recruiter: { connect: { id: recruiterID } },
+        Applicant: { connect: { idDB: parseInt(applicantID, 10) } },
+        Questionaries: {
+          create: newTrack.Questionaries,
+        },
+      },
+    });
+    // for (const questionary of newTrack.Questionaries) {
+    //   await createQuestionnary({
+    //     ...questionary,
+    //     trackId: createdTrack.id,
+    //   });
+    // }
+
+    return res.status(200).json(createdTrack.id);
+  } catch (error: any) {
+    console.log(
+      "Unknown error in createNewTrackFromTemplate controller",
+      error
+    );
+    return res
+      .status(500)
+      .json("Unknown error in createNewTrackFromTemplate controller: " + error);
+  }
+};
 
 const getTracksByVacancy = async (req: Request, res: Response) => {
   try {
@@ -183,4 +234,24 @@ export const trackControllers = {
   deletetrack,
   updatetrackbyId,
   getTrackById,
+  duplicateTrack,
 };
+
+async function createQuestionnary(questionaryData: any) {
+  try {
+    const questionary = await prisma.questionary.create({
+      data: {
+        questions: questionaryData.questions,
+        answer: questionaryData.answer,
+        date: questionaryData.date,
+        hidden: Boolean(questionaryData.hidden),
+        Track: { connect: { id: parseInt(questionaryData.trackId) } },
+        order: questionaryData.order,
+      },
+    });
+    return questionary;
+  } catch (error: any) {
+    console.log(error);
+    throw error;
+  }
+}

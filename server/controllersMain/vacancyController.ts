@@ -84,6 +84,7 @@ const getVacancyById = async (req: Request, res: Response) => {
       res.status(404).json({ success: false, message: "Vacancy not found" });
       return;
     }
+    console.log("vacacny by id controller", vacancy);
 
     res.status(200).json({ success: true, data: vacancy });
   } catch (error: any) {

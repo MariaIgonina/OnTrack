@@ -7,21 +7,22 @@ import { RootState } from "./store";
 import { initialVacancy } from "./vacancySlice";
 import { initialApplicant } from "./applicantSlice";
 import { initialRecruiter } from "./recruiterSlice";
+import { useState } from "react";
+import React from "react";
 
 const initialTrack: Track = {
-  id: 0,
-  steps: [],
   recruiterID: 0,
-  recruiter: initialRecruiter,
+  Recruiter: initialRecruiter,
   applicantID: 0,
-  applicant: initialApplicant,
+  Applicant: initialApplicant,
+  reject: false,
   applicantNotes: "",
   recruiterNotes: "",
   vacancyId: 0,
-  vacancy: initialVacancy,
-  Message: [],
+  Questionaries: [],
+  Videocall: [],
   CodeSandbox: [],
-  Videocall: []
+  Message: [],
 };
 
 const url: string = "http://localhost:3000";
@@ -85,6 +86,29 @@ const createTrack = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
+      console.log("PLEEEESE BE THERE!!!!!!", data);
+      return data;
+    } catch (err) {
+      if (err instanceof Error) return rejectWithValue(err.message);
+    }
+  }
+);
+const duplicateTrack = createAsyncThunk(
+  "track/duplicateTrack",
+  async function (newTrack: any, { rejectWithValue }) {
+    try {
+      const response = await fetch(url + "/duplicateTrack", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTrack),
+      });
+      if (!response.ok) {
+        throw new Error("Server error");
+      }
+      const data = await response.json();
+      console.log("DATA from duplicateTrack SLICE:", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -243,6 +267,7 @@ export {
   deleteTrack,
   updateTrack,
   fetchTracksByRecruiter,
+  duplicateTrack,
 };
 
 export const selecttrack = (state: RootState) => state.track;

@@ -5,10 +5,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Link, useNavigate } from "react-router-dom";
 
 
-export default function PopupQuestionary() {
+export default function PopupQuestionary({setQuestions, questions}) {
   const navigate = useNavigate();
 
-  const [questions, setQuestions] = useState<[]>([])
+  // const [questions, setQuestions] = useState<[]>([])
   const [question, setQuestion] = useState<string>('')
   const [popupOpen, setPopupOpen] = useState(true);
 
@@ -18,9 +18,11 @@ export default function PopupQuestionary() {
 
   const handleSubmit = () => {
     if (question !== '') {
+      console.log('FROM POPUP', [...questions, question])
       setQuestions([...questions, question])
       setQuestion('');
     }
+    
   }
 
   const removeQuestion = () => {
@@ -32,8 +34,9 @@ export default function PopupQuestionary() {
   };
 
   const handleCloseAndSendToDB = () => {
+    handleSubmit()
     setPopupOpen(false);
-    //ADD PUT/POST
+    console.log(questions)
   };
 
 

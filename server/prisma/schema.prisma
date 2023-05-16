@@ -134,7 +134,7 @@ model Questionary {
   title     String?
   hidden    Boolean   @default(false)
   Track     Track?    @relation(fields: [trackId], references: [id], onDelete: Cascade)
-  trackId   Int
+  trackId   Int?
 }
 
 model Videocall {
