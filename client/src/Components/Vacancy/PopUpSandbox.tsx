@@ -20,7 +20,13 @@ export default function PopUpSandbox() {
     }
   };
 
-  const submitSandBox = () => {};
+  const submitSandBox = () => {
+    try {
+      
+    } catch (error) {
+      
+    }
+  };
 
   return (
     // <div className="bg-stone-100 rounded-lg w-full m-5 m-8 p-4 pr-8 pl-8 shadow-md">
