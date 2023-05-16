@@ -8,9 +8,9 @@ import messageReducer from "./messageSlice";
 import educationReducer from "./educationSlice";
 import experienceReducer from "./experienceSlice";
 import currentUserReducer from "./CurrentUserSlice";
+import questionaryReducer from "./QuestionarySlice";
 import videocallReducer from "./VideoCallSlice"
 import sandboxReducer from "./SandboxSlice"
-import questionaryReducer from "./QuestionarySlice"
 
 export const store = configureStore({
   reducer: {
