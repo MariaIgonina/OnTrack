@@ -66,7 +66,7 @@ const GoogleMaps: React.FC = () => {
   }, [dispatch, currentUser]);
 
   const mapper = currentUser.role === "recruiter" ? applicants : vacancies;
-  console.log("MAPPER:", mapper);
+  //console.log("MAPPER:", mapper);
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const onLoad = useCallback((map: google.maps.Map) => {
