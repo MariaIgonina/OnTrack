@@ -5,7 +5,7 @@ const videocallRouter = Router();
 
 // Track routes
 videocallRouter.post("/createVideocall", videocallController.createVideocall);
-videocallRouter.get("/getAllVideocalsByTrack/:vacancyId", videocallController.getAllVideocallsByTrack);
+videocallRouter.get("/getVideocallsByVacancy/:vacancyId", videocallController.getAllVideocallsByTrack);
 videocallRouter.get("/getVideocallById/:trackId", videocallController.getVideocallById);
 videocallRouter.put("/updateVideocall/:id", videocallController.updateVideocall);
 videocallRouter.delete("/deleteVideocall/:id", videocallController.deleteVideocall);

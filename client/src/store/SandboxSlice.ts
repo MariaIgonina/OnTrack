@@ -11,7 +11,8 @@ const initialSandbox: Sandbox = {
   date: '',
   hidden: false,
   title: '',
-  data: '',
+  code: '',
+  checked: false,
   Track: initialTrack,
   trackId: 0,
   status: false
@@ -24,7 +25,7 @@ const fetchSandboxesByTrack = createAsyncThunk(
   "sandbox/fetchSandboxesByTrack",
   async function (trackId: number, { rejectWithValue }) {
     try {
-      const response = await fetch(`${url}/sandboxesByTrack/${trackId}`);
+      const response = await fetch(`${url}/getcode/${trackId}`);
       if (!response.ok) {
         throw new Error('Server error')
       }
@@ -42,7 +43,7 @@ const createSandbox = createAsyncThunk(
   "sandbox/createSandbox",
   async function (sandbox: Sandbox, { rejectWithValue }) {
     try {
-      const response = await fetch(url + "/createSandbox", {
+      const response = await fetch(url + "/createcode", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -64,7 +65,7 @@ const deleteSandbox = createAsyncThunk(
   "sandbox/deleteSandbox",
   async function (sandboxId: number, { rejectWithValue }) {
     try {
-      const response = await fetch(`${url}/deleteSandbox/${sandboxId}`, {
+      const response = await fetch(`${url}/deletecode/${sandboxId}`, {
         method: "DELETE",
       });
       if (!response.ok) {
@@ -87,7 +88,7 @@ const updateSandbox = createAsyncThunk(
   "sandbox/updateSandbox",
   async function ({ sandboxId, sandbox }: IPutParams, { rejectWithValue }) {
     try {
-      const response = await fetch(url + `/updateSandbox/${sandboxId}`, {
+      const response = await fetch(url + `/updatecode/${sandboxId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

@@ -118,12 +118,12 @@ export interface Videocall {
   type?: string,
   date?: Date | string;
   order: number,
-  link?: string,
   title: string,
-  status?: boolean,
+  checked: boolean
   hidden?: boolean,
   Track?: Track,
   trackId: number,
+  link?: string,
 }
 
 export interface Sandbox {
@@ -132,7 +132,8 @@ export interface Sandbox {
   date?: Date | string
   hidden?: boolean
   title: string
-  data?: string
+  code?: string
+  checked: boolean
   Track?: Track
   trackId: number
   status?: boolean
@@ -142,10 +143,10 @@ export interface Questionary {
   id?: number
   type?: string
   questions?: string[]
+  order: number
   answer?: string[]
   date?: Date | string
-  order: number
-  status?: boolean
+  checked: boolean
   title: string
   hidden?: boolean
   Track?: Track

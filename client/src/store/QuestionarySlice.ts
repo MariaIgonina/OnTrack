@@ -10,10 +10,10 @@ const initialQuestionary: Questionary = {
   id: 0,
   type: '',
   questions: [],
+  order: 0,
   answer: [],
   date: '',
-  order: 0,
-  status: false,
+  checked: false,
   title: '',
   hidden: false,
   Track: initialTrack,
@@ -27,7 +27,7 @@ const fetchQuestionaryTrack = createAsyncThunk(
   "questionary/fetchQuestionaryTrack",
   async function (trackId: number, { rejectWithValue }) {
     try {
-      const response = await fetch(`${url}/questionaryTrack/${trackId}`);
+      const response = await fetch(`${url}/getQuestionaryByStep/${trackId}`);
       if (!response.ok) {
         throw new Error('Server error')
       }

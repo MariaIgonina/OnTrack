@@ -27,6 +27,7 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
   const [idOfCurrentVacancy, setIdOfCurrentVacancy] = useState(0)
   const [trackId, setTrackId] = useState(0)
   const [questions, setQuestions] = useState([])
+  const [code, setCode] = useState('')
   
   // const [trackData, setTrackData] = useState<Track>({...initialTrack})
 
@@ -40,15 +41,17 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
     (state: RootState) => state.vacancy.vacancies
   ) as unknown as Vacancy[];
   
-  useEffect(() => 
-  setTrackId(trackData.id), [trackId]);
+  useEffect(() => {
+    setTrackId(trackData.id), [dispatch]
+    console.log("TRACK ID", trackId)
+  })
   
   //Hidden toggle
   const handleHiddenChange = (index: number) => {
     const updatedSteps = [...stepsArray];
     updatedSteps[index].hidden = !updatedSteps[index].hidden;
     setStepsArray(updatedSteps);
-    console.log(stepsArray)
+    // console.log(stepsArray)
   };
   
   
@@ -81,7 +84,10 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
     if (updatedSteps[index].type === "Questionary") {
         setIsPopupQuestionaryOpen(true);
       };
-    }
+    if (updatedSteps[index].type === "SandBox") {
+      setIsPopupSandbox(true);
+    };
+  }
 
   //!!!!!!!!!!!
   const handleAddStep = () => {
@@ -92,7 +98,7 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
       recruiterID: Number(currentUserID),
       vacancyId: lookForIdForTrack()!
     }
-    // dispatch(createTrack(newTrack))
+    dispatch(createTrack(newTrack))
 
     const newStep = {
       title: '',
@@ -104,39 +110,29 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
     
     setStepsArray([...stepsArray, newStep]);
     console.log(stepsArray)
-    
   }
- useEffect(() => {
-  console.log({stepsArray})
- }, [stepsArray])
-  
   
     const sendToDb = () => {
     // different schemas and routes for different steps
     stepsArray.forEach((step, index) => {
-      if (step.type === "Questionary") {
+      if (step.type == "Questionary") {
         step.questions = questions;
         step.order = index;
-        step.trackId = trackId; 
-        // dispatch(createQuestionary(step)); 
-      } else if (step.type === "Zoom call") {
+        step.trackId = Number(trackId); 
+        dispatch(createQuestionary(step)); 
+      } else if (step.type == "SandBox") {
         step.order = index;
-        step.trackId = trackId;
-        // dispatch(createVideocall(newStep));
+        step.trackId = Number(trackId);
+        step.code = code
+        dispatch(createSandbox(step));
       } else {
         step.order = index;
-        step.trackId = trackId;
-        // dispatch(createSandbox(newStep));
+        step.trackId = Number(trackId);
+        dispatch(createVideocall(step));
       }
     });
-
-    if (updatedSteps[index].type === "SandBox") {
-      setIsPopupSandbox(true);
-    };
-
   }
 
-    
   const saveTrack = () => {
     sendToDb()
     onCancel()
@@ -256,7 +252,12 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
     questions = {questions}
     />}
 
-    {isPopupSandbox && <PopUpSandbox/>}
+    {isPopupSandbox && 
+    <PopUpSandbox
+    code = {code}
+    setCode = {setCode}
+    setIsPopupSandbox = {setIsPopupSandbox}
+    />}
     </>
   );
 }

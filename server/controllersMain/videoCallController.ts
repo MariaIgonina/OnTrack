@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 
 
 async function createVideocall(req: Request, res: Response) {
+  console.log(req.body)
   try {
     const videocall = await prisma.videocall.create({
       data: {
