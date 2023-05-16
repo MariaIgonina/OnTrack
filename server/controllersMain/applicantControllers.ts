@@ -1,15 +1,17 @@
 import { Request, Response } from "express";
 import { Applicant, PrismaClient } from "@prisma/client";
-
-import dotenv from "dotenv";
 import { fetchCityCoordinates } from "./coordinatesController";
-dotenv.config();
 
 const prisma = new PrismaClient();
 
-
 const createApplicant = async (req: Request, res: Response) => {
   try {
+    const coordinates = await fetchCityCoordinates(req.body.location);
+    req.body.currentLocation = [
+      coordinates?.lat?.toString() ?? "",
+      coordinates?.lng?.toString() ?? "",
+    ];
+
     const response = await prisma.applicant.create({
       data: req.body,
     });
@@ -114,6 +116,7 @@ const updateApplicant = async (req: Request, res: Response) => {
   } = req.body;
 
   const coordinates = await fetchCityCoordinates(location);
+  console.log(coordinates, "coordiantes at controller");
   const id = +req.params.id;
 
   if (!socialMedia) socialMedia = [];
@@ -236,11 +239,11 @@ const filterApplicants = async (req: Request, res: Response) => {
 
   console.log(req.query);
 
-  let newLanguages:string[]=[]
+  let newLanguages: string[] = [];
 
-if (languages){
-  newLanguages = languages!.split(",").map(lang=>lang.split(" - ")[0])
-}
+  if (languages) {
+    newLanguages = languages!.split(",").map((lang) => lang.split(" - ")[0]);
+  }
 
   if (desiredLocation) {
     queryObj.OR = [
@@ -316,7 +319,10 @@ const getAllLocations = async (req: Request, res: Response) => {
       .map((user) => user.location)
       .map((location) => location as string);
     const uniqueLocations = unique(locations.concat(desiredLoc!))
-      .filter((location) => location !== null && location !== undefined && location !== '')
+      .filter(
+        (location) =>
+          location !== null && location !== undefined && location !== ""
+      )
       .sort();
     if (!locations.length) throw new Error("No applicants not found!");
     res.status(200).json(uniqueLocations);

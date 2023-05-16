@@ -127,32 +127,32 @@ model Questionary {
   id        Int       @id @default(autoincrement())
   type      String    @default("Questionary")
   questions String[]
-  order     Int
+  order     Int       @unique
   answer    String[]
-  date      DateTime? 
-  checked   Boolean? @default(false)
+  date      DateTime?
+  checked   Boolean?  @default(false)
   title     String?
   hidden    Boolean?  @default(false)
-  Track     Track?   @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  Track     Track?    @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId   Int
 }
 
 model Videocall {
-  id      Int      @id @default(autoincrement())
-  type    String   @default("Videocall")
+  id      Int       @id @default(autoincrement())
+  type    String    @default("Videocall")
   date    DateTime?
   order   Int
   title   String?
-  checked Boolean? @default(false)
+  checked Boolean?  @default(false)
   hidden  Boolean?  @default(false)
-  Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  Track   Track     @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
   link    String?
 }
 
 model CodeSandbox {
-  id      Int      @id @default(autoincrement())
-  type    String   @default("Sandbox")
+  id      Int       @id @default(autoincrement())
+  type    String    @default("Sandbox")
   date    DateTime?
   hidden  Boolean?  @default(false)
   title   String?
@@ -164,12 +164,12 @@ model CodeSandbox {
 }
 
 model Message {
-  id      Int      @id @default(autoincrement())
-  type    String   @default("Message")
+  id      Int       @id @default(autoincrement())
+  type    String    @default("Message")
   text    String
   date    DateTime?
   files   String[]
   author  String
-  Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  Track   Track     @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
 }

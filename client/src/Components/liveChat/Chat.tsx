@@ -57,7 +57,7 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
       trackId: trackId, // ! to be changed?
       text: messageText,
       date: new Date().toISOString(),
-      author: "Recruiter", // !To be changed
+      author: currentUserRole, // !To be changed
       files: [],
     };
     dispatch(createMessage(newMessage));
@@ -67,47 +67,58 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
 
   return (
     <div>
-      <div className="chat-box z-50">
+      <div className="chat-box overflow-y-auto">
         <ul>
           {messages.length &&
             messages.map((message, index) => (
               <li
                 key={index}
-                className={`flex-shrink-0 flex-grow flex items-start rounded-2xl shadow-md p-3 m-2 mt-2 ${
+                className={`flex-shrink-0 flex-grow flex items-start rounded-2xl shadow-md p-3 m-2 mt-2 w-[75%] overflow-hidden ${
                   currentUserRole === message.author
-                    ? "mr-4 bg-[#FFE8D1]"
-                    : "ml-4 bg-[#D7E7E8]"
+                    ? "ml-[90px] bg-[#FFE8D1]"
+                    : "mr-[90px] bg-[#D7E7E8]"
                 }`}
               >
                 <img
-                  src={message.Track?.Vacancy?.recruiter?.logo}
+                  src={
+                    message.author === "applicant"
+                      ? message.Track?.Applicant?.picture
+                      : message.Track?.Vacancy?.recruiter?.logo
+                  }
                   alt="logo"
-                  className="w-12 h-12 rounded-full mr-4" // Added margin-right (mr-4) for spacing between the logo and text
+                  className="w-12 h-12 rounded-full mr-4"
                 />
                 <div className="flex flex-col">
                   <p>
-                    <strong>{message.Track?.Vacancy?.recruiter?.name}:</strong>{" "}
-                    {message.text}
+                    <strong>
+                      {message.author === "applicant"
+                        ? message.Track?.Applicant?.name
+                        : message.Track?.Vacancy?.recruiter?.name}
+                      :
+                    </strong>{" "}
+                    {moment(message.date).format("h:mm a")}
                   </p>
-                  <p>{moment(message.date).format("MMMM Do, h:mm a")}</p>
+                  <p className="wrap h-fit">{message.text}</p>
                 </div>
               </li>
             ))}
         </ul>
       </div>
-      <input
-        type="text"
-        className="py-2 px-3 rounded-lg border color-grey-100 mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
-        placeholder="Type a message"
-        value={messageText}
-        onChange={(e) => setMessageText(e.target.value)}
-      />
-      <button
-        onClick={sendMessage}
-        className="w-auto bg-orange-100 hover:bg-orange-dark rounded-lg shadow-xl font-medium text-white px-4 py-2"
-      >
-        Send
-      </button>
+      <div className="flex mt-2">
+        <input
+          type="text"
+          className="py-2 px-3 rounded-lg border color-grey-100 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent w-[275px]"
+          placeholder="Type a message"
+          value={messageText}
+          onChange={(e) => setMessageText(e.target.value)}
+        />
+        <button
+          onClick={sendMessage}
+          className="w-auto bg-orange-100 hover:bg-orange-dark rounded-lg shadow-xl font-medium text-white px-4 py-2 ml-[20px]"
+        >
+          Send
+        </button>
+      </div>
       <div ref={messagesEndRef} />
     </div>
   );
