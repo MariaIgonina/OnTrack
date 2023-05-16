@@ -15,13 +15,12 @@ const StepTemplate = ({ title, link, content, type, checkIsAble }: StepProps) =>
   const [check, setCheck] = useState(false)
 
   const info = 'Mark this step as checked';
+  const infoNotChecked = 'This event has not happend yet'
 
   const handleCheck = () => {
     if (checkIsAble) {
       setCheck(true)
-    } else {
-      
-    }
+    } 
   }
 
   return (<>
@@ -36,11 +35,11 @@ const StepTemplate = ({ title, link, content, type, checkIsAble }: StepProps) =>
           onMouseEnter={() => setShowInfo(true)}
           onMouseLeave={() => setShowInfo(false)}
           onClick={handleCheck}
-          className={`${checkIsAble ? 'text-green-800' : 'text-gray-200'} hover:text-green-500 hover:cursor-pointer relative`}
+          className={`${check ? 'text-green-800' : 'text-gray-200'} hover:text-green-500 hover:cursor-pointer relative`}
         ><CheckCircleIcon />
           {showInfo && (
             <div className="bg-emerald-100 text-emerald-900 border border-emerald-900 py-2 px-4 w-60 rounded-lg absolute left-9 -bottom-1 z-10">
-              {info}
+              {check ? info : infoNotChecked}
             </div>
           )}
         </button>

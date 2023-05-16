@@ -130,9 +130,9 @@ model Questionary {
   order     Int
   answer    String[]
   date      DateTime
-  status    Boolean
+  checked   Boolean? @default(false)
   title     String?
-  hidden    Boolean // spelling mistake?
+  hidden    Boolean  @default(false)
   Track     Track?   @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId   Int?
 }
@@ -143,8 +143,8 @@ model Videocall {
   date    DateTime
   order   Int
   title   String
-  status  Boolean
-  hidden  Boolean
+  checked Boolean? @default(false)
+  hidden  Boolean  @default(false)
   Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
   link    String?
@@ -154,10 +154,10 @@ model CodeSandbox {
   id      Int      @id @default(autoincrement())
   type    String   @default("Sandbox")
   date    DateTime
-  hidden  Boolean
+  hidden  Boolean  @default(false)
   title   String?
   code    String?
-  status  Boolean?
+  checked Boolean? @default(false)
   Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
   order   Int
@@ -173,4 +173,3 @@ model Message {
   Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
 }
-
