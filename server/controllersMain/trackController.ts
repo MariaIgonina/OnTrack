@@ -208,7 +208,6 @@ async function deletetrack(req: Request, res: Response) {
 
 async function updatetrackbyId(req: Request, res: Response) {
   const { id } = req.params;
-  // const { reject, applicantNotes } = req.body;
 
   try {
     const track = await prisma.track.update({

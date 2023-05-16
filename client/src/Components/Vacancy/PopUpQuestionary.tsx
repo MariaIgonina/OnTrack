@@ -22,7 +22,6 @@ export default function PopupQuestionary({setQuestions, questions}) {
       setQuestions([...questions, question])
       setQuestion('');
     }
-    
   }
 
   const removeQuestion = () => {

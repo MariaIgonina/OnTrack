@@ -9,7 +9,7 @@ import { fetchVacancy } from "../store/vacancySlice";
 import { fetchRecruiter } from "../store/recruiterSlice";
 import { fetchApplicant } from "../store/applicantSlice";
 import Landing from "../Components/codeSandbox/Landing";
-import DeleteTrackModal from "../Components/tracks/DeleteTrackModal";
+import DeleteTrackModal from "../Components/tracks/StopTrackingModal";
 import ChatWindow from "../Components/liveChat/ChatWindow";
 import Videocall from "../Components/steps/Videocall";
 import moment from "moment";
@@ -75,12 +75,13 @@ const TrackPage = () => {
     // checkForSteps();
   }, [gotInfo]);
 
-  // useEffect(() => {
-  //   if (date) {
-  //     console.log('date => ', date)
-  //     new Date(date).getTime() < new Date().getTime() && setCheckIsAble(false);
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (steps.length) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1500);
+    }
+  }, []);
 
   const checkForSteps = () => {
     let fetchedSteps: any = [];
