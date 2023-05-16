@@ -129,7 +129,7 @@ model Questionary {
   questions String[]
   order     Int
   answer    String[]
-  date      DateTime?
+  date      DateTime? 
   checked   Boolean? @default(false)
   title     String?
   hidden    Boolean?  @default(false)
@@ -167,7 +167,7 @@ model Message {
   id      Int      @id @default(autoincrement())
   type    String   @default("Message")
   text    String
-  date    DateTime
+  date    DateTime?
   files   String[]
   author  String
   Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)

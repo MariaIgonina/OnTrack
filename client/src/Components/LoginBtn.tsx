@@ -7,9 +7,8 @@ import { AppDispatch, RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
 import { findUser } from "../store/CurrentUserSlice";
 import { createApplicant } from "../store/applicantSlice";
-import { extractApplicantData, extractRecruiterData } from "../lib/extractInfo";
+import { extractApplicantData, extractRecruiterData } from "../library";
 import { createRecruiter } from "../store/recruiterSlice";
-import { clear } from "console";
 
 const CLIENT_ID = "Iv1.0f2124a7d7aa9dee";
 
