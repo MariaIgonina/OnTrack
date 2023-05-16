@@ -14,6 +14,7 @@ import ChatWindow from "../Components/liveChat/ChatWindow";
 import Videocall from "../Components/steps/Videocall";
 import moment from "moment";
 import Spinner from "../Components/Spinner";
+import QuestionnaryForm from "../Components/QuestionnaryForm";
 
 type Step = {
   type: string;
@@ -106,9 +107,9 @@ const TrackPage = () => {
         fetchedSteps.push(element);
       });
     }
-    // fetchedSteps.sort((a: any, b: any) => new Date(a.date) - new Date(b.date))
+    fetchedSteps.sort((a: any, b: any) => new Date(a.date) - new Date(b.date))
     fetchedSteps.sort((a: any, b: any) => a.order - b.order)
-
+    
     console.log("all steps => ", fetchedSteps);
     setSteps([...fetchedSteps]);
   };
@@ -217,12 +218,16 @@ const TrackPage = () => {
             steps.map((step: Step) => {
               if (step.type.toLowerCase() === "sandbox") {
                 return <><span id={`step-${step.id}-date`} className="text-gray-400 uppercase tracking-widest font-bold">{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
-                  <StepTemplate setReloadAlert={setReloadAlert} step={step} title={step.title?.length ? step.title : "Next step: Code!"} type="sandbox" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                  <StepTemplate setReloadAlert={setReloadAlert} step={step} title={step.title?.length ? step.title : "Code Exercise"} type="sandbox" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
                     content={<Landing savedCode={step.code! || ''} step={step} />} /><div id="line" className="-mt-10 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
               } else if (step.type.toLowerCase() === "videocall") {
                 return <><span id={`step-${step.id}-date`} className="text-gray-400 uppercase tracking-widest font-bold">{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
-                  <StepTemplate setReloadAlert={setReloadAlert} step={step} title={step.title?.length ? step.title : "Next step: Videocall"} type="videocall" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                  <StepTemplate setReloadAlert={setReloadAlert} step={step} title={step.title?.length ? step.title : "Videocall"} type="videocall" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
                     content={<Videocall step={step} />} /><div id="line" className="-mt-4 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
+              } else if (step.type.toLowerCase() === 'questionary') {
+                return <><span id={`step-${step.id}-date`} className="text-gray-400 uppercase tracking-widest font-bold">{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
+                  <StepTemplate setReloadAlert={setReloadAlert} step={step} title={step.title?.length ? step.title : "Questionary"} type="questionary" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                    content={<QuestionnaryForm step={step} />} /><div id="line" className="-mt-10 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
               }
             })}
         </div>

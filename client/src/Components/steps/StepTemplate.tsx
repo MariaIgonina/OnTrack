@@ -7,6 +7,7 @@ import { updateVideocall } from "../../store/VideoCallSlice";
 import { AppDispatch } from "../../store/store";
 import { updateSandbox } from "../../store/SandboxSlice";
 import { updateQuestionary } from "../../store/QuestionarySlice";
+import QuestionnaryForm from '../QuestionnaryForm';
 
 type StepProps = {
   title?: string,
@@ -25,6 +26,10 @@ const StepTemplate = ({ title, content, type, checkIsAble, step, setReloadAlert 
   const dispatch = useDispatch<AppDispatch>();
   const info = 'Check this step';
   const infoNotChecked = 'This event has place in the future'
+
+  useEffect(() => {
+    console.log('step', type, title, content, step)
+  }, [])
 
 
   const handleCheck = () => {
@@ -73,7 +78,7 @@ const StepTemplate = ({ title, content, type, checkIsAble, step, setReloadAlert 
   }
 
   return (<>
-    {type === 'sandbox'
+    {type === 'sandbox' || type==='questionary'
       ? <>
         <button
           onMouseEnter={() => setShowInfo(true)}
