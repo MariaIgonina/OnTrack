@@ -4,12 +4,13 @@ const prisma = new PrismaClient();
 
 
 async function createVideocall(req: Request, res: Response) {
+  console.log(req.body)
   try {
     const videocall = await prisma.videocall.create({
       data: {
         date: req.body.date,
         hidden: Boolean(req.body.hidden),
-        Track: { connect: { id: parseInt(req.body.trackid) } },
+        Track: { connect: { id: parseInt(req.body.trackId) } },
         link: req.body.link || '',
         type: req.body.type,
         order: req.body.order,

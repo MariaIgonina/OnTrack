@@ -18,7 +18,7 @@ async function createQuestionnary(req: Request, res: Response) {
         order: req.body.order,
         date: req.body.date,
         hidden: Boolean(req.body.hidden),
-        Track: { connect: { id: parseInt(req.body.trackid) } },
+        Track: { connect: { id: parseInt(req.body.trackId) } },
         checked: Boolean(req.body.checked),
       },
     });

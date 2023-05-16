@@ -7,18 +7,16 @@ import { RootState } from "./store";
 import { initialTrack } from "./trackSlice";
 
 const initialVideocall: Videocall = {
-  id: 0,
   type: '',
   date: '',
   order: 0,
-  link: '',
   title: '',
-  status: false,
+  checked: false,
   hidden: false,
   Track: initialTrack,
   trackId: 0,
+  link: '',
 };
-
 
 
 const url: string = "http://localhost:3000";
@@ -27,7 +25,7 @@ const fetchVideocallsByTrack = createAsyncThunk(
   "videocall/fetchVideocallByTrack",
   async function (trackId: number, { rejectWithValue }) {
     try {
-      const response = await fetch(`${url}/videocallsByTrack/${trackId}`);
+      const response = await fetch(`${url}/getVideocallById/${trackId}`);
       if (!response.ok) {
         throw new Error('Server error')
       }
