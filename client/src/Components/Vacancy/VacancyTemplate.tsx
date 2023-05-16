@@ -113,7 +113,7 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
   }
   
     const sendToDb = () => {
-    // different schemas and routes for different steps
+    // different schemas and routes for different stepsgit checkout -b 
     stepsArray.forEach((step, index) => {
       if (step.type == "Questionary") {
         step.questions = questions;
