@@ -1,27 +1,24 @@
-import React from 'react';
-import dayjs from 'dayjs';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-import { useState } from 'react';
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
 
-export default function DateCalendarViews() {
-    const datesArray = ['2023-05-03', '2022-05-07', '2022-05-20']
-    const [вates, setDates] = useState(datesArray)
-    const currentDate = dayjs();
+import "react-datepicker/dist/react-datepicker.css";
 
-    return (
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoContainer components={['DateCalendar']}>
-
-          {вates.map(date => (
-            <DemoItem key={date} label={dayjs(date).format('YYYY-MM-DD')}>
-              <DateCalendar defaultValue={dayjs(date)} />
-              <DateCalendar defaultValue={currentDate} />
-            </DemoItem>
-          ))}
-        </DemoContainer>
-      </LocalizationProvider>
-    );
+export default function MyCalendar() {
+  const datesArray = ['2023/05/13', '2023-05-16', '2023-05-19'];
+  const currentDate = new Date();
+  const work = () => {
+    console.log('change')
   }
+  
+
+  const [startDate, setStartDate] = useState(new Date());
+ 
+  return (
+    <DatePicker
+      dateFormat='yyyy/MM/dd'
+      selected={new Date('2023/05/13')}
+      onChange={work}
+      inline
+    />
+  );
+};

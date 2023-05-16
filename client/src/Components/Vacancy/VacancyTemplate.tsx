@@ -146,7 +146,7 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
   return (
     <>
       <div className="rounded-lg w-full m-2 mt-8 flex flex-col items-center justify-center" >
-        <h3 className="text-3xl font-bold tracking-tight text-[#026767] text-big flex items-center justify-center">
+        <h3 className="text-2xl font-bold tracking-tight text-[#026767] mb-2">
           Create the template of the admission process for this vacancy
         </h3>
       </div>
