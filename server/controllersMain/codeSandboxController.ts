@@ -41,15 +41,25 @@ async function sendCompile(req: Request, res: Response) {
 }
 
 const createSandox = async (req:Request, res:Response)=>{
-  // try {
-
-  //   const codebox = await prisma.codeSandbox.create({
-
-  //   })
+  try {
+    const {title,code, order, trackId} =req.body
+    console.log(title, code, order);
+    const codebox = await prisma.codeSandbox.create({
+      data: {
+        Track: {connect:{id:trackId}},
+        title,
+        code,
+        order,
+      }
+      res.status(201).json(codebox)
+    })
     
-  // } catch (error) {
-    
-  // }
+  } catch (error:any) {
+    console.log(error);
+    res.status(400).json(error)
+  }
+}
+
 function test(req: Request, res: Response) {
   try {
     res.status(200).send('Correct route for sandbox')
