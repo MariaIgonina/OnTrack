@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../Components/SideBar";
@@ -13,6 +13,8 @@ import FilteredVacancies from "../Components/Vacancy/FilteredVacancies";
 import DateCalendarViews from "../Components/Calendar"
 
 const DashboardPage = () => {
+  const searchRef = useRef(null);
+
   const currentUser = useSelector(
     (s: RootState) => s.currentUser
   ) as unknown as CurrentUserType;
@@ -45,9 +47,10 @@ const DashboardPage = () => {
           <Suggestion></Suggestion>
           <GoogleMaps />
           <FilteredVacancies />
-          <AllUsers />
+       
 
           <DateCalendarViews></DateCalendarViews>
+          <AllUsers searchRef={searchRef} />
         </div>
       </div>
     </>

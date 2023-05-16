@@ -1,3 +1,5 @@
+import { Interface } from "readline";
+
 export interface Applicant {
   idDB?: number;
   idAuth?: string;

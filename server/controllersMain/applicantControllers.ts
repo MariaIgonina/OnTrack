@@ -7,6 +7,7 @@ dotenv.config();
 
 const prisma = new PrismaClient();
 
+
 const createApplicant = async (req: Request, res: Response) => {
   try {
     const response = await prisma.applicant.create({
@@ -233,6 +234,14 @@ const filterApplicants = async (req: Request, res: Response) => {
     desiredLocation?: string;
   };
 
+  console.log(req.query);
+
+  let newLanguages:string[]=[]
+
+if (languages){
+  newLanguages = languages!.split(",").map(lang=>lang.split(" - ")[0])
+}
+
   if (desiredLocation) {
     queryObj.OR = [
       { desiredLocation: { hasSome: String(desiredLocation).split(",") } },
@@ -243,7 +252,7 @@ const filterApplicants = async (req: Request, res: Response) => {
     queryObj.salaryRange = { lte: +salaryRange! };
   }
   if (languages) {
-    queryObj.languages = { hasSome: String(languages).split(",") };
+    queryObj.languages = { hasSome: newLanguages };
   }
   if (workingModal) {
     queryObj.workingModal = workingModal;
@@ -279,11 +288,41 @@ const filterApplicants = async (req: Request, res: Response) => {
         experiences: true,
       },
     });
+    // console.log("resultat",applicants);
     if (!applicants.length) throw new Error("No matches found");
     res.status(200).json(applicants);
   } catch (error: any) {
     console.log(error);
     res.status(400).json(error.message);
+  }
+};
+
+function unique(array: Array<string>) {
+  return [...new Set(array)];
+}
+
+const getAllLocations = async (req: Request, res: Response) => {
+  try {
+    const users = await prisma.applicant.findMany({
+      // select: {
+      //   location: true
+      // }
+    });
+    const desiredLoc: Array<string> = [];
+    users.forEach((user) =>
+      user.desiredLocation.forEach((loc) => desiredLoc.push(loc))
+    );
+    const locations = users
+      .map((user) => user.location)
+      .map((location) => location as string);
+    const uniqueLocations = unique(locations.concat(desiredLoc!))
+      .filter((location) => location !== null && location !== undefined && location !== '')
+      .sort();
+    if (!locations.length) throw new Error("No applicants not found!");
+    res.status(200).json(uniqueLocations);
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json();
   }
 };
 
@@ -295,4 +334,5 @@ export const applicantControllers = {
   getAllApplicants,
   filterApplicants,
   getTypeofUser,
+  getAllLocations,
 };

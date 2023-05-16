@@ -3,23 +3,21 @@ import { Request, Response } from "express";
 const prisma = new PrismaClient();
 
 export const questionnaryController = {
-  createQuestionnary,
-  deleteQuestionary,
-  updateQuestionary,
-  getQuestionaryByStep,
+  createVideocall,
+  deleteVideocall,
+  updateVideocall,
+  getAllVideocallsByTrack,
 };
 
 async function createQuestionnary(req: Request, res: Response) {
   try {
-    const questionary = await prisma.questionary.create({
+    const questionary = await prisma.videocall.create({
       data: {
         questions: req.body.questions,
         answer: req.body.answer,
         date: req.body.date,
         hidden: Boolean(req.body.hidden),
         Track: { connect: { id: parseInt(req.body.trackid) } },
-        order: req.body.order,
-        // checked: Boolean(req.body.checked)
       },
     });
     res.json(questionary).status(201);

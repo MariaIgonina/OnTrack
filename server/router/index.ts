@@ -9,7 +9,7 @@ import questionnaryRouter from "./questionaryRouter";
 import recruiterRouter from "./recruiterRouter";
 import trackRouter from "./trackRouter";
 import vacancyRouter from "./vacancyRouter";
-
+import codeSandboxRouter from "./sandBoxRouter";
 const mainRouter = Router();
 
 mainRouter.get("/", (req: Request, res: Response) => {
@@ -26,5 +26,6 @@ mainRouter.use("", questionnaryRouter);
 mainRouter.use("", recruiterRouter);
 mainRouter.use("", trackRouter);
 mainRouter.use("", vacancyRouter);
+mainRouter.use("", codeSandboxRouter);
 
 export default mainRouter;

@@ -7,8 +7,9 @@ import UserCard from "./UserCard";
 import { CurrentUserType, Vacancy } from "../Interfaces";
 import { fetchAllVacancies } from "../store/vacancySlice";
 import VacancyCard from "./Vacancy/VacancyCard";
+import SearchApplicantForm from "./SearchApplicantForm/SearchApplicantForm";
 
-export default function AllUsers() {
+export default function AllUsers({ searchRef }) {
   const applicants = useSelector(
     (s: RootState) => s.applicant.applicant
   ) as unknown as Applicant[];
@@ -29,7 +30,7 @@ export default function AllUsers() {
   }, []);
 
   return (
-    <div className="bg-stone-100 py-24 sm:py-8 rounded-lg">
+    <div ref={searchRef} className="bg-stone-100 py-24 sm:py-8 rounded-lg w-screen">
       <div className="mx-auto max-w-10xl lg:px-8">
         <div className="mx-auto max-w-lg lg:mx-0">
           <h2 className="text-2xl font-bold tracking-tight text-[#026767] mb-2">
@@ -37,12 +38,14 @@ export default function AllUsers() {
           </h2>
         </div>
         <div className="overflow-x-scroll list-none flex   my-8 ">
-          {applicants.length &&
+          {currentUser.role === "recruiter" && <SearchApplicantForm />}
+          {applicants.length && currentUser.role === "applicant" &&
             applicants.map((applicant) => (
               <UserCard applicant={applicant} key={applicant.idAuth}></UserCard>
             ))}
 
-          {vacancy.length ? (
+          {vacancy.length ?
+            (
             vacancy.map((vacancy) => (
               <VacancyCard vacancy={vacancy} key={vacancy.id} />
             ))

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { typeForStep } from "../../library";
 
 import PopupQuestionary from "./PopUpQuestionary";
+import PopUpSandbox from "./PopUpSandbox";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
@@ -21,6 +22,7 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
 
   const [stepsArray, setStepsArray] = useState<{}[]>([]);
   const [isPopupQuestionaryOpen, setIsPopupQuestionaryOpen] = useState<Boolean>(false);
+  const [isPopupSandbox, setIsPopupSandbox] = useState<Boolean>(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [idOfCurrentVacancy, setIdOfCurrentVacancy] = useState(0)
   const [trackId, setTrackId] = useState(0)
@@ -127,6 +129,11 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
         // dispatch(createSandbox(newStep));
       }
     });
+
+    if (updatedSteps[index].type === "SandBox") {
+      setIsPopupSandbox(true);
+    };
+
   }
 
     
@@ -248,6 +255,8 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
     setQuestions = {setQuestions}
     questions = {questions}
     />}
+
+    {isPopupSandbox && <PopUpSandbox/>}
     </>
   );
 }

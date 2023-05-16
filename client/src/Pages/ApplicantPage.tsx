@@ -38,16 +38,17 @@ const ApplicantPage = () => {
   ) as unknown as CurrentUserType;
   const dispatch = useDispatch<AppDispatch>();
   const codeParam = window.location.pathname.split("/").reverse()[0];
+  console.log("codeparam", codeParam);
 
   useEffect(() => {
     if (currentUser.id === +codeParam) {
       console.log("cureent ysfter", currentUser.id);
       dispatch(fetchApplicant(+currentUser.id));
-      console.log("WE CALLED AN APPLICANT", applicant)
+      console.log("WE CALLED AN APPLICANT", applicant);
     } else {
       dispatch(fetchApplicant(+codeParam));
     }
-  }, [dispatch, currentUser]);
+  }, [dispatch, currentUser, codeParam]);
 
   return (
     <>
@@ -70,31 +71,21 @@ const ApplicantPage = () => {
               </div>
             </div>
 
-          <div className=" flex flex-row wrap items-stretch">
-            <EducationComp
-            applicant = {applicant}/>
-            <ExperienceComp 
-            applicant = {applicant}/>
-          </div>
+            <div className=" flex flex-row wrap items-stretch">
+              <EducationComp applicant={applicant} />
+              <ExperienceComp applicant={applicant} />
+            </div>
           </div>
           <Skills applicant={applicant} />
         </div>
-       
-      <div className=" flex flex-row  wrap items-stretch">
-        <About applicant={applicant} />
-      
-        <Video 
-        applicant = {applicant}/>
+
+        <div className=" flex flex-row  wrap items-stretch">
+          <About applicant={applicant} />
+
+          <Video applicant={applicant} />
+        </div>
       </div>
-      
-      
-      </div>
-      
-
-
-
     </>
-    
   );
 };
 
