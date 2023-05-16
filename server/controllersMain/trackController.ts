@@ -55,30 +55,47 @@ const duplicateTrack = async (req: Request, res: Response) => {
   try {
     const vacancy = await prisma.vacancy.findUnique({
       where: { id: +vacancyId },
-      include: { jobTrack: { include: { Questionaries: true } } },
+      include: {
+        jobTrack: {
+          include: {
+            Questionaries: true,
+            Videocall: true,
+            CodeSandbox: true,
+          },
+        },
+      },
     });
-    const templateTrack = vacancy?.jobTrack[0];
+    const sortedJobTracks = vacancy?.jobTrack.sort((a, b) => a.id - b.id);
+    const templateTrack = sortedJobTracks?.[0];
     console.log("from dulpicate", templateTrack);
 
     const newTrack = JSON.parse(JSON.stringify(templateTrack));
+    console.log("NEWW TRACCK", newTrack);
     delete newTrack.id;
     delete newTrack.applicantID;
     delete newTrack.recruiterID;
     delete newTrack.vacancyId;
     // newTrack.recruiterID = recruiterID;
     // newTrack.applicantID = parseInt(applicantID, 10);
-    newTrack.Questionaries.forEach((q: any) => {
-      delete q.trackId;
-      delete q.id;
-    });
-    newTrack.Videocall.forEach((q: any) => {
-      delete q.trackId;
-      delete q.id;
-    });
-    newTrack.CodeSandbox.forEach((q: any) => {
-      delete q.trackId;
-      delete q.id;
-    });
+    if (newTrack.Questionaries.length) {
+      newTrack.Questionaries.forEach((q: any) => {
+        delete q.trackId;
+        delete q.id;
+      });
+    }
+    if (newTrack.Videocall.length) {
+      newTrack.Videocall.forEach((q: any) => {
+        delete q.trackId;
+        delete q.id;
+      });
+    }
+
+    if (newTrack.CodeSandbox.length) {
+      newTrack.CodeSandbox.forEach((q: any) => {
+        delete q.trackId;
+        delete q.id;
+      });
+    }
 
     const createdTrack = await prisma.track.create({
       data: {
@@ -86,15 +103,27 @@ const duplicateTrack = async (req: Request, res: Response) => {
         Vacancy: { connect: { id: +vacancyId } },
         Recruiter: { connect: { id: +recruiterID } },
         Applicant: { connect: { idDB: parseInt(applicantID, 10) } },
-        Questionaries: {
-          create: newTrack.Questionaries,
-        },
-        Videocall: {
-          create: newTrack.Videocall,
-        },
-        CodeSandbox: {
-          create: newTrack.CodeSandbox,
-        },
+        ...(newTrack.Questionaries
+          ? {
+              Questionaries: {
+                create: newTrack.Questionaries,
+              },
+            }
+          : {}),
+        ...(newTrack.Videocall
+          ? {
+              Videocall: {
+                create: newTrack.Videocall,
+              },
+            }
+          : {}),
+        ...(newTrack.CodeSandbox
+          ? {
+              CodeSandbox: {
+                create: newTrack.CodeSandbox,
+              },
+            }
+          : {}),
       },
     });
     // for (const questionary of newTrack.Questionaries) {
@@ -179,10 +208,10 @@ const getTracksByApplicant = async (req: Request, res: Response) => {
 };
 const getTrackById = async (req: Request, res: Response) => {
   try {
-    const trackId = req.params.trackId;
+    const trackId = parseInt(req.params.trackId, 10);
     const tracks = await prisma.track.findUnique({
       where: {
-        id: +trackId,
+        id: trackId,
       },
       include: {
         CodeSandbox: true,

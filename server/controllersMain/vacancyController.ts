@@ -75,6 +75,8 @@ const getVacancyById = async (req: Request, res: Response) => {
         jobTrack: {
           include: {
             Questionaries: true,
+            Videocall: true,
+            CodeSandbox: true,
           },
         },
       },
