@@ -54,7 +54,14 @@ export default function RecruiterLogin() {
           applicant?.familyName ? (
             <DashboardPage />
           ) : (
-            <AddApplicantPage />
+            <>
+              <div className="p-2 flex items-center justify-center mt-2">
+                <h1 className="text-3xl font-bold tracking-tight text-[#026767] text-big  ">
+                  Create your account
+                </h1>
+              </div>
+              <AddApplicantPage />
+            </>
           )
         ) : recruiter?.name ? (
           <DashboardPage />
@@ -62,7 +69,7 @@ export default function RecruiterLogin() {
           <>
             <div className="p-2 flex items-center justify-center mt-2">
               <h1 className="text-3xl font-bold tracking-tight text-[#026767] text-big  ">
-                Create the recruiter account
+                Create your recruiter account
               </h1>
             </div>
             <RecruiterForm />
