@@ -25,7 +25,7 @@ const fetchVideocallsByTrack = createAsyncThunk(
   "videocall/fetchVideocallByTrack",
   async function (trackId: number, { rejectWithValue }) {
     try {
-      const response = await fetch(`${url}/videocallsByTrack/${trackId}`);
+      const response = await fetch(`${url}/getVideocallById/${trackId}`);
       if (!response.ok) {
         throw new Error('Server error')
       }

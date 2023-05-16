@@ -41,15 +41,17 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
     (state: RootState) => state.vacancy.vacancies
   ) as unknown as Vacancy[];
   
-  useEffect(() => 
-  setTrackId(trackData.id), [trackId]);
+  useEffect(() => {
+    setTrackId(trackData.id), [dispatch]
+    console.log("TRACK ID", trackId)
+  })
   
   //Hidden toggle
   const handleHiddenChange = (index: number) => {
     const updatedSteps = [...stepsArray];
     updatedSteps[index].hidden = !updatedSteps[index].hidden;
     setStepsArray(updatedSteps);
-    console.log(stepsArray)
+    // console.log(stepsArray)
   };
   
   
@@ -108,38 +110,29 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
     
     setStepsArray([...stepsArray, newStep]);
     console.log(stepsArray)
-    
   }
- useEffect(() => {
-  console.log({stepsArray})
- }, [stepsArray])
-  
   
     const sendToDb = () => {
     // different schemas and routes for different steps
     stepsArray.forEach((step, index) => {
-      if (step.type === "Questionary") {
+      if (step.type == "Questionary") {
         step.questions = questions;
         step.order = index;
-        step.trackId = trackId; 
+        step.trackId = Number(trackId); 
         dispatch(createQuestionary(step)); 
-      } else if (step.type === "Zoom call") {
+      } else if (step.type == "SandBox") {
         step.order = index;
-        step.trackId = trackId;
-        dispatch(createVideocall(newStep));
+        step.trackId = Number(trackId);
+        step.code = code
+        dispatch(createSandbox(step));
       } else {
         step.order = index;
-        step.trackId = trackId;
-        step.code = code
-        dispatch(createSandbox(newStep));
+        step.trackId = Number(trackId);
+        dispatch(createVideocall(step));
       }
     });
-
-
-
   }
 
-    
   const saveTrack = () => {
     sendToDb()
     onCancel()
