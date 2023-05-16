@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from "../store/store";
 import RecruiterForm from "../Components/RecruiterForm";
 import DashboardPage from "./DashboardPage";
 import { fetchApplicant, setApplicant } from "../store/applicantSlice";
+import stock4 from "../assets/stock-4.jpeg";
 
 import {
   fetchRecruiter,
@@ -14,7 +15,7 @@ import {
   updateRecruiter,
 } from "../store/recruiterSlice";
 
-export default function SettingsPage () {
+export default function SettingsPage() {
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
   const applicant = useSelector((state: RootState) => state.applicant);
@@ -34,6 +35,18 @@ export default function SettingsPage () {
   if (currentUser.role === "applicant") {
     return <AddApplicantPage />;
   } else {
-    return <RecruiterForm />;
+    return (
+      <div className="bg-stone-100 py-8">
+        <div className="flex flex-row bg-white m-8 rounded-lg">
+          <img
+            src={stock4}
+            alt="stockphoto"
+            style={{ width: "90%", height: 550 }}
+            className="my-8"
+          />
+          <RecruiterForm />
+        </div>
+      </div>
+    );
   }
 }
