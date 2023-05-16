@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store/store";
-import { CurrentUserType, Recruiter, Track, Vacancy } from "../Interfaces";
-
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { CurrentUserType } from "../Interfaces";
 import { getVacancy, getRecruiter, getApplicant } from "../api.fetch";
-import Spinner from "./Spinner";
+import TrackBanner from "./TrackBanner";
 
 export default function TrackTrack({ track }) {
   const [stepArr, setStepArr] = useState([]);
@@ -25,14 +24,13 @@ export default function TrackTrack({ track }) {
   }, []);
 
   useEffect(() => {
-    console.log("HELLO", track);
     setStepArr(extractItemsByOrder(track));
   }, []);
 
   function extractItemsByOrder(track) {
     const orderedItems: any[] = [];
-    if (track.hasOwnProperty("CodeSandBox")) {
-      const codeSandBoxItems = track.CodeSandBox;
+    if (track.hasOwnProperty("CodeSandbox")) {
+      const codeSandBoxItems = track.CodeSandbox;
       codeSandBoxItems.forEach((item) => {
         orderedItems.push(item);
       });
@@ -56,48 +54,40 @@ export default function TrackTrack({ track }) {
 
   return (
     <>
-      {currentUser.role === "applicant" ? (
-        vacancy === undefined || recruiter === undefined ? (
-          <Spinner />
-        ) : (
-          <div>
-            <p className="text-[#026767] ">{vacancy.title}</p>
-            <p className="text-[#026767] mb-2"> at {recruiter.name}</p>
-          </div>
-        )
-      ) : vacancy === undefined || recruiter === undefined ? (
-        <Spinner />
-      ) : (
-        <div>
-          <p className="text-[#026767] ">{applicant.name}</p>
-          <p className="text-[#026767] mb-2"> for {vacancy.title}</p>
-        </div>
-      )}
-
-      {stepArr.map((step, index) => (
+      {track.reject === false ? (
         <>
-          <div className="bg-yellow-100 rounded-lg py-5 scroll-snap-align-end h-200">
-            <p className="text-xl text-[#026767] font-semibold pb-2">
-              Step {index + 1}
-            </p>
-            <p> {step.type}</p>
+          {stepArr.map((step, index) => (
+            <React.Fragment key={index}>
+              <div className="bg-yellow-100 rounded-lg py-5 h-200">
+                <p className="text-xl text-[#026767] font-semibold pb-2 tracking-widest">
+                  Step {index + 1}
+                </p>
+                <p> {step.type}</p>
+              </div>
+              <div
+                style={{
+                  width: "5px",
+                  backgroundColor: "#026767",
+                  height: "100px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignSelf: "center",
+                  marginLeft: "130px",
+                }}
+              ></div>
+            </React.Fragment>
+          ))}
+          <div className="bg-yellow-100 rounded-lg py-5 mb-8">
+            <p>all steps completed</p>
           </div>
-          <div
-            style={{
-              width: "5px",
-              backgroundColor: "#026767",
-              height: "100px",
-              display: "flex",
-              justifyContent: "center",
-              alignSelf: "center",
-              marginLeft: "130px",
-            }}
-          ></div>
         </>
-      ))}
-      <div className="bg-yellow-100 rounded-lg py-5 mb-8">
-        <p>all steps completed</p>
-      </div>
+      ) : (
+        <>
+          <div className="bg-blue-100 rounded-lg py-5 mb-8">
+            <p>Track closed for {vacancy.title}</p>
+          </div>
+        </>
+      )}
     </>
   );
 }

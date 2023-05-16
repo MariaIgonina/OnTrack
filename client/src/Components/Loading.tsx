@@ -19,7 +19,7 @@ const Loading = ({ userImg, userName }: LoadingProps) => {
         />
         <div className="ml-5">
           <h2>
-            Welcome,{" "}
+            Welcome{" "}
             {userName.split(" ").length > 1 ? userName.split(" ")[0] : userName}
             !
           </h2>
