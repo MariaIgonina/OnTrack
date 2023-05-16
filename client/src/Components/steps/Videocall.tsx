@@ -42,12 +42,12 @@ const Videocall = ({ step }: VideocallStepProps) => {
   return (
     <div className="text-black w-[250px] flex justify-between items-center">
       {edit && <button
-        className="hover:text-yellow-100"
+        className="hover:text-yellow-200 hover:-translate-y-1 text-yellow-100"
         onClick={() => setEdit(false)}> <EditIcon /></button>
        }
       {edit
         ? <a id='redirect-to-link' target="_blank" href={link.startsWith("http") ? link : `http://${link}`} rel="noopener noreferrer"
-          className="text-sm hover:underline hover:text-yellow-100 hover:cursor-pointer">
+          className="text-sm hover:underline hover:text-yellow-200 hover:cursor-pointer text-white">
           { link.slice(0, 25) } ...</a>
         :<input className={`rounded-xl text-sm py-1  px-3 w-[200px] ${edit && 'invisible'}`}
           id="videocall-link"

@@ -2,93 +2,114 @@ import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 const prisma = new PrismaClient();
 
-export const questionnaryController = {
-  createVideocall,
-  deleteVideocall,
-  updateVideocall,
-  getAllVideocallsByTrack,
-};
 
-async function createQuestionnary(req: Request, res: Response) {
+async function createVideocall(req: Request, res: Response) {
   try {
-    const questionary = await prisma.videocall.create({
+    const videocall = await prisma.videocall.create({
       data: {
-        questions: req.body.questions,
-        answer: req.body.answer,
         date: req.body.date,
         hidden: Boolean(req.body.hidden),
         Track: { connect: { id: parseInt(req.body.trackid) } },
+        link: req.body.link || '',
+        type: req.body.type,
+        order: req.body.order,
+        title: req.body.title
       },
     });
-    res.json(questionary).status(201);
+    res.json(videocall).status(201);
   } catch (error: any) {
     console.log(error);
     if (
       error.meta.cause ===
-      "No 'Step' record(s) (needed to inline the relation on 'Questionary' record(s)) was found for a nested connect on one-to-many relation 'QuestionaryToStep'."
-    )
+      "No 'track' record(s) (needed to inline the relation on 'Videocall' record(s)) was found for a nested connect on one-to-many relation 'QuestionaryToStep'."
+      )
       res.status(404).json(error.meta.cause);
     res.status(404).json(error.message);
   }
 }
 
-async function getQuestionaryByStep(req: Request, res: Response) {
+async function getAllVideocallsByTrack(req: Request, res: Response) {
   const { id } = req.params;
   try {
-    const questionary = await prisma.questionary.findMany({
+    const videocall = await prisma.videocall.findMany({
       where: {
         trackId: parseInt(id),
       },
     });
-
-    if (!questionary) throw new Error("Questionnary not found!");
-
-    res.json(questionary).status(200);
+    
+    if (!videocall) throw new Error("Videocalls not found!");
+    res.json(videocall).status(200);
   } catch (error: any) {
-    console.log("error in questionnaryController, ", error);
+    console.log("error in videocallController, ", error);
     res.status(400).json(error.message);
   }
 }
 
-async function deleteQuestionary(req: Request, res: Response) {
+async function getVideocallById(req: Request, res: Response) {
   const { id } = req.params;
-  console.log(id);
   try {
-    const questionary = await prisma.questionary.delete({
+    const videocall = await prisma.videocall.findUnique({
       where: {
         id: parseInt(id),
       },
     });
 
-    res.json(questionary).status(204);
+    if (!videocall) throw new Error("Videocall not found!");
+    res.json(videocall).status(200);
+  } catch (error: any) {
+    console.log("error in videocallController, ", error);
+    res.status(400).json(error.message);
+  }
+}
+
+async function deleteVideocall(req: Request, res: Response) {
+  const { id } = req.params;
+  console.log('videocall id to delete -> ', id);
+  try {
+    const videocall = await prisma.videocall.delete({
+      where: {
+        id: parseInt(id),
+      },
+    });
+    res.json(videocall).status(204);
   } catch (error: any) {
     console.log(error);
-    if (error.meta.cause === "Record to delete does not exist")
-      res.status(404).json(error.meta.cause);
+    if (error.meta.cause === "Videocall to delete does not exist")
+    res.status(404).json(error.meta.cause);
     else res.status(409).json(error.meta.cause);
   }
 }
 
-async function updateQuestionary(req: Request, res: Response) {
+async function updateVideocall(req: Request, res: Response) {
   const { id } = req.params;
-  const { questions, answer, date } = req.body;
-
+  const { link, title, order, checked, date} = req.body;
+  
   try {
-    const questionary = await prisma.questionary.update({
+    const videocall = await prisma.videocall.update({
       where: {
         id: parseInt(id),
       },
       data: {
-        questions: questions,
-        answer: answer,
-        date: date,
+        ...(link !== undefined && { link }),
+        ...(title !== undefined && { title }),
+        ...(order !== undefined && { order }),
+        ...(checked !== undefined && { checked }),
+        ...(date !== undefined && { date }),
       },
     });
-    res.json(questionary).status(200);
+    res.json(videocall).status(200);
   } catch (error: any) {
-    console.log(error);
-    if (error.meta.cause === "Record to update does not exist")
-      res.status(404).json(error.meta.cause);
+    console.log('error in videocallControllers', error);
+    if (error.meta.cause === "Videocall to update does not exist")
+    res.status(404).json(error.meta.cause);
     else res.status(409).json(error.meta.cause);
   }
 }
+
+export const videocallController = {
+  createVideocall,
+  deleteVideocall,
+  updateVideocall,
+  getAllVideocallsByTrack,
+  getVideocallById
+};
