@@ -43,7 +43,7 @@ export default function Suggestion() {
 
   return (
     <>
-      <div className="bg-stone-100 py-24 sm:py-8 rounded-lg">
+      <div className="bg-stone-100 py-24 sm:py-8 rounded-lg justify-self-end w-screen">
         <div className="mx-auto max-w-10xl lg:px-8">
           <div className="mx-auto max-w-lg lg:mx-0">
             <h2 className="text-2xl font-bold tracking-tight text-[#026767] mb-2">
@@ -54,15 +54,14 @@ export default function Suggestion() {
             </p>
           </div>
           <div className="overflow-x-scroll list-none flex flex-nowrap  my-8 ">
-            {applicants.length &&
+            {currentUser.role === "recruiter" && applicants.length &&
               applicants.map((applicant) => (
                 <UserCard
                   applicant={applicant}
                   key={applicant.idAuth}
                 ></UserCard>
               ))}
-
-            <FilteredVacancies />
+            {currentUser.role === "applicant" && <FilteredVacancies />}
           </div>
         </div>
       </div>
