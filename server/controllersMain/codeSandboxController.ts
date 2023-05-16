@@ -89,20 +89,21 @@ const getSandBoxByTrackId = async (req: Request, res: Response) => {
   }
 };
 
-const deleteCodeBox = async(req: Request, res: Response)=>{
+const deleteCodeBox = async (req: Request, res: Response) => {
   try {
-    const id=parseInt(req.params.id)
-    const codeBox = await prisma.codeSandbox.delete({where:{id}})
+    const id = parseInt(req.params.id)
+    const codeBox = await prisma.codeSandbox.delete({ where: { id } })
     res.status(200).json(codeBox)
-  } catch (error:any) {
+  } catch (error: any) {
     console.log(error);
     res.status(400).json(error.message)
   }
 }
 
-const updateCodeBox = async(req: Request, res: Response)=>{
-const { id } = req.params;
-  const { date, hidden, title, code, checked, order} = req.body;
+const updateCodeBox = async (req: Request, res: Response) => {
+  console.log('updating check!')
+  const { id } = req.params;
+  const { date, hidden, title, code, checked, order } = req.body;
   try {
     const codeBox = await prisma.codeSandbox.update({
       where: {

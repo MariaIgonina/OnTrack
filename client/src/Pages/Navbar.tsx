@@ -55,11 +55,13 @@ function NavBar() {
     <>
       <AppBar
         position="sticky"
-        sx={{ width: "100%", 
-              backgroundColor: "#568ea3", 
-              height: "70px",
-              margin: "0px",
-              padding: "0px"}}
+        sx={{
+          width: "100%",
+          backgroundColor: "#568ea3",
+          height: "70px",
+          margin: "0px",
+          padding: "0px",
+        }}
       >
         <nav>
           <List
@@ -93,34 +95,6 @@ function NavBar() {
                 flexDirection: "row",
               }}
             >
-              {/* <ListItem key={"search"} disablePadding>
-                <Link
-                  to="/dashboard"
-                  className="link"
-                  onClick={() => scrollToSection(searchRef.current)}
-                >
-              
-                  <ListItemButton
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <ListItemIcon>
-                      <SearchIcon
-                        style={{
-                          color: "white",
-                          width: 35,
-                          height: 35,
-                        }}
-                      />
-                    </ListItemIcon>
-                  </ListItemButton>
-          
-                </Link>
-              </ListItem> */}
               <ListItem key={"Dashboard"} disablePadding>
                 <Link to="/dashboard" className="link">
                   <ListItemButton

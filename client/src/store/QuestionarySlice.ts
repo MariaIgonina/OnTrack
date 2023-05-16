@@ -21,7 +21,7 @@ const initialQuestionary: Questionary = {
 };
 
 
-const url: string = "http://localhost:3000";
+const url = "http://localhost:3000";
 
 const fetchQuestionaryTrack = createAsyncThunk(
   "questionary/fetchQuestionaryTrack",
@@ -29,15 +29,15 @@ const fetchQuestionaryTrack = createAsyncThunk(
     try {
       const response = await fetch(`${url}/getQuestionaryByStep/${trackId}`);
       if (!response.ok) {
-        throw new Error('Server error')
+        throw new Error("Server error")
       }
       const data = await response.json()
       console.log("DATA FROM REDUX THUNK : ", data)
-      return data
+      return data[0]
     } catch (err) {
       if (err instanceof Error)
       return rejectWithValue(err.message)
-    }    
+    }
   }
 )
 
