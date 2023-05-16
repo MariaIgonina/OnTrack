@@ -20,7 +20,7 @@ const VacancyDetails: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchVacancy(parseInt(vacancyId, 10)));
-  }, [dispatch, vacancyId, vacancy, currentUserRole]);
+  }, [dispatch, vacancyId, currentUserRole]);
 
   const deleteVac = async () => {
     if (window.confirm("Are you sure you want to delete this vacancy?")) {

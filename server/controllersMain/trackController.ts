@@ -7,29 +7,43 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const createTrack = async (req: Request, res: Response) => {
-  const { vacancyId, recruiterID } = req.body;
+  const {
+    vacancyId,
+    recruiterID,
+    applicantID,
+    reject,
+    applicantNotes,
+    recruiterNotes,
+  } = req.body;
+
   try {
     const track = await prisma.track.create({
       data: {
+        reject,
+        applicantNotes,
+        recruiterNotes,
         Vacancy: { connect: { id: +vacancyId } },
         Recruiter: { connect: { id: +recruiterID } },
+        Applicant: applicantID
+          ? { connect: { idDB: +applicantID } }
+          : undefined,
       },
     });
     return res.status(200).json(track);
   } catch (error: any) {
-    if (
-      error.meta.cause ===
-      "No 'Vacancy' record(s) (needed to inline the relation on 'Track' record(s)) was found for a nested connect on one-to-many relation 'TrackToVacancy'."
-    ) {
-      return res.status(400).json("Vacancy not found");
-    }
+    // if (
+    //   error.meta.cause ===
+    //   "No 'Vacancy' record(s) (needed to inline the relation on 'Track' record(s)) was found for a nested connect on one-to-many relation 'TrackToVacancy'."
+    // ) {
+    //   return res.status(400).json("Vacancy not found");
+    // }
 
-    if (
-      error.meta.cause ===
-      "No 'Recruiter' record(s)(needed to inline the relation on 'Track' record(s)) was found for a nested connect on one - to - many relation 'RecruiterToTrack'."
-    ) {
-      return res.status(400).json("Recruitant not found");
-    }
+    // if (
+    //   error.meta.cause ===
+    //   "No 'Recruiter' record(s)(needed to inline the relation on 'Track' record(s)) was found for a nested connect on one - to - many relation 'RecruiterToTrack'."
+    // ) {
+    //   return res.status(400).json("Recruitant not found");
+    // }
     console.log("unknown error in createTrack controller", error);
     return res
       .status(500)
@@ -60,6 +74,7 @@ const getTracksByVacancy = async (req: Request, res: Response) => {
 const getTracksByRecruiter = async (req: Request, res: Response) => {
   try {
     const recruiterID = req.params.recruiterId;
+    console.log(recruiterID);
     const tracks = await prisma.track.findMany({
       where: {
         recruiterID: +recruiterID,
