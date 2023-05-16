@@ -75,7 +75,7 @@ export interface Track {
   recruiterNotes: string;
   vacancyId: number;
   vacancy: Vacancy;
-  message: Message[];
+  Message: Message[];
   Questionaries: Questionary[];
   Videocall: Videocall[];
   CodeSandbox: CodeSandbox[];

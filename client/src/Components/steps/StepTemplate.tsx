@@ -15,7 +15,7 @@ const StepTemplate = ({ title, link, content, type, checkIsAble }: StepProps) =>
   const [check, setCheck] = useState(false)
 
   const info = 'Mark this step as checked';
-  const infoNotChecked = 'This event has not happend yet'
+  const infoNotChecked = 'This event has place in the future'
 
   const handleCheck = () => {
     if (checkIsAble) {
@@ -38,8 +38,11 @@ const StepTemplate = ({ title, link, content, type, checkIsAble }: StepProps) =>
           className={`${check ? 'text-green-800' : 'text-gray-200'} hover:text-green-500 hover:cursor-pointer relative`}
         ><CheckCircleIcon />
           {showInfo && (
-            <div className="bg-emerald-100 text-emerald-900 border border-emerald-900 py-2 px-4 w-60 rounded-lg absolute left-9 -bottom-1 z-10">
-              {check ? info : infoNotChecked}
+            <div className={
+              `${checkIsAble ? "bg-emerald-100 text-emerald-900 border border-emerald-900" : "bg-rose-300 text-rose-950 border border-rose-950"} 
+              opacity-95 py-2 px-4 w-[350px] rounded-lg absolute left-9 -bottom-1 z-10 
+              `}>
+              {checkIsAble ? info : infoNotChecked}
             </div>
           )}
         </button>

@@ -5,11 +5,11 @@ import Button from "@mui/material/Button";
 type TrackSideBarProps = {
   trackId: number,
   role: string,
-  setDeleteModal: (value: boolean) => void
+  setStopTrackingModal: (value: boolean) => void
 }
-const TrackSideBar = ({ trackId, role, setDeleteModal}: TrackSideBarProps) => {
+const TrackSideBar = ({ trackId, role, setStopTrackingModal}: TrackSideBarProps) => {
   const handleStopTrackingBtn = () => {
-    setDeleteModal(true)
+    setStopTrackingModal(true)
   }
 
   return (<>

@@ -10,7 +10,6 @@ import { initialRecruiter } from "./recruiterSlice";
 
 const initialTrack: Track = {
   id: 0,
-  steps: [],
   recruiterID: 0,
   recruiter: initialRecruiter,
   applicantID: 0,
@@ -21,7 +20,8 @@ const initialTrack: Track = {
   vacancy: initialVacancy,
   Message: [],
   CodeSandbox: [],
-  Videocall: []
+  Videocall: [],
+  Questionaries: []
 };
 
 const url: string = "http://localhost:3000";

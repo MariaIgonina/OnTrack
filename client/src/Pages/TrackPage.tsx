@@ -9,10 +9,11 @@ import { fetchVacancy } from "../store/vacancySlice";
 import { fetchRecruiter } from "../store/recruiterSlice";
 import { fetchApplicant } from "../store/applicantSlice";
 import Landing from "../Components/codeSandbox/Landing";
-import DeleteTrackModal from "../Components/tracks/DeleteTrackModal";
+import DeleteTrackModal from "../Components/tracks/StopTrackingModal";
 import ChatWindow from "../Components/liveChat/ChatWindow";
 import Videocall from "../Components/steps/Videocall";
 import moment from "moment"
+import Spinner from "../Components/Spinner";
 
 type Step = {
   type: string,
@@ -24,8 +25,9 @@ type Step = {
 }
 
 const TrackPage = () => {
-  const [gotInfo, setGotInfo] = useState(0)
-  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [gotInfo, setGotInfo] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [stopTrackingModal, setStopTrackingModal] = useState<boolean>(false);
   const [steps, setSteps] = useState<any>([{ type: "", id: "", title: "", order: 0, step: "" }]);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>()
@@ -75,12 +77,13 @@ const TrackPage = () => {
     // checkForSteps();
   }, [gotInfo])
 
-  // useEffect(() => {
-  //   if (date) {
-  //     console.log('date => ', date)
-  //     new Date(date).getTime() < new Date().getTime() && setCheckIsAble(false);
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (steps.length) {
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 1500)
+    }
+  }, [])
 
   const checkForSteps = () => {
     let fetchedSteps: any = [];
@@ -94,17 +97,22 @@ const TrackPage = () => {
         fetchedSteps.push(element)
       });
     }
-    setSteps([...fetchedSteps])
+    setSteps([...fetchedSteps]);
+
   }
 
 
   return (
-    <div id='track-container' className="flex h-screen top-[70px] w-[90%] min-w-[600px] ">
-      {deleteModal &&
-        <DeleteTrackModal isOpen={true} setOpen={setDeleteModal} trackId={track.track?.id} />
+
+    <div id='track-container' className="flex h-screen top-[70px] w-[99%] min-w-[600px]">
+      {stopTrackingModal &&
+        <DeleteTrackModal isOpen={true} setOpen={setStopTrackingModal} trackId={track.track?.id} />
       }
+      {isLoading && <div className="w-screen  h-screen z-50 flex flex-col justify-center items-center bg-opacity-90 bg-neutral-800 
+          text-white absolute top-0 left-0 ">
+        <Spinner /><p className="mt-8">Loading...</p></div>}
       <div className="w-[226px] min-w-[226px] h-[90%] hidden relative sm:block md:block lg:block">
-        <TrackSideBar trackId={track.track?.id} role={currentUser.role!} setDeleteModal={setDeleteModal} />
+        <TrackSideBar trackId={track.track?.id} role={currentUser.role!} setStopTrackingModal={setStopTrackingModal} />
       </div>
 
       <div className="w-[98%] min-w-[400px] ml-3">
@@ -174,10 +182,7 @@ const TrackPage = () => {
 
         <div id="steps-container"
           className="flex flex-col items-center">
-          {/* <StepTemplate title='Intro Interiew' link="zoom.meetings/room=as2u48/sdfbjy2" /> */}
-          {/* <Landing /> */}
-          {/* </div> */}
-          {/* <div id="test-contianer"> */}
+
           {steps.length &&
             steps.map((step: Step) => {
               if (step.type.toLowerCase() === "sandbox") {
