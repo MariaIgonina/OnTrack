@@ -33,14 +33,14 @@ export default function TrackTrack({ track }) {
     setStepArr(extractItemsByOrder(track));
   }, []);
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  }, [stepArr]);
+  // useEffect(() => {
+  //   if (scrollRef.current) {
+  //     scrollRef.current.scrollIntoView({
+  //       behavior: "smooth",
+  //       block: "start",
+  //     });
+  //   }
+  // }, [stepArr]);
 
   function handleDeleteTrack() {
     if (window.confirm("Are you sure you want to delete this track?")) {

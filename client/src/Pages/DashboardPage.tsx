@@ -10,7 +10,7 @@ import Suggestion from "../Components/Suggestion";
 import GoogleMaps from "../Components/googleMaps/GoogleMaps";
 import TrackerComponent from "../Components/TrackerComponent";
 import FilteredVacancies from "../Components/Vacancy/FilteredVacancies";
-import DateCalendarViews from "../Components/Calendar"
+import DateCalendarViews from "../Components/Calendar";
 
 const DashboardPage = () => {
   const searchRef = useRef(null);
@@ -19,12 +19,12 @@ const DashboardPage = () => {
     (s: RootState) => s.currentUser
   ) as unknown as CurrentUserType;
 
-  useEffect(() => {
-    console.log("this is from state in dashboard", currentUser);
-    console.log(
-      "info about type of user arrives correctly here, add logic to display the correct dashboard when user is an applicant"
-    );
-  }, [currentUser]);
+  // useEffect(() => {
+  //   console.log("this is from state in dashboard", currentUser);
+  //   console.log(
+  //     "info about type of user arrives correctly here, add logic to display the correct dashboard when user is an applicant"
+  //   );
+  // }, [currentUser]);
 
   return (
     <>
@@ -47,7 +47,6 @@ const DashboardPage = () => {
           <Suggestion></Suggestion>
           <GoogleMaps />
           <FilteredVacancies />
-       
 
           <DateCalendarViews></DateCalendarViews>
           <AllUsers searchRef={searchRef} />
