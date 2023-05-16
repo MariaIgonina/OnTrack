@@ -38,7 +38,7 @@ const VacancyDetails: React.FC = () => {
   };
   const applySubmit = async () => {
     if (window.confirm("Are you sure you want to apply to this vacancy?")) {
-      const { id, recruiterId, jobTrack } = vacancy.data;
+      const { id, recruiterId } = vacancy.data;
       const newTrack = {
         recruiterID: recruiterId,
         vacancyId: id,
@@ -46,7 +46,7 @@ const VacancyDetails: React.FC = () => {
       };
 
       const TRACKID = await dispatch(duplicateTrack(newTrack));
-      console.log("trackID", TRACKID);
+      console.log("trackID fetched at vacancy details 49", TRACKID);
       navigate(`/track/?trackId=${TRACKID.payload}&vacancyId=${vacancyId}`);
     }
     //post track (form 1)

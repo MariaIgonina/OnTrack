@@ -71,15 +71,29 @@ const duplicateTrack = async (req: Request, res: Response) => {
       delete q.trackId;
       delete q.id;
     });
+    newTrack.Videocall.forEach((q: any) => {
+      delete q.trackId;
+      delete q.id;
+    });
+    newTrack.CodeSandbox.forEach((q: any) => {
+      delete q.trackId;
+      delete q.id;
+    });
 
     const createdTrack = await prisma.track.create({
       data: {
         ...newTrack,
         Vacancy: { connect: { id: +vacancyId } },
-        Recruiter: { connect: { id: recruiterID } },
+        Recruiter: { connect: { id: +recruiterID } },
         Applicant: { connect: { idDB: parseInt(applicantID, 10) } },
         Questionaries: {
           create: newTrack.Questionaries,
+        },
+        Videocall: {
+          create: newTrack.Videocall,
+        },
+        CodeSandbox: {
+          create: newTrack.CodeSandbox,
         },
       },
     });

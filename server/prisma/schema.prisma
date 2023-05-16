@@ -130,36 +130,29 @@ model Questionary {
   order     Int       @unique
   answer    String[]
   date      DateTime?
-  checked   Boolean? @default(false)
+  checked   Boolean?  @default(false)
   title     String?
   hidden    Boolean?  @default(false)
-  Track     Track?   @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  Track     Track?    @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId   Int
 }
 
 model Videocall {
-  id      Int      @id @default(autoincrement())
-  type    String   @default("Videocall")
+  id      Int       @id @default(autoincrement())
+  type    String    @default("Videocall")
   date    DateTime?
   order   Int
-<<<<<<< HEAD
-  title   String
+  title   String?
   checked Boolean?  @default(false)
   hidden  Boolean?  @default(false)
   Track   Track     @relation(fields: [trackId], references: [id], onDelete: Cascade)
-=======
-  title   String?
-  checked Boolean? @default(false)
-  hidden  Boolean?  @default(false)
-  Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
->>>>>>> Development
   trackId Int
   link    String?
 }
 
 model CodeSandbox {
-  id      Int      @id @default(autoincrement())
-  type    String   @default("Sandbox")
+  id      Int       @id @default(autoincrement())
+  type    String    @default("Sandbox")
   date    DateTime?
   hidden  Boolean?  @default(false)
   title   String?
