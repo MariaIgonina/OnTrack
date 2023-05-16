@@ -15,6 +15,8 @@ async function createQuestionnary(req: Request, res: Response) {
       data: {
         questions: req.body.questions,
         answer: req.body.answer,
+        order: req.body.order,
+        status: req.body.status,
         date: req.body.date,
         hidden: Boolean(req.body.hidden),
         Track: { connect: { id: parseInt(req.body.trackid) } },

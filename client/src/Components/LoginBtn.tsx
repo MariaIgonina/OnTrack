@@ -68,7 +68,7 @@ export default function LoginBtn({ text }: LoginBtnProps) {
               role: "applicant",
             })
           );
-          localStorage.setItem('id', applicantCreated.payload.idDB + '')
+          localStorage.setItem("id", applicantCreated.payload.idDB + "");
           //navigate(`/applicant/${applicantCreated.payload.idDB}`);
           navigate(`/login`);
           ///${applicantCreated.payload.idDB}`);
@@ -83,7 +83,7 @@ export default function LoginBtn({ text }: LoginBtnProps) {
               role: "recruiter",
             })
           );
-          localStorage.setItem('id', recruiterCreated.payload.id + '')
+          localStorage.setItem("id", recruiterCreated.payload.id + "");
 
           // navigate(`/recruiter/${recruiterCreated.payload.id}`);
           navigate(`/login`);
@@ -92,9 +92,9 @@ export default function LoginBtn({ text }: LoginBtnProps) {
       }
 
       if (returnedRole.payload && returnedRole.payload.recruiterName) {
-        console.log('local storate???')
-        localStorage.setItem('id', returnedRole.payload.id + '')
-        localStorage.setItem('currentUser', 'recruiter')
+        console.log("local storate???");
+        localStorage.setItem("id", returnedRole.payload.id + "");
+        localStorage.setItem("currentUser", "recruiter");
         dispatch(
           setCurrentUser({ id: returnedRole.payload.id, role: "recruiter" })
         );
@@ -103,8 +103,8 @@ export default function LoginBtn({ text }: LoginBtnProps) {
         navigate(`/login`);
         ///${returnedRole.payload.id}`);
       } else if (returnedRole.payload && returnedRole.payload.idDB) {
-        localStorage.setItem('id', returnedRole.payload.idDB + '')
-        localStorage.setItem('currentUser', 'applicant')
+        localStorage.setItem("id", returnedRole.payload.idDB + "");
+        localStorage.setItem("currentUser", "applicant");
         dispatch(
           setCurrentUser({ id: returnedRole.payload.idDB, role: "applicant" })
         );
@@ -169,9 +169,13 @@ export default function LoginBtn({ text }: LoginBtnProps) {
   return (
     <Button
       onClick={loginWithGitHub}
-      sx={{ backgroundColor: "#568EA3", margin: "5px" }}
+      sx={{
+        backgroundColor: "#568EA3",
+        margin: "5px",
+        width: "250px",
+        marginLeft: "15px",
+      }}
       variant="contained"
-      className="btn"
       type="submit"
     >
       <GitHubIcon sx={{ marginRight: "15px" }} />
