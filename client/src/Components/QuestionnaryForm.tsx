@@ -16,7 +16,7 @@ export default function QuestionnaryForm({step}:QuestionaryFormProps) {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const [answers, setAnswers] = useState<string[]>([]);
+  const [answers, setAnswers] = useState<string[]>([...step.answer]);
 
   useEffect(() => {
     initTE({ Collapse });
@@ -24,6 +24,7 @@ export default function QuestionnaryForm({step}:QuestionaryFormProps) {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log('STEP FROM QUESTIONARY', step)
       try {
         await dispatch(fetchQuestionaryTrack(step.trackId));
       } catch (error) {
@@ -31,7 +32,7 @@ export default function QuestionnaryForm({step}:QuestionaryFormProps) {
       }
     };
     fetchData();
-  }, []);
+  }, [step]);
 
   const handleChange = (index: number, value: string) => {
     const updatedAnswers = [...answers];
@@ -40,7 +41,8 @@ export default function QuestionnaryForm({step}:QuestionaryFormProps) {
     console.log(answers);
   };
 
-  const submitQuestionnary = async (
+  // await async ?
+  const submitQuestionnary = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
@@ -50,17 +52,17 @@ export default function QuestionnaryForm({step}:QuestionaryFormProps) {
         answers: answers,
       },
     };
-    await dispatch(updateQuestionary(updatedQuestionnary));
+    dispatch(updateQuestionary(updatedQuestionnary));
     console.log(questionary);
   };
 
   return (
     <>
-      <div className="p-2 flex items-center justify-center w-full">
+      <div className="p-2 flex items-center justify-center mb-8">
         <form>
           <div className="flex justify-center">
             <div
-              className="grid grid-cols-1 mt-5 mx-7"
+              className="grid grid-cols-1 mt-5 mx-7 "
               style={{ width: "600px" }}
             >
               <div id="accordionExample">
@@ -74,7 +76,7 @@ export default function QuestionnaryForm({step}:QuestionaryFormProps) {
                       aria-expanded="true"
                       aria-controls="collapseOne"
                     >
-                      <div className="text-2xl">Questionnary</div>
+                      <div className="text-2xl">Questionary</div>
                       <span className="ml-auto h-5 w-5 shrink-0 rotate-[-180deg] fill-[#336dec] transition-transform duration-200 ease-in-out group-[[data-te-collapse-collapsed]]:rotate-0 group-[[data-te-collapse-collapsed]]:fill-[#212529] motion-reduce:transition-none dark:fill-blue-300 dark:group-[[data-te-collapse-collapsed]]:fill-white">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -130,10 +132,12 @@ export default function QuestionnaryForm({step}:QuestionaryFormProps) {
           <div className="flex justify-center">
             <button
               onClick={(e) => submitQuestionnary(e)}
-              className="mt-4 ml-4 mb-6 w-44 bg-orange-100 hover:bg-orange-dark rounded-lg shadow-xl font-medium text-white px-4 py-2"
+              className="mt-4 ml-4 mb-6 w-44 bg-orange-100 rounded-lg shadow-xl font-medium text-white px-4 py-2
+              hover:-translate-y-1 hover:bg-emerald-800
+              "
               type="submit"
             >
-              Submit answers
+              Send answer
             </button>
           </div>
         </form>

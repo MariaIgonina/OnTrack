@@ -7,6 +7,7 @@ import { updateVideocall } from "../../store/VideoCallSlice";
 import { AppDispatch } from "../../store/store";
 import { updateSandbox } from "../../store/SandboxSlice";
 import { updateQuestionary } from "../../store/QuestionarySlice";
+import QuestionnaryForm from '../QuestionnaryForm';
 
 type StepProps = {
   title?: string,
@@ -14,9 +15,10 @@ type StepProps = {
   content?: any,
   type: string,
   checkIsAble: boolean,
-  step?: any
+  step?: any,
+  setReloadAlert: Function
 }
-const StepTemplate = ({ title, content, type, checkIsAble, step }: StepProps) => {
+const StepTemplate = ({ title, content, type, checkIsAble, step, setReloadAlert }: StepProps) => {
   const [showInfo, setShowInfo] = useState(false);
   const [check, setCheck] = useState(step.checked || false);
   const [showDoneCode, setShowDoneCode] = useState(false)
@@ -24,6 +26,10 @@ const StepTemplate = ({ title, content, type, checkIsAble, step }: StepProps) =>
   const dispatch = useDispatch<AppDispatch>();
   const info = 'Check this step';
   const infoNotChecked = 'This event has place in the future'
+
+  useEffect(() => {
+    console.log('step', type, title, content, step)
+  }, [])
 
 
   const handleCheck = () => {
@@ -56,6 +62,7 @@ const StepTemplate = ({ title, content, type, checkIsAble, step }: StepProps) =>
           break;
         case 'sandbox':
           dispatch(updateSandbox({ sandboxId: step.id, sandbox: { checked: false } }));
+          setReloadAlert(true)
           break;
         case 'questionary':
           dispatch(updateQuestionary({ questionaryId: step.id, questionary: { checked: false } }));
@@ -71,7 +78,7 @@ const StepTemplate = ({ title, content, type, checkIsAble, step }: StepProps) =>
   }
 
   return (<>
-    {type === 'sandbox'
+    {type === 'sandbox' || type==='questionary'
       ? <>
         <button
           onMouseEnter={() => setShowInfo(true)}
@@ -100,7 +107,7 @@ const StepTemplate = ({ title, content, type, checkIsAble, step }: StepProps) =>
         {/* {check && <div id='checked-screen' className="relative flex justify-start z-10 w-[1000px]"><div className="bg-neutral-100 opacity-80 z-10 absolute w-[100%] h-[407px]" style={{ left: "0%" }}></div></div>} */}
         {!check ? content : <><div className="h-[100px]">
           <button onClick={handleShowDoneCode}
-            className='bg-emerald-100 opacity-80 p-1 rounded-xl text-emerald-800 relative top-5'>Watch more<KeyboardArrowDownIcon /> </button>
+            className='bg-emerald-100 opacity-80 p-1 rounded-xl text-emerald-800 relative top-5'>Watch resume<KeyboardArrowDownIcon /> </button>
         </div>
           {showDoneCode && content}
         </>}

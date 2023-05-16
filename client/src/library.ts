@@ -229,7 +229,7 @@ export const levelLanguages = [
   "Native",
 ];
 
-export const typeForStep = ["Questionary", "Zoom call", "SandBox"];
+export const typeForStep = ["Questionary", "Videocall", "SandBox"];
 
 export function extractApplicantData(userInfo: any) {
   const { avatar_url, bio, email, html_url, node_id, name } = userInfo;
