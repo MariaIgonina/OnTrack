@@ -122,9 +122,9 @@ CREATE TABLE "Questionary" (
     "order" INTEGER NOT NULL,
     "answer" TEXT[],
     "date" TIMESTAMP(3) NOT NULL,
-    "status" BOOLEAN NOT NULL,
+    "checked" BOOLEAN DEFAULT false,
     "title" TEXT,
-    "hidden" BOOLEAN NOT NULL,
+    "hidden" BOOLEAN NOT NULL DEFAULT false,
     "trackId" INTEGER,
 
     CONSTRAINT "Questionary_pkey" PRIMARY KEY ("id")
@@ -137,8 +137,8 @@ CREATE TABLE "Videocall" (
     "date" TIMESTAMP(3) NOT NULL,
     "order" INTEGER NOT NULL,
     "title" TEXT NOT NULL,
-    "status" BOOLEAN NOT NULL,
-    "hidden" BOOLEAN NOT NULL,
+    "checked" BOOLEAN DEFAULT false,
+    "hidden" BOOLEAN NOT NULL DEFAULT false,
     "trackId" INTEGER NOT NULL,
     "link" TEXT,
 
@@ -150,10 +150,10 @@ CREATE TABLE "CodeSandbox" (
     "id" SERIAL NOT NULL,
     "type" TEXT NOT NULL DEFAULT 'Sandbox',
     "date" TIMESTAMP(3) NOT NULL,
-    "hidden" BOOLEAN NOT NULL,
+    "hidden" BOOLEAN NOT NULL DEFAULT false,
     "title" TEXT,
     "code" TEXT,
-    "status" BOOLEAN,
+    "checked" BOOLEAN DEFAULT false,
     "trackId" INTEGER NOT NULL,
     "order" INTEGER NOT NULL,
 

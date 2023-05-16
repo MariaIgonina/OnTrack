@@ -131,6 +131,9 @@ export interface Questionary {
   date: Date | string;
   step?: Step;
   stepId?: number;
+  order: number;
+  checked?: boolean;
+  title: string
 }
 
 export interface Experience {
