@@ -113,7 +113,7 @@ const TrackPage = () => {
   
   return (
 
-    <div id='track-container' className="flex h-full top-[70px] w-[99%] min-w-[600px]">
+    <div id='track-container' className="flex h-full top-[70px] w-[100%] min-w-[600px] bg-neutral-100">
       {stopTrackingModal &&
         <DeleteTrackModal isOpen={true} setOpen={setStopTrackingModal} trackId={track.track?.id!} />
       }
@@ -196,18 +196,18 @@ const TrackPage = () => {
             steps.map((step: Step) => {
               if (step.type.toLowerCase() === "sandbox") {
                 return <><span id={`step-${step.id}-date`} className="text-gray-400 uppercase tracking-widest font-bold">{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
-                  <StepTemplate title={step.title?.length ? step.title : "Next step: Code!"} type="sandbox" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
-                    content={<Landing savedCode={step.code! || ''} />} /><div id="line" className="-mt-10 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
+                  <StepTemplate step={step} title={step.title?.length ? step.title : "Next step: Code!"} type="sandbox" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                    content={<Landing savedCode={step.code! || ''} step={step} />} /><div id="line" className="-mt-10 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
               } else if (step.type.toLowerCase() === "videocall") {
                 return <><span id={`step-${step.id}-date`} className="text-gray-400 uppercase tracking-widest font-bold">{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
-                  <StepTemplate title={step.title?.length ? step.title : "Next step: Videocall"} type="videocall" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                  <StepTemplate step={step} title={step.title?.length ? step.title : "Next step: Videocall"} type="videocall" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
                     content={<Videocall step={step} />} /><div id="line" className="-mt-4 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
               }
 
             })
           }
         </div>
-        <div id="chat-wraper" className="z-40">
+        <div id="chat-wraper">
           <ChatWindow trackId={track.track?.id!} />
         </div>
       </div >

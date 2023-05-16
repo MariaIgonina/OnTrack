@@ -10,20 +10,26 @@ import OutputWindow from "./OutputWindow";
 // import CustomInput from "./CustomInput";
 import OutputDetails from "./OutputDetail";
 import LanguagesDropdown from "./LanguagesDropdown";
+import { useDispatch } from "react-redux";
+import { updateSandbox } from "../../store/SandboxSlice";
+import { AppDispatch } from "../../store/store";
 
 type Token = {
   token: string
 }
 
 type LandingProps = {
-  savedCode: string
+  savedCode: string,
+  step: any, 
+  checked?: boolean
 }
 
-const Landing = ({savedCode}: LandingProps) => {
+const Landing = ({savedCode, step}: LandingProps) => {
   const [code, setCode] = useState(savedCode);
   const [outputDetails, setOutputDetails] = useState<string>('');
   const [processing, setProcessing] = useState<boolean | null>(null);
   const [language, setLanguage] = useState(languageOptions[0]);
+  const dispatch = useDispatch<AppDispatch>();
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
@@ -32,6 +38,11 @@ const Landing = ({savedCode}: LandingProps) => {
     console.log("selected Option...", sl);
     setLanguage(sl);
   };
+
+  useEffect(() => {
+    console.log('re-rendering Landing!')
+  }, [step.checked])
+
 
   useEffect(() => {
     if (enterPress && ctrlPress) {
@@ -66,6 +77,9 @@ const Landing = ({savedCode}: LandingProps) => {
     const token = await axios.post('http://localhost:3000/compile', formData)
     console.log('token from FE', token)
     checkStatus(token.data)
+    if (savedCode !== code) {
+      dispatch(updateSandbox({sandboxId: step.id, sandbox: { code: code} }))
+    }
   };
 
 
@@ -133,7 +147,7 @@ const Landing = ({savedCode}: LandingProps) => {
 
   return (
     <>
-      <div className="w-[80%] h-[500px]">
+      <div className={`w-[80%] h-[500px]`}>
         <ToastContainer
           position="top-right"
           autoClose={2000}
@@ -168,7 +182,7 @@ const Landing = ({savedCode}: LandingProps) => {
                   disabled={!code}
                   className={classnames(
                     "mt-4 border-2 border-black rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-                    !code ? "opacity-50" : ""
+                    !code ? "opacity-50" : "", step.checked ? "invisible" : "visible"
                   )}
                 >
                   {processing ? "Processing..." : "Compile and Execute"}
