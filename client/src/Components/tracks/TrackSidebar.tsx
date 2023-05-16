@@ -1,15 +1,14 @@
 import NotePad from "./NotePad";
 import Button from "@mui/material/Button";
 
-
 type TrackSideBarProps = {
   trackId: number,
   role: string,
-  setDeleteModal: (value: boolean) => void
+  setStopTrackingModal: (value: boolean) => void
 }
-const TrackSideBar = ({ trackId, role, setDeleteModal}: TrackSideBarProps) => {
+const TrackSideBar = ({ trackId, role, setStopTrackingModal}: TrackSideBarProps) => {
   const handleStopTrackingBtn = () => {
-    setDeleteModal(true)
+    setStopTrackingModal(true)
   }
 
   return (<>
@@ -18,9 +17,9 @@ const TrackSideBar = ({ trackId, role, setDeleteModal}: TrackSideBarProps) => {
       flex flex-col items-center shadow-md shadow-gray  max-w-[226px] h-[90%] hidden sm:flex md:flex lg:flex xl:flex ">
 
       <NotePad trackId={trackId} role={role} />
-
+      {/* <div className="w-[200px] h-[100px]"><Calendar/></div> */}
       <div className="absolute px-2" style={{ bottom: '25px' }}>
-        <div className="bg-green-100 mb-5 rounded-lg">THIS IS THE CALENDAR</div>
+        <div className="bg-green-100 mb-5 rounded-lg"></div>
         <Button
           sx={{
             backgroundColor: "#ff6666",

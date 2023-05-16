@@ -92,6 +92,16 @@ CREATE TABLE "Vacancy" (
 );
 
 -- CreateTable
+CREATE TABLE "Language" (
+    "id" SERIAL NOT NULL,
+    "language" TEXT NOT NULL,
+    "level" INTEGER NOT NULL,
+    "applicantId" INTEGER NOT NULL,
+
+    CONSTRAINT "Language_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Track" (
     "id" SERIAL NOT NULL,
     "recruiterID" INTEGER NOT NULL,
@@ -109,9 +119,12 @@ CREATE TABLE "Questionary" (
     "id" SERIAL NOT NULL,
     "type" TEXT NOT NULL DEFAULT 'Questionary',
     "questions" TEXT[],
+    "order" INTEGER NOT NULL,
     "answer" TEXT[],
     "date" TIMESTAMP(3) NOT NULL,
-    "hidden" BOOLEAN NOT NULL,
+    "checked" BOOLEAN DEFAULT false,
+    "title" TEXT,
+    "hidden" BOOLEAN NOT NULL DEFAULT false,
     "trackId" INTEGER,
 
     CONSTRAINT "Questionary_pkey" PRIMARY KEY ("id")
@@ -120,10 +133,14 @@ CREATE TABLE "Questionary" (
 -- CreateTable
 CREATE TABLE "Videocall" (
     "id" SERIAL NOT NULL,
-    "type" TEXT NOT NULL DEFAULT 'Sandbox',
+    "type" TEXT NOT NULL DEFAULT 'Videocall',
     "date" TIMESTAMP(3) NOT NULL,
-    "hidden" BOOLEAN NOT NULL,
+    "order" INTEGER NOT NULL,
+    "title" TEXT NOT NULL,
+    "checked" BOOLEAN DEFAULT false,
+    "hidden" BOOLEAN NOT NULL DEFAULT false,
     "trackId" INTEGER NOT NULL,
+    "link" TEXT,
 
     CONSTRAINT "Videocall_pkey" PRIMARY KEY ("id")
 );
@@ -133,8 +150,12 @@ CREATE TABLE "CodeSandbox" (
     "id" SERIAL NOT NULL,
     "type" TEXT NOT NULL DEFAULT 'Sandbox',
     "date" TIMESTAMP(3) NOT NULL,
-    "hidden" BOOLEAN NOT NULL,
+    "hidden" BOOLEAN NOT NULL DEFAULT false,
+    "title" TEXT,
+    "code" TEXT,
+    "checked" BOOLEAN DEFAULT false,
     "trackId" INTEGER NOT NULL,
+    "order" INTEGER NOT NULL,
 
     CONSTRAINT "CodeSandbox_pkey" PRIMARY KEY ("id")
 );
@@ -169,6 +190,9 @@ ALTER TABLE "Education" ADD CONSTRAINT "Education_applicantIdDB_fkey" FOREIGN KE
 
 -- AddForeignKey
 ALTER TABLE "Vacancy" ADD CONSTRAINT "Vacancy_recruiterId_fkey" FOREIGN KEY ("recruiterId") REFERENCES "Recruiter"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Language" ADD CONSTRAINT "Language_applicantId_fkey" FOREIGN KEY ("applicantId") REFERENCES "Applicant"("idDB") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Track" ADD CONSTRAINT "Track_recruiterID_fkey" FOREIGN KEY ("recruiterID") REFERENCES "Recruiter"("id") ON DELETE CASCADE ON UPDATE CASCADE;

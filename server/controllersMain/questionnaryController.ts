@@ -15,9 +15,11 @@ async function createQuestionnary(req: Request, res: Response) {
       data: {
         questions: req.body.questions,
         answer: req.body.answer,
+        order: req.body.order,
         date: req.body.date,
         hidden: Boolean(req.body.hidden),
-        Track: { connect: { id: parseInt(req.body.trackid) } },
+        Track: { connect: { id: parseInt(req.body.trackId) } },
+        checked: Boolean(req.body.checked),
       },
     });
     res.json(questionary).status(201);

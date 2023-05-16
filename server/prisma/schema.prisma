@@ -124,27 +124,27 @@ model Track {
 }
 
 model Questionary {
-  id        Int      @id @default(autoincrement())
-  type      String   @default("Questionary")
+  id        Int       @id @default(autoincrement())
+  type      String    @default("Questionary")
   questions String[]
   order     Int
   answer    String[]
-  date      DateTime
-  status    Boolean
+  date      DateTime?
+  checked   Boolean? @default(false)
   title     String?
-  hidden    Boolean // spelling mistake?
+  hidden    Boolean?  @default(false)
   Track     Track?   @relation(fields: [trackId], references: [id], onDelete: Cascade)
-  trackId   Int?
+  trackId   Int
 }
 
 model Videocall {
   id      Int      @id @default(autoincrement())
   type    String   @default("Videocall")
-  date    DateTime
+  date    DateTime?
   order   Int
-  title   String
-  status  Boolean
-  hidden  Boolean
+  title   String?
+  checked Boolean? @default(false)
+  hidden  Boolean?  @default(false)
   Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
   link    String?
@@ -153,12 +153,12 @@ model Videocall {
 model CodeSandbox {
   id      Int      @id @default(autoincrement())
   type    String   @default("Sandbox")
-  date    DateTime
-  hidden  Boolean
+  date    DateTime?
+  hidden  Boolean?  @default(false)
   title   String?
   code    String?
-  status  Boolean?
-  Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  checked Boolean?  @default(false)
+  Track   Track     @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
   order   Int
 }
@@ -173,4 +173,3 @@ model Message {
   Track   Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
   trackId Int
 }
-
