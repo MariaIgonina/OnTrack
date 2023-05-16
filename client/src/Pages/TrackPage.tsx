@@ -104,7 +104,7 @@ const TrackPage = () => {
 
   return (
 
-    <div id='track-container' className="flex h-screen top-[70px] w-[99%] min-w-[600px]">
+    <div id='track-container' className="flex h-full top-[70px] w-[99%] min-w-[600px]">
       {stopTrackingModal &&
         <DeleteTrackModal isOpen={true} setOpen={setStopTrackingModal} trackId={track.track?.id} />
       }
@@ -186,10 +186,11 @@ const TrackPage = () => {
           {steps.length &&
             steps.map((step: Step) => {
               if (step.type.toLowerCase() === "sandbox") {
-                return <><StepTemplate title={step.title?.length ? step.title : "Next step: Code!"} type="sandbox" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                return <><span id={`step-${step.id}-date`} className="text-gray-400 uppercase tracking-widest font-bold">{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
+                  <StepTemplate title={step.title?.length ? step.title : "Next step: Code!"} type="sandbox" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
                   content={<Landing />} /><div id="line" className="-mt-10 w-1 bg-gray-500 rounded-xl h-[100px] block relative"></div></>
               } else if (step.type.toLowerCase() === "videocall") {
-                return <><span>{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
+                return <><span id={`step-${step.id}-date`} className="text-gray-400 uppercase tracking-widest font-bold">{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
                   <StepTemplate title={step.title?.length ? step.title : "Next step: Videocall"} type="videocall" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
                     content={<Videocall step={step} />} /><div id="line" className="-mt-4 w-1 bg-gray-500 rounded-xl h-[100px] block relative"></div></>
               }

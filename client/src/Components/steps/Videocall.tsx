@@ -47,7 +47,7 @@ const Videocall = ({ step }: VideocallStepProps) => {
        }
       {edit
         ? <a id='redirect-to-link' target="_blank" href={link.startsWith("http") ? link : `http://${link}`} rel="noopener noreferrer"
-          className="text-sm hover:underline hover:text-yellow-100 hover:cursor-pointer">
+          className="text-sm hover:underline hover:text-yellow-200 hover:cursor-pointer text-white">
           { link.slice(0, 25) } ...</a>
         :<input className={`rounded-xl text-sm py-1  px-3 w-[200px] ${edit && 'invisible'}`}
           id="videocall-link"
