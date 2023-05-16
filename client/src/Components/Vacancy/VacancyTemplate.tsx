@@ -3,11 +3,13 @@ import React, { useEffect, useState } from "react";
 import { typeForStep } from "../../library";
 
 import PopupQuestionary from "./PopUpQuestionary";
+import PopUpSandbox from "./PopUpSandbox";
 
 export default function VacancyTemplate({ onCancel }:any) {
 
   const [stepsArray, setStepsArray] = useState<{}[]>([]);
   const [isPopupQuestionaryOpen, setIsPopupQuestionaryOpen] = useState<Boolean>(false);
+  const [isPopupSandbox, setIsPopupSandbox] = useState<Boolean>(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleAddStep = () => {
@@ -40,6 +42,11 @@ export default function VacancyTemplate({ onCancel }:any) {
     if (updatedSteps[index].type === "Questionary") {
       setIsPopupQuestionaryOpen(true);
     };
+
+    if (updatedSteps[index].type === "SandBox") {
+      setIsPopupSandbox(true);
+    };
+
   }
 
   const handleRemoveStep = () => {
@@ -155,6 +162,7 @@ export default function VacancyTemplate({ onCancel }:any) {
       </div>
     </div>
     {isPopupQuestionaryOpen && <PopupQuestionary />}
+    {isPopupSandbox && <PopUpSandbox/>}
     </>
   );
 }
