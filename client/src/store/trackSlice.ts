@@ -9,6 +9,7 @@ import { initialApplicant } from "./applicantSlice";
 import { initialRecruiter } from "./recruiterSlice";
 import { useState } from "react";
 import React from "react";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 const initialTrack: Track = {
   recruiterID: 0,
@@ -56,6 +57,8 @@ const fetchTrack = createAsyncThunk(
 const fetchTracksByRecruiter = createAsyncThunk(
   "track/fetchtracksbyrecruiter",
   async function ({ getTrackByWhat, id }: IGetParams, { rejectWithValue }) {
+    console.log("hello?");
+    console.log({ getTrackByWhat, id });
     try {
       console.log(`${url}/${getTrackByWhat}/${id}`);
       const response = await fetch(`${url}/${getTrackByWhat}/${id}`);
@@ -63,9 +66,10 @@ const fetchTracksByRecruiter = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("TRACKS FROM REDUX THUNK : ", data);
+      // console.log("TRACKS FROM REDUX THUNK : ", data);
       return data;
     } catch (err) {
+      console.log("error in track slice");
       if (err instanceof Error) return rejectWithValue(err.message);
     }
   }
