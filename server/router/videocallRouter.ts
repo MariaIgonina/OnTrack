@@ -4,10 +4,10 @@ import { videocallController } from "../controllersMain/videoCallController";
 const videocallRouter = Router();
 
 // Track routes
-videocallRouter.post("/createTrack", videocallController.createVideocall);
-videocallRouter.get("/getTracksByVacancy/:vacancyId", videocallController.getAllVideocallsByTrack);
-videocallRouter.get("/getTrackById/:trackId", videocallController.getVideocallById);
-videocallRouter.put("/updatetrack/:id", videocallController.updateVideocall);
-videocallRouter.delete("/deletetrack/:id", videocallController.deleteVideocall);
+videocallRouter.post("/createVideocall", videocallController.createVideocall);
+videocallRouter.get("/getVideocallsByVacancy/:vacancyId", videocallController.getAllVideocallsByTrack);
+videocallRouter.get("/getVideocallById/:trackId", videocallController.getVideocallById);
+videocallRouter.put("/updateVideocall/:id", videocallController.updateVideocall);
+videocallRouter.delete("/deleteVideocall/:id", videocallController.deleteVideocall);
 
 export default videocallRouter
