@@ -20,6 +20,8 @@ const initialTrack: Track = {
   vacancyId: 0,
   vacancy: initialVacancy,
   Message: [],
+  CodeSandbox: [],
+  Videocall: []
 };
 
 const url: string = "http://localhost:3000";

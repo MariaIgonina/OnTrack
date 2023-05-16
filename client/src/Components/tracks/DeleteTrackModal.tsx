@@ -14,16 +14,16 @@ type RegisterModalProps = {
 const DeleteTrackModal = ({ isOpen, setOpen, trackId }: RegisterModalProps) => {
   const [message, setMessage] = useState('')
   const dispatch: AppDispatch = useDispatch();
-  const currentUser = useSelector((state: RootState) => state.currentUser.currentUser)
+  const currentUser = useSelector((state: RootState) => state.currentUser)
   const navigate = useNavigate();
 
   const stopTracking = () => {
     try {
-      // dispatch(deleteTrack(trackId)).unwrap()
+      dispatch(deleteTrack(trackId)).unwrap()
       setMessage('This track has been erased. You\'re being redirected to your Dashboard')
       setTimeout(() => {
         setOpen(false);
-        navigate('/dashboard/' + currentUser.id)
+        navigate('/dashboard')
       }, 3000)
     } catch (error: any) {
       console.log('Error deleting track', error)

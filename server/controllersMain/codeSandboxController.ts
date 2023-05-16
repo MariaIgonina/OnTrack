@@ -14,7 +14,7 @@ async function sendCompile(req: Request, res: Response) {
     source_code: btoa(source_code),
     // stdin: btoa(customInput),
   };
-console.log('lang -> ', formData.language_id, typeof formData.language_id)
+  console.log('lang -> ', formData.language_id, typeof formData.language_id)
   const options = {
     method: "POST",
     url: 'https://judge0-ce.p.rapidapi.com/submissions',
@@ -50,9 +50,16 @@ const createSandox = async (req:Request, res:Response)=>{
   // } catch (error) {
     
   // }
+function test(req: Request, res: Response) {
+  try {
+    res.status(200).send('Correct route for sandbox')
+  } catch (error) {
+    console.log('test error sandbox', error);
+    res.send(error)
+  }
 }
 
 export const codeSandbox = {
   sendCompile,
-
+  test
 }

@@ -101,7 +101,7 @@ const Landing = () => {
     } catch (err) {
       console.log("err", err);
       setProcessing(false);
-      showErrorToast('');
+      // showErrorToast('');
     }
   };
 
@@ -116,17 +116,17 @@ const Landing = () => {
       progress: undefined,
     });
   };
-  const showErrorToast = (msg: string) => {
-    toast.error(msg || `Something went wrong! Please try again.`, {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
+  // const showErrorToast = (msg: string) => {
+  //   toast.error(msg || `Something went wrong! Please try again.`, {
+  //     position: "top-right",
+  //     autoClose: 1000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //   });
+  // };
 
   return (
     <>
@@ -142,7 +142,7 @@ const Landing = () => {
           draggable
           pauseOnHover
         />
-        <div className="border border-black rounded-lg bg-stone-100 flex flex-col max-w-905 min-w-731">
+        <div className="border border-black rounded-lg bg-stone-100 flex flex-col max-w-905 min-w-731 shadow shadow-lg">
           <div className="flex flex-row">
             <div className="px-4 py-2">
               <LanguagesDropdown onSelectChange={onSelectChange} />
@@ -164,7 +164,7 @@ const Landing = () => {
                   onClick={handleCompile}
                   disabled={!code}
                   className={classnames(
-                    "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                    "mt-4 border-2 border-black rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
                     !code ? "opacity-50" : ""
                   )}
                 >

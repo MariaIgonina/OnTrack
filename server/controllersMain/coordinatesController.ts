@@ -1,3 +1,4 @@
+const MAPS_KEY = process.env.MAPS_KEY;
 interface LatLngLiteral {
   lat: number;
   lng: number;
@@ -10,7 +11,7 @@ export const fetchCityCoordinates = async (
     const response = await fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
         cityName
-      )}&key=AIzaSyDaIfGIGsLwAdkkp3mxtP_9AF7_YXIybBs`
+      )}&key=${MAPS_KEY}`
     );
     const data = await response.json();
 

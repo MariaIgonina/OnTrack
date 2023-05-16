@@ -5,6 +5,7 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
+
 import { fetchAllApplicants } from "../../store/applicantSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Applicant, CurrentUserType } from "../../Interfaces";
@@ -13,6 +14,8 @@ import { fetchAllVacancies } from "../../store/vacancySlice";
 import { Vacancy } from "../../Interfaces";
 import { Link } from "react-router-dom";
 import defaultAvatar from "../../assets/defaultAvatar.png";
+
+const key = import.meta.env.VITE_MAPS_KEY;
 
 const containerStyle = {
   width: "100%",
@@ -38,7 +41,7 @@ const GoogleMaps: React.FC = () => {
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyDaIfGIGsLwAdkkp3mxtP_9AF7_YXIybBs",
+    googleMapsApiKey: key,
   });
   const applicants = useSelector(
     (s: RootState) => s.applicant.applicant
@@ -144,7 +147,7 @@ const GoogleMaps: React.FC = () => {
                 />
                 <h2 className="font-semibold">
                   <Link
-                    to={`/applicant/${(selectedElement as Applicant).id}`}
+                    to={`/applicant/${(selectedElement as Applicant).idDB}`}
                     className="text-blue-500 hover:text-blue-700"
                   >
                     {(selectedElement as Applicant).name}{" "}
