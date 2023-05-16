@@ -64,51 +64,20 @@ export interface Vacancy {
 }
 
 export interface Track {
-  id: number;
-  steps: Step[];
-  recruiterID: number;
-  recruiter: Recruiter;
-  applicantID: number;
-  applicant?: Applicant;
-  applicantNotes: string;
-  recruiterNotes: string;
-  vacancyId: number;
-  vacancy: Vacancy;
-  Message: Message[];
-}
-
-export interface Step {
-  id: number;
-  title: string;
-  type: string;
-  about: string;
-  durationInMs: number;
-  scheduleDate: Date | string;
-  order: number;
-  hidden: boolean;
-  active: boolean;
-  questionarie: Questionary[];
-  Track: Track;
-  trackId: number;
-}
-
-export interface Message {
-  id?: number;
-  trackId: number;
-  // track: Track;
-  text: string;
-  date: Date | string;
-  files: string[];
-  author: string;
-}
-
-export interface Questionary {
-  id: number;
-  questions: string[];
-  answer: string[];
-  date: Date | string;
-  step?: Step;
-  stepId?: number;
+  id?: number
+  recruiterID: number
+  Recruiter?: Recruiter
+  applicantID?: number
+  Applicant?: Applicant
+  reject?: boolean
+  applicantNotes?: string
+  recruiterNotes?: string
+  vacancyId: number
+  Vacancy?: Vacancy
+  Questionaries?: Questionary[]
+  Videocall?: []
+  CodeSandbox?: []
+  Message?: Message[]
 }
 
 export interface Experience {
@@ -139,4 +108,54 @@ export interface ICloudImage {
 export interface CurrentUserType {
   id: number;
   role: string;
+}
+
+
+export interface Videocall {
+  id?: number,
+  type?: string,
+  date?: Date | string;
+  order: number,
+  link?: string,
+  title: string,
+  status?: boolean,
+  hidden?: boolean,
+  Track?: Track,
+  trackId: number,
+}
+
+export interface Sandbox {
+  id?: number
+  type?: string
+  date?: Date | string
+  hidden?: boolean
+  title: string
+  data?: string
+  Track?: Track
+  trackId: number
+  status?: boolean
+}
+
+export interface Questionary {
+  id?: number
+  type?: string
+  questions?: string[]
+  answer?: string[]
+  date?: Date | string
+  order: number
+  status?: boolean
+  title: string
+  hidden?: boolean
+  Track?: Track
+  trackId: number
+}
+
+export interface Message {
+  id?: number
+  trackId: number
+  // track: Track
+  text: string
+  date: Date | string
+  files: string[]
+  author: string
 }

@@ -624,8 +624,8 @@ const AddApplicantPage = () => {
                         name="startDate"
                         max={new Date().toISOString().split("T")[0]}
                         value={
-                          educationData.startDate
-                            ? educationData.startDate
+                          educationData.startDate 
+                            ? educationData.startDate 
                                 .toISOString()
                                 .slice(0, 7)
                             : ""

@@ -42,6 +42,7 @@ const fetchVacancy = createAsyncThunk(
   }
 );
 
+
 const fetchAllVacancies = createAsyncThunk(
   "vacancies/fetchallvacancies",
   async function (_, { rejectWithValue }) {

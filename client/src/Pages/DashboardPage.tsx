@@ -10,6 +10,7 @@ import Suggestion from "../Components/Suggestion";
 import GoogleMaps from "../Components/googleMaps/GoogleMaps";
 import TrackerComponent from "../Components/TrackerComponent";
 import FilteredVacancies from "../Components/Vacancy/FilteredVacancies";
+import DateCalendarViews from "../Components/Calendar"
 
 const DashboardPage = () => {
   const currentUser = useSelector(
@@ -45,6 +46,8 @@ const DashboardPage = () => {
           <GoogleMaps />
           <FilteredVacancies />
           <AllUsers />
+
+          <DateCalendarViews></DateCalendarViews>
         </div>
       </div>
     </>
