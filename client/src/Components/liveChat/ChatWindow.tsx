@@ -21,7 +21,7 @@ const ChatWindow: React.FC<ChatWidnowProps> = ({ trackId }) => {
 
   return (
     <div
-      className={`fixed bottom-9 right-9 bg-white p-4 rounded-lg shadow-md transition-height duration-300 ${
+      className={`fixed bottom-9 right-9 bg-white p-4 rounded-lg shadow-md transition-height duration-300 z-50 ${
         isOpen ? "h-96" : "h-12"
       }`}
     >

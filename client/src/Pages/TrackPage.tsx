@@ -21,6 +21,7 @@ type Step = {
   title?: string,
   order?: number | string,
   date: string,
+  code?: string,
   checkIsAble: boolean
 }
 
@@ -59,7 +60,7 @@ const TrackPage = () => {
       dispatch(fetchRecruiter(track.track.recruiterID));
     }
     getInfo()
-    // checkForSteps();
+    // checkForSteps(); // If things go wrong uncomment this
   }, [track.track?.recruiterID]);
 
 
@@ -74,7 +75,7 @@ const TrackPage = () => {
       console.log(error.message, num)
       console.log('track', track.track)
     }
-    // checkForSteps();
+    // checkForSteps(); // If things go wrong uncomment this too
   }, [gotInfo])
 
   useEffect(() => {
@@ -97,22 +98,30 @@ const TrackPage = () => {
         fetchedSteps.push(element)
       });
     }
+    if (track.track?.Questionaries) {
+      track.track?.Questionaries.forEach(element => {
+        fetchedSteps.push(element)
+      });
+    }
+    fetchedSteps.sort((a: any, b: any) => new Date(a.date) - new Date(b.date))
+
+    console.log('all steps => ', fetchedSteps)
     setSteps([...fetchedSteps]);
 
   }
 
-
+  
   return (
 
-    <div id='track-container' className="flex h-full top-[70px] w-[99%] min-w-[600px]">
+    <div id='track-container' className="flex h-full top-[70px] w-[100%] min-w-[600px] bg-neutral-100">
       {stopTrackingModal &&
-        <DeleteTrackModal isOpen={true} setOpen={setStopTrackingModal} trackId={track.track?.id} />
+        <DeleteTrackModal isOpen={true} setOpen={setStopTrackingModal} trackId={track.track?.id!} />
       }
       {isLoading && <div className="w-screen  h-screen z-50 flex flex-col justify-center items-center bg-opacity-90 bg-neutral-800 
           text-white absolute top-0 left-0 ">
         <Spinner /><p className="mt-8">Loading...</p></div>}
       <div className="w-[226px] min-w-[226px] h-[90%] hidden relative sm:block md:block lg:block">
-        <TrackSideBar trackId={track.track?.id} role={currentUser.role!} setStopTrackingModal={setStopTrackingModal} />
+        <TrackSideBar trackId={track.track?.id!} role={currentUser.role!} setStopTrackingModal={setStopTrackingModal} />
       </div>
 
       <div className="w-[98%] min-w-[400px] ml-3">
@@ -147,7 +156,7 @@ const TrackPage = () => {
                     }
                   >
                     <h5 className="hover:cursor-pointer mb-2 text-2xl w-fit rounded-lg font-bold tracking-tight hover:bg-gray-800 hover:text-white">
-                      at {recruiter.recruiter.name}
+                      {recruiter.recruiter?.name && `at ${recruiter.recruiter?.name}`}
                     </h5>
                   </a>
                   <a onClick={() => navigate(`/vacancy/${vacancy.data?.id}`)}>
@@ -187,19 +196,19 @@ const TrackPage = () => {
             steps.map((step: Step) => {
               if (step.type.toLowerCase() === "sandbox") {
                 return <><span id={`step-${step.id}-date`} className="text-gray-400 uppercase tracking-widest font-bold">{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
-                  <StepTemplate title={step.title?.length ? step.title : "Next step: Code!"} type="sandbox" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
-                  content={<Landing />} /><div id="line" className="-mt-10 w-1 bg-gray-500 rounded-xl h-[100px] block relative"></div></>
+                  <StepTemplate step={step} title={step.title?.length ? step.title : "Next step: Code!"} type="sandbox" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                    content={<Landing savedCode={step.code! || ''} step={step} />} /><div id="line" className="-mt-10 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
               } else if (step.type.toLowerCase() === "videocall") {
                 return <><span id={`step-${step.id}-date`} className="text-gray-400 uppercase tracking-widest font-bold">{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
-                  <StepTemplate title={step.title?.length ? step.title : "Next step: Videocall"} type="videocall" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
-                    content={<Videocall step={step} />} /><div id="line" className="-mt-4 w-1 bg-gray-500 rounded-xl h-[100px] block relative"></div></>
+                  <StepTemplate step={step} title={step.title?.length ? step.title : "Next step: Videocall"} type="videocall" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                    content={<Videocall step={step} />} /><div id="line" className="-mt-4 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
               }
 
             })
           }
         </div>
-        <div id="chat-wraper" className="z-40">
-          <ChatWindow trackId={track.track?.id} />
+        <div id="chat-wraper">
+          <ChatWindow trackId={track.track?.id!} />
         </div>
       </div >
     </div >

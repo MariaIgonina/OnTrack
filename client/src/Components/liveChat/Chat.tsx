@@ -67,7 +67,7 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
 
   return (
     <div>
-      <div className="chat-box">
+      <div className="chat-box z-50">
         <ul>
           {messages.length &&
             messages.map((message, index) => (
