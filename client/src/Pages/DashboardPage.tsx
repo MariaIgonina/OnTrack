@@ -10,7 +10,7 @@ import Suggestion from "../Components/Suggestion";
 import GoogleMaps from "../Components/googleMaps/GoogleMaps";
 import TrackerComponent from "../Components/TrackerComponent";
 import FilteredVacancies from "../Components/Vacancy/FilteredVacancies";
-import DateCalendarViews from "../Components/Calendar"
+import DateCalendarViews from "../Components/Calendar";
 
 const DashboardPage = () => {
   const searchRef = useRef(null);
@@ -46,11 +46,8 @@ const DashboardPage = () => {
           <TrackerComponent />
           <Suggestion></Suggestion>
           <GoogleMaps />
-          <FilteredVacancies />
-       
-
-          <DateCalendarViews></DateCalendarViews>
           <AllUsers searchRef={searchRef} />
+          <DateCalendarViews></DateCalendarViews>
         </div>
       </div>
     </>
