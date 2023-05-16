@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createVacancy } from "../../store/vacancySlice";
-import type { Vacancy } from "../../Interfaces";
+import type { Track, Vacancy } from "../../Interfaces";
 import type { AppDispatch, RootState } from "../../store/store";
 import { initialVacancy } from "../../store/vacancySlice";
 import {
@@ -15,6 +15,7 @@ import {
 } from "../../library";
 import VacancyTemplate from "./VacancyTemplate";
 
+
 type VacancyCreateProps = {
   onCancel: () => void;
 };
@@ -23,6 +24,8 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
   const [formData, setFormData] = useState<Vacancy>({ ...initialVacancy });
   const currentUserID = useSelector((s: RootState) => s.currentUser.id);
   const [showVacancyTemplate, setShowVacancyTemplate] = useState(false);
+  const [tempTitle, setTempTitle] = useState('')
+  
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -66,6 +69,7 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
     setcollStacks((prev) => [...prev, newStack]);
     setCollStack("");
   };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const newVacancy: Vacancy = {
@@ -77,13 +81,27 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
       stack: collStacks,
       requiredLanguages: collCompLanguages,
     };
-    console.log(newVacancy, "newVacancy");
+
+    setTempTitle(newVacancy.title)
+    
     await dispatch(createVacancy(newVacancy));
-    setShowVacancyTemplate(true); // Показать VacancyTemplate после отправки формы
+    
+    setShowVacancyTemplate(true); 
   };
+
   if (showVacancyTemplate) {
-    return <VacancyTemplate onCancel={onCancel} />;
+    return (
+    <VacancyTemplate 
+      onCancel={onCancel} 
+      tempTitle = {tempTitle}
+      currentUserID = {currentUserID}
+    />
+    );
   }
+
+  
+  // console.log("I REALLY REALLY NEED THIS TITLE", tempTitle);
+
 
   return (
     <div className="flex items-center justify-center mt-5 ">

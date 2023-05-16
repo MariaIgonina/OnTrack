@@ -41,6 +41,7 @@ const url: string = "http://localhost:3000";
 
 const fetchVacancy = createAsyncThunk("vacancy/fetchvacancy", getVacancy);
 
+
 const fetchAllVacancies = createAsyncThunk(
   "vacancies/fetchallvacancies",
   async function (_, { rejectWithValue }) {
