@@ -5,43 +5,130 @@ import { typeForStep } from "../../library";
 import PopupQuestionary from "./PopUpQuestionary";
 import PopUpSandbox from "./PopUpSandbox";
 
-export default function VacancyTemplate({ onCancel }:any) {
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+
+import { Vacancy } from "../../Interfaces";
+
+import { createTrack } from "../../store/trackSlice";
+import { createQuestionary } from "../../store/QuestionarySlice";
+import { createVideocall } from "../../store/VideoCallSlice";
+import { createSandbox } from "../../store/SandboxSlice";
+
+import { Track } from "../../Interfaces";
+
+
+export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:any) {
 
   const [stepsArray, setStepsArray] = useState<{}[]>([]);
   const [isPopupQuestionaryOpen, setIsPopupQuestionaryOpen] = useState<Boolean>(false);
   const [isPopupSandbox, setIsPopupSandbox] = useState<Boolean>(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [idOfCurrentVacancy, setIdOfCurrentVacancy] = useState(0)
+  const [trackId, setTrackId] = useState(0)
+  const [questions, setQuestions] = useState([])
+  
+  // const [trackData, setTrackData] = useState<Track>({...initialTrack})
 
-  const handleAddStep = () => {
-    const newStep = {
-      title: '',
-      type: '',
-      durationInMs: '',
-      order: 0,
-      hidden: false,
-    };
+  const dispatch = useDispatch<AppDispatch>();
 
-    setStepsArray([...stepsArray, newStep]);
-    console.log(stepsArray)
-  };
+  const trackData = useSelector(
+    (state: RootState) => state.track.track
+  );
 
+  const vacancies = useSelector(
+    (state: RootState) => state.vacancy.vacancies
+  ) as unknown as Vacancy[];
+  
+  useEffect(() => 
+  setTrackId(trackData.id), [trackId]);
+  
   //Hidden toggle
   const handleHiddenChange = (index: number) => {
     const updatedSteps = [...stepsArray];
     updatedSteps[index].hidden = !updatedSteps[index].hidden;
     setStepsArray(updatedSteps);
+    console.log(stepsArray)
   };
   
+  
+  const lookForIdForTrack = function () {
+    const id: (number | undefined)[] = vacancies.map((vac) => {
+      if (vac.title === tempTitle) {
+        return vac.id
+      }
+    }).filter(Boolean)
+    return id[0]
+  }
+
   const handleChange = (e:any, index:number) => {
     const { name, value } = e.target;
-
-    const updatedSteps = [...stepsArray];
+    
+    const updatedSteps:any = [...stepsArray];
     updatedSteps[index][name] = value;
+    if (updatedSteps[index][name] === "order") {
+      updatedSteps[index][name] = index;
+    };
+    if (updatedSteps[index][name] === "trackId") {
+      updatedSteps[index][name] = trackId;
+    };
+    if (updatedSteps[index].type === "Questionary") {
+      console.log('questions add', questions)
+      updatedSteps[index].questions = questions;
+    };
     setStepsArray(updatedSteps);
 
     if (updatedSteps[index].type === "Questionary") {
-      setIsPopupQuestionaryOpen(true);
+        setIsPopupQuestionaryOpen(true);
+      };
+    }
+
+  //!!!!!!!!!!!
+  const handleAddStep = () => {
+    // create an empty track
+
+    const newTrack: Track = {
+      ...trackData,
+      recruiterID: Number(currentUserID),
+      vacancyId: lookForIdForTrack()!
+    }
+    // dispatch(createTrack(newTrack))
+
+    const newStep = {
+      title: '',
+      type: '',
+      hidden: false,
+      order: 0,
+      trackId: 0
     };
+    
+    setStepsArray([...stepsArray, newStep]);
+    console.log(stepsArray)
+    
+  }
+ useEffect(() => {
+  console.log({stepsArray})
+ }, [stepsArray])
+  
+  
+    const sendToDb = () => {
+    // different schemas and routes for different steps
+    stepsArray.forEach((step, index) => {
+      if (step.type === "Questionary") {
+        step.questions = questions;
+        step.order = index;
+        step.trackId = trackId; 
+        // dispatch(createQuestionary(step)); 
+      } else if (step.type === "Zoom call") {
+        step.order = index;
+        step.trackId = trackId;
+        // dispatch(createVideocall(newStep));
+      } else {
+        step.order = index;
+        step.trackId = trackId;
+        // dispatch(createSandbox(newStep));
+      }
+    });
 
     if (updatedSteps[index].type === "SandBox") {
       setIsPopupSandbox(true);
@@ -49,15 +136,17 @@ export default function VacancyTemplate({ onCancel }:any) {
 
   }
 
+    
+  const saveTrack = () => {
+    sendToDb()
+    onCancel()
+    console.log({stepsArray})
+  }
+          
   const handleRemoveStep = () => {
     setStepsArray(stepsArray.slice(0, -1));
   };
-
-  const saveTrack = () => {
-    handleAddStep()
-    onCancel()
-  }
-
+  
   return (
     <>
       <div className="rounded-lg w-full m-2 mt-8 flex flex-col items-center justify-center" >
@@ -161,7 +250,12 @@ export default function VacancyTemplate({ onCancel }:any) {
         </button>
       </div>
     </div>
-    {isPopupQuestionaryOpen && <PopupQuestionary />}
+    {isPopupQuestionaryOpen && 
+    <PopupQuestionary 
+    setQuestions = {setQuestions}
+    questions = {questions}
+    />}
+
     {isPopupSandbox && <PopUpSandbox/>}
     </>
   );
