@@ -21,11 +21,7 @@ export default function PopUpSandbox() {
   };
 
   const submitSandBox = () => {
-    try {
-      
-    } catch (error) {
-      
-    }
+
   };
 
   return (

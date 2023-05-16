@@ -85,7 +85,7 @@ export interface Videocall {
   id: number;
   type: string;
   date: string;
-  hidden: Boolean;
+  hidden: boolean;
   Track: Track;
   trackId: number;
 }
@@ -126,6 +126,7 @@ export interface Message {
 
 export interface Questionary {
   id: number;
+  type: string;
   questions: string[];
   answer: string[];
   date: Date | string;
@@ -133,7 +134,9 @@ export interface Questionary {
   stepId?: number;
   order: number;
   checked?: boolean;
-  title: string
+  title: string;
+  hidden:boolean;
+  trackId:number
 }
 
 export interface Experience {

@@ -73,7 +73,9 @@ async function deleteQuestionary(req: Request, res: Response) {
 
 async function updateQuestionary(req: Request, res: Response) {
   const { id } = req.params;
-  const { questions, answer, date } = req.body;
+  const { questions, answers, date } = req.body;
+  console.log(req.body);
+  console.log(req.params);
 
   try {
     const questionary = await prisma.questionary.update({
@@ -82,7 +84,7 @@ async function updateQuestionary(req: Request, res: Response) {
       },
       data: {
         questions: questions,
-        answer: answer,
+        answer: answers,
         date: date,
       },
     });

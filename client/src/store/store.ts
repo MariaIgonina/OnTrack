@@ -10,6 +10,7 @@ import educationReducer from "./educationSlice";
 import experienceReducer from "./experienceSlice";
 
 import currentUserReducer from "./CurrentUserSlice";
+import questionaryReducer from "./QuestionarySlice";
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ export const store = configureStore({
     education: educationReducer,
     experience: experienceReducer,
     currentUser: currentUserReducer,
+    questionary: questionaryReducer,
   },
 });
 
