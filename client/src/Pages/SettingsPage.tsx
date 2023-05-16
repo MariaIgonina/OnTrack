@@ -31,8 +31,8 @@ export default function SettingsPage() {
             <img
               src={stock5}
               alt="stockphoto"
-              style={{ width: "40%", height: "40%" }}
-              className="my-8 "
+              style={{ width: "30%", height: "30%" }}
+              className="my-2 "
             />
           </div>
           <h1 className="text-3xl font-bold tracking-tight text-[#026767] text-big text-center">

@@ -354,8 +354,8 @@ const AddApplicantPage = () => {
   });
 
   return (
-    <div className=" flex items-center justify-center p-4 mt-4 flex-col m-0 mb-0 pb-0">
-      <div className="flex items-center justify-center p-4 m-4 flex-col mb-0 pb-0">
+    <div className=" flex items-center justify-center py-4 mt-4 flex-col m-0 mb-0 pb-0">
+      <div className="flex items-center justify-center py-4 my-4 flex-col mb-0 pb-0">
         <ThemeProvider theme={theme}>
           <Stepper
             activeStep={activeStep}
@@ -1159,7 +1159,7 @@ const AddApplicantPage = () => {
       <div>
         {activeStep === 4 && (
           <button
-            className="w-auto bg-orange-100 hover:bg-orange-400 rounded-lg shadow-xl font-medium text-white px-4 py-2"
+            className="w-auto bg-orange-100 hover:bg-orange-400 rounded-lg shadow-xl font-medium text-white px-4 py-2 mb-8"
             onClick={handleSubmit}
           >
             Create account!
