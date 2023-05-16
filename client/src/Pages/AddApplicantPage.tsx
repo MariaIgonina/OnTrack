@@ -105,6 +105,7 @@ const AddApplicantPage = () => {
     };
 
     dispatch(updateApplicant(dbArg));
+    navigate(`/${currentUser.role}/${currentUser.id}`);
   };
 
   //Buttons validation
