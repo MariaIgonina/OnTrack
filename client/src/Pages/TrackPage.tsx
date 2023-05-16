@@ -30,6 +30,7 @@ const TrackPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [stopTrackingModal, setStopTrackingModal] = useState<boolean>(false);
   const [steps, setSteps] = useState<any>([{ type: "", id: "", title: "", order: 0, step: "" }]);
+  const [reloadAlert, setReloadAlert] = useState(false)
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>()
   const currentUser = useSelector((state: RootState) => state.currentUser)
@@ -63,7 +64,9 @@ const TrackPage = () => {
     // checkForSteps(); // If things go wrong uncomment this
   }, [track.track?.recruiterID]);
 
-
+  useEffect(() => {
+    console.log('reload the fucking page!!!')
+  }, [reloadAlert])
 
   const getInfo = useCallback(() => {
     try {
@@ -103,6 +106,7 @@ const TrackPage = () => {
         fetchedSteps.push(element)
       });
     }
+    fetchedSteps.sort((a: any, b: any) => a.order - b.order)
     fetchedSteps.sort((a: any, b: any) => new Date(a.date) - new Date(b.date))
 
     console.log('all steps => ', fetchedSteps)
@@ -196,11 +200,11 @@ const TrackPage = () => {
             steps.map((step: Step) => {
               if (step.type.toLowerCase() === "sandbox") {
                 return <><span id={`step-${step.id}-date`} className="text-gray-400 uppercase tracking-widest font-bold">{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
-                  <StepTemplate step={step} title={step.title?.length ? step.title : "Next step: Code!"} type="sandbox" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                  <StepTemplate setReloadAlert={setReloadAlert} step={step} title={step.title?.length ? step.title : "Next step: Code!"} type="sandbox" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
                     content={<Landing savedCode={step.code! || ''} step={step} />} /><div id="line" className="-mt-10 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
               } else if (step.type.toLowerCase() === "videocall") {
                 return <><span id={`step-${step.id}-date`} className="text-gray-400 uppercase tracking-widest font-bold">{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
-                  <StepTemplate step={step} title={step.title?.length ? step.title : "Next step: Videocall"} type="videocall" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                  <StepTemplate setReloadAlert={setReloadAlert} step={step} title={step.title?.length ? step.title : "Next step: Videocall"} type="videocall" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
                     content={<Videocall step={step} />} /><div id="line" className="-mt-4 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
               }
 
