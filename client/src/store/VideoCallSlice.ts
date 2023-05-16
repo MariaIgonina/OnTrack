@@ -7,18 +7,16 @@ import { RootState } from "./store";
 import { initialTrack } from "./trackSlice";
 
 const initialVideocall: Videocall = {
-  id: 0,
   type: '',
   date: '',
   order: 0,
-  link: '',
   title: '',
-  status: false,
+  checked: false,
   hidden: false,
   Track: initialTrack,
   trackId: 0,
+  link: '',
 };
-
 
 
 const url: string = "http://localhost:3000";

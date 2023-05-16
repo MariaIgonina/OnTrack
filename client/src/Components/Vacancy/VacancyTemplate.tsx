@@ -27,6 +27,7 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
   const [idOfCurrentVacancy, setIdOfCurrentVacancy] = useState(0)
   const [trackId, setTrackId] = useState(0)
   const [questions, setQuestions] = useState([])
+  const [code, setCode] = useState('')
   
   // const [trackData, setTrackData] = useState<Track>({...initialTrack})
 
@@ -81,7 +82,10 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
     if (updatedSteps[index].type === "Questionary") {
         setIsPopupQuestionaryOpen(true);
       };
-    }
+    if (updatedSteps[index].type === "SandBox") {
+      setIsPopupSandbox(true);
+    };
+  }
 
   //!!!!!!!!!!!
   const handleAddStep = () => {
@@ -92,7 +96,7 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
       recruiterID: Number(currentUserID),
       vacancyId: lookForIdForTrack()!
     }
-    // dispatch(createTrack(newTrack))
+    dispatch(createTrack(newTrack))
 
     const newStep = {
       title: '',
@@ -118,21 +122,20 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
         step.questions = questions;
         step.order = index;
         step.trackId = trackId; 
-        // dispatch(createQuestionary(step)); 
+        dispatch(createQuestionary(step)); 
       } else if (step.type === "Zoom call") {
         step.order = index;
         step.trackId = trackId;
-        // dispatch(createVideocall(newStep));
+        dispatch(createVideocall(newStep));
       } else {
         step.order = index;
         step.trackId = trackId;
-        // dispatch(createSandbox(newStep));
+        step.code = code
+        dispatch(createSandbox(newStep));
       }
     });
 
-    if (updatedSteps[index].type === "SandBox") {
-      setIsPopupSandbox(true);
-    };
+
 
   }
 
@@ -256,7 +259,12 @@ export default function VacancyTemplate({ onCancel, tempTitle, currentUserID }:a
     questions = {questions}
     />}
 
-    {isPopupSandbox && <PopUpSandbox/>}
+    {isPopupSandbox && 
+    <PopUpSandbox
+    code = {code}
+    setCode = {setCode}
+    setIsPopupSandbox = {setIsPopupSandbox}
+    />}
     </>
   );
 }
