@@ -1,6 +1,11 @@
 import Spinner from "./Spinner";
 
-const Loading = ({ userImg, userName }) => {
+type LoadingProps = {
+  userImg: string;
+  userName: string;
+};
+
+const Loading = ({ userImg, userName }: LoadingProps) => {
   return (
     <div className="w-screen h-[70vh] flex flex-col justify-center items-center">
       <div className="flex ">
