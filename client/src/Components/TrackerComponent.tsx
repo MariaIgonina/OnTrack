@@ -72,7 +72,6 @@ export default function TrackerComponent() {
                         )
                       }
                     >
-                      {/* <TrackBanner track={track}></TrackBanner> */}
                       <TrackTrack track={track} key={track.id}></TrackTrack>
                     </button>
                   </div>

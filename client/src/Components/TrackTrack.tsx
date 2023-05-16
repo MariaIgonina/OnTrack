@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { CurrentUserType } from "../Interfaces";
 import { getVacancy, getRecruiter, getApplicant } from "../api.fetch";
-import TrackBanner from "./TrackBanner";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 export default function TrackTrack({ track }) {
   const [stepArr, setStepArr] = useState([]);
   const [vacancy, setVacancy] = useState({});
   const [recruiter, setRecruiter] = useState({});
   const [applicant, setApplicant] = useState({});
+  const scrollRef = useRef(null);
 
   const currentUser = useSelector(
     (s: RootState) => s.currentUser
@@ -26,6 +27,15 @@ export default function TrackTrack({ track }) {
   useEffect(() => {
     setStepArr(extractItemsByOrder(track));
   }, []);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [stepArr]);
 
   function extractItemsByOrder(track) {
     const orderedItems: any[] = [];
@@ -57,7 +67,8 @@ export default function TrackTrack({ track }) {
       {track.reject === false ? (
         <>
           {stepArr.map((step, index) => (
-            <React.Fragment key={index}>
+            <div key={index}>
+              {/* ref={step.checked === true ? scrollRef : null}> */}
               <div className="bg-yellow-100 rounded-lg py-5 h-200">
                 <p className="text-xl text-[#026767] font-semibold pb-2 tracking-widest">
                   Step {index + 1}
@@ -75,7 +86,7 @@ export default function TrackTrack({ track }) {
                   marginLeft: "130px",
                 }}
               ></div>
-            </React.Fragment>
+            </div>
           ))}
           <div className="bg-yellow-100 rounded-lg py-5 mb-8">
             <p>all steps completed</p>
@@ -85,6 +96,9 @@ export default function TrackTrack({ track }) {
         <>
           <div className="bg-blue-100 rounded-lg py-5 mb-8">
             <p>Track closed for {vacancy.title}</p>
+            {currentUser.role === "applicant" ? (
+              <DeleteOutlineOutlinedIcon></DeleteOutlineOutlinedIcon>
+            ) : null}
           </div>
         </>
       )}
