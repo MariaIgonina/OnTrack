@@ -46,6 +46,7 @@ const ApplicantPage = () => {
       dispatch(fetchApplicant(+currentUser.id));
       console.log("WE CALLED AN APPLICANT", applicant);
     } else {
+      console.log("codeParam", +codeParam);
       dispatch(fetchApplicant(+codeParam));
     }
   }, [dispatch, currentUser, codeParam]);
