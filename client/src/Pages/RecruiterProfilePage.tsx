@@ -59,7 +59,7 @@ const RecruiterProfilePage = () => {
               style={{ height: "200px", width: "200px" }}
             />
           </div>
-          <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 m-2 mt-3 mr-2">
+          <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-4 m-2 mt-3 mr-2">
             <h1 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-3xl m-2">
               {recruiter.recruiter?.name}
             </h1>
@@ -94,7 +94,7 @@ const RecruiterProfilePage = () => {
             </p>
           </div>
 
-          <div className=" flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md p-3 m-2 mt-3 mr-4 bg-[#FFE8D1]">
+          <div className=" flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md p-4 m-2 mt-3 mr-4 bg-[#FFE8D1]">
             <div className="flex flex-row mt-2">
               <AccountCircleIcon
                 fontSize="small"
@@ -141,7 +141,7 @@ const RecruiterProfilePage = () => {
         </div>
 
         <div className="flex flex-row">
-          <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-[#D7E7E8] p-3 m-2 mr-4 ml-2 w-9/12">
+          <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-[#D7E7E8] p-4 pr-8 m-2 mr-4 ml-2 w-9/12">
             <div className="flex flex-row">
               <InfoIcon
                 fontSize="small"
@@ -153,7 +153,7 @@ const RecruiterProfilePage = () => {
               </p>
             </div>
 
-            <p className="text-base font-semibold text-[#475569] text-base whitespace-normal mt-2">
+            <p className="text-base text-[#475569] text-base whitespace-normal mt-2">
               {recruiter.recruiter.about}
             </p>
           </div>

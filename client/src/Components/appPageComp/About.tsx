@@ -9,7 +9,7 @@ const About = ({applicant}:{applicant: Applicant}) => {
   return (
     <>
       <div
-      className="flex wrap stretch flex-grow flex-col rounded-2xl shadow-md bg-[#D7E7E8] p-3 m-1 ml-3">
+      className="flex wrap stretch flex-grow flex-col rounded-2xl shadow-md bg-[#D7E7E8] p-4 pr-8 m-1 ml-3">
         
         <div className="flex flex-row ">
           <InfoIcon
