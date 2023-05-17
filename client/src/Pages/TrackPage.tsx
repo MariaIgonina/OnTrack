@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { FormEvent, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TrackSideBar from "../Components/tracks/TrackSidebar";
 import StepTemplate from "../Components/steps/StepTemplate";
@@ -15,6 +15,12 @@ import Videocall from "../Components/steps/Videocall";
 import moment from "moment";
 import Spinner from "../Components/Spinner";
 import QuestionnaryForm from "../Components/QuestionnaryForm";
+import EditIcon from '@mui/icons-material/Edit';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { updateSandbox } from "../store/SandboxSlice";
+import { updateQuestionary } from "../store/QuestionarySlice";
+import { updateVideocall } from "../store/VideoCallSlice";
+
 
 type Step = {
   type: string;
@@ -31,7 +37,8 @@ const TrackPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [stopTrackingModal, setStopTrackingModal] = useState<boolean>(false);
   const [steps, setSteps] = useState<any>([{ type: "", id: "", title: "", order: 0, step: "" }]);
-  const [reloadAlert, setReloadAlert] = useState(false)
+  const [editDate, setEditDate] = useState(false);
+  const [temporaryDate, setTemporaryDate] = useState('')
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const currentUser = useSelector((state: RootState) => state.currentUser);
@@ -109,9 +116,41 @@ const TrackPage = () => {
     }
     fetchedSteps.sort((a: any, b: any) => new Date(a.date) - new Date(b.date))
     fetchedSteps.sort((a: any, b: any) => a.order - b.order)
-    
+
     console.log("all steps => ", fetchedSteps);
     setSteps([...fetchedSteps]);
+  };
+
+  const handleEditDate = () => {
+    setEditDate(true)
+  }
+
+
+
+
+  const saveDate = (event: FormEvent<HTMLFormElement>, step: any) => {
+    event.preventDefault()
+    console.log('aquiiiiiiiiiii', step.type, step.id)
+    const formData = new FormData(event.currentTarget);
+    const pickedDate = formData.get(`${step.type}-${step.id}`); //
+
+    switch (step.type.toLowerCase()) {
+      case "sandbox":
+        dispatch(updateSandbox({ sandboxId: step.id, sandbox: { date: new Date(pickedDate) } }));
+        break;
+      case "questionary":
+        dispatch(updateQuestionary({ questionaryId: step.id, questionary: { date: new Date(pickedDate) } }));
+        break;
+      case "videocall":
+        dispatch(updateVideocall({ videocallId: step.id, videocall: { date: new Date(pickedDate) } }));
+        break;
+      default: null;
+        break
+    }
+
+    setEditDate(false)
+    setTemporaryDate(moment(new Date(pickedDate)).format('MMM DD, YYYY - hh:mm'));
+    window.location.reload()
   };
 
   return (
@@ -186,7 +225,9 @@ const TrackPage = () => {
                 </div>
               </a>
             </div>
+
           ) : (
+
             <div id="recruiterView" className="w-full ">
               <a
                 onClick={() =>
@@ -217,16 +258,48 @@ const TrackPage = () => {
           {steps.length &&
             steps.map((step: Step) => {
               if (step.type.toLowerCase() === "sandbox") {
-                return <><span id={`step-${step.id}-date`} className="text-gray-400 uppercase tracking-widest font-bold">{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
-                  <StepTemplate setReloadAlert={setReloadAlert} step={step} title={step.title?.length ? step.title : "Code Exercise"} type="sandbox" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
-                    content={<Landing savedCode={step.code! || ''} step={step} />} /><div id="line" className="-mt-10 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
+                return <>
+                  {!editDate
+                    ? <span id={`step-${step.id}-date`} className={`${step.date ? 'text-gray-400' : 'text-gray-200'} uppercase tracking-widest font-bold`}>
+                      {step.date ? moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm') : temporaryDate.length ? temporaryDate : 'edit date'}
+                      <button className="ml-5 relative bottom-1 hover:text-neutral-500 text-gray-300" onClick={handleEditDate}>
+                        <EditIcon />
+                      </button>
+                    </span>
+                    : <form onSubmit={(e) => saveDate(e, step)}><input name={`${step.type}-${step.id}`} type="datetime-local" min={`${new Date().toISOString().slice(0, 16)}`} className="text-gray-500 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-100 focus:border-green-100"
+                    /><button type="submit" className="ml-1 relative hover:text-neutral-500 text-gray-300"><AddCircleIcon /></button></form>
+                  }
+                  <StepTemplate step={step} title={step.title?.length ? step.title : "Code Exercise"} type="sandbox" checkIsAble={step.date ? new Date(step.date).getTime() < new Date().getTime() : true}
+                    content={<Landing savedCode={step.code! || ''} step={step} />} />
+                  <div id="line" className="-mt-10 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div>
+                </>
               } else if (step.type.toLowerCase() === "videocall") {
-                return <><span id={`step-${step.id}-date`} className="text-gray-400 uppercase tracking-widest font-bold">{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
-                  <StepTemplate setReloadAlert={setReloadAlert} step={step} title={step.title?.length ? step.title : "Videocall"} type="videocall" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                return <>
+                  {!editDate
+                    ? <span id={`step-${step.id}-date`} className={`${step.date ? 'text-gray-400' : 'text-gray-200'} uppercase tracking-widest font-bold`}>
+                      {step.date ? moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm') : temporaryDate.length ? temporaryDate : 'edit date'}
+                      <button className="ml-5 relative bottom-1 hover:text-neutral-500 text-gray-300" onClick={handleEditDate}>
+                        <EditIcon />
+                      </button>
+                    </span>
+                    : <form onSubmit={(e) => saveDate(e, step)}><input name={`${step.type}-${step.id}`} type="datetime-local" min={`${new Date().toISOString().slice(0, 16)}`} className="text-gray-500 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-100 focus:border-green-100"
+                    /><button type="submit" className="ml-1 relative hover:text-neutral-500 text-gray-300"><AddCircleIcon /></button></form>
+                  }
+                  <StepTemplate step={step} title={step.title?.length ? step.title : "Videocall"} type="videocall" checkIsAble={step.date ? new Date(step.date).getTime() < new Date().getTime() : true}
                     content={<Videocall step={step} />} /><div id="line" className="-mt-4 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
               } else if (step.type.toLowerCase() === 'questionary') {
-                return <><span id={`step-${step.id}-date`} className="text-gray-400 uppercase tracking-widest font-bold">{moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm')}</span>
-                  <StepTemplate setReloadAlert={setReloadAlert} step={step} title={step.title?.length ? step.title : "Questionary"} type="questionary" checkIsAble={new Date(step.date).getTime() < new Date().getTime()}
+                return <>
+                  {!editDate
+                    ? <span id={`step-${step.id}-date`} className={`${step.date ? 'text-gray-400' : 'text-gray-200'} uppercase tracking-widest font-bold`}>
+                      {step.date ? moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm') : temporaryDate.length ? temporaryDate : 'edit date'}
+                      <button className="ml-5 relative bottom-1 hover:text-neutral-500 text-gray-300" onClick={handleEditDate}>
+                        <EditIcon />
+                      </button>
+                    </span>
+                    : <form onSubmit={(e) => saveDate(e, step)}><input name={`${step.type}-${step.id}`} type="datetime-local" min={`${new Date().toISOString().slice(0, 16)}`} className="text-gray-500 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-100 focus:border-green-100"
+                    /><button type="submit" className="ml-1 relative hover:text-neutral-500 text-gray-300"><AddCircleIcon /></button></form>
+                  }
+                  <StepTemplate step={step} title={step.title?.length ? step.title : "Questionary"} type="questionary" checkIsAble={step.date ? new Date(step.date).getTime() < new Date().getTime() : true}
                     content={<QuestionnaryForm step={step} />} /><div id="line" className="-mt-10 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
               }
             })}
