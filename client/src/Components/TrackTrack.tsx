@@ -33,14 +33,14 @@ export default function TrackTrack({ track }) {
     setStepArr(extractItemsByOrder(track));
   }, []);
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  }, [stepArr]);
+  // useEffect(() => {
+  //   if (scrollRef.current) {
+  //     scrollRef.current.scrollIntoView({
+  //       behavior: "smooth",
+  //       block: "start",
+  //     });
+  //   }
+  // }, [stepArr]);
 
   function handleDeleteTrack() {
     if (window.confirm("Are you sure you want to delete this track?")) {
@@ -70,7 +70,7 @@ export default function TrackTrack({ track }) {
             >
               <div key={index}>
                 {/* ref={step.checked === true ? scrollRef : null}> */}
-                <div className="bg-yellow-100 rounded-lg py-5 h-200 ">
+                <div className="bg-yellow-100 rounded-lg py-5 h-200 drop-shadow-lg">
                   <p className="text-xl text-[#026767] font-semibold pb-2 tracking-widest">
                     Step {index + 1}
                   </p>
@@ -98,8 +98,8 @@ export default function TrackTrack({ track }) {
               )
             }
           >
-            <div className="bg-yellow-100 rounded-lg py-5 mb-8 text-center">
-              <p>all steps completed</p>
+            <div className="bg-yellow-100 rounded-lg py-5 mb-8 text-center drop-shadow-lg">
+              <p>track completed</p>
             </div>
           </button>
         </>

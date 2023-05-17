@@ -1,6 +1,9 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EditIcon from '@mui/icons-material/Edit';
+import { useDispatch } from "react-redux";
+import { updateVideocall } from "../../store/VideoCallSlice";
+import { AppDispatch } from "../../store/store";
 
 type Step = {
   type: string,
@@ -16,6 +19,7 @@ type VideocallStepProps = {
 const Videocall = ({ step }: VideocallStepProps) => {
   const [link, setLink] = useState('');
   const [edit, setEdit] = useState(false);
+  const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
     console.log('stepId videocall =>', step)
@@ -32,7 +36,7 @@ const Videocall = ({ step }: VideocallStepProps) => {
 
   const editLink = async () => {
     console.log('save me in the DB when the time comes!', link)
-    // SAVE TO THE DB
+    dispatch(updateVideocall({videocallId: +step.id, videocall: {link: link}}))
     setEdit(true)
   }
 

@@ -4,7 +4,7 @@ import {
   createAsyncThunk,
   isAsyncThunkAction,
 } from "@reduxjs/toolkit";
-import { getApplicant } from "../api.fetch";
+import { getApplicant, getFilteredApplicants } from "../api.fetch";
 
 import { Applicant, Track } from "../Interfaces";
 
@@ -80,20 +80,7 @@ const fetchAllApplicants = createAsyncThunk(
 
 const fetchFilteredApplicants = createAsyncThunk(
   "applicant/fetchFilteredApplicants",
-
-  async function (url2: URL, { rejectWithValue }) {
-    try {
-      const response = await fetch(url2);
-      if (!response.ok) {
-        throw new Error("Server error");
-      }
-      const data = await response.json();
-      console.log("data we need", data);
-      return data;
-    } catch (err) {
-      if (err instanceof Error) return rejectWithValue(err.message);
-    }
-  }
+  getFilteredApplicants
 );
 
 const createApplicant = createAsyncThunk(
@@ -161,27 +148,6 @@ interface IPutParams {
 //   applicant: {email: 'newemail'}
 // }
 // updateApplicant(testPut)
-
-const fetchCityCoordinates = async (
-  cityName: string
-): Promise<google.maps.LatLngLiteral | null> => {
-  try {
-    const response = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-        cityName
-      )}&key=AIzaSyDaIfGIGsLwAdkkp3mxtP_9AF7_YXIybBs`
-    );
-    const data = await response.json();
-
-    if (data.status === "OK") {
-      const coordinates = data.results[0].geometry.location;
-      return { lat: coordinates.lat, lng: coordinates.lng };
-    }
-  } catch (error) {
-    console.error("Error fetching city coordinates:", error);
-  }
-  return null;
-};
 
 const updateApplicant = createAsyncThunk(
   "applicant/updateApplicant",

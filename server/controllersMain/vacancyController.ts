@@ -23,6 +23,7 @@ const createVacancy = async (req: Request, res: Response) => {
 
     console.log(location);
     const coordinates = await fetchCityCoordinates(location);
+    console.log("coordiants", coordinates);
 
     if (
       recruiterId === undefined ||
@@ -72,7 +73,13 @@ const getVacancyById = async (req: Request, res: Response) => {
     const vacancy = await prisma.vacancy.findUnique({
       where: { id },
       include: {
-        jobTrack: true,
+        jobTrack: {
+          include: {
+            Questionaries: true,
+            Videocall: true,
+            CodeSandbox: true,
+          },
+        },
       },
     });
 
@@ -80,6 +87,7 @@ const getVacancyById = async (req: Request, res: Response) => {
       res.status(404).json({ success: false, message: "Vacancy not found" });
       return;
     }
+    console.log("vacacny by id controller", vacancy);
 
     res.status(200).json({ success: true, data: vacancy });
   } catch (error: any) {
@@ -94,7 +102,11 @@ const getVacancyByRecruiter = async (req: Request, res: Response) => {
     const vacancies = await prisma.vacancy.findMany({
       where: { recruiterId },
       include: {
-        jobTrack: true,
+        jobTrack: {
+          include: {
+            Questionaries: true,
+          },
+        },
       },
     });
     res.status(200).json(vacancies);
@@ -109,7 +121,11 @@ const getAllVacancies = async (req: Request, res: Response) => {
   try {
     const AllVacancies = await prisma.vacancy.findMany({
       include: {
-        jobTrack: true,
+        jobTrack: {
+          include: {
+            Questionaries: true,
+          },
+        },
         recruiter: true,
       },
     });

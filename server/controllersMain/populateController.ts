@@ -156,28 +156,28 @@ async function populateDatabase() {
   });
 
   //questionnary
-  try {
-    const questionA = await prisma.questionary.create({
-      data: {
-        ...Questionnary1.data,
-        Track: { connect: { id: Questionnary1.trackId } },
-      },
-    });
-  } catch (error) {
-    console.log(error);
-  }
-  const questionB = await prisma.questionary.create({
-    data: {
-      ...Questionnary2.data,
-      Track: { connect: { id: Questionnary2.trackId } },
-    },
-  });
-  const questionC = await prisma.questionary.create({
-    data: {
-      ...Questionnary3.data,
-      Track: { connect: { id: Questionnary3.trackId } },
-    },
-  });
+  // try {
+  //   const questionA = await prisma.questionary.create({
+  //     data: {
+  //       ...Questionnary1.data,
+  //       Track: { connect: { id: Questionnary1.trackId } },
+  //     },
+  //   });
+  // } catch (error) {
+  //   console.log(error);
+  // }
+  // const questionB = await prisma.questionary.create({
+  //   data: {
+  //     ...Questionnary2.data,
+  //     Track: { connect: { id: Questionnary2.trackId } },
+  //   },
+  // });
+  // const questionC = await prisma.questionary.create({
+  //   data: {
+  //     ...Questionnary3.data,
+  //     Track: { connect: { id: Questionnary3.trackId } },
+  //   },
+  // });
   return "Database population successful!";
 }
 

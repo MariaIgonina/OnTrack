@@ -98,6 +98,28 @@ const createTrack = createAsyncThunk(
     }
   }
 );
+const duplicateTrack = createAsyncThunk(
+  "track/duplicateTrack",
+  async function (newTrack: any, { rejectWithValue }) {
+    try {
+      const response = await fetch(url + "/duplicateTrack", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTrack),
+      });
+      if (!response.ok) {
+        throw new Error("Server error");
+      }
+      const data = await response.json();
+      console.log("DATA from duplicateTrack SLICE:", data);
+      return data;
+    } catch (err) {
+      if (err instanceof Error) return rejectWithValue(err.message);
+    }
+  }
+);
 
 const deleteTrack = createAsyncThunk(
   "track/deleteTrack",
@@ -250,6 +272,7 @@ export {
   deleteTrack,
   updateTrack,
   fetchTracksByRecruiter,
+  duplicateTrack,
 };
 
 export const selecttrack = (state: RootState) => state.track;

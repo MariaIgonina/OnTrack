@@ -7,6 +7,7 @@ import type { RootState, AppDispatch } from "../../store/store";
 import { Vacancy } from "../../Interfaces";
 import VacancyUpdate from "./VacancyUpdate";
 import Modal from "react-modal";
+import { duplicateTrack } from "../../store/trackSlice";
 
 const VacancyDetails: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,10 +18,11 @@ const VacancyDetails: React.FC = () => {
   );
   const { vacancyId } = useParams<{ vacancyId: any }>();
   const currentUserRole = useSelector((s: RootState) => s.currentUser.role);
+  const currentUserId = useSelector((s: RootState) => s.currentUser.id);
 
   useEffect(() => {
     dispatch(fetchVacancy(parseInt(vacancyId, 10)));
-  }, [dispatch, vacancyId, vacancy, currentUserRole]);
+  }, [dispatch, vacancyId, currentUserRole]);
 
   const deleteVac = async () => {
     if (window.confirm("Are you sure you want to delete this vacancy?")) {
@@ -33,6 +35,23 @@ const VacancyDetails: React.FC = () => {
           console.error("Error deleting vacancy:", error);
         });
     }
+  };
+  const applySubmit = async () => {
+    if (window.confirm("Are you sure you want to apply to this vacancy?")) {
+      const { id, recruiterId } = vacancy.data;
+      const newTrack = {
+        recruiterID: recruiterId,
+        vacancyId: id,
+        applicantID: currentUserId,
+      };
+
+      const TRACKID = await dispatch(duplicateTrack(newTrack));
+      console.log("trackID fetched at vacancy details 49", TRACKID);
+      navigate(`/track/?trackId=${TRACKID.payload}&vacancyId=${vacancyId}`);
+    }
+    //post track (form 1)
+    // fetch del
+    //post questionnary (form 2)
   };
   const { data } = vacancy;
   const openModal = () => {
@@ -66,11 +85,14 @@ const VacancyDetails: React.FC = () => {
                   </button>
                 </>
               )}
-              {/* {currentUserRole === "applicant" && ( */}
-              <button className="absolute top-4 right-12 w-[70px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring">
-                Apply
-              </button>
-              {/* )} */}
+              {currentUserRole === "applicant" && (
+                <button
+                  className="absolute top-4 right-12 w-[70px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring"
+                  onClick={applySubmit}
+                >
+                  Apply
+                </button>
+              )}
               <div className="p-4 border-b">
                 <h2 className="text-2xl ">Vacancy Information</h2>
                 <p className="text-sm text-gray-500">Details and everything.</p>
