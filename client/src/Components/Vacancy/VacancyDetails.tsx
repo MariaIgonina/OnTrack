@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-
+import Popup from "../Popup";
 import { fetchVacancy, deleteVacancy } from "../../store/vacancySlice";
 import type { RootState, AppDispatch } from "../../store/store";
 import { Vacancy } from "../../Interfaces";
@@ -10,6 +10,7 @@ import Modal from "react-modal";
 import { duplicateTrack } from "../../store/trackSlice";
 
 const VacancyDetails: React.FC = () => {
+  const [isPopUp, setIsPopUp] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -24,8 +25,13 @@ const VacancyDetails: React.FC = () => {
     dispatch(fetchVacancy(parseInt(vacancyId, 10)));
   }, [dispatch, vacancyId, currentUserRole]);
 
+  const handleDelete = () => {
+    setIsPopUp(true);
+  };
+
   const deleteVac = async () => {
     if (window.confirm("Are you sure you want to delete this vacancy?")) {
+      console.log("this should work");
       dispatch(deleteVacancy(parseInt(vacancyId, 10)))
         .unwrap()
         .then(() => {
@@ -36,6 +42,7 @@ const VacancyDetails: React.FC = () => {
         });
     }
   };
+
   const applySubmit = async () => {
     if (window.confirm("Are you sure you want to apply to this vacancy?")) {
       const { id, recruiterId } = vacancy.data;
@@ -73,6 +80,7 @@ const VacancyDetails: React.FC = () => {
                 <>
                   <button
                     onClick={deleteVac}
+                    // onClick={handleDelete}
                     className="absolute top-4 right-4 w-[70px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring"
                   >
                     Delete
@@ -141,6 +149,13 @@ const VacancyDetails: React.FC = () => {
       >
         <VacancyUpdate onCancel={closeModal} />
       </Modal>
+      {/* {isPopUp && (
+        <Popup
+          setOpenModal={setIsPopUp}
+          id={+vacancyId}
+          handleDelete={deleteVac}
+        ></Popup>
+      )} */}
     </>
   );
 };

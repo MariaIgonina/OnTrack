@@ -8,8 +8,10 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import { useNavigate } from "react-router-dom";
 import { extractItemsByOrder } from "../library";
 import Popup from "../Components/Popup";
+import { deleteTrack } from "../store/trackSlice";
 
 export default function TrackTrack({ track }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [stepArr, setStepArr] = useState([]);
   const [vacancy, setVacancy] = useState({});
@@ -36,6 +38,18 @@ export default function TrackTrack({ track }) {
 
   function handleDeleteTrack() {
     setOpenModal(true);
+  }
+
+  function deleteTrackHandler(id) {
+    console.log("LOOK HERE ==> ", id);
+    dispatch(deleteTrack(id))
+      .unwrap()
+      .then(() => {
+        navigate("/dashboard");
+      })
+      .catch((error: Error) => {
+        console.error("Error deleting vacancy:", error);
+      });
   }
 
   return (
@@ -100,7 +114,13 @@ export default function TrackTrack({ track }) {
           </div>
         </>
       )}
-      {ismodalOpen && <Popup setOpenModal={setOpenModal} id={track.id}></Popup>}
+      {ismodalOpen && (
+        <Popup
+          setOpenModal={setOpenModal}
+          id={track.id}
+          handleDelete={deleteTrackHandler}
+        ></Popup>
+      )}
     </>
   );
 }

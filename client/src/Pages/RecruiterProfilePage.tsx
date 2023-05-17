@@ -43,6 +43,10 @@ const RecruiterProfilePage = () => {
   // useInsertionEffect(() => {
   //   dispatch(fetchRecruiter(+currentUserID));
   // }, [recruiter, currentUserID])
+  useEffect(() => {
+    console.log("this", recruiter.recruiter.externalLinks);
+    // .split("https://"));
+  }, []);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -52,7 +56,7 @@ const RecruiterProfilePage = () => {
     setIsModalOpen(false);
   };
   return (
-    <div className="mb-0 bg-stone-100 h-full p-4 ">
+    <div className="mb-0 bg-stone-100 h-full p-4">
       <div className="flex flex-col">
         <div className="flex flex-row">
           <div>
@@ -125,22 +129,28 @@ const RecruiterProfilePage = () => {
                 {recruiter.recruiter.email}
               </p>
             </div>
-            <div className="flex flex-row mt-2">
-              <InsertLinkIcon
-                fontSize="small"
-                style={{ color: "#475569" }}
-                className="mr-2"
-              ></InsertLinkIcon>
-              <p className="text-base underline font-semibold text-[#475569] text-base ">
-                {recruiter.recruiter.externalLinks}
-              </p>
-            </div>
+            {recruiter.recruiter.externalLinks?.map((link) => {
+              return (
+                <>
+                  <div className="flex flex-row mt-2">
+                    <InsertLinkIcon
+                      fontSize="small"
+                      style={{ color: "#475569" }}
+                      className="mr-2"
+                    ></InsertLinkIcon>
+                    <p className="text-base underline font-semibold text-[#475569] text-base ">
+                      <a href={link}>{link}</a>
+                    </p>
+                  </div>
+                </>
+              );
+            })}
           </div>
         </div>
 
         <div className="flex flex-row">
           <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-[#D7E7E8] p-3 m-2 mr-4 ml-2">
-            <div className="flex flex-row ">
+            <div className="flex flex-row">
               <InfoIcon
                 fontSize="small"
                 style={{ color: "#026767" }}
@@ -150,7 +160,8 @@ const RecruiterProfilePage = () => {
                 About
               </p>
             </div>
-            <p className="text-base font-semibold text-[#475569] text-base ">
+
+            <p className="text-base font-semibold text-[#475569] text-base whitespace-normal ">
               {recruiter.recruiter.about}
             </p>
           </div>
