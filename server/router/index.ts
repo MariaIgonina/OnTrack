@@ -11,6 +11,7 @@ import trackRouter from "./trackRouter";
 import vacancyRouter from "./vacancyRouter";
 import codeSandboxRouter from "./sandBoxRouter";
 import videocallRouter from "./videocallRouter";
+import cityRouter from "./citySuggestions";
 
 const mainRouter = Router();
 
@@ -29,6 +30,7 @@ mainRouter.use("", recruiterRouter);
 mainRouter.use("", trackRouter);
 mainRouter.use("", vacancyRouter);
 mainRouter.use("", codeSandboxRouter);
-mainRouter.use("", videocallRouter)
+mainRouter.use("", videocallRouter);
+mainRouter.use("", cityRouter);
 
 export default mainRouter;

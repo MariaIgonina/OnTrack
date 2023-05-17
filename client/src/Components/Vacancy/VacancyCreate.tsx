@@ -14,7 +14,7 @@ import {
   levelLanguages,
 } from "../../library";
 import VacancyTemplate from "./VacancyTemplate";
-
+import { fetchCitySuggestionsFromServer } from "../../store/CitySuggestions";
 
 type VacancyCreateProps = {
   onCancel: () => void;
@@ -24,8 +24,23 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
   const [formData, setFormData] = useState<Vacancy>({ ...initialVacancy });
   const currentUserID = useSelector((s: RootState) => s.currentUser.id);
   const [showVacancyTemplate, setShowVacancyTemplate] = useState(false);
-  const [tempTitle, setTempTitle] = useState('')
-  
+  const [tempTitle, setTempTitle] = useState("");
+  const [citySuggestions, setCitySuggestions] = useState<string[]>([]);
+
+  const handleLocationChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { value } = e.target;
+    setFormData({ ...formData, location: value });
+
+    if (value) {
+      const suggestions = await fetchCitySuggestionsFromServer(value);
+      console.log("suggestions:", suggestions);
+      setCitySuggestions(suggestions || []);
+    } else {
+      setCitySuggestions([]);
+    }
+  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -82,26 +97,25 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
       requiredLanguages: collCompLanguages,
     };
 
-    setTempTitle(newVacancy.title)
-    
+    setTempTitle(newVacancy.title);
+    console.log("new vacancy before sending to backend", newVacancy);
+
     await dispatch(createVacancy(newVacancy));
-    
-    setShowVacancyTemplate(true); 
+
+    setShowVacancyTemplate(true);
   };
 
   if (showVacancyTemplate) {
     return (
-    <VacancyTemplate 
-      onCancel={onCancel} 
-      tempTitle = {tempTitle}
-      currentUserID = {currentUserID}
-    />
+      <VacancyTemplate
+        onCancel={onCancel}
+        tempTitle={tempTitle}
+        currentUserID={currentUserID}
+      />
     );
   }
 
-  
   // console.log("I REALLY REALLY NEED THIS TITLE", tempTitle);
-
 
   return (
     <div className="flex items-center justify-center mt-5 ">
@@ -297,10 +311,16 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
               type="text"
               id="location"
               name="location"
-              onChange={handleChange}
+              onChange={handleLocationChange}
               placeholder="location"
+              list="citySuggestions"
               required
             />
+            <datalist id="citySuggestions">
+              {citySuggestions.map((city, index) => (
+                <option key={index} value={city} />
+              ))}
+            </datalist>
           </div>
           <div className="grid grid-cols-1 mt-5 mx-7">
             <label
