@@ -1,12 +1,14 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { CurrentUserType, Track } from "../Interfaces";
 import { getVacancy, getRecruiter, getApplicant } from "../api.fetch";
-import { deleteTrack } from "../store/trackSlice";
+
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { useNavigate } from "react-router-dom";
 import { extractItemsByOrder } from "../library";
+import Popup from "../Components/Popup";
+import { deleteTrack } from "../store/trackSlice";
 
 export default function TrackTrack({ track }) {
   const dispatch = useDispatch();
@@ -15,7 +17,8 @@ export default function TrackTrack({ track }) {
   const [vacancy, setVacancy] = useState({});
   const [recruiter, setRecruiter] = useState({});
   const [applicant, setApplicant] = useState({});
-  const scrollRef = useRef(null);
+
+  const [ismodalOpen, setOpenModal] = useState(false);
 
   const currentUser = useSelector(
     (s: RootState) => s.currentUser
@@ -33,26 +36,20 @@ export default function TrackTrack({ track }) {
     setStepArr(extractItemsByOrder(track));
   }, []);
 
-  // useEffect(() => {
-  //   if (scrollRef.current) {
-  //     scrollRef.current.scrollIntoView({
-  //       behavior: "smooth",
-  //       block: "start",
-  //     });
-  //   }
-  // }, [stepArr]);
-
   function handleDeleteTrack() {
-    if (window.confirm("Are you sure you want to delete this track?")) {
-      dispatch(deleteTrack(track.id))
-        .unwrap()
-        .then(() => {
-          navigate("/dashboard");
-        })
-        .catch((error: Error) => {
-          console.error("Error deleting vacancy:", error);
-        });
-    }
+    setOpenModal(true);
+  }
+
+  function deleteTrackHandler(id) {
+    console.log("LOOK HERE ==> ", id);
+    dispatch(deleteTrack(id))
+      .unwrap()
+      .then(() => {
+        navigate("/dashboard");
+      })
+      .catch((error: Error) => {
+        console.error("Error deleting vacancy:", error);
+      });
   }
 
   return (
@@ -108,12 +105,21 @@ export default function TrackTrack({ track }) {
           <div className="bg-blue-100 rounded-lg py-5 mb-8 text-center">
             <p>Track closed for {vacancy.title}</p>
             {currentUser.role === "applicant" ? (
-              <DeleteOutlineOutlinedIcon
-                onClick={handleDeleteTrack}
-              ></DeleteOutlineOutlinedIcon>
+              <>
+                <DeleteOutlineOutlinedIcon
+                  onClick={handleDeleteTrack}
+                ></DeleteOutlineOutlinedIcon>
+              </>
             ) : null}
           </div>
         </>
+      )}
+      {ismodalOpen && (
+        <Popup
+          setOpenModal={setOpenModal}
+          id={track.id}
+          handleDelete={deleteTrackHandler}
+        ></Popup>
       )}
     </>
   );
