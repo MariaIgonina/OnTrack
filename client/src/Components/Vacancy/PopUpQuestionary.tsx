@@ -5,14 +5,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Link, useNavigate } from "react-router-dom";
 
 
-export default function PopupQuestionary({setQuestions, questions}) {
+export default function PopupQuestionary({setQuestions, questions:[]}) {
   const navigate = useNavigate();
 
   // const [questions, setQuestions] = useState<[]>([])
   const [question, setQuestion] = useState<string>('')
   const [popupOpen, setPopupOpen] = useState(true);
 
-  const handleChange = (event) => {
+  const handleChange = (event:any) => {
     setQuestion(event.target.value);
   };
 
@@ -53,8 +53,8 @@ export default function PopupQuestionary({setQuestions, questions}) {
       </div>
 
       <h3 
-        className="text-1xl font-bold tracking-tight text-[#026767] sm:text-3xl mt-0 mb-2 "
-        >
+        className ="text-2xl font-bold tracking-tight text-[#026767] mb-2">
+        
         Please add all the questions for the questions list
       </h3>
             

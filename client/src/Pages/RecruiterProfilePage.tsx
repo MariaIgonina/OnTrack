@@ -200,7 +200,7 @@ const RecruiterProfilePage = () => {
           Edit your profile
         </button> */}
       </div>
-      <div className="mt-20 ml-10 mr-10">
+      <div className="mt-4 ml-10 mr-10">
         <VacancyList setVacanciesLength={setVacanciesLength} />
         {/* <ChatWindow trackId={2} /> */}
       </div>
