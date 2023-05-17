@@ -50,18 +50,14 @@ export default function VacancyTemplate({
   };
 
   const lookForIdForTrack = function () {
-    const id: (number | undefined)[] = vacancies
-      .map((vac) => {
-        if (vac.title === tempTitle) {
-          return vac.id;
-        }
-      })
-      .filter(Boolean);
-    return id[0];
+    const vacancy = vacancies.find((vac) => vac.title === tempTitle);
+    return vacancy ? vacancy.id : undefined;
   };
+  
 
   const handleChange = (e: any, index: number) => {
     const { name, value } = e.target;
+    console.log('etarget:',e.target)
 
     const updatedSteps: any = [...stepsArray];
     updatedSteps[index][name] = value;

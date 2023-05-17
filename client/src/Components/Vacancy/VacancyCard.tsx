@@ -29,7 +29,7 @@ export default function VacancyCard({ vacancy, onClick }: any) {
             {vacancy.about}
           </p>
           <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
-            {vacancy.stack}
+            {vacancy.stack.join(', ')}
           </p>
         </div>
       </Link>
