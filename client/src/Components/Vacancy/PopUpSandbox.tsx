@@ -30,7 +30,9 @@ export default function PopUpSandbox({code, setCode, setIsPopupSandbox}) {
       <div className="flex flex-col w-full h-full justify-start items-end">
         <CodeEditorWindow code={code} onChange={onChange} />
         <div className="flex items-center justify-center h-full">
-
+        <h2 className="text-2xl font-bold tracking-tight text-[#026767] mb-2">
+          Type here the task
+        </h2>
         <button
           onClick={submitSandBox}
           className="mt-4 ml-4 mb-6 w-44 bg-orange-100 hover:bg-orange-dark rounded-lg shadow-xl font-medium text-white px-4 py-2"
