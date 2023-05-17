@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-
+import Popup from "../Popup";
 import { fetchVacancy, deleteVacancy } from "../../store/vacancySlice";
 import type { RootState, AppDispatch } from "../../store/store";
 import { Vacancy } from "../../Interfaces";
@@ -10,6 +10,7 @@ import Modal from "react-modal";
 import { duplicateTrack } from "../../store/trackSlice";
 
 const VacancyDetails: React.FC = () => {
+  const [isPopUp, setIsPopUp] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -24,8 +25,13 @@ const VacancyDetails: React.FC = () => {
     dispatch(fetchVacancy(parseInt(vacancyId, 10)));
   }, [dispatch, vacancyId, currentUserRole]);
 
+  const handleDelete = () => {
+    setIsPopUp(true);
+  };
+
   const deleteVac = async () => {
     if (window.confirm("Are you sure you want to delete this vacancy?")) {
+      console.log("this should work");
       dispatch(deleteVacancy(parseInt(vacancyId, 10)))
         .unwrap()
         .then(() => {
@@ -78,7 +84,8 @@ const VacancyDetails: React.FC = () => {
                 <>
                   <button
                     onClick={deleteVac}
-                    className="absolute top-4 right-28 bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white py-2 px-6 ml-4 h-10 whitespace-nowrap"                  >
+                    className="absolute top-4 right-28 bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white py-2 px-6 ml-4 h-10 whitespace-nowrap"
+                  >
                     Delete
                   </button>
                   <button
@@ -106,30 +113,40 @@ const VacancyDetails: React.FC = () => {
                 </>
               )}
               <div className="p-4 border-b">
-                <h2 
-                className="text-3xl font-bold tracking-tight text-[#026767] text-big flex mb-4"
-                >Vacancy Information</h2>
+                <h2 className="text-3xl font-bold tracking-tight text-[#026767] text-big flex mb-4">
+                  Vacancy Information
+                </h2>
                 <p className="text-sm text-gray-500">Details</p>
               </div>
               <div>
                 <div className="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
-                  <p className="text-base text-[#DF6831] text-base font-bold">Vacancy for</p>
+                  <p className="text-base text-[#DF6831] text-base font-bold">
+                    Vacancy for
+                  </p>
                   <p>{vacancy?.data?.title}</p>
                 </div>
                 <div className="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
-                  <p className="text-base text-[#DF6831] text-base font-bold">Stacks required</p>
+                  <p className="text-base text-[#DF6831] text-base font-bold">
+                    Stacks required
+                  </p>
                   <p>{vacancy?.data?.stack}</p>
                 </div>
                 <div className="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
-                  <p className="text-base text-[#DF6831] text-base font-bold">Skills required</p>
+                  <p className="text-base text-[#DF6831] text-base font-bold">
+                    Skills required
+                  </p>
                   <p>{vacancy?.data?.skills}</p>
                 </div>
                 <div className="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
-                  <p className="text-base text-[#DF6831] text-base font-bold">Salary</p>
+                  <p className="text-base text-[#DF6831] text-base font-bold">
+                    Salary
+                  </p>
                   <p>{vacancy?.data?.salaryRange}</p>
                 </div>
                 <div className="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
-                  <p className="text-base text-[#DF6831] text-base font-bold">About</p>
+                  <p className="text-base text-[#DF6831] text-base font-bold">
+                    About
+                  </p>
                   <p>{vacancy?.data?.about}</p>
                 </div>
               </div>
@@ -155,6 +172,13 @@ const VacancyDetails: React.FC = () => {
       >
         <VacancyUpdate onCancel={closeModal} />
       </Modal>
+      {/* {isPopUp && (
+        <Popup
+          setOpenModal={setIsPopUp}
+          id={+vacancyId}
+          handleDelete={deleteVac}
+        ></Popup>
+      )} */}
     </>
   );
 };

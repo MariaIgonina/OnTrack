@@ -23,7 +23,7 @@ const EditorProps = ({ onChange, language, code }: EditorProps) => {
         width={`100%`}
         language={language || "javascript"}
         value={value}
-        theme={'vs-dark'}
+        theme={'vs-dark'} 
         defaultValue="// some comment"
         onChange={handleEditorChange}
       />
