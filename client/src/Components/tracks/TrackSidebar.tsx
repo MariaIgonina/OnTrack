@@ -19,7 +19,7 @@ const TrackSideBar = ({ trackId, role, setStopTrackingModal, setProposalModal, o
 
   return (<>
     {/* {dark: bg-gray-800 } */}
-    <div className="fixed px-3 py-4 overflow-y-hidden bg-gray-100 
+    <div className="fixed px-3 py-4 overflow-y-hidden bg-[#345562]
       flex flex-col items-center shadow-md shadow-gray  max-w-[226px] h-[90%] hidden sm:flex md:flex lg:flex xl:flex ">
 
       <NotePad trackId={trackId} role={role} />

@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Link, useNavigate } from "react-router-dom";
 
 
-export default function PopupQuestionary({setQuestions, questions:[]}) {
+export default function PopupQuestionary({setQuestions, questions}) {
   const navigate = useNavigate();
 
   // const [questions, setQuestions] = useState<[]>([])

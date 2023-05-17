@@ -53,8 +53,11 @@ export default function SideBar() {
             <text className="text-2xl  tracking-tight text-[#475569] m-2 text-center justify-center">
               You have
               <span className="text-3xl font-bold tracking-tight text-[#DF6831] m-2 items-center justify-center">
-                {recruiter.recruiter.Track?.length -
-                  recruiter.recruiter.vacancies?.length}
+              {
+          recruiter.recruiter.Track?.filter(
+            (track) => track.applicantID !== null
+          ).length
+        }
               </span>{" "}
               tracks open for <br></br>
               <span className="text-3xl font-bold tracking-tight text-[#DF6831] m-2 items-center justify-center">
