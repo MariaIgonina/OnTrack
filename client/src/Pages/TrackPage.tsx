@@ -20,8 +20,8 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { updateSandbox } from "../store/SandboxSlice";
 import { updateQuestionary } from "../store/QuestionarySlice";
 import { updateVideocall } from "../store/VideoCallSlice";
-import { current } from "@reduxjs/toolkit";
-
+import OfferProposal from '../Components/tracks/OfferProposalModal';
+import Offer from "../Components/steps/Offer";
 
 type Step = {
   type: string;
@@ -39,7 +39,10 @@ const TrackPage = () => {
   const [stopTrackingModal, setStopTrackingModal] = useState<boolean>(false);
   const [steps, setSteps] = useState<any>([{ type: "", id: "", title: "", order: 0, step: "" }]);
   const [editDate, setEditDate] = useState(false);
-  const [temporaryDate, setTemporaryDate] = useState('')
+  const [temporaryDate, setTemporaryDate] = useState('');
+  const [proposalModal, setProposalModal] = useState(false);
+  const [offer, setOffer] = useState(false)
+  const [offerDone, setOfferDone] = useState(false)
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const currentUser = useSelector((state: RootState) => state.currentUser);
@@ -115,6 +118,10 @@ const TrackPage = () => {
         fetchedSteps.push(element);
       });
     }
+
+    let thereIsAnOffer = fetchedSteps.filter((x: any) => x.type.toLowerCase() === 'offer').length;
+    setOfferDone(thereIsAnOffer);
+
     fetchedSteps.sort((a: any, b: any) => new Date(a.date) - new Date(b.date))
     fetchedSteps.sort((a: any, b: any) => a.order - b.order)
 
@@ -154,7 +161,6 @@ const TrackPage = () => {
   };
 
   const focusSaveButton = (event: FormEvent<HTMLFormElement>) => {
-    console.log('blur ', event.target.id)
     const input = document.querySelector(`#${event.target.id}`)
     const button = document.querySelector(`#button-${event.target.id}`)
     if (input) {
@@ -162,13 +168,6 @@ const TrackPage = () => {
       input.classList.add('border-rose-500')
       input.classList.add('border-2')
       button?.classList.add('text-rose-500')
-
-
-      // setTimeout(() => {
-      //   input.classList.remove('border')
-      //   input.classList.remove('border-rose-500')
-      //   input.classList.remove('border-2')
-      // }, 3000)
     }
   }
 
@@ -185,6 +184,16 @@ const TrackPage = () => {
           trackId={track.track?.id!}
         />
       )}
+
+      {proposalModal && (
+        <OfferProposal
+          isOpen={true}
+          setOpen={setProposalModal}
+          trackId={track.track?.id!}
+          setOffer={setOffer}
+        />
+      )}
+
       {isLoading && (
         <div
           className="w-screen  h-screen z-50 flex flex-col justify-center items-center bg-opacity-90 bg-neutral-800 
@@ -199,6 +208,8 @@ const TrackPage = () => {
           trackId={track.track?.id!}
           role={currentUser.role!}
           setStopTrackingModal={setStopTrackingModal}
+          setProposalModal={setProposalModal}
+          offerDone={offerDone}
         />
       </div>
 
@@ -258,7 +269,7 @@ const TrackPage = () => {
               >
                 <img
                   className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg "
-                  alt="Company Logo"
+                  alt="User"
                   src={applicant.applicant?.picture}
                 />
                 <div className="flex flex-col justify-between p-4 leading-normal">
@@ -287,7 +298,7 @@ const TrackPage = () => {
                       </button>
                     </span>
                     : <form onSubmit={(e) => saveDate(e, step)} onBlur={(e) => focusSaveButton(e)}><input id={`${step.type}-${step.id}`} name={`${step.type}-${step.id}`} type="datetime-local" min={`${new Date().toISOString().slice(0, 16)}`} className="text-gray-500 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-100 focus:border-green-100"
-                    /><button id={`button-${step.type}-${step.id}`} type="submit" className="ml-1 relative hover:text-neutral-500 text-gray-300 hover:text-emerald-400"><AddCircleIcon />{editDate && 'Save?'}</button></form>
+                    /><button id={`button-${step.type}-${step.id}`} type="submit" className="ml-1 relative text-gray-400 hover:text-emerald-400"><AddCircleIcon />{editDate && 'Save?'}</button></form>
                   }
                   <StepTemplate step={step} title={step.title?.length ? step.title : "Code Exercise"} type="sandbox" checkIsAble={step.date ? new Date(step.date).getTime() < new Date().getTime() : true}
                     content={<Landing savedCode={step.code! || ''} step={step} />} />
@@ -303,7 +314,7 @@ const TrackPage = () => {
                       </button>
                     </span>
                     : <form onSubmit={(e) => saveDate(e, step)} onBlur={(e) => focusSaveButton(e)}><input id={`${step.type}-${step.id}`} name={`${step.type}-${step.id}`} type="datetime-local" min={`${new Date().toISOString().slice(0, 16)}`} className="text-gray-500 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-100 focus:border-green-100"
-                    /><button id={`button-${step.type}-${step.id}`} type="submit" className="ml-1 relative hover:text-neutral-500 text-gray-300 hover:text-emerald-400"><AddCircleIcon />{editDate && 'Save?'}</button></form>
+                    /><button id={`button-${step.type}-${step.id}`} type="submit" className="ml-1 relative text-gray-400 hover:text-emerald-400"><AddCircleIcon />{editDate && 'Save?'}</button></form>
                   }
                   <StepTemplate step={step} title={step.title?.length ? step.title : "Videocall"} type="videocall" checkIsAble={step.date ? new Date(step.date).getTime() < new Date().getTime() : true}
                     content={<Videocall step={step} />} /><div id="line" className="-mt-4 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
@@ -317,13 +328,19 @@ const TrackPage = () => {
                       </button>
                     </span>
                     : <form onSubmit={(e) => saveDate(e, step)} onBlur={(e) => focusSaveButton(e)}><input id={`${step.type}-${step.id}`} name={`${step.type}-${step.id}`} type="datetime-local" min={`${new Date().toISOString().slice(0, 16)}`} className="text-gray-500 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-100 focus:border-green-100"
-                    /><button id={`button-${step.type}-${step.id}`} type="submit" className="ml-1 relative hover:text-neutral-500 text-gray-300 hover:text-emerald-400"><AddCircleIcon />{editDate && ' Save?'}</button></form>
+                    /><button id={`button-${step.type}-${step.id}`} type="submit" className="ml-1 relative text-neutral-400 hover:text-emerald-400"><AddCircleIcon />{editDate && ' Save?'}</button></form>
                   }
                   <StepTemplate step={step} title={step.title?.length ? step.title : "Questionary"} type="questionary" checkIsAble={step.date ? new Date(step.date).getTime() < new Date().getTime() : true}
                     content={<QuestionnaryForm step={step} />} /><div id="line" className="-mt-10 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
+              } else if (step.type.toLowerCase() === 'offer') {
+                return <>
+                  <Offer />
+                  <div id="line" className="-mt-4 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div>
+                </>
               }
             })}
         </div>
+
         <div id="chat-wraper">
           <ChatWindow trackId={track.track?.id!} />
         </div>

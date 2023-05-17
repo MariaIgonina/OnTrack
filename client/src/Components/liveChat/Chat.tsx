@@ -28,22 +28,15 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
     dispatch(fetchMessagesByTrack(trackId)); //! to add current trackID as room
     socket.emit("joinRoom", trackId);
   }, [messageText]);
-
-  useEffect(() => {
-    dispatch(fetchMessagesByTrack(trackId)); //! to add current trackID as room
-  }, [dispatch]);
-
   useEffect(() => {
     socket.on("receive_message", (newMessage: any) => {
       console.log("newMessge from socket:", newMessage);
       dispatch(newMessageReceived(newMessage));
     });
-    // dispatch(fetchMessagesByTrack(trackId));
     return () => {
       socket.off("newMessage");
     };
   }, [socket, messageText]); // socket also?
-  
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -69,7 +62,6 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
     };
     dispatch(createMessage(newMessage));
     dispatch(newMessageReceived(newMessage));
-    dispatch(fetchMessagesByTrack(trackId));
     setMessageText("");
   };
 
