@@ -7,7 +7,7 @@ import { updateVideocall } from "../../store/VideoCallSlice";
 import { AppDispatch } from "../../store/store";
 import { updateSandbox } from "../../store/SandboxSlice";
 import { updateQuestionary } from "../../store/QuestionarySlice";
-import QuestionnaryForm from '../QuestionnaryForm';
+import QuestionnaryForm from '../Accordion/QuestionnaryForm';
 
 type StepProps = {
   title?: string,
