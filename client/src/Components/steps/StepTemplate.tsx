@@ -16,9 +16,8 @@ type StepProps = {
   type: string,
   checkIsAble: boolean,
   step?: any,
-  setReloadAlert: Function
 }
-const StepTemplate = ({ title, content, type, checkIsAble, step, setReloadAlert }: StepProps) => {
+const StepTemplate = ({ title, content, type, checkIsAble, step }: StepProps) => {
   const [showInfo, setShowInfo] = useState(false);
   const [check, setCheck] = useState(step.checked || false);
   const [showDoneCode, setShowDoneCode] = useState(false)
@@ -100,7 +99,7 @@ const StepTemplate = ({ title, content, type, checkIsAble, step, setReloadAlert 
             </div>
           )}
         </button>
-        <h4 className={`${check ? "text-emerald-800" : "text-gray-100"} z-50 h-fit w-fit ${check ? "bg-emerald-100 border border-emerald-800 opacity-30" : "bg-green-100"} 
+        <h4 className={`${check ? "text-emerald-800" : "text-gray-100"} z-40 h-fit w-fit ${check ? "bg-emerald-100 border border-emerald-800 opacity-30" : "bg-green-100"} 
         font-bold tracking-widest text-xl rounded p-2 -mb-4 shadow shadow-md`}>
           {title || 'Next step: Code'}
         </h4>
