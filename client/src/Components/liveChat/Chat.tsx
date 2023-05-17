@@ -29,6 +29,9 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
     socket.emit("joinRoom", trackId);
   }, [messageText]);
   useEffect(() => {
+    dispatch(fetchMessagesByTrack(trackId)); //! to add current trackID as room
+  }, [messages]);
+  useEffect(() => {
     socket.on("receive_message", (newMessage: any) => {
       console.log("newMessge from socket:", newMessage);
       dispatch(newMessageReceived(newMessage));
@@ -36,7 +39,7 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
     return () => {
       socket.off("newMessage");
     };
-  }, [socket, messageText]); // socket also?
+  }, [socket, messageText, trackId]); // socket also?
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -61,7 +64,6 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
       files: [],
     };
     dispatch(createMessage(newMessage));
-    dispatch(newMessageReceived(newMessage));
     setMessageText("");
   };
 
@@ -111,6 +113,12 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
           placeholder="Type a message"
           value={messageText}
           onChange={(e) => setMessageText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault(); // Prevent the default behavior of the Enter key (submitting the form)
+              sendMessage();
+            }
+          }}
         />
         <button
           onClick={sendMessage}

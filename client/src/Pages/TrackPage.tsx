@@ -15,13 +15,14 @@ import Videocall from "../Components/steps/Videocall";
 import moment from "moment";
 import Spinner from "../Components/Spinner";
 import QuestionnaryForm from "../Components/Accordion/QuestionnaryForm";
-import EditIcon from '@mui/icons-material/Edit';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import EditIcon from "@mui/icons-material/Edit";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { updateSandbox } from "../store/SandboxSlice";
 import { updateQuestionary } from "../store/QuestionarySlice";
 import { updateVideocall } from "../store/VideoCallSlice";
 import OfferProposal from '../Components/tracks/OfferProposalModal';
 import Offer from "../Components/steps/Offer";
+
 
 type Step = {
   type: string;
@@ -37,12 +38,15 @@ const TrackPage = () => {
   const [gotInfo, setGotInfo] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [stopTrackingModal, setStopTrackingModal] = useState<boolean>(false);
-  const [steps, setSteps] = useState<any>([{ type: "", id: "", title: "", order: 0, step: "" }]);
+  const [steps, setSteps] = useState<any>([
+    { type: "", id: "", title: "", order: 0, step: "" },
+  ]);
   const [editDate, setEditDate] = useState(false);
   const [temporaryDate, setTemporaryDate] = useState('');
   const [proposalModal, setProposalModal] = useState(false);
   const [offer, setOffer] = useState(false)
   const [offerDone, setOfferDone] = useState(false)
+
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const currentUser = useSelector((state: RootState) => state.currentUser);
@@ -119,22 +123,21 @@ const TrackPage = () => {
       });
     }
 
+
     let thereIsAnOffer = fetchedSteps.filter((x: any) => x.type.toLowerCase() === 'offer').length;
     setOfferDone(thereIsAnOffer);
 
     fetchedSteps.sort((a: any, b: any) => new Date(a.date) - new Date(b.date))
     fetchedSteps.sort((a: any, b: any) => a.order - b.order)
 
+
     console.log("all steps => ", fetchedSteps);
     setSteps([...fetchedSteps]);
   };
 
   const handleEditDate = () => {
-    setEditDate(true)
-  }
-
-
-
+    setEditDate(true);
+  };
 
   const saveDate = (event: FormEvent<HTMLFormElement>, step: any) => {
     event.preventDefault()
@@ -143,21 +146,39 @@ const TrackPage = () => {
 
     switch (step.type.toLowerCase()) {
       case "sandbox":
-        dispatch(updateSandbox({ sandboxId: step.id, sandbox: { date: new Date(pickedDate) } }));
+        dispatch(
+          updateSandbox({
+            sandboxId: step.id,
+            sandbox: { date: new Date(pickedDate) },
+          })
+        );
         break;
       case "questionary":
-        dispatch(updateQuestionary({ questionaryId: step.id, questionary: { date: new Date(pickedDate) } }));
+        dispatch(
+          updateQuestionary({
+            questionaryId: step.id,
+            questionary: { date: new Date(pickedDate) },
+          })
+        );
         break;
       case "videocall":
-        dispatch(updateVideocall({ videocallId: step.id, videocall: { date: new Date(pickedDate) } }));
+        dispatch(
+          updateVideocall({
+            videocallId: step.id,
+            videocall: { date: new Date(pickedDate) },
+          })
+        );
         break;
-      default: null;
-        break
+      default:
+        null;
+        break;
     }
+
 
     setEditDate(false)
     setTemporaryDate(moment(new Date(pickedDate)).format('MMM DD, YYYY - HH:mm'));
-    window.location.reload()
+    window.location.reload();
+    window.location.reload();
   };
 
   const focusSaveButton = (event: FormEvent<HTMLFormElement>) => {
@@ -256,9 +277,7 @@ const TrackPage = () => {
                 </div>
               </a>
             </div>
-
           ) : (
-
             <div id="recruiterView" className="w-full ">
               <a
                 onClick={() =>
@@ -340,7 +359,6 @@ const TrackPage = () => {
               }
             })}
         </div>
-
         <div id="chat-wraper">
           <ChatWindow trackId={track.track?.id!} />
         </div>

@@ -65,7 +65,7 @@ const AddApplicantPage = () => {
       window.setTimeout(async () => {
         const suggestions = await fetchCitySuggestionsFromServer(input);
         setCitySuggestions(suggestions);
-      }, 300)
+      }, 100)
     );
   };
 
