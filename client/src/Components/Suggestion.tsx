@@ -50,19 +50,20 @@ export default function Suggestion() {
               Your Personalized Suggestions
             </h2>
             <p className="mt-2 text-base text-[#026767] leading-8 text-gray-600 ">
-              We think these applicants will catch your eye
+              We think these might catch your eye
             </p>
           </div>
-          <div className="overflow-x-scroll list-none flex flex-nowrap  my-8 ">
-            {currentUser.role === "recruiter" && applicants.length &&
-              applicants.map((applicant) => (
+          {currentUser.role === "recruiter" &&
+            applicants.length &&
+            applicants.map((applicant) => (
+              <div className="overflow-x-scroll list-none flex flex-nowrap  my-8 ">
                 <UserCard
                   applicant={applicant}
                   key={applicant.idAuth}
                 ></UserCard>
-              ))}
-            {currentUser.role === "applicant" && <FilteredVacancies />}
-          </div>
+              </div>
+            ))}
+          {currentUser.role === "applicant" && <FilteredVacancies />}
         </div>
       </div>
     </>

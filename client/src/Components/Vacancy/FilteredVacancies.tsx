@@ -29,7 +29,7 @@ const FilteredVacancies: React.FC<FilteredVacanciesProps> = ({
   };
 
   return (
-    <div>
+    <div className="flex flex-row">
       <FilterForm onFilterSubmit={handleFilterSubmit} />
       <div className="overflow-x-scroll flex flex-nowrap my-2">
         {vacancies.length ? (
