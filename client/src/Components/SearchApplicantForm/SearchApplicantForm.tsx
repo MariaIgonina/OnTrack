@@ -1,9 +1,10 @@
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { fetchCities, fetchFilteredApplicants } from "../../store/applicantSlice";
-// import { URLSearchParams } from 'url';
 import React, { useEffect, useState } from "react";
-// import 'url-search-params-polyfill';
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
+import {
+  fetchCities,
+  fetchFilteredApplicants,
+} from "../../store/applicantSlice";
 import {
   languages,
   profSkills,
@@ -14,13 +15,12 @@ import {
   levelLanguages,
 } from "../../library";
 import { LanguageBlock } from "./LanguageBlock";
+import { getFilteredApplicants } from "../../api.fetch";
 
-export default function SearchApplicantForm() {
+export default function SearchApplicantForm({ setFilteredApplicants }) {
   const dispatch = useDispatch<AppDispatch>();
   const [locations, setLocations] = useState<Array<string>>([]);
-  const [languageArray, setLanguageArray] = useState<(string)[]>(
-    []
-  );
+  const [languageArray, setLanguageArray] = useState<string[]>([]);
   const [levelArray, setLevelArray] = useState<(string | undefined)[]>([]);
   const [stackArray, setStackArray] = useState<(string | undefined)[]>([]);
   const [profSkillsArray, setProfSkillsArray] = useState<
@@ -39,29 +39,16 @@ export default function SearchApplicantForm() {
     fetchLocations();
   }, []);
 
-  const handleDeletelevel = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    index: number
-  ) => {
-    event.preventDefault();
-    const updateLevel = [...levelArray];
-    updateLevel.splice(index, 1);
-    setLevelArray(updateLevel);
-    console.log(levelArray);
-  };
-
-
-  function handleDeleteLangAfterSubmit (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, language: string) {
+  function handleDeleteLangAfterSubmit(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    language: string
+  ) {
     e.preventDefault();
-    setLanguageArray(prevState => {
-      console.log(prevState[0] == language)
-      return prevState.filter(lang => lang !== language)
-    })
+    setLanguageArray((prevState) => {
+      console.log(prevState[0] == language);
+      return prevState.filter((lang) => lang !== language);
+    });
   }
-
-  useEffect(() => {
-    console.log("MIRAR AQUI ==> ", languageArray)
-  }, [languageArray])
 
   const handleDeleteStack = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -125,7 +112,6 @@ export default function SearchApplicantForm() {
     setWorkHour("");
   };
 
-
   const url = new URL("http://localhost:3000/filterApplicants");
 
   if (workModal) url.searchParams.set("workingModal", workModal);
@@ -141,53 +127,46 @@ export default function SearchApplicantForm() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    const response = await dispatch(fetchFilteredApplicants(url));
-    console.log(response);
+    const response = await getFilteredApplicants(url, null);
+    console.log("this should be a list of filered applicants", response);
+    setFilteredApplicants(response);
   };
 
   return (
     <>
-      <div className="p-2 flex items-center justify-center w-full "style={{minWidth: "500px"}}>
+      <div
+        className="p-2 flex items-center justify-center"
+        style={{ minWidth: "450px" }}
+      >
         <form>
-          <div className="">
-            <div className="p-2 flex items-center justify-center">
-              <h1 className="text-3xl font-bold tracking-tight text-[#026767] text-big  ">
-                Search a profile
-              </h1>
-            </div>
-          </div>
           {[...Array(numLanguages)].map((_, index) => (
-            <LanguageBlock
-              key={index}
-              setLanguageArray={setLanguageArray}
-            />
+            <LanguageBlock key={index} setLanguageArray={setLanguageArray} />
           ))}
 
           {languageArray.map((language, i) => {
             return (
-                <div className="flex items-center justify-center  md:gap-8 gap-4 pt-1">
-                <div>{language}</div>
+              <>
                 <button
                   onClick={(e) => handleDeleteLangAfterSubmit(e, language!)}
                   className="ml-2 mt-1.5 inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-500 hover:bg-red-600 focus:outline-none"
                 >
-                <svg
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  className="w-4 h-4 text-white"
-                >
-                  <path d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              </button>
-              </div>
-            )
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    className="w-4 h-4 text-white"
+                  >
+                    <path d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </>
+            );
           })}
 
-          <div className="grid grid-cols-1 mt-5 mx-7">
+          <div className="grid grid-cols-1 mt-5">
             <label className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
               Working Modals
             </label>
@@ -209,7 +188,7 @@ export default function SearchApplicantForm() {
             </select>
           </div>
 
-          <div className="grid grid-cols-1 ml-9 mx-7">
+          <div className="grid grid-cols-1 ml-9">
             {workModal && (
               <ul>
                 <li>
@@ -235,7 +214,7 @@ export default function SearchApplicantForm() {
             )}
           </div>
 
-          <div className="grid grid-cols-1 mt-5 mx-7">
+          <div className="grid grid-cols-1 mt-5">
             <label className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
               Working Hours
             </label>
@@ -257,7 +236,7 @@ export default function SearchApplicantForm() {
             </select>
           </div>
 
-          <div className="grid grid-cols-1 ml-9 mx-7">
+          <div className="grid grid-cols-1 ml-9">
             {workHour && (
               <ul>
                 <li>
@@ -283,7 +262,7 @@ export default function SearchApplicantForm() {
             )}
           </div>
 
-          <div className="grid grid-cols-1 mt-5 mx-7">
+          <div className="grid grid-cols-1 mt-5">
             <label className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
               Stack
             </label>
@@ -305,7 +284,7 @@ export default function SearchApplicantForm() {
             </select>
           </div>
 
-          <div className="grid grid-cols-1 ml-9 mx-7">
+          <div className="grid grid-cols-1 ml-9">
             {stackArray.map((stack, index) => (
               <li key={index} style={{ listStyleType: "none" }}>
                 {stack}
@@ -329,7 +308,7 @@ export default function SearchApplicantForm() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 mt-5 mx-7">
+          <div className="grid grid-cols-1 mt-5">
             <label className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
               Professional Skills
             </label>
@@ -351,7 +330,7 @@ export default function SearchApplicantForm() {
             </select>
           </div>
 
-          <div className="grid grid-cols-1 ml-9 mx-7">
+          <div className="grid grid-cols-1 ml-9">
             {profSkillsArray.map((skill, index) => (
               <li key={index} style={{ listStyleType: "none" }}>
                 {skill}
@@ -375,7 +354,7 @@ export default function SearchApplicantForm() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 mt-5 mx-7">
+          <div className="grid grid-cols-1 mt-5">
             <label className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
               Location
             </label>
@@ -397,7 +376,7 @@ export default function SearchApplicantForm() {
             </select>
           </div>
 
-          <div className="grid grid-cols-1 ml-9 mx-7">
+          <div className="grid grid-cols-1 ml-9">
             {loc && (
               <ul>
                 <li>
