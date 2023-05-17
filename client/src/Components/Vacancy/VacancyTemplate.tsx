@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useEffect, useRef, useState } from "react";
 import { typeForStep } from "../../library";
-
 import PopupQuestionary from "./PopUpQuestionary";
 import PopUpSandbox from "./PopUpSandbox";
-
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-
 import { Vacancy } from "../../Interfaces";
-
 import { createTrack } from "../../store/trackSlice";
 import { createQuestionary } from "../../store/QuestionarySlice";
 import { createVideocall } from "../../store/VideoCallSlice";
 import { createSandbox } from "../../store/SandboxSlice";
-
 import { Track } from "../../Interfaces";
 
 export default function VacancyTemplate({
@@ -169,7 +163,7 @@ export default function VacancyTemplate({
       </div>
       <div className="h-80">
         {stepsArray.length > 0 && (
-          <ul className="flex flex-row flex-start h-50">
+          <ul className="flex flex-row flex-start h-50 overflow-y-scroll">
             {stepsArray.map((step, index) => (
               <li key={index}>
                 <article

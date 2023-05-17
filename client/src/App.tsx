@@ -21,7 +21,7 @@ import { currentUserSlice, setCurrentUser } from "./store/CurrentUserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./store/store";
 import Protected from "./Components/Protected";
-import QuestionnaryForm from "./Components/QuestionnaryForm";
+import QuestionnaryForm from "./Components/Accordion/QuestionnaryForm";
 
 
 function App() {

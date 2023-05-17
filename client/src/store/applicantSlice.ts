@@ -4,7 +4,7 @@ import {
   createAsyncThunk,
   isAsyncThunkAction,
 } from "@reduxjs/toolkit";
-import { getApplicant } from "../api.fetch";
+import { getApplicant, getFilteredApplicants } from "../api.fetch";
 
 import { Applicant, Track } from "../Interfaces";
 
@@ -80,20 +80,7 @@ const fetchAllApplicants = createAsyncThunk(
 
 const fetchFilteredApplicants = createAsyncThunk(
   "applicant/fetchFilteredApplicants",
-
-  async function (url2: URL, { rejectWithValue }) {
-    try {
-      const response = await fetch(url2);
-      if (!response.ok) {
-        throw new Error("Server error");
-      }
-      const data = await response.json();
-      console.log("data we need", data);
-      return data;
-    } catch (err) {
-      if (err instanceof Error) return rejectWithValue(err.message);
-    }
-  }
+  getFilteredApplicants
 );
 
 const createApplicant = createAsyncThunk(

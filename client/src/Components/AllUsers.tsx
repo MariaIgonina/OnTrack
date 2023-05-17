@@ -7,7 +7,6 @@ import UserCard from "./UserCard";
 import { CurrentUserType, Vacancy } from "../Interfaces";
 import { fetchAllVacancies } from "../store/vacancySlice";
 import VacancyCard from "./Vacancy/VacancyCard";
-import SearchApplicantForm from "./SearchApplicantForm/SearchApplicantForm";
 
 export default function AllUsers({ searchRef }) {
   const applicants = useSelector(
@@ -30,29 +29,32 @@ export default function AllUsers({ searchRef }) {
   }, []);
 
   return (
-    <div ref={searchRef} className="bg-stone-100 py-24 sm:py-8 rounded-lg w-screen">
+    <div
+      ref={searchRef}
+      className="bg-stone-100 py-24 sm:py-8 rounded-lg w-screen"
+    >
       <div className="mx-auto max-w-10xl lg:px-8">
         <div className="mx-auto max-w-lg lg:mx-0">
           <h2 className="text-2xl font-bold tracking-tight text-[#026767] mb-2">
-            Search all the candidates using OnTrack
+            Search everyone using OnTrack
           </h2>
         </div>
-        <div className="overflow-x-scroll list-none flex   my-8 ">
-          {currentUser.role === "recruiter" && <SearchApplicantForm />}
-          {applicants.length && currentUser.role === "applicant" &&
+        <div className="overflow-x-scroll list-none flex my-8">
+          {currentUser.role === "applicant" ? (
+            vacancy.length ? (
+              vacancy.map((vacancy) => (
+                <VacancyCard vacancy={vacancy} key={vacancy.id} />
+              ))
+            ) : (
+              <li className="list-none">
+                <p className="p-4 text-gray-500">No vacancies found.</p>
+              </li>
+            )
+          ) : (
+            applicants.length &&
             applicants.map((applicant) => (
               <UserCard applicant={applicant} key={applicant.idAuth}></UserCard>
-            ))}
-
-          {vacancy.length ?
-            (
-            vacancy.map((vacancy) => (
-              <VacancyCard vacancy={vacancy} key={vacancy.id} />
             ))
-          ) : (
-            <li>
-              <p className="p-4 text-gray-500">No vacancies found.</p>
-            </li>
           )}
         </div>
       </div>

@@ -14,7 +14,7 @@ import ChatWindow from "../Components/liveChat/ChatWindow";
 import Videocall from "../Components/steps/Videocall";
 import moment from "moment";
 import Spinner from "../Components/Spinner";
-import QuestionnaryForm from "../Components/QuestionnaryForm";
+import QuestionnaryForm from "../Components/Accordion/QuestionnaryForm";
 import EditIcon from '@mui/icons-material/Edit';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { updateSandbox } from "../store/SandboxSlice";
