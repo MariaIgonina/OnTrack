@@ -70,7 +70,7 @@ export default function TrackTrack({ track }) {
             >
               <div key={index}>
                 {/* ref={step.checked === true ? scrollRef : null}> */}
-                <div className="bg-yellow-100 rounded-lg py-5 h-200 ">
+                <div className="bg-yellow-100 rounded-lg py-5 h-200 drop-shadow-lg">
                   <p className="text-xl text-[#026767] font-semibold pb-2 tracking-widest">
                     Step {index + 1}
                   </p>
@@ -98,7 +98,7 @@ export default function TrackTrack({ track }) {
               )
             }
           >
-            <div className="bg-yellow-100 rounded-lg py-5 mb-8 text-center">
+            <div className="bg-yellow-100 rounded-lg py-5 mb-8 text-center drop-shadow-lg">
               <p>all steps completed</p>
             </div>
           </button>
