@@ -12,7 +12,7 @@ const Video = ({ applicant }: { applicant: Applicant }) => {
     },
   };
 
-  const link: undefined | string = applicant.video;
+  const link: any = applicant.video;
 
   let videoId: string = "";
   if (link !== null && link?.includes("=")) {
