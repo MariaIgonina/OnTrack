@@ -36,6 +36,11 @@ const VacancyDetails: React.FC = () => {
         });
     }
   };
+  const navigateToRecruiterProfile = () => {
+    if (vacancy?.data?.recruiterId) {
+      navigate(`/recruiter/${vacancy.data.recruiterId}`);
+    }
+  };
   const applySubmit = async () => {
     if (window.confirm("Are you sure you want to apply to this vacancy?")) {
       const { id, recruiterId } = vacancy.data;
@@ -86,12 +91,20 @@ const VacancyDetails: React.FC = () => {
                 </>
               )}
               {currentUserRole === "applicant" && (
-                <button
-                  className="absolute top-4 right-12 w-[70px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring"
-                  onClick={applySubmit}
-                >
-                  Apply
-                </button>
+                <>
+                  <button
+                    className="absolute top-4 right-12 w-[70px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring"
+                    onClick={applySubmit}
+                  >
+                    Apply
+                  </button>
+                  <button
+                    onClick={navigateToRecruiterProfile}
+                    className="absolute top-4 right-20 mr-10 w-[150px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring"
+                  >
+                    Recruiter profile
+                  </button>
+                </>
               )}
               <div className="p-4 border-b">
                 <h2 className="text-2xl ">Vacancy Information</h2>

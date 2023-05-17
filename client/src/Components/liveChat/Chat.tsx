@@ -36,7 +36,7 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
     return () => {
       socket.off("newMessage");
     };
-  }, [socket, messageText]); // socket also?
+  }, [socket, messageText, trackId]); // socket also?
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -61,7 +61,6 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
       files: [],
     };
     dispatch(createMessage(newMessage));
-    dispatch(newMessageReceived(newMessage));
     setMessageText("");
   };
 
