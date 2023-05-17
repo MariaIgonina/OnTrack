@@ -130,7 +130,6 @@ const TrackPage = () => {
 
   const saveDate = (event: FormEvent<HTMLFormElement>, step: any) => {
     event.preventDefault()
-    console.log('aquiiiiiiiiiii', step.type, step.id)
     const formData = new FormData(event.currentTarget);
     const pickedDate = formData.get(`${step.type}-${step.id}`); //
 
@@ -149,14 +148,33 @@ const TrackPage = () => {
     }
 
     setEditDate(false)
-    setTemporaryDate(moment(new Date(pickedDate)).format('MMM DD, YYYY - hh:mm'));
+    setTemporaryDate(moment(new Date(pickedDate)).format('MMM DD, YYYY - HH:mm'));
     window.location.reload()
   };
+
+  const focusSaveButton = (event: FormEvent<HTMLFormElement>) => {
+    console.log('blur ', event.target.id)
+    const input = document.querySelector(`#${event.target.id}`)
+    const button = document.querySelector(`#button-${event.target.id}`)
+    if (input) {
+      input.classList.add('border')
+      input.classList.add('border-rose-500')
+      input.classList.add('border-2')
+      button?.classList.add('text-rose-500')
+      
+
+      // setTimeout(() => {
+      //   input.classList.remove('border')
+      //   input.classList.remove('border-rose-500')
+      //   input.classList.remove('border-2')
+      // }, 3000)
+    }
+  }
 
   return (
     <div
       id="track-container"
-      className="flex h-full top-[70px] w-[100%] min-w-[600px] bg-neutral-100"
+      className="flex h-full top-[70px] w-[100%] min-w-[600px] bg-gray-100"
     >
       {stopTrackingModal && (
         <DeleteTrackModal
@@ -182,17 +200,17 @@ const TrackPage = () => {
         />
       </div>
 
-      <div className="w-[98%] min-w-[400px] ml-3">
+      <div className="w-full min-w-[400px] ml-3">
         <div id="Info" className="mb-10 ">
           <a onClick={() => navigate(`/vacancy/${vacancy.data?.id}`)}>
-            <h2 className="text-3xl font-extrabold my-2 hover:text-stone-100 hover:bg-gray-800 w-fit rounded-lg hover:cursor-pointer">
+            <h2 className="text-3xl font-extrabold my-2 hover:text-stone-100 hover:bg-gray-800 rounded-lg hover:cursor-pointer w-fit">
               {vacancy.data?.title}
             </h2>
           </a>
           {currentUser.role! === "applicant" ? (
             <div id="applicantView" className="w-full hover:bg-gray-800 ">
               <a
-                className="flex items-center bg-white border border-gray-200 rounded-lg md:flex-row  
+                className="flex items-center bg-white border border-gray-200 rounded-lg md:flex-row px-3
            shadow shadow-md w-full"
               >
                 <a
@@ -201,7 +219,7 @@ const TrackPage = () => {
                   }
                 >
                   <img
-                    className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg hover:cursor-pointer"
+                    className="object-contain w-20 h-20 rounded-full hover:cursor-pointer shadow-md bg-gray-50"
                     alt="Company Logo"
                     src={recruiter.recruiter?.logo}
                   />
@@ -261,13 +279,13 @@ const TrackPage = () => {
                 return <>
                   {!editDate
                     ? <span id={`step-${step.id}-date`} className={`${step.date ? 'text-gray-400' : 'text-gray-200'} uppercase tracking-widest font-bold`}>
-                      {step.date ? moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm') : temporaryDate.length ? temporaryDate : 'edit date'}
+                      {step.date ? moment(new Date(step.date)).format('MMM DD, YYYY - HH:mm') : temporaryDate.length ? temporaryDate : 'edit date'}
                       <button className="ml-5 relative bottom-1 hover:text-neutral-500 text-gray-300" onClick={handleEditDate}>
                         <EditIcon />
                       </button>
                     </span>
-                    : <form onSubmit={(e) => saveDate(e, step)} onBlur={(e) => saveDate(e, step)}><input name={`${step.type}-${step.id}`} type="datetime-local" min={`${new Date().toISOString().slice(0, 16)}`} className="text-gray-500 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-100 focus:border-green-100"
-                    /><button type="submit" className="ml-1 relative hover:text-neutral-500 text-gray-300"><AddCircleIcon /></button></form>
+                    : <form onSubmit={(e) => saveDate(e, step)} onBlur={(e) => focusSaveButton(e)}><input id={`${step.type}-${step.id}`} name={`${step.type}-${step.id}`} type="datetime-local" min={`${new Date().toISOString().slice(0, 16)}`} className="text-gray-500 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-100 focus:border-green-100"
+                    /><button id={`button-${step.type}-${step.id}`} type="submit" className="ml-1 relative hover:text-neutral-500 text-gray-300 hover:text-emerald-400"><AddCircleIcon />{ editDate && 'Save?'}</button></form>
                   }
                   <StepTemplate step={step} title={step.title?.length ? step.title : "Code Exercise"} type="sandbox" checkIsAble={step.date ? new Date(step.date).getTime() < new Date().getTime() : true}
                     content={<Landing savedCode={step.code! || ''} step={step} />} />
@@ -277,13 +295,13 @@ const TrackPage = () => {
                 return <>
                   {!editDate
                     ? <span id={`step-${step.id}-date`} className={`${step.date ? 'text-gray-400' : 'text-gray-200'} uppercase tracking-widest font-bold`}>
-                      {step.date ? moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm') : temporaryDate.length ? temporaryDate : 'edit date'}
+                      {step.date ? moment(new Date(step.date)).format('MMM DD, YYYY - HH:mm') : temporaryDate.length ? temporaryDate : 'edit date'}
                       <button className="ml-5 relative bottom-1 hover:text-neutral-500 text-gray-300" onClick={handleEditDate}>
                         <EditIcon />
                       </button>
                     </span>
-                    : <form onSubmit={(e) => saveDate(e, step)}><input name={`${step.type}-${step.id}`} type="datetime-local" min={`${new Date().toISOString().slice(0, 16)}`} className="text-gray-500 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-100 focus:border-green-100"
-                    /><button type="submit" className="ml-1 relative hover:text-neutral-500 text-gray-300"><AddCircleIcon /></button></form>
+                    : <form onSubmit={(e) => saveDate(e, step)} onBlur={(e) => focusSaveButton(e)}><input id={`${step.type}-${step.id}`} name={`${step.type}-${step.id}`} type="datetime-local" min={`${new Date().toISOString().slice(0, 16)}`} className="text-gray-500 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-100 focus:border-green-100"
+                    /><button id={`button-${step.type}-${step.id}`} type="submit" className="ml-1 relative hover:text-neutral-500 text-gray-300 hover:text-emerald-400"><AddCircleIcon />{editDate && 'Save?'}</button></form>
                   }
                   <StepTemplate step={step} title={step.title?.length ? step.title : "Videocall"} type="videocall" checkIsAble={step.date ? new Date(step.date).getTime() < new Date().getTime() : true}
                     content={<Videocall step={step} />} /><div id="line" className="-mt-4 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>
@@ -291,13 +309,13 @@ const TrackPage = () => {
                 return <>
                   {!editDate
                     ? <span id={`step-${step.id}-date`} className={`${step.date ? 'text-gray-400' : 'text-gray-200'} uppercase tracking-widest font-bold`}>
-                      {step.date ? moment(new Date(step.date)).format('MMM DD, YYYY - hh:mm') : temporaryDate.length ? temporaryDate : 'edit date'}
-                      <button className="ml-5 relative bottom-1 hover:text-neutral-500 text-gray-300" onClick={handleEditDate}>
+                      {step.date ? moment(new Date(step.date)).format('MMM DD, YYYY - HH:mm') : temporaryDate.length ? temporaryDate : 'edit date'}
+                      <button id={`button-${step.type}-${step.id}`} className="ml-5 relative bottom-1 hover:text-neutral-500 text-gray-300" onClick={handleEditDate}>
                         <EditIcon />
                       </button>
                     </span>
-                    : <form onSubmit={(e) => saveDate(e, step)}><input name={`${step.type}-${step.id}`} type="datetime-local" min={`${new Date().toISOString().slice(0, 16)}`} className="text-gray-500 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-100 focus:border-green-100"
-                    /><button type="submit" className="ml-1 relative hover:text-neutral-500 text-gray-300"><AddCircleIcon /></button></form>
+                    : <form onSubmit={(e) => saveDate(e, step)} onBlur={(e) => focusSaveButton(e)}><input id={`${step.type}-${step.id}`} name={`${step.type}-${step.id}`} type="datetime-local" min={`${new Date().toISOString().slice(0, 16)}`} className="text-gray-500 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-100 focus:border-green-100"
+                    /><button id={`button-${step.type}-${step.id}`} type="submit" className="ml-1 relative hover:text-neutral-500 text-gray-300 hover:text-emerald-400"><AddCircleIcon />{editDate && ' Save?'}</button></form>
                   }
                   <StepTemplate step={step} title={step.title?.length ? step.title : "Questionary"} type="questionary" checkIsAble={step.date ? new Date(step.date).getTime() < new Date().getTime() : true}
                     content={<QuestionnaryForm step={step} />} /><div id="line" className="-mt-10 w-1 bg-gray-300 rounded-xl h-[100px] block relative"></div></>

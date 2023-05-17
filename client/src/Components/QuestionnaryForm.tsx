@@ -48,7 +48,7 @@ export default function QuestionnaryForm({ step }: QuestionaryFormProps) {
   ) => {
     e.preventDefault();
     const updatedQuestionnary = {
-      questionaryId: questionary.questionary.id,
+      questionaryId: questionary.questionary?.id!,
       questionary: {
         answers: answers,
       },

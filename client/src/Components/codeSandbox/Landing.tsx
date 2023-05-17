@@ -159,7 +159,7 @@ const Landing = ({savedCode, step}: LandingProps) => {
           draggable
           pauseOnHover
         />
-        <div className="border border-black rounded-lg bg-stone-100 flex flex-col max-w-905 min-w-731 shadow shadow-lg">
+        <div className="border border-black rounded-lg bg-[#223941] flex flex-col max-w-905 min-w-731 shadow shadow-lg">
           <div className="flex flex-row">
             <div className="px-4 py-2">
               <LanguagesDropdown onSelectChange={onSelectChange} />
@@ -174,14 +174,14 @@ const Landing = ({savedCode, step}: LandingProps) => {
               />
             </div>
 
-            <div id='outputs-panel' className="right-container flex flex-shrink-0 w-[30%] flex-col">
+            <div id='outputs-panel' className="right-container flex flex-shrink-0 w-[35%] flex-col">
               <OutputWindow outputDetails={outputDetails} />
               <div className="flex flex-col items-end">
                 <button
                   onClick={handleCompile}
                   disabled={!code}
                   className={classnames(
-                    "mt-4 border-2 border-black rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                    "mt-4 border-2 border-black hover:bg-emerald-200 rounded-md shadow-[5px_5px_0px_0px_] shadow-[#807f77] px-4 py-2 hover:shadow transition duration-200 bg-stone-100 flex-shrink-0",
                     !code ? "opacity-50" : "", step.checked ? "invisible" : "visible"
                   )}
                 >
