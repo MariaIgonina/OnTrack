@@ -41,7 +41,6 @@ const url: string = "http://localhost:3000";
 
 const fetchVacancy = createAsyncThunk("vacancy/fetchvacancy", getVacancy);
 
-
 const fetchAllVacancies = createAsyncThunk(
   "vacancies/fetchallvacancies",
   async function (_, { rejectWithValue }) {
@@ -51,7 +50,7 @@ const fetchAllVacancies = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("DATA FROM REDUX THUNK : ", data);
+      // console.log("DATA FROM REDUX THUNK : ", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);

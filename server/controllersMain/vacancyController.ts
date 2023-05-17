@@ -23,6 +23,7 @@ const createVacancy = async (req: Request, res: Response) => {
 
     console.log(location);
     const coordinates = await fetchCityCoordinates(location);
+    console.log("coordiants", coordinates);
 
     if (
       recruiterId === undefined ||
