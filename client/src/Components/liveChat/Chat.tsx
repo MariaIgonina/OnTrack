@@ -113,9 +113,9 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
           placeholder="Type a message"
           value={messageText}
           onChange={(e) => setMessageText(e.target.value)}
-          onKeyPress={(e) => {
+          onKeyDown={(e) => {
             if (e.key === "Enter") {
-              e.preventDefault();
+              e.preventDefault(); // Prevent the default behavior of the Enter key (submitting the form)
               sendMessage();
             }
           }}
