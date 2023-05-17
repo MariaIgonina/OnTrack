@@ -99,7 +99,7 @@ export default function TrackTrack({ track }) {
             }
           >
             <div className="bg-yellow-100 rounded-lg py-5 mb-8 text-center drop-shadow-lg">
-              <p>all steps completed</p>
+              <p>track completed</p>
             </div>
           </button>
         </>

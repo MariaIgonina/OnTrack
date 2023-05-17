@@ -37,7 +37,7 @@ const FilteredVacancies: React.FC<FilteredVacanciesProps> = ({
             <VacancyCard vacancy={vacancy} key={vacancy.id} />
           ))
         ) : (
-          <li>
+          <li className="list-none">
             <p className="p-4 text-gray-500">No vacancies found.</p>
           </li>
         )}
