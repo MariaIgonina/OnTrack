@@ -61,7 +61,6 @@ const StepTemplate = ({ title, content, type, checkIsAble, step }: StepProps) =>
           break;
         case 'sandbox':
           dispatch(updateSandbox({ sandboxId: step.id, sandbox: { checked: false } }));
-          setReloadAlert(true)
           break;
         case 'questionary':
           dispatch(updateQuestionary({ questionaryId: step.id, questionary: { checked: false } }));
@@ -106,7 +105,7 @@ const StepTemplate = ({ title, content, type, checkIsAble, step }: StepProps) =>
         {/* {check && <div id='checked-screen' className="relative flex justify-start z-10 w-[1000px]"><div className="bg-neutral-100 opacity-80 z-10 absolute w-[100%] h-[407px]" style={{ left: "0%" }}></div></div>} */}
         {!check ? content : <><div className="h-[100px]">
           <button onClick={handleShowDoneCode}
-            className='bg-emerald-100 opacity-80 p-1 rounded-xl text-emerald-800 relative top-5'>Watch resume<KeyboardArrowDownIcon /> </button>
+            className='bg-emerald-100 opacity-80 p-1 rounded-xl text-emerald-800 relative top-5'>See more<KeyboardArrowDownIcon /> </button>
         </div>
           {showDoneCode && content}
         </>}
