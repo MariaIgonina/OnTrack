@@ -148,4 +148,3 @@ const StepTemplate = ({ title, content, type, checkIsAble, step }: StepProps) =>
 }
 
 export default StepTemplate;
-

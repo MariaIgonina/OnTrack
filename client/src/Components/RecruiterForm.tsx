@@ -29,7 +29,7 @@ const RecruiterForm: React.FC<VacancyCreateProps> = (
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
   const [imageIds, setImageIds] = useState<ICloudImage[]>([]);
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const currentUser = useSelector((s: RootState) => s.currentUser);
   // const baseUrl = `https://res.cloudinary.com/dd9tj642b/image/upload/`;
 
