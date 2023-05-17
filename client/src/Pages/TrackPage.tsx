@@ -20,6 +20,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { updateSandbox } from "../store/SandboxSlice";
 import { updateQuestionary } from "../store/QuestionarySlice";
 import { updateVideocall } from "../store/VideoCallSlice";
+import { current } from "@reduxjs/toolkit";
 
 
 type Step = {
@@ -161,7 +162,7 @@ const TrackPage = () => {
       input.classList.add('border-rose-500')
       input.classList.add('border-2')
       button?.classList.add('text-rose-500')
-      
+
 
       // setTimeout(() => {
       //   input.classList.remove('border')
@@ -171,6 +172,7 @@ const TrackPage = () => {
     }
   }
 
+  // if (currentUser.currentUser.role === 'applicant' && currentUser.currentUser.id !== applicant.applicant.id)
   return (
     <div
       id="track-container"
@@ -249,7 +251,7 @@ const TrackPage = () => {
             <div id="recruiterView" className="w-full ">
               <a
                 onClick={() =>
-                  navigate(`/recruiter/${applicant.applicant?.idDB}`)
+                  navigate(`/applicant/${applicant.applicant?.idDB}`)
                 }
                 className="flex items-center bg-white border border-gray-200 rounded-lg md:flex-row  
            shadow shadow-md w-full hover:cursor-pointer hover:borderd-double hover:border-white hover:bg-gray-800 hover:text-white "
@@ -285,7 +287,7 @@ const TrackPage = () => {
                       </button>
                     </span>
                     : <form onSubmit={(e) => saveDate(e, step)} onBlur={(e) => focusSaveButton(e)}><input id={`${step.type}-${step.id}`} name={`${step.type}-${step.id}`} type="datetime-local" min={`${new Date().toISOString().slice(0, 16)}`} className="text-gray-500 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-100 focus:border-green-100"
-                    /><button id={`button-${step.type}-${step.id}`} type="submit" className="ml-1 relative hover:text-neutral-500 text-gray-300 hover:text-emerald-400"><AddCircleIcon />{ editDate && 'Save?'}</button></form>
+                    /><button id={`button-${step.type}-${step.id}`} type="submit" className="ml-1 relative hover:text-neutral-500 text-gray-300 hover:text-emerald-400"><AddCircleIcon />{editDate && 'Save?'}</button></form>
                   }
                   <StepTemplate step={step} title={step.title?.length ? step.title : "Code Exercise"} type="sandbox" checkIsAble={step.date ? new Date(step.date).getTime() < new Date().getTime() : true}
                     content={<Landing savedCode={step.code! || ''} step={step} />} />
