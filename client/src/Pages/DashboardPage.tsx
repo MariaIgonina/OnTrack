@@ -7,7 +7,9 @@ import { CurrentUserType } from "../Interfaces";
 import Suggestion from "../Components/Suggestion";
 import GoogleMaps from "../Components/googleMaps/GoogleMaps";
 import TrackerComponent from "../Components/TrackerComponent";
-import DateCalendarViews from "../Components/Calendar";
+import FilteredVacancies from "../Components/Vacancy/FilteredVacancies";
+import MyCalendar from "../Components/Calendar"
+
 
 const DashboardPage = () => {
   const searchRef = useRef(null);
@@ -43,7 +45,7 @@ const DashboardPage = () => {
       >
         <GoogleMaps />
         <AllUsers searchRef={searchRef} />
-        <DateCalendarViews></DateCalendarViews>
+    
       </div>
     </>
   );

@@ -11,20 +11,21 @@ import { useState } from "react";
 import React from "react";
 import { ConstructionOutlined } from "@mui/icons-material";
 
-const initialTrack: Track = {
-  recruiterID: 0,
-  Recruiter: initialRecruiter,
-  applicantID: 0,
-  Applicant: initialApplicant,
-  reject: false,
-  applicantNotes: "",
-  recruiterNotes: "",
-  vacancyId: 0,
-  Questionaries: [],
-  Videocall: [],
-  CodeSandbox: [],
-  Message: [],
-};
+const initialTrack: Track[] = []
+// {
+//   recruiterID: 0,
+//   Recruiter: initialRecruiter,
+//   applicantID: 0,
+//   Applicant: initialApplicant,
+//   reject: false,
+//   applicantNotes: "",
+//   recruiterNotes: "",
+//   vacancyId: 0,
+//   Questionaries: [],
+//   Videocall: [],
+//   CodeSandbox: [],
+//   Message: [],
+// };
 
 const url: string = "http://localhost:3000";
 
@@ -166,7 +167,7 @@ const updateTrack = createAsyncThunk(
 );
 
 interface IInitialState {
-  track: Track;
+  track: Track[];
   status: "loading" | "resolved" | "rejected" | null;
   error: null | Error;
 }
