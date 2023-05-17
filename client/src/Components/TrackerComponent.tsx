@@ -20,7 +20,8 @@ export default function TrackerComponent() {
     const sortedtracks = tracks.filter((track) => !track.reject);
     const rejectedtracks = tracks.filter((track) => track.reject);
     const finalArray = sortedtracks.concat(rejectedtracks);
-    return finalArray;
+    const filteredFinalArray = finalArray.filter((track) => track.applicantID);
+    return filteredFinalArray;
   };
 
   useEffect(() => {

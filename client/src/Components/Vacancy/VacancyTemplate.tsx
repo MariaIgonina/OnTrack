@@ -36,10 +36,10 @@ export default function VacancyTemplate({
     (state: RootState) => state.vacancy.vacancies
   ) as unknown as Vacancy[];
 
-  useEffect(() => {
-    setTrackId(trackData.id), [dispatch];
-    console.log("TRACK ID", trackId);
-  });
+  // useEffect(() => {
+  //   setTrackId(trackData.id), [dispatch];
+  //   console.log("TRACK ID", trackId);
+  // });
 
   //Hidden toggle
   const handleHiddenChange = (index: number) => {
@@ -68,9 +68,9 @@ export default function VacancyTemplate({
     if (updatedSteps[index][name] === "order") {
       updatedSteps[index][name] = index;
     }
-    if (updatedSteps[index][name] === "trackId") {
-      updatedSteps[index][name] = trackId;
-    }
+    // if (updatedSteps[index][name] === "trackId") {
+    //   updatedSteps[index][name] = trackId;
+    // }
     if (updatedSteps[index].type === "Questionary") {
       console.log("questions add", questions);
       updatedSteps[index].questions = questions;
@@ -89,12 +89,12 @@ export default function VacancyTemplate({
   const handleAddStep = () => {
     // create an empty track
 
-    const newTrack: Track = {
-      ...trackData,
-      recruiterID: Number(currentUserID),
-      vacancyId: lookForIdForTrack()!,
-    };
-    dispatch(createTrack(newTrack));
+    // const newTrack: Track = {
+    //   ...trackData,
+    //   recruiterID: Number(currentUserID),
+    //   vacancyId: lookForIdForTrack()!,
+    // };
+    // dispatch(createTrack(newTrack));
 
     const newStep = {
       title: "",
@@ -104,29 +104,44 @@ export default function VacancyTemplate({
       trackId: 0,
     };
 
-    setStepsArray([...stepsArray, newStep]);
+    setStepsArray([...stepsArray, newStep]); //!WHY
     console.log(stepsArray);
   };
 
-  const sendToDb = () => {
+  const sendToDb = async () => {
     // different schemas and routes for different steps
+    const newTrack: Track = {
+      // ...trackData, // maybe no need?
+      recruiterID: Number(currentUserID),
+      vacancyId: lookForIdForTrack()!,
+    };
+    const newdata = await dispatch(createTrack(newTrack));
+    console.log("newdata", newdata);
+    const newTrackId = newdata.payload.id;
+    setTrackId(newTrackId);
+    console.log("stepsArray sendToDb", stepsArray);
+    createSteps(newTrackId);
+  };
+  const createSteps = async (trackId: number) => {
     stepsArray.forEach((step, index) => {
       if (step.type == "Questionary") {
         step.questions = questions;
         step.order = index;
-        step.trackId = Number(trackId);
+        step.trackId = parseInt(trackId);
         dispatch(createQuestionary(step));
       } else if (step.type == "SandBox") {
         step.order = index;
-        step.trackId = Number(trackId);
+        step.trackId = parseInt(trackId);
         step.code = code;
+        console.log("step sandbox:", step);
         dispatch(createSandbox(step));
       } else {
         step.order = index;
-        step.trackId = Number(trackId);
+        step.trackId = parseInt(trackId);
         dispatch(createVideocall(step));
       }
     });
+    console.log("stepsArray sendToDb after forEach:", stepsArray);
   };
 
   const saveTrack = () => {
