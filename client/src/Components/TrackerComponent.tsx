@@ -67,7 +67,7 @@ export default function TrackerComponent() {
                     }}
                     key={track.id}
                   >
-                    <TrackTrack track={track} key={track.id}></TrackTrack>
+                    <TrackTrack key={track.id} track={track}></TrackTrack>
                   </div>
                 </div>
               </>
