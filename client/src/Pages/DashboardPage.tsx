@@ -49,7 +49,7 @@ const DashboardPage = () => {
           <FilteredVacancies />
        
 
-          <MyCalendar></MyCalendar>
+
           <AllUsers searchRef={searchRef} />
         </div>
       </div>
