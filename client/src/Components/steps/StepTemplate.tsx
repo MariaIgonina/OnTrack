@@ -60,7 +60,6 @@ const StepTemplate = ({ title, content, type, checkIsAble, step }: StepProps) =>
           break;
         case 'sandbox':
           dispatch(updateSandbox({ sandboxId: step.id, sandbox: { checked: false } }));
-          setReloadAlert(true)
           break;
         case 'questionary':
           dispatch(updateQuestionary({ questionaryId: step.id, questionary: { checked: false } }));

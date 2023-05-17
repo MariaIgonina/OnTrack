@@ -266,7 +266,7 @@ const TrackPage = () => {
                         <EditIcon />
                       </button>
                     </span>
-                    : <form onSubmit={(e) => saveDate(e, step)}><input name={`${step.type}-${step.id}`} type="datetime-local" min={`${new Date().toISOString().slice(0, 16)}`} className="text-gray-500 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-100 focus:border-green-100"
+                    : <form onSubmit={(e) => saveDate(e, step)} onBlur={(e) => saveDate(e, step)}><input name={`${step.type}-${step.id}`} type="datetime-local" min={`${new Date().toISOString().slice(0, 16)}`} className="text-gray-500 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-100 focus:border-green-100"
                     /><button type="submit" className="ml-1 relative hover:text-neutral-500 text-gray-300"><AddCircleIcon /></button></form>
                   }
                   <StepTemplate step={step} title={step.title?.length ? step.title : "Code Exercise"} type="sandbox" checkIsAble={step.date ? new Date(step.date).getTime() < new Date().getTime() : true}
