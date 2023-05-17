@@ -31,8 +31,6 @@ export default function SideBar() {
         className="relative overflow-y-hidden bg-green-100 
           flex flex-col items-center shadow-md shadow-gray w-80 h-full"
       >
-
-       
         {/* <img
           src={stock1}
           alt="stockphoto"
@@ -50,36 +48,31 @@ export default function SideBar() {
             marginTop: "25px",
           }}
         > */}
-          {currentUser.role === "recruiter" ? (
-            <div className="flex rounded-2xl bg-[#D7E7E8] p-3 mt-10 w-60 items-center justify-center">
-            <text className ="text-2xl  tracking-tight text-[#475569] m-2 text-center justify-center"
-            >
-              You have 
-              <span
-              className ="text-3xl font-bold tracking-tight text-[#DF6831] m-2 items-center justify-center"
-              >
-                {recruiter.recruiter.Track?.length}
-              </span> tracks open for{" "}
-              <br></br>
-              <span
-              className ="text-3xl font-bold tracking-tight text-[#DF6831] m-2 items-center justify-center"
-              >
-              {recruiter.recruiter.vacancies?.length} 
+        {currentUser.role === "recruiter" ? (
+          <div className="flex rounded-2xl bg-[#D7E7E8] p-3 mt-10 w-60 items-center justify-center">
+            <text className="text-2xl  tracking-tight text-[#475569] m-2 text-center justify-center">
+              You have
+              <span className="text-3xl font-bold tracking-tight text-[#DF6831] m-2 items-center justify-center">
+                {recruiter.recruiter.Track?.length -
+                  recruiter.recruiter.vacancies?.length}
+              </span>{" "}
+              tracks open for <br></br>
+              <span className="text-3xl font-bold tracking-tight text-[#DF6831] m-2 items-center justify-center">
+                {recruiter.recruiter.vacancies?.length}
               </span>
               vacancies
             </text>
-            </div>
-          ) : (
-            <div className="flex rounded-2xl bg-[#D7E7E8] p-3 mt-10 w-60 items-center justify-center">
-            <text className ="text-2xl font-bold tracking-tight text-[#026767] mb-2 items-center justify-center">
+          </div>
+        ) : (
+          <div className="flex rounded-2xl bg-[#D7E7E8] p-3 mt-10 w-60 items-center justify-center">
+            <text className="text-2xl font-bold tracking-tight text-[#026767] mb-2 items-center justify-center">
               You have {applicant.applicant.track?.length} tracks open
             </text>
-            </div>
-          )}
+          </div>
+        )}
 
-<MyCalendar></MyCalendar>
-        </div>
-    
+        <MyCalendar></MyCalendar>
+      </div>
     </>
   );
 }
