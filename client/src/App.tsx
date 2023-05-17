@@ -21,6 +21,7 @@ import { currentUserSlice, setCurrentUser } from "./store/CurrentUserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./store/store";
 import Protected from "./Components/Protected";
+import QuestionnaryForm from "./Components/QuestionnaryForm";
 
 
 function App() {
@@ -124,7 +125,7 @@ function App() {
           } />
 
           <Route path="/codeSandbox" element={<CodeSandbox />} />
-          <Route path="/searchApplicant" element={<SearchApplicantForm />} />
+          <Route path="/searchApplicant" element={<QuestionnaryForm />} />
         </>
       </Routes>
     </BrowserRouter>
