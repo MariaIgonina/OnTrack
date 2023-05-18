@@ -7,7 +7,7 @@ const JobPreferences = ({applicant}:{applicant: Applicant}) => {
   return (
     <>
     <div
-    className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-[#FFE8D1] p-3 m-1">
+    className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-[#FFE8D1] p-4 pr-10 m-1">
       <div className="flex flex-row ">
         <WorkIcon
           fontSize="small"

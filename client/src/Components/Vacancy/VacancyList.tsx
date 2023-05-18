@@ -72,7 +72,7 @@ const VacancyList: React.FC = ({ setVacanciesLength }) => {
           </div>
         </div>
         <div>
-          <div className="overflow-x-scroll flex flex-nowrap my-2">
+          <div className="overflow-x-scroll list-none flex flex-nowrap my-2">
             {vacancies.length ? (
               vacancies.map((vacancy) => (
                 <VacancyCard vacancy={vacancy} key={vacancy.id} />

@@ -99,14 +99,14 @@ const VacancyDetails: React.FC = () => {
               {currentUserRole === "applicant" && (
                 <>
                   <button
-                    className="absolute top-4 right-12 w-[70px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring"
+                    className="absolute top-4 right-4 bg-orange-100 hover:bg-orange-dark rounded-lg shadow-xl font-medium text-white py-2 px-6 ml-4 h-10 whitespace-nowrap"
                     onClick={applySubmit}
                   >
                     Apply
                   </button>
                   <button
                     onClick={navigateToRecruiterProfile}
-                    className="absolute top-4 right-20 mr-10 w-[150px] h-[50px] font-medium bg-white text-black border-2 border-black rounded-md focus:outline-none focus:ring"
+                    className="absolute top-4 right-32 bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white py-2 px-6 ml-4 h-10 whitespace-nowrap"
                   >
                     Recruiter profile
                   </button>
