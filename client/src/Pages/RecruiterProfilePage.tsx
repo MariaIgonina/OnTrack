@@ -156,13 +156,8 @@ const RecruiterProfilePage = () => {
               </p>
             </div>
 
-<<<<<<< HEAD
             <p className="text-base font-semibold text-[#475569] text-base whitespace-normal mt-2">
               {recruiter.recruiter?.about}
-=======
-            <p className="text-base text-[#475569] text-base whitespace-normal mt-2">
-              {recruiter.recruiter.about}
->>>>>>> Development
             </p>
           </div>
 
