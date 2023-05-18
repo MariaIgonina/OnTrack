@@ -31,12 +31,15 @@ const RecruiterProfilePage = () => {
   ) as unknown as Vacancy[];
 
   const currentUserID = useSelector((s: RootState) => s.currentUser.id);
+  const currentUserRole = useSelector((s: RootState) => s.currentUser.role);
 
   useEffect(() => {
     console.log("IDDDDD from recruiterProfile page!!!", currentUserID);
     dispatch(setRecruiter(recruiter));
-    if (currentUserID) {
+    if (currentUserRole === "recruiter") {
       dispatch(fetchRecruiter(+currentUserID));
+    } else if (currentUserRole === "applicant"){
+      dispatch(fetchRecruiter(+codeParam));
     }
   }, [dispatch, currentUserID]);
 
@@ -75,7 +78,7 @@ const RecruiterProfilePage = () => {
               </h3>
             </div>
             <h4 className="text-base font-semibold text-[#475569] text-base ">
-              {recruiter.recruiter.founded}
+              {recruiter.recruiter?.founded}
             </h4>
 
             <div className="flex flex-row ">
@@ -90,7 +93,7 @@ const RecruiterProfilePage = () => {
             </div>
 
             <p className="text-base font-semibold text-[#475569] text-base ">
-              {recruiter.recruiter.headOffice}
+              {recruiter.recruiter?.headOffice}
             </p>
           </div>
 
@@ -107,7 +110,7 @@ const RecruiterProfilePage = () => {
             </div>
 
             <p className="text-[#475569] text-lg mt-2 mb-2 font-semibold">
-              {recruiter.recruiter.recruiterName}
+              {recruiter.recruiter?.recruiterName}
             </p>
 
             <div className=" flex flex-row ">
@@ -118,10 +121,10 @@ const RecruiterProfilePage = () => {
               ></AlternateEmailIcon>
 
               <p className="text-base underline font-semibold text-[#475569] text-base ">
-                {recruiter.recruiter.email}
+                {recruiter.recruiter?.email}
               </p>
             </div>
-            {recruiter.recruiter.externalLinks?.map((link) => {
+            {recruiter.recruiter?.externalLinks?.map((link) => {
               return (
                 <>
                   <div className="flex flex-row mt-2">
@@ -154,7 +157,7 @@ const RecruiterProfilePage = () => {
             </div>
 
             <p className="text-base font-semibold text-[#475569] text-base whitespace-normal mt-2">
-              {recruiter.recruiter.about}
+              {recruiter.recruiter?.about}
             </p>
           </div>
 
