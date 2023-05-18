@@ -53,7 +53,7 @@ const ApplicantPage = () => {
 
   return (
     <>
-      <div className=" bg-[#FFFEF5] h-full ">
+      <div className=" bg-[#FFFEF5] m-0 h-full min-h-screen ">
         <div className=" flex flex-row wrap ">
           <div className=" flex flex-col wrap  items-stretch">
             <div className=" flex flex-row wrap  items-stretch">

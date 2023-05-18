@@ -23,7 +23,7 @@ const EducationComp = ({ applicant }: { applicant: Applicant }) => {
   return (
     <>
       <div 
-      className="flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 m-1 ml-3">
+      className="flex-grow flex-col flex rounded-2xl shadow-md bg-white p-4 pr-10 m-1 ml-3">
         <div className="flex flex-row ">
           <SchoolIcon
             fontSize="small"
