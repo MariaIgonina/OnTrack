@@ -26,10 +26,6 @@ const StepTemplate = ({ title, content, type, checkIsAble, step }: StepProps) =>
   const info = 'Check this step';
   const infoNotChecked = 'This event has place in the future'
 
-  useEffect(() => {
-    console.log('step', type, title, content, step)
-  }, [])
-
 
   const handleCheck = () => {
     if (checkIsAble && !check) {
@@ -37,15 +33,12 @@ const StepTemplate = ({ title, content, type, checkIsAble, step }: StepProps) =>
 
       switch (type.toLowerCase()) {
         case 'videocall':
-          console.log('videocall', step.id)
           dispatch(updateVideocall({ videocallId: step.id, videocall: { checked: true } }));
           break;
         case 'sandbox':
-          console.log('sandbox', step.id)
           dispatch(updateSandbox({ sandboxId: step.id, sandbox: { checked: true } }));
           break;
         case 'questionary':
-          console.log('questionary', step.id)
           dispatch(updateQuestionary({ questionaryId: step.id, questionary: { checked: true } }));
           break;
         default:

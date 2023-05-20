@@ -29,8 +29,7 @@ const findUser = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("!!!!!!!!! DATA FROM REDUX THUNK : ", data);
-      // useDispatch(setCurrentUser({id: data.id, role: ""}))
+      // console.log("DATA FROM REDUX THUNK : ", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);

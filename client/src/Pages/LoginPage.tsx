@@ -34,7 +34,6 @@ const LoginPage = () => {
   }
 
   async function logoutFromGoogle(token: string | null) {
-    console.log("log-out google");
     await fetch(`https://oauth2.googleapis.com/revoke?token=${token}`, {
       method: "POST",
       headers: {

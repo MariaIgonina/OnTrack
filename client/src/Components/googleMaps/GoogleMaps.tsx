@@ -56,7 +56,6 @@ const GoogleMaps: React.FC = () => {
   ) as unknown as CurrentUserType;
 
   useEffect(() => {
-    console.log("IDDDDD from googlemaps page!!!", currentUser.role);
     if (currentUser.role === "recruiter") {
       dispatch(fetchAllApplicants());
     }
@@ -66,14 +65,10 @@ const GoogleMaps: React.FC = () => {
   }, [dispatch, currentUser]);
 
   const mapper = currentUser.role === "recruiter" ? applicants : vacancies;
-  //console.log("MAPPER:", mapper);
+
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const onLoad = useCallback((map: google.maps.Map) => {
-    // const bounds = new window.google.maps.LatLngBounds(
-    //   center as google.maps.LatLngLiteral
-    // );
-    // map.fitBounds(bounds);
 
     setMap(map);
   }, []);

@@ -23,7 +23,6 @@ const Chat: React.FC<ChatBoxProps> = ({ trackId }) => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const currentUserRole = useSelector((s: RootState) => s.currentUser.role);
 
-  console.log("messages chatbox", messages);
   useEffect(() => {
     dispatch(fetchMessagesByTrack(trackId)); //! to add current trackID as room
     socket.emit("joinRoom", trackId);

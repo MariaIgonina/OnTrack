@@ -80,19 +80,13 @@ const TrackPage = () => {
     // checkForSteps(); // If things go wrong uncomment this
   }, [track.track?.recruiterID]);
 
-  // useEffect(() => {
-  //   console.log('reload the fucking page!!!')
-  // }, [reloadAlert])
 
   const getInfo = useCallback(() => {
     try {
       if (!track.track?.Message?.length) throw new Error("No info yet");
-      console.log("TEXT???", track.track?.Message[0]);
     } catch (error: any) {
       let num = gotInfo + 1;
       setGotInfo(num);
-      console.log(error.message, num);
-      console.log("track", track.track);
     }
     // checkForSteps(); // If things go wrong uncomment this too
   }, [gotInfo]);

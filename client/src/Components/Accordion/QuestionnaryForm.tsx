@@ -21,14 +21,12 @@ export default function QuestionnaryForm({ step }: QuestionaryFormProps) {
 
   useEffect(() => {
     initTE({ Collapse });
-    console.log("MIRAR AQUI => ", currentUser);
   }, []);
 
   const handleChange = (index: number, value: string) => {
     const updatedAnswers = [...answers];
     updatedAnswers[index] = value;
     setAnswers(updatedAnswers);
-    console.log(answers);
   };
 
   // await async ?

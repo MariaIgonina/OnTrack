@@ -1,6 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 import Avatar from "../Components/appPageComp/Avatar";
 import CurrentLocation from "../Components/appPageComp/CurrLocation";
@@ -14,19 +12,14 @@ import Skills from "../Components/appPageComp/Skills";
 import Video from "../Components/appPageComp/Video";
 import About from "../Components/appPageComp/About";
 
-import { Applicant, CurrentUserType } from "../Interfaces";
+import { CurrentUserType } from "../Interfaces";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
-import {
-  fetchApplicant,
-  fetchAllApplicants,
-  setApplicant,
-  updateApplicant,
-} from "../store/applicantSlice";
-import { current } from "@reduxjs/toolkit";
+import { fetchApplicant } from "../store/applicantSlice";
+
 
 const ApplicantPage = () => {
   const applicant = useSelector(
@@ -38,15 +31,11 @@ const ApplicantPage = () => {
   ) as unknown as CurrentUserType;
   const dispatch = useDispatch<AppDispatch>();
   const codeParam = window.location.pathname.split("/").reverse()[0];
-  console.log("codeparam", codeParam);
 
   useEffect(() => {
     if (currentUser.id === +codeParam) {
-      console.log("cureent ysfter", currentUser.id);
       dispatch(fetchApplicant(+currentUser.id));
-      console.log("WE CALLED AN APPLICANT", applicant);
     } else {
-      console.log("codeParam", +codeParam);
       dispatch(fetchApplicant(+codeParam));
     }
   }, [dispatch, currentUser, codeParam]);

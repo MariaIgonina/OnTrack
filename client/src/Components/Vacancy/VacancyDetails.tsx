@@ -31,7 +31,6 @@ const VacancyDetails: React.FC = () => {
 
   const deleteVac = async () => {
     if (window.confirm("Are you sure you want to delete this vacancy?")) {
-      console.log("this should work");
       dispatch(deleteVacancy(parseInt(vacancyId, 10)))
         .unwrap()
         .then(() => {
@@ -60,9 +59,6 @@ const VacancyDetails: React.FC = () => {
       console.log("trackID fetched at vacancy details 49", TRACKID);
       navigate(`/track/?trackId=${TRACKID.payload}&vacancyId=${vacancyId}`);
     }
-    //post track (form 1)
-    // fetch del
-    //post questionnary (form 2)
   };
   const { data } = vacancy;
   const openModal = () => {
@@ -172,13 +168,6 @@ const VacancyDetails: React.FC = () => {
       >
         <VacancyUpdate onCancel={closeModal} />
       </Modal>
-      {/* {isPopUp && (
-        <Popup
-          setOpenModal={setIsPopUp}
-          id={+vacancyId}
-          handleDelete={deleteVac}
-        ></Popup>
-      )} */}
     </>
   );
 };

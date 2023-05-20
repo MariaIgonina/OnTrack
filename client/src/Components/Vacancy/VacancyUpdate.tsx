@@ -13,9 +13,7 @@ const VacancyUpdate: React.FC<VacancyUpdateProps> = ({ onCancel }) => {
   const vacancy: Vacancy = useSelector(
     (state: RootState) => state.vacancy.vacancy
   );
-  //   console.log("vacancy", vacancy);
   const [formData, setFormData] = useState<Vacancy>(vacancy.data);
-  //   console.log(formData);
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement

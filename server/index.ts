@@ -35,7 +35,7 @@ io.on("connection", (socket) => {
   });
   socket.on("sendMessage", async (message) => {
     try {
-      // const savedMessage = await prisma.message.create({ data: message });
+
       socket.to(message.trackId).emit("receive_message", message);
     } catch (error) {
       console.error("Error while saving the message:", error);
@@ -51,17 +51,10 @@ io.on("connection", (socket) => {
     await prisma.$connect();
     server.listen(PORT, () => {
       console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
-      // populateDatabase()
-      //   .then((message) => {
-      //     console.log(message);
-      //   })
-      //   .catch((error) => {
-      //     console.error("Failed to populate the database:", error);
-      //   });
+
     });
   } catch (error) {
     console.log("Error in connecting to database :", error);
   }
 })();
 
-//RUN WITH npm run dev

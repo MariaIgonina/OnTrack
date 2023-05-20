@@ -1,24 +1,20 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
-import { extractItemsByOrder } from "../library";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { Questionary, Sandbox, Track, Videocall } from "../Interfaces";
-import { fetchTrack, fetchTracksByRecruiter } from "../store/trackSlice";
+import { fetchTracksByRecruiter } from "../store/trackSlice";
 import { fetchQuestionaryTrack } from "../store/QuestionarySlice";
 import { fetchSandboxesByTrack } from "../store/SandboxSlice";
 import { fetchVideocallsByTrack } from "../store/VideoCallSlice";
 
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
 import "react-datepicker/dist/react-datepicker.css";
-import { allowedNodeEnvironmentFlags } from "process";
+
 import { fetchApplicant } from "../store/applicantSlice";
 import { fetchRecruiter } from "../store/recruiterSlice";
 
 import moment from "moment";
-import { format } from "date-fns";
 
 export default function MyCalendar() {
   const datesArray = ["2023/05/13", "2023-05-16", "2023-05-19"];
@@ -27,7 +23,7 @@ export default function MyCalendar() {
   const work = () => {
     console.log("change");
   };
-
+// 
   const [datesForCalendar, setDatesForCalendar] = useState([]);
 
   const currentUser = useSelector((state: RootState) => state.currentUser);
@@ -53,45 +49,41 @@ export default function MyCalendar() {
   const [startDate, setStartDate] = useState(new Date());
 
   useEffect(() => {
-    const id = +currentUser.id!;
-    console.log("please don't be undefined", id);
+    const id = +currentUser.id;
+
     if (currentUser.role === "recruiter") {
       dispatch(
         fetchTracksByRecruiter({
           getTrackByWhat: "getTracksByRecruiter",
           id: +id,
         })
-      ).then((res) => console.log("whatis this", res));
+      ).then((res) => console.log("what is this", res));
     } else {
       dispatch(
         fetchTracksByRecruiter({
           getTrackByWhat: "getTracksByApplicant",
           id: +id,
         })
-      ).then((res) => console.log("whatis this", res));
+      ).then((res) => console.log("what is this", res));
     }
   }, []);
 
   useEffect(() => {
-    console.log("length of tracks ==> ", getTracks.length);
     if (!getTracks.length) return;
-    console.log("GET TRACKS ==> ", getTracks);
     fetchAllEvents(getTracks);
-    // then(() => normalData()).
-    // then(() => getDatesOnly())
   }, [getTracks]);
 
   let allEvents: any[] = [];
 
   async function fetchAllEvents(tracks: Track[]) {
     const questionaryPromises = tracks.map((track) => {
-      return dispatch(fetchQuestionaryTrack(track.id));
+      return dispatch(fetchQuestionaryTrack(track.id!));
     });
     const videoCallPromises = tracks.map((track) => {
-      return dispatch(fetchVideocallsByTrack(track.id));
+      return dispatch(fetchVideocallsByTrack(track.id!));
     });
     const sandBoxPromises = tracks.map((track) => {
-      return dispatch(fetchSandboxesByTrack(track.id));
+      return dispatch(fetchSandboxesByTrack(track.id!));
     });
     await Promise.all(questionaryPromises).then((res) => {
       res = res.map((el) => el.payload[0]);
@@ -126,22 +118,20 @@ export default function MyCalendar() {
       })
     );
     console.log("allEvents:", allEvents);
-    const sortedEvents = allEvents.sort(
-      (a, b) => new Date(a.date) - new Date(b.date)
+    
+    const sortedEventsFuture:{}[] = allEvents.sort(
+      (a:{}, b:{}) => new Date(a.date) - new Date(b.date!)
+    ).filter(
+      (event) => new Date(event.date) > new Date()
     );
-
-    setEventsToRender(sortedEvents);
-
-    const datesOnly = allEvents.map((event) => {
+    setEventsToRender(sortedEventsFuture);
+   
+    const datesOnly:any = allEvents.map((event) => {
       return new Date(event.date);
     });
 
     setDatesForCalendar(datesOnly);
   }
-
-  // useEffect(() => {
-  //   console.log("MARIA DATES ONLY ==> ", datesForCalendar)
-  // },[])
 
   return (
     <div className="pt-10">

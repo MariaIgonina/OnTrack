@@ -72,7 +72,6 @@ const AddApplicantPage = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    console.log("CAAAAALLL", currentUser.id);
   }, [dispatch]);
 
   //For the applicant
@@ -240,7 +239,6 @@ const AddApplicantPage = () => {
       setHobbies([...hobbies, hobbie]);
       setHobbie("");
     }
-    console.log(currentUser);
   };
 
   //Soсial media collecting

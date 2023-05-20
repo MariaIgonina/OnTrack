@@ -1,6 +1,6 @@
 import { createAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { socket } from "./socket"; // Change this import to get the socket from the store
-import { Questionary, Track } from "../Interfaces";
+import { Questionary } from "../Interfaces";
 
 import { RootState } from "./store";
 
@@ -32,7 +32,7 @@ const fetchQuestionaryTrack = createAsyncThunk(
         throw new Error("Server error")
       }
       const data = await response.json()
-      console.log("DATA FROM REDUX THUNK : ", data)
+      // console.log("DATA FROM REDUX THUNK : ", data)
       return data[0]
     } catch (err) {
       if (err instanceof Error)

@@ -17,8 +17,6 @@ const ExperienceComp = ({ applicant }: { applicant: Applicant }) => {
 
   useEffect(() => {
     dispatch(fetchExperienceByApplicant(applicant?.idDB!));
-    console.log(applicant.idDB);
-    console.log("EXPERIENCE", experiences);
   }, []);
 
   return (

@@ -33,7 +33,6 @@ const RecruiterProfilePage = () => {
   const currentUserID = useSelector((s: RootState) => s.currentUser.id);
 
   useEffect(() => {
-    console.log("IDDDDD from recruiterProfile page!!!", currentUserID);
     dispatch(setRecruiter(recruiter));
     if (currentUserID) {
       dispatch(fetchRecruiter(+currentUserID));
@@ -193,16 +192,9 @@ const RecruiterProfilePage = () => {
           <RecruiterForm onCancel={closeModal} />
         </Modal>
 
-        {/* <button
-          onClick={openModal}
-          className=" w-[100px] h-[100px] font-medium text-black border-2 border-black rounded-md focus:outline-none focus:ring"
-        >
-          Edit your profile
-        </button> */}
       </div>
       <div className="mt-4 ml-10 mr-10">
         <VacancyList setVacanciesLength={setVacanciesLength} />
-        {/* <ChatWindow trackId={2} /> */}
       </div>
     </div>
   );
