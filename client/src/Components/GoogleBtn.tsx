@@ -3,8 +3,8 @@ import GoogleIcon from "@mui/icons-material/Google";
 import Button from "@mui/material/Button";
 
 // Reminder: store this in an .env file also in the client later
-const REACT_APP_GOOGLE_CLIENT_ID = '39296279651-q6qhv2qfbkodpknmcmhnass87l1o7rp7.apps.googleusercontent.com';
-const redirectUri = 'http://127.0.0.1:5173/logedWithGoogle';
+const googleCliendId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const redirectUri = import.meta.env.VITE_REDIRECT_URI;
 
 export default function LoginGoogle() {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -30,7 +30,7 @@ export default function LoginGoogle() {
     form.setAttribute('action', baseURL);
 
     const params: any = {
-      "client_id": REACT_APP_GOOGLE_CLIENT_ID,
+      "client_id": googleCliendId,
       "redirect_uri": redirectUri,
       "response_type": "token",
       "scope": "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
