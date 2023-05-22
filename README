@@ -39,8 +39,9 @@ touch .env
 ```
 
 Add the following variables to your server .env file:
+(Create your PostgeSQL profile, if you don't have one. Create the database in your profile)
 
-Create your PostgeSQL profile, if you don't have one. Create the database in your profile. It should contain following: DATABASE_URL="postgresql://YOUR_PROFILE_NAME:YOUR_PASSWORD@localhost:PORT/DB_NAME"
+DATABASE_URL="postgresql://YOUR_PROFILE_NAME:YOUR_PASSWORD@localhost:PORT/DB_NAME"
 
 PORT="3000"
 
