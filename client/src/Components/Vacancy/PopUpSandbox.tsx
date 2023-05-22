@@ -4,14 +4,19 @@ import CodeEditorWindow from "../codeSandbox/Editor";
 
 const javascriptDefault = `// some comment`;
 
-export default function PopUpSandbox({code, setCode, setIsPopupSandbox}) {
-  // const [code, setCode] = useState(javascriptDefault);
+interface Props {
+  code: string
+  setCode: (code:string) => void
+  setIsPopupSandbox: (isPopupSandbox:boolean) => void
+
+}
+
+export default function PopUpSandbox({code, setCode, setIsPopupSandbox}:Props) {
 
   const onChange = (action: string, data: any) => {
     switch (action) {
       case "code": {
         setCode(data);
-        console.log(typeof code)
         break;
       }
       default: {
@@ -25,8 +30,7 @@ export default function PopUpSandbox({code, setCode, setIsPopupSandbox}) {
   };
 
   return (
-    // <div className="bg-stone-100 rounded-lg w-full m-5 m-8 p-4 pr-8 pl-8 shadow-md">
-        <div>
+    <div>
       <div className="flex flex-col w-full h-full justify-start items-end">
         <CodeEditorWindow code={code} onChange={onChange} />
         <div className="flex items-center justify-center h-full">

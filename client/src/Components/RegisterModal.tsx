@@ -14,7 +14,6 @@ export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
   const [isRecruiter, setisRecruiter] = useState(false);
   const buttonRef = useRef<any>()
   const handleToggle = (e: any) => {
-    console.log('inside togle', e.target.value)
     localStorage.setItem("currentUser", e.target.value);
     setisApplicant(!isApplicant);
     setisRecruiter(isApplicant);
@@ -23,11 +22,6 @@ export default function RegisterModal({ isOpen, setOpen }: RegisterModalProps) {
   useEffect(() => {
     if (buttonRef.current!.checked) localStorage.setItem('currentUser', 'applicant')
   }, []);
-
-
-  useEffect(() => {
-    console.log("state of applicant", isApplicant);
-  }, [isApplicant]);
 
   const initialState: Recruiter = {
     id: 0,

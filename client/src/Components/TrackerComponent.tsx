@@ -26,7 +26,6 @@ export default function TrackerComponent() {
 
   useEffect(() => {
     const id = +currentUser.id;
-    console.log("please don't be undefined", id);
     if (currentUser.role === "recruiter") {
       dispatch(
         fetchTracksByRecruiter({

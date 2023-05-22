@@ -31,8 +31,6 @@ function App() {
   const dispatch = useDispatch<AppDispatch>()
   const currentUser = useSelector((state: RootState) => state.currentUser)
   
-  // if (localStorage.getItem('id')) dispatch(setCurrentUser({id: localStorage.getItem('id'), role: localStorage.getItem('currentUser')}))
-  
   useEffect(() => {
     console.log('app re-check', localStorage.getItem('accessToken') || localStorage.getItem('gt'))
     setUserIsLogedIn(localStorage.getItem('accessToken')
@@ -47,13 +45,6 @@ function App() {
     }
   }, [dispatch, currentUser.id]);
 
-
-
-  // const handleBeforeUnload = (event: any) => {
-  //   dispatch(setCurrentUser(currentUser))
-  //   event.preventDefault();
-  //   return event.returnValue = '';
-  // }
 
   return (
     <BrowserRouter>
@@ -79,7 +70,6 @@ function App() {
             </Protected>
           } />
 
-          {/* <Route path="/adduser" element={<AddApplicantPage />} /> */}
           <Route path="/recruiterProfile" element={
             <Protected isLoggedIn={userIsLogedIn?.length! > 0}>
               <RecruiterProfilePage />

@@ -12,10 +12,6 @@ export function LanguageBlock({
   const refLang = useRef<HTMLSelectElement>(null);
   const refLevel = useRef<HTMLSelectElement>(null);
 
-    // useEffect(() => {
-    //     console.log(refLang, refLevel)
-    // }, [refLang, refLevel])
-
   function handleAddLanguage(e: React.ChangeEvent<HTMLSelectElement>) {
     e.preventDefault();
     setLanguage((prevLanguage) => {
@@ -50,10 +46,6 @@ export function LanguageBlock({
     if (refLang.current) refLang.current.value = "DEFAULT"
     if (refLevel.current) refLevel.current.value = "DEFAULT"
   }
-
-  useEffect(() => {
-    console.log(language);
-  }, [language]);
 
   return (
     <>

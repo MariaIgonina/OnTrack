@@ -94,7 +94,6 @@ export default function SearchApplicantForm({ setFilteredApplicants }) {
   const handleAddLocation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectLoc = e.target.value;
     setLoc(selectLoc);
-    console.log(locations);
   };
 
   const handleDeleteloc = () => {
@@ -128,7 +127,6 @@ export default function SearchApplicantForm({ setFilteredApplicants }) {
   ) => {
     e.preventDefault();
     const response = await getFilteredApplicants(url, null);
-    console.log("this should be a list of filered applicants", response);
     setFilteredApplicants(response);
   };
 

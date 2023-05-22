@@ -77,7 +77,6 @@ export default function GithubBtn({ text }: GithubBtnProps) {
   }
 
   async function AuthenticateUserfromGH() {
-    console.log("REGISTER");
     try {
       const tokenData = await fetchTokenData(codeParam!);
       const userInfo = await fetchUserData(tokenData.access_token);
@@ -96,7 +95,6 @@ export default function GithubBtn({ text }: GithubBtnProps) {
         localStorage.setItem("login", "recruiter");
         const newRecruiter: Recruiter = extractRecruiterData(userInfo);
         dispatch(createRecruiter(newRecruiter));
-        // console.log(newRecruiter);
         dispatch(
           setCurrentUser({
             id: newRecruiter.id,
@@ -130,7 +128,6 @@ export default function GithubBtn({ text }: GithubBtnProps) {
       localStorage.getItem("login") === "applicant"
     ) {
       const id = newApplicant.idDB;
-      console.log("IDDDDD => ", id);
 
       if (id) navigate(`/applicant/${id}`);
     } else if (

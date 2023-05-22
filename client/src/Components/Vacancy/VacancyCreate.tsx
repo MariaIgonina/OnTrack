@@ -35,7 +35,6 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
 
     if (value) {
       const suggestions = await fetchCitySuggestionsFromServer(value);
-      console.log("suggestions:", suggestions);
       setCitySuggestions(suggestions || []);
     } else {
       setCitySuggestions([]);
@@ -98,7 +97,6 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
     };
 
     setTempTitle(newVacancy.title);
-    console.log("new vacancy before sending to backend", newVacancy);
 
     await dispatch(createVacancy(newVacancy));
 
@@ -114,8 +112,6 @@ const VacancyCreate: React.FC<VacancyCreateProps> = ({ onCancel }) => {
       />
     );
   }
-
-  // console.log("I REALLY REALLY NEED THIS TITLE", tempTitle);
 
   return (
     <div className="flex items-center justify-center mt-5 ">

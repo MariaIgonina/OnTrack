@@ -31,23 +31,7 @@ export default function SideBar() {
         className="relative overflow-y-hidden bg-green-100 
           flex flex-col items-center shadow-md shadow-gray w-80 h-full"
       >
-        {/* <img
-          src={stock1}
-          alt="stockphoto"
-          style={{ width: "max", height: 250, marginTop: "5px" }}
-        /> */}
-
-        {/* <div
-          // className="flex rounded-full bg-blue-100 "
-          style={{
-            display: "flex",
-            width: "300px",
-            height: "300px",
-            backgroundColor: "#68C3D4",
-            borderRadius: "50%",
-            marginTop: "25px",
-          }}
-        > */}
+       
         {currentUser.role === "recruiter" ? (
           <div className="flex rounded-2xl bg-[#D7E7E8] p-3 mt-10 w-60 items-center justify-center">
             <text className="text-2xl  tracking-tight text-[#475569] m-2 text-center justify-center">
@@ -68,8 +52,12 @@ export default function SideBar() {
           </div>
         ) : (
           <div className="flex rounded-2xl bg-[#D7E7E8] p-3 mt-10 w-60 items-center justify-center">
-            <text className="text-2xl font-bold tracking-tight text-[#026767] mb-2 items-center justify-center">
-              You have {applicant.applicant.track?.length} tracks open
+            <text className="text-2xl text-center font-bold tracking-tight text-[#026767] mb-2 items-center justify-center">
+              You have 
+              <span className="text-3xl font-bold tracking-tight text-[#DF6831] m-2 items-center justify-center">
+              {applicant.applicant.track?.length} 
+              </span>
+              tracks open
             </text>
           </div>
         )}

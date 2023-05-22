@@ -1,6 +1,12 @@
 import React from "react";
 
-function Popup({ setOpenModal, id, handleDelete }) {
+interface Props {
+  setOpenModal: (openModal:boolean) => void
+  id: number
+  handleDelete: ()=>void
+}
+
+function Popup({ setOpenModal, id, handleDelete }: Props) {
   return (
     <div>
       <div>

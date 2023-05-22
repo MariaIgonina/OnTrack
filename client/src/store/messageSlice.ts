@@ -9,7 +9,6 @@ import { initialTrack } from "./trackSlice";
 const initialMessage: Message = {
   id: 0,
   trackId: 0,
-  // track: initialTrack,
   text: "",
   date: "",
   author: "recruiter",
@@ -41,7 +40,7 @@ const fetchMessagesByTrack = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("ALL MESSAGES BY TRACK : ", data);
+      // console.log("ALL MESSAGES BY TRACK : ", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
