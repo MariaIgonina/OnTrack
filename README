@@ -12,7 +12,12 @@ The back-end is written in JavaScript using ExpressJS. Data base used for onTrac
 2. Create your PostgeSQL profile, if you don't have one. Create the database in your profile and .env file in the folder "server". It should contain following key: 
 DATABASE_URL="postgresql://YOUR_PROFILE_NAME:YOUR_PASSWORD@localhost:PORT/DB_NAME"
 3. Data base for images is Cloudinary.
-//WRITE THE PART ABOUT THE CLOUDINARY - GUILLAUME
+Create your cloudinary profil if you don't have one. You can follow this tutorial if you don't know how to do:
+https://cloudinary.com/documentation/how_to_integrate_cloudinary#:~:text=You%20can%20sign%20up%20for%20Cloudinary%20using%20an%20email%20address,set%20your%20account%20as%20active.
+In your .env file add the following :
+CLOUDINARY_CLOUD_NAME=***** => the Cloud Name in your setting/Account page.
+CLOUDINARY_API_KEY=**** => you can find the API_KEY in your setting/Acces key page.
+CLOUDINARY_API_SECRET=***** => you can find the API_SECRET in your setting/Acces key page.
 
 Front-end is created in ViteJS. To start it go to the folder "client":
 1. Run "npm i" in your terminal
