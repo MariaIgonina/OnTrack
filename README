@@ -1,0 +1,21 @@
+Welcome to onTrack!
+onTrack is a website for recruiters and applicants. The platform is used for career development and allows jobseekers to post their CVs and employers to post jobs. 
+onTrack allows members (both recruiters and employers) to create profiles and connect with each other in an online social network which may represent real-world professional relationships.
+Searching jobs for applicants  and candidates for recruiters can be done using filters by experience, skills and location.
+As soon as recruiter creates the vacancy, creates the track of the whole the admission process, including questionnaire, software and hardware interviews. 
+Since an applicant applies for a job starts the interaction between both members. The app allows people to go through each of step in one platform which makes the admission process clear and easy to manage. Both members can have as many tracks as they want and reject them in each step. 
+The website has convenient calendar showing all the future events for each of member's track. 
+onTrack has the very convenient authorisation system that allows users to sign in using their Google or GitHub accounts, and keeps all the information secure.
+
+The back-end is written in JavaScript using ExpressJS. Data base used for onTrack - PostgeSQL. To start the server you need to go to the folder "server":
+1. Run in your terminal: npm i (to install all the dependencies)
+2. Create your PostgeSQL profile, if you don't have one. Create the database in your profile and .env file in the folder "server". It should contain following key: 
+DATABASE_URL="postgresql://YOUR_PROFILE_NAME:YOUR_PASSWORD@localhost:PORT/DB_NAME"
+3. Data base for images is Cloudinary.
+//WRITE THE PART ABOUT THE CLOUDINARY - GUILLAUME
+
+Front-end is created in ViteJS. To start it go to the folder "client":
+1. Run "npm i" in your terminal
+2. Go to the website https://developers.google.com/maps/documentation/javascript/cloud-setup and genetate your secret key for using Google maps API. Create the .env file and paste your key there: XAVI ADD THIS!
+3. ADDITIONAL KEYS - XAVI, ROSIE
+4. npm start (to run React App)
