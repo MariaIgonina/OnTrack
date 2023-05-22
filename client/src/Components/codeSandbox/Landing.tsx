@@ -14,6 +14,9 @@ import { useDispatch } from "react-redux";
 import { updateSandbox } from "../../store/SandboxSlice";
 import { AppDispatch } from "../../store/store";
 
+const rapidApiHost = import.meta.env.VITE_RAPIDAPI_HOST;
+const rapidApiKey = import.meta.env.VITE_RAPIDAPI_KEY;
+
 type Token = {
   token: string
 }
@@ -87,11 +90,11 @@ const Landing = ({savedCode, step}: LandingProps) => {
   const checkStatus = async (token: any) => {
     const options = {
       method: "GET",
-      url: "https://judge0-ce.p.rapidapi.com/submissions" + "/" + token,
+      url: `https://${rapidApiHost}/submissions/${token}`,
       params: { base64_encoded: "true", fields: "*" },
       headers: {
-        "X-RapidAPI-Host": 'judge0-ce.p.rapidapi.com',
-        "X-RapidAPI-Key": '13eb829a35msh2a8e334168fe3eep133bf3jsnbff9be0470a9',
+        "X-RapidAPI-Host": rapidApiHost,
+        "X-RapidAPI-Key": rapidApiKey,
       },
     };
 
