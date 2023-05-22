@@ -10,6 +10,8 @@ import { createQuestionary } from "../../store/QuestionarySlice";
 import { createVideocall } from "../../store/VideoCallSlice";
 import { createSandbox } from "../../store/SandboxSlice";
 import { Track } from "../../Interfaces";
+import { Interface } from "readline";
+import { stringify } from "querystring";
 
 export default function VacancyTemplate({
   onCancel,
@@ -20,13 +22,11 @@ export default function VacancyTemplate({
   const [isPopupQuestionaryOpen, setIsPopupQuestionaryOpen] =
     useState<Boolean>(false);
   const [isPopupSandbox, setIsPopupSandbox] = useState<Boolean>(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [idOfCurrentVacancy, setIdOfCurrentVacancy] = useState(0);
-  const [trackId, setTrackId] = useState(0);
-  const [questions, setQuestions] = useState([]);
-  const [code, setCode] = useState("");
-
-  // const [trackData, setTrackData] = useState<Track>({...initialTrack})
+  const [isDropdownOpen, setIsDropdownOpen] = useState<Boolean>(false);
+  const [idOfCurrentVacancy, setIdOfCurrentVacancy] = useState<number>(0);
+  const [trackId, setTrackId] = useState<number>(0);
+  const [questions, setQuestions] = useState<string[]>([]);
+  const [code, setCode] = useState<string>("");
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -36,17 +36,12 @@ export default function VacancyTemplate({
     (state: RootState) => state.vacancy.vacancies
   ) as unknown as Vacancy[];
 
-  // useEffect(() => {
-  //   setTrackId(trackData.id), [dispatch];
-  //   console.log("TRACK ID", trackId);
-  // });
 
   //Hidden toggle
   const handleHiddenChange = (index: number) => {
-    const updatedSteps = [...stepsArray];
+    const updatedSteps:Step[] = [...stepsArray];
     updatedSteps[index].hidden = !updatedSteps[index].hidden;
     setStepsArray(updatedSteps);
-    // console.log(stepsArray)
   };
 
   const lookForIdForTrack = function () {
@@ -57,18 +52,14 @@ export default function VacancyTemplate({
 
   const handleChange = (e: any, index: number) => {
     const { name, value } = e.target;
-    console.log('etarget:',e.target)
 
-    const updatedSteps: any = [...stepsArray];
+
+    const updatedSteps: Step[] = [...stepsArray];
     updatedSteps[index][name] = value;
     if (updatedSteps[index][name] === "order") {
       updatedSteps[index][name] = index;
     }
-    // if (updatedSteps[index][name] === "trackId") {
-    //   updatedSteps[index][name] = trackId;
-    // }
     if (updatedSteps[index].type === "Questionary") {
-      console.log("questions add", questions);
       updatedSteps[index].questions = questions;
     }
     setStepsArray(updatedSteps);
@@ -81,18 +72,9 @@ export default function VacancyTemplate({
     }
   };
 
-  //!!!!!!!!!!!
   const handleAddStep = () => {
-    // create an empty track
 
-    // const newTrack: Track = {
-    //   ...trackData,
-    //   recruiterID: Number(currentUserID),
-    //   vacancyId: lookForIdForTrack()!,
-    // };
-    // dispatch(createTrack(newTrack));
-
-    const newStep = {
+    const newStep:Step = {
       title: "",
       type: "",
       hidden: false,
@@ -100,26 +82,34 @@ export default function VacancyTemplate({
       trackId: 0,
     };
 
-    setStepsArray([...stepsArray, newStep]); //!WHY
-    console.log(stepsArray);
+    setStepsArray([...stepsArray, newStep]); 
   };
 
   const sendToDb = async () => {
     // different schemas and routes for different steps
     const newTrack: Track = {
-      // ...trackData, // maybe no need?
       recruiterID: Number(currentUserID),
       vacancyId: lookForIdForTrack()!,
     };
     const newdata = await dispatch(createTrack(newTrack));
-    console.log("newdata", newdata);
     const newTrackId = newdata.payload.id;
     setTrackId(newTrackId);
-    console.log("stepsArray sendToDb", stepsArray);
     createSteps(newTrackId);
   };
+
+  interface Step {
+    questions?: string[]
+    type?: string
+    order?: number
+    trackId?: number
+    code?: string
+    title?: string
+    hidden?: boolean
+    name?: string
+  }
+
   const createSteps = async (trackId: number) => {
-    stepsArray.forEach((step, index) => {
+    stepsArray.forEach((step: Step, index: number) => {
       if (step.type == "Questionary") {
         step.questions = questions;
         step.order = index;
@@ -137,13 +127,11 @@ export default function VacancyTemplate({
         dispatch(createVideocall(step));
       }
     });
-    console.log("stepsArray sendToDb after forEach:", stepsArray);
   };
 
   const saveTrack = () => {
     sendToDb();
     onCancel();
-    console.log({ stepsArray });
   };
 
   const handleRemoveStep = () => {

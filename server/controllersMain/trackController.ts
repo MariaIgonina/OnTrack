@@ -71,10 +71,8 @@ const duplicateTrack = async (req: Request, res: Response) => {
       (track) => track.applicantID === null
     );
 
-    console.log("from dulpicate", templateTrack);
 
     const newTrack = JSON.parse(JSON.stringify(templateTrack));
-    console.log("NEWW TRACCK", newTrack);
     delete newTrack.id;
     delete newTrack.applicantID;
     delete newTrack.recruiterID;

@@ -4,6 +4,7 @@ import { RootState } from "../store/store";
 import { CurrentUserType } from "../Interfaces";
 import { getVacancy, getRecruiter, getApplicant } from "../api.fetch";
 import Spinner from "./Spinner";
+import { Track } from "../Interfaces";
 
 export default function TrackBanner({ track }) {
   const [vacancy, setVacancy] = useState({});

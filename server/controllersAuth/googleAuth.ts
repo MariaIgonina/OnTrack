@@ -3,7 +3,6 @@ import { Applicant, Recruiter, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const getGoogleUserInfo = async (req: Request, res: Response) => {
-  console.log(req.body)
   const userInfo: any = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
     headers: {
       'Authorization': `Bearer ${req.body.token}`

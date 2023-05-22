@@ -12,20 +12,6 @@ import React from "react";
 import { ConstructionOutlined } from "@mui/icons-material";
 
 const initialTrack: Track[] = []
-// {
-//   recruiterID: 0,
-//   Recruiter: initialRecruiter,
-//   applicantID: 0,
-//   Applicant: initialApplicant,
-//   reject: false,
-//   applicantNotes: "",
-//   recruiterNotes: "",
-//   vacancyId: 0,
-//   Questionaries: [],
-//   Videocall: [],
-//   CodeSandbox: [],
-//   Message: [],
-// };
 
 const url: string = "http://localhost:3000";
 
@@ -47,7 +33,7 @@ const fetchTrack = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("TRACK FROM REDUX THUNK : ", data);
+      // console.log("TRACK FROM REDUX THUNK : ", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -58,10 +44,8 @@ const fetchTrack = createAsyncThunk(
 const fetchTracksByRecruiter = createAsyncThunk(
   "track/fetchtracksbyrecruiter",
   async function ({ getTrackByWhat, id }: IGetParams, { rejectWithValue }) {
-    console.log("hello?");
-    console.log({ getTrackByWhat, id });
+
     try {
-      console.log(`${url}/${getTrackByWhat}/${id}`);
       const response = await fetch(`${url}/${getTrackByWhat}/${id}`);
       if (!response.ok) {
         throw new Error("Server error");
@@ -91,7 +75,6 @@ const createTrack = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("PLEEEESE BE THERE!!!!!!", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -113,7 +96,7 @@ const duplicateTrack = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("DATA from duplicateTrack SLICE:", data);
+      // console.log("DATA from duplicateTrack SLICE:", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);

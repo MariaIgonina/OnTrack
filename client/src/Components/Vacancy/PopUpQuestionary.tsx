@@ -4,13 +4,17 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import { Link, useNavigate } from "react-router-dom";
 
+interface Props {
+  setQuestions: (questions:string[]) => void;
+  questions: [];
+}
 
-export default function PopupQuestionary({setQuestions, questions}) {
+export default function PopupQuestionary({setQuestions, questions}:Props) {
   const navigate = useNavigate();
 
   // const [questions, setQuestions] = useState<[]>([])
   const [question, setQuestion] = useState<string>('')
-  const [popupOpen, setPopupOpen] = useState(true);
+  const [popupOpen, setPopupOpen] = useState<boolean>(true);
 
   const handleChange = (event:any) => {
     setQuestion(event.target.value);
@@ -18,7 +22,6 @@ export default function PopupQuestionary({setQuestions, questions}) {
 
   const handleSubmit = () => {
     if (question !== '') {
-      console.log('FROM POPUP', [...questions, question])
       setQuestions([...questions, question])
       setQuestion('');
     }
@@ -35,7 +38,6 @@ export default function PopupQuestionary({setQuestions, questions}) {
   const handleCloseAndSendToDB = () => {
     handleSubmit()
     setPopupOpen(false);
-    console.log(questions)
   };
 
 
@@ -60,7 +62,6 @@ export default function PopupQuestionary({setQuestions, questions}) {
             
       <textarea
         className="py-2 px-3 w-80 rounded-lg border border-color-#F1F0EA mt-1 focus:outline-none focus:ring-2 focus:ring-#568EA3 focus:border-transparent"
-        type="text"
         name="question"
         value={question}
         onChange={handleChange}

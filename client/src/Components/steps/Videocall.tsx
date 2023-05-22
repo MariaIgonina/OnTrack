@@ -22,7 +22,6 @@ const Videocall = ({ step }: VideocallStepProps) => {
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    console.log('stepId videocall =>', step)
     if (step.link) {
       setLink(step.link);
       setEdit(true)

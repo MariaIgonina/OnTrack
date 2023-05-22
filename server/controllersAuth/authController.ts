@@ -13,7 +13,6 @@ export const getAccessToken = async (req: Request, res: Response) => {
     CLIENT_SECRET +
     "&code=" +
     req.query.code;
-  console.log(params);
   await fetch("https://github.com/login/oauth/access_token" + params, {
     method: "POST",
     headers: {
@@ -24,7 +23,6 @@ export const getAccessToken = async (req: Request, res: Response) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       res.json(data);
     });
 };
@@ -39,7 +37,6 @@ export const getUserData = async function (req: Request, res: Response) {
   });
   const response = await _res.json();
 
-  console.log("IN HERE ==> ", response);
   res.status(200);
   res.json(response);
   return;

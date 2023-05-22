@@ -35,7 +35,6 @@ const Landing = ({savedCode, step}: LandingProps) => {
   const ctrlPress = useKeyPress("Control");
 
   const onSelectChange = (sl: any) => {
-    console.log("selected Option...", sl);
     setLanguage(sl);
   };
 
@@ -118,7 +117,6 @@ const Landing = ({savedCode, step}: LandingProps) => {
     } catch (err) {
       console.log("err", err);
       setProcessing(false);
-      // showErrorToast('');
     }
   };
 

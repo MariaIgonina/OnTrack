@@ -41,7 +41,6 @@ export default function TrackTrack({ track }) {
   }
 
   function deleteTrackHandler(id) {
-    console.log("LOOK HERE ==> ", id);
     dispatch(deleteTrack(id))
       .unwrap()
       .then(() => {
@@ -66,7 +65,6 @@ export default function TrackTrack({ track }) {
               }
             >
               <div key={index}>
-                {/* ref={step.checked === true ? scrollRef : null}> */}
                 <div className="bg-yellow-100 rounded-lg py-5 h-200 drop-shadow-lg">
                   <p className="text-xl text-[#026767] font-semibold pb-2 tracking-widest">
                     Step {index + 1}

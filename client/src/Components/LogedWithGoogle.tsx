@@ -90,7 +90,6 @@ const loggedWithGoogle = () => {
           recruiterName: result.name,
         };
         dispatch(createRecruiter(newRec));
-        console.log("newRec", newRec);
         dispatch(
           setCurrentUser({
             id: newRec.id,
