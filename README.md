@@ -41,6 +41,11 @@ touch .env
 Add the following variables to your server .env file:
 (Create your PostgeSQL profile, if you don't have one. Create the database in your profile)
 
+Data base for images is Cloudinary:
+
+Create your cloudinary profil if you don't have one. You can follow this tutorial if you don't know how to do:
+https://cloudinary.com/documentation/how_to_integrate_cloudinary#:~:text=You%20can%20sign%20up%20for%20Cloudinary%20using%20an%20email%20address,set%20your%20account%20as%20active.
+
 DATABASE_URL="postgresql://YOUR_PROFILE_NAME:YOUR_PASSWORD@localhost:PORT/DB_NAME"
 
 PORT="3000"
@@ -71,7 +76,6 @@ npm i
 nodemon index.js
 ```
 
-//WRITE THE PART ABOUT THE CLOUDINARY - GUILLAUME
 
 Front-end is created in ViteJS. To start it go to the folder "client":
 
