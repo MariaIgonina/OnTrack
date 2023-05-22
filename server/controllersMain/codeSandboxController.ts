@@ -4,6 +4,9 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+const rapidApiHost = process.env.RAPIDAPI_HOST;
+const rapidApiKey = process.env.RAPIDAPI_KEY;
+
 async function sendCompile(req: Request, res: Response) {
   const { language_id, source_code, customInput } = req.body;
   console.log("req.body BE => ", req.body);
@@ -21,8 +24,8 @@ async function sendCompile(req: Request, res: Response) {
     params: { base64_encoded: "true", fields: "*" },
     headers: {
       "Content-Type": "application/json",
-      "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-      "X-RapidAPI-Key": "13eb829a35msh2a8e334168fe3eep133bf3jsnbff9be0470a9",
+      "X-RapidAPI-Host": rapidApiHost,
+      "X-RapidAPI-Key": rapidApiKey,
     },
     data: formData,
   };
