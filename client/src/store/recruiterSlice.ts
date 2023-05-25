@@ -143,7 +143,6 @@ export const recruiterSlice = createSlice<
         state.error = action.payload as Error;
       })
       .addCase(createRecruiter.fulfilled, (state, action) => {
-        console.log("we are here");
         state.status = "resolved";
         state.recruiter = action.payload;
         state.error = null;

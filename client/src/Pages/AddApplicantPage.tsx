@@ -43,6 +43,7 @@ import {
   workingHours,
   levelLanguages,
 } from "../library";
+import { fetchCitySuggestionsFromServer } from "../store/CitySuggestions";
 
 import moment from "moment";
 
@@ -52,11 +53,25 @@ const AddApplicantPage = () => {
   const dbEducation = useSelector((state: RootState) => state.education);
   const dbExperience = useSelector((state: RootState) => state.experience);
   const currentUser = useSelector((state: RootState) => state.currentUser);
+  const [citySuggestions, setCitySuggestions] = useState<string[]>([]);
+  const [debounceTimer, setDebounceTimer] = useState<number | null>(null);
+
+  const handleLocationInput = async (input: string) => {
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+
+    setDebounceTimer(
+      window.setTimeout(async () => {
+        const suggestions = await fetchCitySuggestionsFromServer(input);
+        setCitySuggestions(suggestions);
+      }, 100)
+    );
+  };
 
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    console.log("CAAAAALLL", currentUser.id);
   }, [dispatch]);
 
   //For the applicant
@@ -71,6 +86,10 @@ const AddApplicantPage = () => {
     const updatedValue = name === "age" ? new Date(value) : value;
 
     setFormData({ ...formData, [name]: updatedValue });
+
+    if (name === "location") {
+      handleLocationInput(value);
+    }
   };
 
   const handleSubmit = (e: any) => {
@@ -220,7 +239,6 @@ const AddApplicantPage = () => {
       setHobbies([...hobbies, hobbie]);
       setHobbie("");
     }
-    console.log(currentUser);
   };
 
   //Soсial media collecting
@@ -536,6 +554,19 @@ const AddApplicantPage = () => {
                 onChange={handleChange}
                 required
               />
+              <ul>
+                {citySuggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      setFormData({ ...formData, location: suggestion });
+                      setCitySuggestions([]);
+                    }}
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
 
               <label
                 className="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"

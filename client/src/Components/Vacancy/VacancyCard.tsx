@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Vacancy } from "../../Interfaces";
 
-export default function VacancyCard({ vacancy }: any) {
+export default function VacancyCard({ vacancy, onClick }: any) {
   return (
     <article
+      onClick={onClick}
       key={vacancy.id}
       className="flex-shrink-0 flex-col h-60 w-60 flex rounded-2xl shadow-md bg-white p-3 mt-2 ml-6"
       style={{ minWidth: "300px" }}
@@ -28,7 +29,7 @@ export default function VacancyCard({ vacancy }: any) {
             {vacancy.about}
           </p>
           <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
-            {vacancy.stack}
+            {vacancy.stack.join(', ')}
           </p>
         </div>
       </Link>

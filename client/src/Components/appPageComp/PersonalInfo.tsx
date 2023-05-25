@@ -18,7 +18,7 @@ const PersonalInfo = ({applicant}:{applicant: Applicant}) => {
 
   return (
     <>
-     <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 m-1 mt-3">
+     <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-4 pr-10 m-1 mt-3">
         <h1
         className="text-3xl font-bold tracking-tight text-[#026767] sm:text-3xl m-2"
         >{`${applicant.name} ${applicant.familyName}`}</h1>

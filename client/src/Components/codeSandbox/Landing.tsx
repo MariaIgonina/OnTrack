@@ -14,6 +14,9 @@ import { useDispatch } from "react-redux";
 import { updateSandbox } from "../../store/SandboxSlice";
 import { AppDispatch } from "../../store/store";
 
+const rapidApiHost = import.meta.env.VITE_RAPIDAPI_HOST;
+const rapidApiKey = import.meta.env.VITE_RAPIDAPI_KEY;
+
 type Token = {
   token: string
 }
@@ -35,7 +38,6 @@ const Landing = ({savedCode, step}: LandingProps) => {
   const ctrlPress = useKeyPress("Control");
 
   const onSelectChange = (sl: any) => {
-    console.log("selected Option...", sl);
     setLanguage(sl);
   };
 
@@ -87,11 +89,11 @@ const Landing = ({savedCode, step}: LandingProps) => {
   const checkStatus = async (token: any) => {
     const options = {
       method: "GET",
-      url: "https://judge0-ce.p.rapidapi.com/submissions" + "/" + token,
+      url: `https://${rapidApiHost}/submissions/${token}`,
       params: { base64_encoded: "true", fields: "*" },
       headers: {
-        "X-RapidAPI-Host": 'judge0-ce.p.rapidapi.com',
-        "X-RapidAPI-Key": '13eb829a35msh2a8e334168fe3eep133bf3jsnbff9be0470a9',
+        "X-RapidAPI-Host": rapidApiHost,
+        "X-RapidAPI-Key": rapidApiKey,
       },
     };
 
@@ -118,7 +120,6 @@ const Landing = ({savedCode, step}: LandingProps) => {
     } catch (err) {
       console.log("err", err);
       setProcessing(false);
-      // showErrorToast('');
     }
   };
 
@@ -159,7 +160,7 @@ const Landing = ({savedCode, step}: LandingProps) => {
           draggable
           pauseOnHover
         />
-        <div className="border border-black rounded-lg bg-stone-100 flex flex-col max-w-905 min-w-731 shadow shadow-lg">
+        <div className="border border-black rounded-lg bg-[#223941] flex flex-col max-w-905 min-w-731 shadow shadow-lg">
           <div className="flex flex-row">
             <div className="px-4 py-2">
               <LanguagesDropdown onSelectChange={onSelectChange} />
@@ -174,14 +175,14 @@ const Landing = ({savedCode, step}: LandingProps) => {
               />
             </div>
 
-            <div id='outputs-panel' className="right-container flex flex-shrink-0 w-[30%] flex-col">
+            <div id='outputs-panel' className="right-container flex flex-shrink-0 w-[35%] flex-col">
               <OutputWindow outputDetails={outputDetails} />
               <div className="flex flex-col items-end">
                 <button
                   onClick={handleCompile}
                   disabled={!code}
                   className={classnames(
-                    "mt-4 border-2 border-black rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                    "mt-4 border-2 border-black hover:bg-emerald-200 rounded-md shadow-[5px_5px_0px_0px_] shadow-[#807f77] px-4 py-2 hover:shadow transition duration-200 bg-stone-100 flex-shrink-0",
                     !code ? "opacity-50" : "", step.checked ? "invisible" : "visible"
                   )}
                 >

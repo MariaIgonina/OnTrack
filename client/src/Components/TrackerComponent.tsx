@@ -20,12 +20,12 @@ export default function TrackerComponent() {
     const sortedtracks = tracks.filter((track) => !track.reject);
     const rejectedtracks = tracks.filter((track) => track.reject);
     const finalArray = sortedtracks.concat(rejectedtracks);
-    return finalArray;
+    const filteredFinalArray = finalArray.filter((track) => track.applicantID);
+    return filteredFinalArray;
   };
 
   useEffect(() => {
     const id = +currentUser.id;
-    console.log("please don't be undefined", id);
     if (currentUser.role === "recruiter") {
       dispatch(
         fetchTracksByRecruiter({
@@ -46,7 +46,7 @@ export default function TrackerComponent() {
 
   return (
     <>
-      <div className="bg-stone-100">
+      <div className="bg-stone-100 ">
         <h2 className="text-2xl font-bold tracking-tight text-[#026767] pt-8 pl-8 mb-2">
           Monitor progress in one place
         </h2>
@@ -54,7 +54,7 @@ export default function TrackerComponent() {
           {gettracks.length ? (
             sortTracksByRejected(gettracks).map((track) => (
               <>
-                <div className="flex flex-col">
+                <div className="flex flex-col mb-4">
                   <div className="flex-shrink-0 flex-col flex rounded-t-2xl shadow-md bg-white p-3 mx-5 text-center">
                     <TrackBanner track={track}></TrackBanner>
                   </div>
@@ -67,7 +67,7 @@ export default function TrackerComponent() {
                     }}
                     key={track.id}
                   >
-                    <TrackTrack track={track} key={track.id}></TrackTrack>
+                    <TrackTrack key={track.id} track={track}></TrackTrack>
                   </div>
                 </div>
               </>

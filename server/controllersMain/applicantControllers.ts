@@ -37,7 +37,6 @@ const createApplicant = async (req: Request, res: Response) => {
 const getApplicantById = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
-    console.log("id for fetching one applicant is", id);
     const foundApplicant = await prisma.applicant.findUnique({
       where: {
         idDB: +id,

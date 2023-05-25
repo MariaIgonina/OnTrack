@@ -65,12 +65,14 @@ const duplicateTrack = async (req: Request, res: Response) => {
         },
       },
     });
-    const sortedJobTracks = vacancy?.jobTrack.sort((a, b) => a.id - b.id);
-    const templateTrack = sortedJobTracks?.[0];
-    console.log("from dulpicate", templateTrack);
+    // const sortedJobTracks = vacancy?.jobTrack.sort((a, b) => a.id - b.id);
+    // const templateTrack = sortedJobTracks?.[0];
+    const templateTrack = vacancy?.jobTrack.find(
+      (track) => track.applicantID === null
+    );
+
 
     const newTrack = JSON.parse(JSON.stringify(templateTrack));
-    console.log("NEWW TRACCK", newTrack);
     delete newTrack.id;
     delete newTrack.applicantID;
     delete newTrack.recruiterID;

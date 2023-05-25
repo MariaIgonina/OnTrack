@@ -21,25 +21,12 @@ type VacancyCreateProps = {
   onCancel?: () => void;
 };
 
-const RecruiterForm: React.FC<VacancyCreateProps> = (
-  {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-  }
-) => {
+const RecruiterForm: React.FC<VacancyCreateProps> = () => {
   const recruiter = useSelector((state: RootState) => state.recruiter);
   const dispatch = useDispatch<AppDispatch>();
   const [imageIds, setImageIds] = useState<ICloudImage[]>([]);
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const currentUser = useSelector((s: RootState) => s.currentUser);
-  // const baseUrl = `https://res.cloudinary.com/dd9tj642b/image/upload/`;
-
-  // useEffect(() => {
-  //   async function fetchImages() {
-  //     const images = await loadImages();
-  //     setImageIds(images);
-  //   }
-  //   fetchImages();
-  // }, []);
 
   const onCancel = () => {
     navigate(`/${currentUser.role}/${currentUser.id}`);
@@ -90,7 +77,6 @@ const RecruiterForm: React.FC<VacancyCreateProps> = (
   const handleCreateRecruiter = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    console.log("inside handleCreateRecruiter");
     e.preventDefault();
     if (!formData.name) {
       alert("Please enter a company name.");
@@ -109,7 +95,6 @@ const RecruiterForm: React.FC<VacancyCreateProps> = (
           ? Buffer.from(previewSource).toString("base64")
           : previewSource;
       const returnedLogo = await uploadImage(base64EncodedImage);
-      console.log(returnedLogo);
       updatedFormData = { ...updatedFormData, logo: returnedLogo.secure_url };
       setFormData(updatedFormData);
     }
@@ -119,7 +104,6 @@ const RecruiterForm: React.FC<VacancyCreateProps> = (
       recruiter: updatedFormData,
     };
 
-    // console.log("objet envoyé", dbArg);
     dispatch(updateRecruiter(dbArg));
 
     navigate(`/${currentUser.role}/${currentUser.id}`);
@@ -139,14 +123,12 @@ const RecruiterForm: React.FC<VacancyCreateProps> = (
     const updatedLinks = [...externalLinks];
     updatedLinks.splice(index, 1);
     setExternalLinks(updatedLinks);
-    console.log("here", externalLinks);
   };
 
   const handleAddLink = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setExternalLinks([...externalLinks, externalLink]);
     setExternalLink("");
-    console.log("here", externalLinks);
   };
 
   return (

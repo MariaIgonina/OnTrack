@@ -22,26 +22,12 @@ export default function LoginBtn({ text }: LoginBtnProps) {
 
   const currentUserID = useSelector((s: RootState) => s.currentUser);
 
-  // useEffect(() => {
-  //   console.log("this is from state", currentUserID);
-  // }, [currentUserID]);
-
-  // const firstUpdate = useRef(true);
-  // useEffect(() => {
-  //   if (firstUpdate.current) {
-  //     // firstUpdate.current = false;
-  //     return;
-  //   }
-  //   console.log("this is from state", currentUserID);
-  // });
-
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const codeParam = urlParams.get("code");
 
   useEffect(() => {
     dispatch(findUser("U_kgDOB0L6_A"));
-    // console.log("IDDDDD!!!", currentUserID);
   }, []);
 
   async function AuthenticateUserfromGH() {
@@ -60,7 +46,6 @@ export default function LoginBtn({ text }: LoginBtnProps) {
           const applicantCreated = await dispatch(
             createApplicant(extractApplicantData(userInfo))
           );
-          // console.log(applicantCreated);
           dispatch(
             setCurrentUser({
               id: applicantCreated.payload.idDB,
@@ -68,14 +53,11 @@ export default function LoginBtn({ text }: LoginBtnProps) {
             })
           );
           localStorage.setItem("id", applicantCreated.payload.idDB + "");
-          //navigate(`/applicant/${applicantCreated.payload.idDB}`);
           navigate(`/login`);
-          ///${applicantCreated.payload.idDB}`);
         } else {
           const recruiterCreated = await dispatch(
             createRecruiter(extractRecruiterData(userInfo))
           );
-          // console.log(recruiterCreated);
           dispatch(
             setCurrentUser({
               id: recruiterCreated.payload.id,
@@ -84,32 +66,25 @@ export default function LoginBtn({ text }: LoginBtnProps) {
           );
           localStorage.setItem("id", recruiterCreated.payload.id + "");
 
-          // navigate(`/recruiter/${recruiterCreated.payload.id}`);
           navigate(`/login`);
-          ///${recruiterCreated.payload.id}`);
         }
       }
 
       if (returnedRole.payload && returnedRole.payload.recruiterName) {
-        console.log("local storate???");
         localStorage.setItem("id", returnedRole.payload.id + "");
         localStorage.setItem("currentUser", "recruiter");
         dispatch(
           setCurrentUser({ id: returnedRole.payload.id, role: "recruiter" })
         );
 
-        // navigate(`/recruiter/${returnedRole.payload.id}`);
         navigate(`/login`);
-        ///${returnedRole.payload.id}`);
       } else if (returnedRole.payload && returnedRole.payload.idDB) {
         localStorage.setItem("id", returnedRole.payload.idDB + "");
         localStorage.setItem("currentUser", "applicant");
         dispatch(
           setCurrentUser({ id: returnedRole.payload.idDB, role: "applicant" })
         );
-        // navigate(`/applicant/${returnedRole.payload.idDB}`);
         navigate(`/login`);
-        ///${returnedRole.payload.idDB}`);
       }
 
       if (tokenData.access_token) {
@@ -121,7 +96,6 @@ export default function LoginBtn({ text }: LoginBtnProps) {
   }
 
   async function fetchTokenData(codeParam: string) {
-    // console.log("easfesgsegesgesg ==>", codeParam);
     const response = await fetch(
       "http://localhost:3000/getAccessToken?code=" + codeParam,
       { method: "GET" }

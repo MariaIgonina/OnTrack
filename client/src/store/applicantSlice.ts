@@ -4,7 +4,7 @@ import {
   createAsyncThunk,
   isAsyncThunkAction,
 } from "@reduxjs/toolkit";
-import { getApplicant } from "../api.fetch";
+import { getApplicant, getFilteredApplicants } from "../api.fetch";
 
 import { Applicant, Track } from "../Interfaces";
 
@@ -70,7 +70,6 @@ const fetchAllApplicants = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("ALL APPLICANTS : ", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -80,20 +79,7 @@ const fetchAllApplicants = createAsyncThunk(
 
 const fetchFilteredApplicants = createAsyncThunk(
   "applicant/fetchFilteredApplicants",
-
-  async function (url2: URL, { rejectWithValue }) {
-    try {
-      const response = await fetch(url2);
-      if (!response.ok) {
-        throw new Error("Server error");
-      }
-      const data = await response.json();
-      console.log("data we need", data);
-      return data;
-    } catch (err) {
-      if (err instanceof Error) return rejectWithValue(err.message);
-    }
-  }
+  getFilteredApplicants
 );
 
 const createApplicant = createAsyncThunk(
@@ -112,7 +98,6 @@ const createApplicant = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      // console.log("inside create Applicant");
       const filteredData = {
         ...data,
         message: {
@@ -120,9 +105,8 @@ const createApplicant = createAsyncThunk(
           date: undefined, // Exclude the non-serializable date value
         },
       };
-      // console.log(filteredData);
       return filteredData;
-      //return data;
+      
     } catch (err) {
       if (err instanceof Error) {
         console.log("bad things have happened");

@@ -1,7 +1,7 @@
 const url = "http://localhost:3000/";
 
 export const uploadImage = async (base64EncodedImage: string) => {
-    console.log(base64EncodedImage);
+
     try {
       const response = await fetch(`${url}postToCloudinary`, {
         method: "POST",
@@ -31,7 +31,7 @@ export const loadImages = async function () {
         throw new Error('Server error')
       }
       const data = await response.json();
-      console.log("array of images", data);
+
     return data
 } catch (error: any) {
     console.error("Error:", error);

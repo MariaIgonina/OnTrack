@@ -31,18 +31,16 @@ const RecruiterProfilePage = () => {
   ) as unknown as Vacancy[];
 
   const currentUserID = useSelector((s: RootState) => s.currentUser.id);
+  const currentUserRole = useSelector((s: RootState) => s.currentUser.role);
 
   useEffect(() => {
-    console.log("IDDDDD from recruiterProfile page!!!", currentUserID);
     dispatch(setRecruiter(recruiter));
-    if (currentUserID) {
+    if (currentUserRole === "recruiter") {
       dispatch(fetchRecruiter(+currentUserID));
+    } else if (currentUserRole === "applicant"){
+      dispatch(fetchRecruiter(+codeParam));
     }
   }, [dispatch, currentUserID]);
-
-  // useInsertionEffect(() => {
-  //   dispatch(fetchRecruiter(+currentUserID));
-  // }, [recruiter, currentUserID])
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -52,7 +50,7 @@ const RecruiterProfilePage = () => {
     setIsModalOpen(false);
   };
   return (
-    <div className="mb-0 bg-stone-100 h-full p-4 ">
+    <div className="mb-0 bg-stone-100 h-full p-4">
       <div className="flex flex-col">
         <div className="flex flex-row">
           <div>
@@ -63,7 +61,7 @@ const RecruiterProfilePage = () => {
               style={{ height: "200px", width: "200px" }}
             />
           </div>
-          <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 m-2 mt-3 mr-2">
+          <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-4 m-2 mt-3 mr-2">
             <h1 className="text-3xl font-bold tracking-tight text-[#026767] sm:text-3xl m-2">
               {recruiter.recruiter?.name}
             </h1>
@@ -79,7 +77,7 @@ const RecruiterProfilePage = () => {
               </h3>
             </div>
             <h4 className="text-base font-semibold text-[#475569] text-base ">
-              {recruiter.recruiter.founded}
+              {recruiter.recruiter?.founded}
             </h4>
 
             <div className="flex flex-row ">
@@ -94,11 +92,11 @@ const RecruiterProfilePage = () => {
             </div>
 
             <p className="text-base font-semibold text-[#475569] text-base ">
-              {recruiter.recruiter.headOffice}
+              {recruiter.recruiter?.headOffice}
             </p>
           </div>
 
-          <div className=" flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md p-3 m-2 mt-3 mr-4 bg-[#FFE8D1]">
+          <div className=" flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md p-4 m-2 mt-3 mr-4 bg-[#FFE8D1]">
             <div className="flex flex-row mt-2">
               <AccountCircleIcon
                 fontSize="small"
@@ -111,7 +109,7 @@ const RecruiterProfilePage = () => {
             </div>
 
             <p className="text-[#475569] text-lg mt-2 mb-2 font-semibold">
-              {recruiter.recruiter.recruiterName}
+              {recruiter.recruiter?.recruiterName}
             </p>
 
             <div className=" flex flex-row ">
@@ -122,25 +120,31 @@ const RecruiterProfilePage = () => {
               ></AlternateEmailIcon>
 
               <p className="text-base underline font-semibold text-[#475569] text-base ">
-                {recruiter.recruiter.email}
+                {recruiter.recruiter?.email}
               </p>
             </div>
-            <div className="flex flex-row mt-2">
-              <InsertLinkIcon
-                fontSize="small"
-                style={{ color: "#475569" }}
-                className="mr-2"
-              ></InsertLinkIcon>
-              <p className="text-base underline font-semibold text-[#475569] text-base ">
-                {recruiter.recruiter.externalLinks}
-              </p>
-            </div>
+            {recruiter.recruiter?.externalLinks?.map((link) => {
+              return (
+                <>
+                  <div className="flex flex-row mt-2">
+                    <InsertLinkIcon
+                      fontSize="small"
+                      style={{ color: "#475569" }}
+                      className="mr-2"
+                    ></InsertLinkIcon>
+                    <p className="text-base underline font-semibold text-[#475569] text-base ">
+                      <a href={link}>{link}</a>
+                    </p>
+                  </div>
+                </>
+              );
+            })}
           </div>
         </div>
 
         <div className="flex flex-row">
-          <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-[#D7E7E8] p-3 m-2 mr-4 ml-2">
-            <div className="flex flex-row ">
+          <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-[#D7E7E8] p-4 pr-8 m-2 mr-4 ml-2 w-9/12">
+            <div className="flex flex-row">
               <InfoIcon
                 fontSize="small"
                 style={{ color: "#026767" }}
@@ -150,8 +154,9 @@ const RecruiterProfilePage = () => {
                 About
               </p>
             </div>
-            <p className="text-base font-semibold text-[#475569] text-base ">
-              {recruiter.recruiter.about}
+
+            <p className="text-base font-semibold text-[#475569] text-base whitespace-normal mt-2">
+              {recruiter.recruiter?.about}
             </p>
           </div>
 
@@ -190,16 +195,9 @@ const RecruiterProfilePage = () => {
           <RecruiterForm onCancel={closeModal} />
         </Modal>
 
-        {/* <button
-          onClick={openModal}
-          className=" w-[100px] h-[100px] font-medium text-black border-2 border-black rounded-md focus:outline-none focus:ring"
-        >
-          Edit your profile
-        </button> */}
       </div>
-      <div className="mt-20 ml-10 mr-10">
+      <div className="mt-4 ml-10 mr-10">
         <VacancyList setVacanciesLength={setVacanciesLength} />
-        {/* <ChatWindow trackId={2} /> */}
       </div>
     </div>
   );

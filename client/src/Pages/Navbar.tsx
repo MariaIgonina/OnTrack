@@ -22,7 +22,6 @@ function NavBar() {
   const currentUser = useSelector((state: RootState) => state.currentUser);
 
   useEffect(() => {
-    console.log("this is the state variable for current user", currentUser);
     getProfileLink(currentUser);
   }, [currentUser]);
 

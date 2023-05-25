@@ -16,14 +16,12 @@ const ExperienceComp = ({ applicant }: { applicant: Applicant }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchExperienceByApplicant(applicant.idDB));
-    console.log(applicant.idDB);
-    console.log("EXPERIENCE", experiences);
+    dispatch(fetchExperienceByApplicant(applicant?.idDB!));
   }, []);
 
   return (
     <>
-      <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-3 m-1">
+      <div className="flex-shrink-0 flex-grow flex-col flex rounded-2xl shadow-md bg-white p-4 pr-10 m-1">
         <div className="flex flex-row ">
           <LegendToggleIcon
             fontSize="small"

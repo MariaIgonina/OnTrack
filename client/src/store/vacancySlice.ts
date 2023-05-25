@@ -25,22 +25,8 @@ const initialVacancy: Vacancy = {
 
 const url: string = "http://localhost:3000";
 
-// const getVacancy = async function (vacancyId: number, thunk) {
-//   try {
-//     const response = await fetch(`${url}/vacancy/${vacancyId}`);
-//     if (!response.ok) {
-//       throw new Error("Server error");
-//     }
-//     const data = await response.json();
-//     console.log("DATA FROM REDUX 1 id : ", data);
-//     return data;
-//   } catch (err) {
-//     if (err instanceof Error) return thunk.rejectWithValue(err.message);
-//   }
-// };
 
 const fetchVacancy = createAsyncThunk("vacancy/fetchvacancy", getVacancy);
-
 
 const fetchAllVacancies = createAsyncThunk(
   "vacancies/fetchallvacancies",
@@ -51,7 +37,7 @@ const fetchAllVacancies = createAsyncThunk(
         throw new Error("Server error");
       }
       const data = await response.json();
-      console.log("DATA FROM REDUX THUNK : ", data);
+      // console.log("DATA FROM REDUX THUNK : ", data);
       return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
@@ -146,9 +132,8 @@ const updateVacancy = createAsyncThunk(
 );
 const filteredVacancies = createAsyncThunk(
   "vacancy/vacanciesByFilter",
-  async function (filters, { rejectWithValue }) {
+  async function (filters:any, { rejectWithValue }) {
     try {
-      console.log(filters, "filters slice");
       const response = await fetch(url + `/vacanciesByFilter`, {
         method: "POST",
         headers: {

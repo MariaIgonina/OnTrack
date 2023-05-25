@@ -35,7 +35,7 @@ export default function SettingsPage() {
               className="my-2 "
             />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-[#026767] text-big text-center">
+          <h1 className="text-3xl font-bold tracking-tight text-[#026767] text-big text-center mt-4">
             Update your account details
           </h1>
           <AddApplicantPage />
@@ -53,7 +53,7 @@ export default function SettingsPage() {
             className="my-8 flex-1"
           />
           <div className="flex-1">
-            <h1 className="text-3xl font-bold tracking-tight text-[#026767] text-big text-center">
+            <h1 className="text-3xl font-bold tracking-tight text-[#026767] text-big text-center mt-4">
               Update your account details
             </h1>
             <RecruiterForm />

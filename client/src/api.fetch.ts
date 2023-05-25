@@ -7,7 +7,7 @@ export const getVacancy = async function (vacancyId: number, thunk: any) {
       throw new Error("Server error");
     }
     const data = await response.json();
-    // console.log("DATA FROM REDUX 1 id : ", data);
+    // console.log("DATA FROM REDUX id : ", data);
     return data;
   } catch (err) {
     if (err instanceof Error && thunk)
@@ -44,6 +44,23 @@ export const getApplicant = async function (applicantId: number, thunk: any) {
     }
     const data = await response.json();
     // console.log("DATA FROM REDUX THUNK : ", data);
+    return data;
+  } catch (err) {
+    if (err instanceof Error && thunk)
+      return thunk.rejectWithValue(err.message);
+    else if (err instanceof Error) {
+      return err.message;
+    }
+  }
+};
+
+export const getFilteredApplicants = async function (url2: URL, thunk: any) {
+  try {
+    const response = await fetch(url2);
+    if (!response.ok) {
+      throw new Error("Server error");
+    }
+    const data = await response.json();
     return data;
   } catch (err) {
     if (err instanceof Error && thunk)

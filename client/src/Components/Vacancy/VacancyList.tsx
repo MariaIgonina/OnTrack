@@ -9,7 +9,11 @@ import Modal from "react-modal";
 import FilteredVacancies from "./FilteredVacancies";
 import VacancyCard from "./VacancyCard";
 
-const VacancyList: React.FC = ({ setVacanciesLength }) => {
+interface Props {
+  setVacanciesLength: (vacanciesLength: number) => void;
+}
+
+const VacancyList: React.FC<Props> = ({ setVacanciesLength }:Props ) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const currentUserID = useSelector((s: RootState) => s.currentUser.id);
   const vacancy: Vacancy = useSelector(
@@ -25,7 +29,6 @@ const VacancyList: React.FC = ({ setVacanciesLength }) => {
     if (currentUserID) {
       dispatch(fetchvacanciesByRecruiter(+currentUserID));
     }
-    console.log(currentUserID);
   }, [dispatch, vacancy, currentUserID]);
 
   const openModal = () => {
@@ -72,7 +75,7 @@ const VacancyList: React.FC = ({ setVacanciesLength }) => {
           </div>
         </div>
         <div>
-          <div className="overflow-x-scroll flex flex-nowrap my-2">
+          <div className="overflow-x-scroll list-none flex flex-nowrap my-2">
             {vacancies.length ? (
               vacancies.map((vacancy) => (
                 <VacancyCard vacancy={vacancy} key={vacancy.id} />
