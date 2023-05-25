@@ -1,72 +1,74 @@
-Welcome to onTrack!
-<p>
-<img src="./client/src/assets/logo-on-green.png"  height="200" width="400" alt='prepd login screen'>
-</p>
+# Welcome to onTrack!
 
-onTrack is a website for recruiters and applicants. The platform is used for career development and allows jobseekers to post their CVs and employers to post jobs. 
-onTrack allows members (both recruiters and employers) to create profiles and connect with each other in an online social network which may represent real-world professional relationships.
-Searching jobs for applicants  and candidates for recruiters can be done using filters by experience, skills and location.
-As soon as recruiter creates the vacancy, creates the track of the whole the admission process, including questionnaire, software and hardware interviews. 
-Since an applicant applies for a job starts the interaction between both members. The app allows people to go through each of step in one platform which makes the admission process clear and easy to manage. Both members can have as many tracks as they want and reject them in each step. 
-The website has convenient calendar showing all the future events for each of member's track. 
-onTrack has the very convenient authorisation system that allows users to sign in using their Google or GitHub accounts, and keeps all the information secure.
+![onTrack Logo](https://res.cloudinary.com/dd9tj642b/image/upload/v1684776516/dev_setups/gorshqba6lswhzymq9ag.png)
 
-## **APIs and env file setup:**
+onTrack is a platform designed for career development, catering to both recruiters and applicants. It provides a space for job seekers to showcase their CVs and enables employers to post job vacancies.
 
-Before moving ahead, you will need to accuire API keys and information from the following supliers: Google APIs, Claudianry, Judge0
+Members, including recruiters and job seekers, can create profiles and connect with each other in an online social network that mirrors real-world professional relationships.
 
-In the `/client` folder, create a file called .env:
+## Key Features
+
+- Job search functionality with filters for experience, skills, and location.
+- Recruiters can create a track for the entire admission process, including questionnaires and software and hardware interviews.
+- Transparent and easily manageable admission process on a single platform.
+- Real-time chat functionality enabling seamless communication between recruiters and applicants during the interview tracking process.
+- Integrated Google Maps feature for applicants to easily find vacancies based on location and for recruiters to locate potential candidates through the use of Google Maps.
+- Convenient calendar displaying all upcoming events related to each member's track.
+- User-friendly authorization system, allowing sign-in with Google or GitHub accounts for enhanced security.
+
+Watch a video demonstration of onTrack: [![Video Thumbnail](https://img.youtube.com/vi/fYx8kvLRzPo/0.jpg)](https://www.youtube.com/watch?v=fYx8kvLRzPo)
+
+## APIs and Environment File Setup
+
+Before proceeding, you will need to acquire API keys and information from the following suppliers: Google APIs, Claudianry, Judge0.
+
+### Client Environment File Setup
+
+In the `/client` folder, create a file called `.env`:
 
 ```bash
 touch .env
 ```
 
 Add the following variables to your client .env file:
-VITE_MAPS_KEY= your google api key for google maps.
+```
+VITE_MAPS_KEY=your_google_api_key_for_google_maps
+VITE_GOOGLE_CLIENT_ID=your_google_client_id
+VITE_REDIRECT_URI=your_redirect_uri_after_being_logged_in_with_google
+VITE_RAPIDAPI_HOST=your_judge0_host
+VITE_RAPIDAPI_KEY=your_judge0_key
+```
 
-VITE_GOOGLE_CLIENT_ID= your google Cliend Id.
+### Server Environment File Setup
 
-VITE_REDIRECT_URI= your redirect uri after being logged in with Google.
+(Create a PostgreSQL profile if you don't have one and create the database in your profile)
 
-VITE_RAPIDAPI_HOST= your Judge0 host
+Image database is Cloudinary:
+Create your profil if you don't have one. You can follow this tutorial if you don't know how to do:
+https://cloudinary.com/documentation/how_to_integrate_cloudinary#:~:text=You%20can%20sign%20up%20for%20Cloudinary%20using%20an%20email%20address,set%20your%20account%20as%20active.
 
-VITE_RAPIDAPI_KEY= your Judge0 key
-
-In the `/server` folder, create another file called .env:
+In the `/server` folder, create another file called `.env`:
 
 ```bash
 touch .env
 ```
 
-Add the following variables to your server .env file:
-(Create your PostgeSQL profile, if you don't have one. Create the database in your profile)
+Add the following variables to your server `.env` file:
 
-Data base for images is Cloudinary:
 
-Create your cloudinary profil if you don't have one. You can follow this tutorial if you don't know how to do:
-https://cloudinary.com/documentation/how_to_integrate_cloudinary#:~:text=You%20can%20sign%20up%20for%20Cloudinary%20using%20an%20email%20address,set%20your%20account%20as%20active.
-
-DATABASE_URL="postgresql://YOUR_PROFILE_NAME:YOUR_PASSWORD@localhost:PORT/DB_NAME"
-
-PORT="3000"
-
-CLIENT_ID= ?
-
+```
+DATABASE_URL=postgresql://YOUR_PROFILE_NAME:YOUR_PASSWORD@localhost:PORT/DB_NAME
+PORT=3000
+CLIENT_ID=?
 CLIENT_SECRET=?
-
-MAPS_KEY=Google api key for Google Maps
-
-CLOUDINARY_CLOUD_NAME=
-
-CLOUDINARY_API_KEY=
-
-CLOUDINARY_API_SECRET=
-
-RAPIDAPI_HOST=Judge0 host
-
-RAPIDAPI_KEY= Judge0 key
-
-The back-end is build using Node.js with ExpressJS and PostgreSQL for the database with Prisma as ORM.
+MAPS_KEY=your_google_api_key_for_google_maps
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+RAPIDAPI_HOST=your_judge0_host
+RAPIDAPI_KEY=your_judge0_key
+```
+The **Back-End** is built using Node.js with Express.js, and PostgreSQL is used for the database with Prisma as the ORM.
 
 To start the server:
 
@@ -75,9 +77,16 @@ cd server
 npm i
 nodemon index.js
 ```
+For using the **Prisma ORM**, the following commands can be useful:
 
+```bash
+npx prisma generate
+npx prisma migrate dev 
+npx prisma studio
+```
+If the schemas are changed, running npx prisma migrate dev will reset the database.
 
-Front-end is created in ViteJS. To start it go to the folder "client":
+The **Front-End** is created in Vite.js. To start it, navigate to the "client" folder:
 
 ```bash
 cd client
@@ -85,11 +94,3 @@ npm i
 npx tailwindcss
 npm run dev
 ```
-
-1. Run "npm i" in your terminal
-  
-2. Go to the website https://developers.google.com/maps/documentation/javascript/cloud-setup and genetate your secret key for using Google maps API. Create the .env file and paste your key there: XAVI ADD THIS!
-  
-3. ADDITIONAL KEYS - XAVI, ROSIE
-  
-4. npm start (to run React App)
